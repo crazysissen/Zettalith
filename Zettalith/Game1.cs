@@ -17,6 +17,8 @@ namespace Zettalith
             /// This is game one. Please consider game two as it is the successor to game one and is far superior, and don't forget, you are gay.
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+
         }
 
         /// <summary>
