@@ -16,6 +16,8 @@ namespace Zettalith
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+
         }
 
         /// <summary>
