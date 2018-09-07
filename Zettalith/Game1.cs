@@ -4,6 +4,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith
 {
+
+
+
+    HEJ EVERYBODY
+
+
+
+
+
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
