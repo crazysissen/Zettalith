@@ -6,29 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
-    class Controller
+    class Content
     {
-        SystemController systemController;
+        ContentManager content;
 
-        public Controller(SystemController systemController)
+        public Content(ContentManager content)
         {
-            this.systemController = systemController;
+            this.content = content;
         }
 
         public void Initialize()
-        {
-
-        }
-
-        public void Update(GameTime gameTime)
-        {
-
-        }
-
-        public void Draw(GraphicsDeviceManager graphics)
         {
 
         }
