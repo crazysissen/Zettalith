@@ -11,11 +11,14 @@ namespace Zettalith
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private Content contentManager;
+        private Controller controller;
 
         public SystemController()
         {
-            /// This is game one. Please consider game two as it is the successor to game one and is far superior, and don't forget, you are gay.
             graphics = new GraphicsDeviceManager(this);
+            controller = new Controller(this);
+
             Content.RootDirectory = "Content";
         }
 
@@ -27,9 +30,9 @@ namespace Zettalith
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+
+            controller.Initialize();
         }
 
         /// <summary>
@@ -38,10 +41,10 @@ namespace Zettalith
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            contentManager = new Content(Content);
 
-            // TODO: use this.Content to load your game content here
+            contentManager.Initialize();
         }
 
         /// <summary>
@@ -50,7 +53,6 @@ namespace Zettalith
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -63,9 +65,9 @@ namespace Zettalith
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
+
+            controller.Update(gameTime);
         }
 
         /// <summary>
@@ -74,11 +76,11 @@ namespace Zettalith
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
+            GraphicsDevice.Clear(Color.DarkBlue);
 
             base.Draw(gameTime);
+
+            controller.Draw(graphics);
         }
     }
 }
