@@ -10,6 +10,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
+    partial class Repository
+    {
+
+    }
+
     public class ContentController
     {
         static ContentController singleton;
