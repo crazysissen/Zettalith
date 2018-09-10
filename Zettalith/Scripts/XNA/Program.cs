@@ -13,7 +13,7 @@ namespace Zettalith
         [STAThread]
         static void Main()
         {
-            using (var game = new SystemController())
+            using (var game = new XNAController())
                 game.Run();
         }
     }
