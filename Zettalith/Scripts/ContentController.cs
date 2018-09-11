@@ -10,11 +10,6 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
-    partial class Repository
-    {
-
-    }
-
     public class ContentController
     {
         static ContentController singleton;
@@ -34,7 +29,7 @@ namespace Zettalith
 
         public void Initialize(ContentManager content)
         {
-
+            content.
         }
 
         public static T Get<T>(string tag)
