@@ -9,11 +9,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith
 {
-    public class MainController
+    public class MainController : ContentObject
     {
         public MainController()
         {
-
+            
         }
 
         public void Initialize()

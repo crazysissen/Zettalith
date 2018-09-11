@@ -29,7 +29,6 @@ namespace Zettalith
 
         public void Initialize(ContentManager content)
         {
-            content.
         }
 
         public static T Get<T>(string tag)
