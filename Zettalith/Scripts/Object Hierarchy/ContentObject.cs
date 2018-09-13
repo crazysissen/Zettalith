@@ -8,7 +8,7 @@ namespace Zettalith
 {
     public delegate (string tag, Type type)[] ImportRequest();
 
-    abstract class ContentObject
+    public abstract class ContentObject
     {
         public static event ImportRequest ImportRequestStack;
 
@@ -21,10 +21,5 @@ namespace Zettalith
         {
             return null;
         }
-    }
-
-    public interface IContentImport
-    {
-        (string tag, Type type)[] ImportRequests();
     }
 }
