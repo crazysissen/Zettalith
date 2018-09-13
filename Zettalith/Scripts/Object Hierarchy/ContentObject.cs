@@ -14,9 +14,7 @@ namespace Zettalith
 
         static ContentObject()
         {
-            ImportRequest request = 
-
-            ImportRequestStack += 
+            ImportRequestStack += GetRequest;
         }
 
         static (string tag, Type type)[] GetRequest()
