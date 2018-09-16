@@ -18,7 +18,6 @@ namespace Zettalith
 
         public TestClass()
         {
-            Hello.
         }
     }
 
