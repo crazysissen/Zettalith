@@ -27,14 +27,14 @@ namespace Zettalith
         {
             base.Initialize();
 
-            MainController.Initialize();
+            MainController.Initialize(systemController: this);
         }
 
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            ContentController.Initialize(Content);
+            ContentController.Initialize(Content, true);
         }
 
         protected override void UnloadContent()
@@ -46,7 +46,7 @@ namespace Zettalith
         {
             base.Update(gameTime);
 
-            MainController.Update(this, gameTime);
+            MainController.Update(systemController: this, gameTime: gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -55,7 +55,7 @@ namespace Zettalith
 
             base.Draw(gameTime);
 
-            MainController.Draw(this, Graphics, SpriteBatch, gameTime);
+            MainController.Draw(systemController: this, gameTime: gameTime, graphics: Graphics, spriteBatch: SpriteBatch);
         }
     }
 }

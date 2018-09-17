@@ -9,14 +9,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith
 {
-    public class MainController : ContentObject
+    public class MainController
     {
         public MainController()
         {
             
         }
 
-        public void Initialize()
+        public void Initialize(XNAController systemController)
         {
 
         }
@@ -26,7 +26,7 @@ namespace Zettalith
 
         }
 
-        public void Draw(XNAController systemController, GraphicsDeviceManager graphics, SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(XNAController systemController, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
             
         }
