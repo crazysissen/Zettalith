@@ -11,10 +11,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
+    [ImportContent]
     public class TestClass
     {
-        [Import(typeof(string))]
-        string[] Hello { get; }
+        [Import(typeof(Texture2D))]
+        public static string[] Hello => new string[] { "authoritah", "Alve_Gud_2" }; 
 
         public TestClass()
         {
@@ -48,7 +49,7 @@ namespace Zettalith
 
         public static void ImportAll(ContentManager content)
         {
-            Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetCustomAttribute<ImportContentAttribute>() != null) as Type[];
+            Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
 
             foreach (Type currentClass in allTypes)
             {
@@ -56,7 +57,7 @@ namespace Zettalith
 
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.GetCustomAttribute<ImportContentAttribute>() != null)
+                    if (property.GetCustomAttribute<ImportAttribute>() != null)
                     {
                         Type type = property.GetCustomAttribute<ImportAttribute>().type;
 
@@ -66,9 +67,7 @@ namespace Zettalith
 
                             foreach (string item in array)
                             {
-                                
-
-                                singleton.contentDictionary.Add(item, content.Load<Type>(item));
+                                singleton.contentDictionary.Add(item, Convert.ChangeType(content.Load<object>(item), type));
                             }
 
                             continue;
