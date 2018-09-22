@@ -14,7 +14,7 @@ namespace Zettalith
     public class TestClass
     {
         [Import(typeof(string))]
-        string[] Hello { get; }
+        string[] hello;
 
         public TestClass()
         {
@@ -48,7 +48,7 @@ namespace Zettalith
 
         public static void ImportAll(ContentManager content)
         {
-            Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetCustomAttribute<ImportContentAttribute>() != null) as Type[];
+            Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
 
             foreach (Type currentClass in allTypes)
             {
@@ -56,10 +56,10 @@ namespace Zettalith
 
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.GetCustomAttribute<ImportContentAttribute>() != null)
-                    {
-                        Type type = property.GetCustomAttribute<ImportAttribute>().type;
+                    ImportAttribute attribute = property.GetCustomAttribute<ImportAttribute>();
 
+                    if (attribute != null)
+                    {
                         if (property.PropertyType == typeof(string[]))
                         {
                             string[] array = property.GetMethod.Invoke(null, null) as string[];
@@ -68,7 +68,7 @@ namespace Zettalith
                             {
                                 
 
-                                singleton.contentDictionary.Add(item, content.Load<Type>(item));
+                                singleton.contentDictionary.Add(item, content.Load<object>(item) as );
                             }
 
                             continue;
