@@ -9,6 +9,8 @@ namespace Zettalith.Pieces
     class Zettalith
     {
         public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost;
+        public Mana AbilityCost => top.AbilityCost;
+        public Mana MoveCost => bottom.MoveCost;
 
         Top top;
         Middle middle;

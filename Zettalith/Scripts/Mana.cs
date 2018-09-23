@@ -20,6 +20,13 @@ namespace Zettalith
         }
 
         public static Mana operator +(Mana a, Mana b) => new Mana(a.Red + b.Red, a.Blue + b.Blue, a.Green + b.Green);
+
         public static Mana operator -(Mana a, Mana b) => new Mana(a.Red - b.Red, a.Blue - b.Blue, a.Green - b.Green);
+
+        public static Mana operator *(Mana a, Mana b) => new Mana(a.Red * b.Red, a.Blue * b.Blue, a.Green * b.Green);
+
+        public static Mana operator +(Mana a, int b) => new Mana(a.Red + b, a.Blue + b, a.Green + b);
+
+        public static Mana operator *(Mana a, float b) => new Mana((int)(a.Red * b), (int)(a.Blue * b), (int)(a.Green * b));
     }
 }
