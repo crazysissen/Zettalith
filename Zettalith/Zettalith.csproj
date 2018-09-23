@@ -79,9 +79,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\Mana.cs" />
     <Compile Include="Scripts\StateManager.cs" />
+    <Compile Include="Scripts\Pieces\Bottom.cs" />
+    <Compile Include="Scripts\Pieces\Middle.cs" />
+    <Compile Include="Scripts\Pieces\SubPiece.cs" />
+    <Compile Include="Scripts\Pieces\Top.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
+    <Compile Include="Scripts\Zettalith.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
