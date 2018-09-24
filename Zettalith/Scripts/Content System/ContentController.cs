@@ -11,10 +11,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
+    [ImportContent]
     public class TestClass
     {
-        [Import(typeof(string))]
-        string[] hello;
+        [Import(typeof(Texture2D))]
+        public static string[] Hello => new string[] { "authoritah", "Alve_Gud_2" }; 
 
         public TestClass()
         {
