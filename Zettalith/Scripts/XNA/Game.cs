@@ -12,14 +12,14 @@ namespace Zettalith
         public GraphicsDeviceManager Graphics { get; private set; }
         public SpriteBatch SpriteBatch { get; private set; }
         public MainController MainController { get; private set; }
-        public ContentController ContentController { get; private set; }
+
+        string test = ContentController.Get<string>("Hello");
 
         public XNAController()
         {
             Graphics = new GraphicsDeviceManager(this);
             MainController = new MainController();
-            ContentController = new ContentController(true);
-
+            
             Content.RootDirectory = "Content";
         }
 
