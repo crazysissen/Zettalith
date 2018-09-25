@@ -35,7 +35,6 @@ namespace Zettalith
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             ContentController.Initialize(Content, true);
-
         }
 
         protected override void UnloadContent()

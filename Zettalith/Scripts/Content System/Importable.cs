@@ -16,11 +16,12 @@ namespace Zettalith
     [System.AttributeUsage(AttributeTargets.Property)]
     sealed class ImportAttribute : Attribute
     {
-        public Type type;
+        public string[] importTags;
 
-        public ImportAttribute(Type type)
+        public ImportAttribute(params string[] tags)
         {
-            this.type = type;
+            Type type = typeof(string);
+            importTags = tags;
         }
     }
 }
