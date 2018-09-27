@@ -13,14 +13,15 @@ namespace Zettalith
     /// <summary>
     ///  Applied to static object arrays to flag them as import requests. This is represented through a list of string initially
     /// </summary>
-    [System.AttributeUsage(AttributeTargets.Field)]
+    [System.AttributeUsage(AttributeTargets.Property)]
     sealed class ImportAttribute : Attribute
     {
-        public string[] input;
+        public string[] importTags;
 
-        public ImportAttribute(params string[] input)
+        public ImportAttribute(params string[] tags)
         {
-            this.input = input;
+            Type type = typeof(string);
+            importTags = tags;
         }
     }
 }
