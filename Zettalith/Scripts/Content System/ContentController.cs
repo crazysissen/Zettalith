@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,10 +12,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
-    [ImportContent]
     public class TestClass
     {
-        [Import(typeof(Texture2D))]
+        //[Import(typeof(Texture2D))]
         public static string[] Hello => new string[] { "authoritah", "Alve_Gud_2" }; 
 
         public TestClass()
@@ -49,6 +49,8 @@ namespace Zettalith
 
         public static void ImportAll(ContentManager content)
         {
+            FileInfo[] allFiles = ExtractAllFiles(AppDomain.CurrentDomain.BaseDirectory + "\\Content");
+
             Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
 
             foreach (Type currentClass in allTypes)
@@ -69,7 +71,7 @@ namespace Zettalith
                             {
                                 
 
-                                singleton.contentDictionary.Add(item, content.Load<object>(item) as );
+                                //singleton.contentDictionary.Add(item, content.Load<object>(item) as );
                             }
 
                             continue;
@@ -79,6 +81,23 @@ namespace Zettalith
                     }
                 }
             }
+        }
+
+        public static FileInfo[] ExtractAllFiles(string rootDirectory, string directory)
+        {
+            List<FileInfo> allFiles = new List<FileInfo>();
+
+            DirectoryInfo thisDirectory = new DirectoryInfo(directory);
+            DirectoryInfo[] subDirectories = thisDirectory.GetDirectories();
+
+            foreach (DirectoryInfo dir in subDirectories)
+            {
+                allFiles.AddRange(ExtractAllFiles(dir.FullName));
+            }
+
+            allFiles.AddRange(thisDirectory.GetFiles());
+
+            return allFiles.ToArray();
         }
 
         //public T[] Import<T>(params string[] requests)

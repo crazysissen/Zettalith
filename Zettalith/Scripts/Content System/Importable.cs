@@ -16,11 +16,11 @@ namespace Zettalith
     [System.AttributeUsage(AttributeTargets.Field)]
     sealed class ImportAttribute : Attribute
     {
-        public string[] input
+        public string[] input;
 
-        public ImportAttribute(Type type)
+        public ImportAttribute(params string[] input)
         {
-            this.type = type;
+            this.input = input;
         }
     }
 }
