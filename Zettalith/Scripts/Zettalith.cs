@@ -8,7 +8,9 @@ namespace Zettalith.Pieces
 {
     class Zettalith
     {
-        public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost;
+        public Mana ManaCostModifier { get; private set; }
+
+        public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost + ManaCostModifier;
         public Mana AbilityCost => top.AbilityCost;
         public Mana MoveCost => bottom.MoveCost;
 
@@ -21,6 +23,11 @@ namespace Zettalith.Pieces
             this.top = top;
             this.middle = middle;
             this.bottom = bottom;
+        }
+
+        public void ModifyMana(Mana modifier)
+        {
+            ManaCostModifier += modifier;
         }
     }
 }

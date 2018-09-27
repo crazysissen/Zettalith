@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zettalith.Pieces
+namespace Zettalith
 {
-    abstract class Middle : SubPiece
+    class InGameController
     {
 
     }
