@@ -12,26 +12,16 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
-    [ImportContent]
-    public class TestClass
-    {
-        public static string[] Hello => new string[] { "authoritah", "Alve_Gud_2" }; 
-
-        public TestClass()
-        {
-        }
-    }
-
     public static class ContentController
     {
         static Dictionary<string, object> contentDictionary;
 
-        static Dictionary<string, object[]> contentCollections;
+        static Dictionary<string, object> contentCollections;
 
         static ContentController()
         {
             contentDictionary = new Dictionary<string, object>();
-            contentCollections = new Dictionary<string, object[]>();
+            contentCollections = new Dictionary<string, object>();
         }
 
         public static void Initialize(ContentManager content, bool importAll)
@@ -46,12 +36,12 @@ namespace Zettalith
         {
             ContentBundle bundle = AllFileNames(AppDomain.CurrentDomain.BaseDirectory + "\\" + content.RootDirectory, "", "");
 
-            foreach ((string name, string path) item in bundle.Objects)
+            foreach (ImportObject item in bundle.Objects)
             {
                 contentDictionary.Add(item.name, content.Load<object>(item.path));
             }
 
-            foreach ((string[] names, string collectionName) item in bundle.Collections)
+            foreach (ImportCollection item in bundle.Collections)
             {
                 List<object> objects = new List<object>();
 
@@ -65,7 +55,7 @@ namespace Zettalith
 
             Dictionary<string, object> contentDictionaryTest = contentDictionary;
 
-            Dictionary<string, object[]> contentCollectionsTest = contentCollections;
+            Dictionary<string, object> contentCollectionsTest = contentCollections;
 
             #region Attribute
             //Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
@@ -101,8 +91,8 @@ namespace Zettalith
 
         public static ContentBundle AllFileNames(string basePath, string additionalPath, string appendableAdditionalPath)
         {
-            List<(string name, string path)> allFiles = new List<(string name, string path)>();
-            List<(string[] names, string collectionName)> allCollections = new List<(string[] names, string collectionName)>();
+            List<ImportObject> allFiles = new List<ImportObject>();
+            List<ImportCollection> allCollections = new List<ImportCollection>();
 
             DirectoryInfo directory = new DirectoryInfo(basePath + "\\" + additionalPath);
             DirectoryInfo[] directories = directory.GetDirectories();
@@ -115,7 +105,7 @@ namespace Zettalith
             {
                 string currentName = Path.GetFileNameWithoutExtension(file.FullName);
 
-                allFiles.Add((currentName, appendableAdditionalPath + currentName));
+                allFiles.Add(new ImportObject(currentName, appendableAdditionalPath + currentName));
                 currentCollectionNames.Add(currentName);
             }
 
@@ -127,7 +117,7 @@ namespace Zettalith
                 allCollections.AddRange(dirImport.Collections);
             }
 
-            allCollections.Add((currentCollectionNames.ToArray(), currentCollection));
+            allCollections.Add(new ImportCollection(currentCollectionNames.ToArray(), currentCollection));
 
             return new ContentBundle(allFiles.ToArray(), allCollections.ToArray());
         }
@@ -163,19 +153,73 @@ namespace Zettalith
 
         }
 
+        public static T[] GetCollection<T>(string tag)
+        {
+            if (contentCollections.ContainsKey(tag))
+            {
+                if (contentCollections[tag] is T[])
+                {
+                    return contentCollections[tag] as T[];
+                }
+
+                if (contentCollections[tag] is object[])
+                {
+                    object[] array = (object[])contentCollections[tag];
+                    T[] newArray = new T[array.Length];
+
+                    for (int i = 0; i < newArray.Length; i++)
+                    {
+                        newArray[i] = (T)array[i];
+                    }
+
+                    return newArray;
+                }
+
+                System.Diagnostics.Debug.WriteLine("ERROR: Tried to get content bundle already loaded into another type [" + tag + ", requested type: " + typeof(T[]) + ", loaded type: " + contentCollections[tag].GetType() + "]");
+                return contentCollections[tag] as T[];
+            }
+
+            System.Diagnostics.Debug.WriteLine("ERROR: Tried to get unloaded content bundle [" + tag + ", " + typeof(T[]) + "]");
+            return null;
+        }
+
         public static bool Exists(string tag) => contentDictionary.ContainsKey(tag);
 
         public static void Add(string tag, object obj) => contentDictionary.Add(tag, obj);
 
         public struct ContentBundle
         {
-            public (string name, string path)[] Objects { get; private set; }
-            public (string[] names, string collectionName)[] Collections { get; private set; }
+            public ImportObject[] Objects { get; private set; }
+            public ImportCollection[] Collections { get; private set; }
 
-            public ContentBundle((string name, string path)[] objects, (string[] names, string collectionName)[] collections)
+            public ContentBundle(ImportObject[] objects, ImportCollection[] collections)
             {
                 Objects = objects;
                 Collections = collections;
+            }
+        }
+
+        public struct ImportObject
+        {
+            public string name;
+            public string path;
+
+            public ImportObject(string name, string path)
+            {
+                this.name = name;
+                this.path = path;
+            }
+        }
+
+        public struct ImportCollection
+        {
+            public string[] names;
+            public string collectionName;
+
+            public ImportCollection(string[] names, string collectionName)
+            {
+                this.names = names;
+                this.collectionName = collectionName;
             }
         }
     }
