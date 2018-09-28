@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Deployment.Application;
-using Lidgren.Network;
 using Microsoft.Xna.Framework;
+using Lidgren.Network;
 
 namespace Zettalith
 {
@@ -19,11 +19,20 @@ namespace Zettalith
 
         public static void Send(string callsign, object message)
         {
+            Send(callsign, message.ToBytes());
+        }
+
+        public static void Send(string callsign, byte[] message)
+        {
             if (localPeer != null)
             {
-                if (localPeer.Connections.Count > 0)
+                if (localPeer.Connections.Count == 1)
                 {
+                    NetOutgoingMessage outMessage = localPeer.CreateMessage();
+                    outMessage.Write(callsign);
+                    outMessage.Data = message;
 
+                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableOrdered);
                 }
             }
         }
@@ -44,6 +53,11 @@ namespace Zettalith
             {
                 listeners[callsign] -= listener;
             }
+        }
+
+        static void Recieve(string tag, byte[] message)
+        {
+
         }
 
         #region Framework
@@ -92,7 +106,7 @@ namespace Zettalith
                     case NetIncomingMessageType.Data:
                         string header = message.ReadString();
                         byte[] data = message.Data;
-
+                        Recieve(header, data);
                         break;
 
                     case NetIncomingMessageType.Receipt:
@@ -127,11 +141,6 @@ namespace Zettalith
                         break;
                 }
             }
-        }
-
-        static void Recieve(string tag, byte[] message)
-        {
-
         }
 
         class EventListener
