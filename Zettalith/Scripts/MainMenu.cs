@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zettalith
+namespace Zettalith.Scripts
 {
-    public class StateMachine
+    class MainMenu
     {
-        public 
     }
 }

@@ -24,6 +24,8 @@ namespace Zettalith
         public void Update(XNAController systemController, GameTime gameTime)
         {
 
+
+            DirectInput.UpdateMethods();
         }
 
         public void Draw(XNAController systemController, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)

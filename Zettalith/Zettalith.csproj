@@ -26,9 +26,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <TargetCulture>en-SE</TargetCulture>
+    <ProductName>Zettalith</ProductName>
+    <PublisherName>Borealic Games</PublisherName>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
@@ -40,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
@@ -67,6 +72,7 @@
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
+    <Compile Include="Scripts\DirectInput.cs" />
     <Compile Include="Scripts\InGameController.cs" />
     <Compile Include="Scripts\MainController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,21 +86,26 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
+    <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
     <Compile Include="Scripts\Pieces\Middle.cs" />
     <Compile Include="Scripts\Pieces\SubPiece.cs" />
     <Compile Include="Scripts\Pieces\Top.cs" />
+    <Compile Include="Scripts\Testing\TestGUI.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
     <Compile Include="Scripts\Zettalith.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
