@@ -9,17 +9,21 @@ namespace Zettalith
     /// </summary>
     public class XNAController : Game
     {
-        public GraphicsDeviceManager Graphics { get; private set; }
-        public SpriteBatch SpriteBatch { get; private set; }
-        public MainController MainController { get; private set; }
+        public static GraphicsDeviceManager Graphics { get; private set; }
+        public static SpriteBatch SpriteBatch { get; private set; }
+        public static MainController MainController { get; private set; }
 
         string test = ContentController.Get<string>("Hello");
 
         public XNAController()
         {
-            Graphics = new GraphicsDeviceManager(this);
             MainController = new MainController();
-            
+
+            Graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
+            };
+
             Content.RootDirectory = "Content";
         }
 

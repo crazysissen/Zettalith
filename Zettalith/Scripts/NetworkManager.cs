@@ -11,6 +11,8 @@ namespace Zettalith
 {
     public delegate void NetworkListener(byte[] message);
 
+    public delegate void PeerList()
+
     public delegate void Callback(bool sucess);
 
     static class NetworkManager
@@ -62,29 +64,66 @@ namespace Zettalith
 
         #region Framework
 
-        const int hostPort = 0;
+        const int port = 2018;
 
         static NetPeer localPeer;
 
-        public static void Host()
+        public static void CreateHost()
         {
+            if (localPeer != null)
+                DestroyPeer();
+
             Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
 
             NetPeerConfiguration config = new NetPeerConfiguration(string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision))
             {
                 MaximumHandshakeAttempts = 8,
-                MaximumConnections = 1
+                MaximumConnections = 1,
+                Port = port
             };
+
+            config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+            config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
 
             localPeer = new NetServer(config);
         }
 
-        public static void TryJoin(Callback callback)
+        public static void CreateClient()
         {
 
         }
 
+        public static void StartPeerSearch()
+        {
+
+        }
+
+        public static void StopPeerSearch()
+        {
+
+        }
+
+        public static void TryJoin(Callback callback)
+        {
+            (localPeer as NetServer).
+        }
+
+        /// <summary>
+        /// Cancel all current network activity.
+        /// </summary>
+        public static void DestroyPeer()
+        {
+        }
+
         public static void Update()
+        {
+            if (localPeer != null)
+            {
+                GetMessage();
+            }
+        }
+
+        static void GetMessage()
         {
             NetIncomingMessage message;
             while ((message = localPeer.ReadMessage()) != null)

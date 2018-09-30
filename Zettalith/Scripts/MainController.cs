@@ -11,6 +11,8 @@ namespace Zettalith
 {
     public class MainController
     {
+        Renderer.Sprite renderer;
+
         public MainController()
         {
             
@@ -18,7 +20,7 @@ namespace Zettalith
 
         public void Initialize(XNAController systemController)
         {
-
+            renderer = new Renderer.Sprite()
         }
 
         public void Update(XNAController systemController, GameTime gameTime)
