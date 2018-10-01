@@ -14,7 +14,7 @@ namespace Zettalith
     static class Bytestreamer
     {
         /// <summary>
-        /// Converts a serializeable object object to an array of bytes, 
+        /// Converts a serializeable object object to an array of bytes
         /// </summary>
         /// <param name="target">MUST be serializeable</param>
         public static byte[] ToBytes(this object target)
