@@ -19,6 +19,7 @@ namespace Zettalith
     static class NetworkManager
     {
         public static string PublicIP { get; private set; }
+        public static string ServerName { get; private set; }
 
         static Dictionary<string, EventListener> listeners = new Dictionary<string, EventListener>();
 
@@ -81,7 +82,7 @@ namespace Zettalith
 
         #region Framework
 
-        const int port = 2018;
+        const int PORT = 2018;
 
         static NetPeer localPeer;
 
@@ -91,10 +92,12 @@ namespace Zettalith
             thread.Start();
         }
 
-        public static void CreateHost()
+        public static void CreateHost(string serverName)
         {
             if (localPeer != null)
                 DestroyPeer();
+
+            ServerName = serverName;
 
             Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
 
@@ -102,7 +105,7 @@ namespace Zettalith
             {
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 1,
-                Port = port
+                Port = PORT
             };
 
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
@@ -113,12 +116,26 @@ namespace Zettalith
 
         public static void CreateClient()
         {
+            if (localPeer != null)
+                DestroyPeer();
 
+            Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+
+            NetPeerConfiguration config = new NetPeerConfiguration(string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision))
+            {
+                MaximumHandshakeAttempts = 8,
+                MaximumConnections = 1,
+                Port = PORT
+            };
+
+            config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
+
+            localPeer = new NetClient(config);
         }
 
         public static void StartPeerSearch()
         {
-
+            localPeer.DiscoverLocalPeers(PORT);
         }
 
         public static void StopPeerSearch()
@@ -175,9 +192,13 @@ namespace Zettalith
                         break;
 
                     case NetIncomingMessageType.DiscoveryRequest:
+                        NetOutgoingMessage response = localPeer.CreateMessage();
+                        response.Write(ServerName);
+                        localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
                         break;
 
                     case NetIncomingMessageType.DiscoveryResponse:
+                        System.Diagnostics.Debug.WriteLine(message.SenderEndPoint + ", " + message.ReadString());
                         break;
 
                     case NetIncomingMessageType.VerboseDebugMessage:
