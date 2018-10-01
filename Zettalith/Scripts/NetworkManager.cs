@@ -78,11 +78,13 @@ namespace Zettalith
             string[] a3 = a2.Split('<');
             string a4 = a3[0];
             PublicIP = a4;
+
+            System.Diagnostics.Debug.WriteLine(PublicIP);
         }
 
         #region Framework
 
-        const int PORT = 2018;
+        const int PORT = 14242;
 
         static NetPeer localPeer;
 
@@ -99,9 +101,9 @@ namespace Zettalith
 
             ServerName = serverName;
 
-            Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
 
-            NetPeerConfiguration config = new NetPeerConfiguration(string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision))
+            NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 1,
@@ -112,6 +114,8 @@ namespace Zettalith
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
 
             localPeer = new NetServer(config);
+
+            localPeer.Start();
         }
 
         public static void CreateClient()
@@ -124,7 +128,7 @@ namespace Zettalith
             NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test")
             {
                 MaximumHandshakeAttempts = 8,
-                MaximumConnections = 1,
+                MaximumConnections = 2,
                 Port = PORT
             };
 

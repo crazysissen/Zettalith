@@ -6,30 +6,26 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    class Zettalith
+    class Piece
     {
-        public Mana ManaCostModifier { get; private set; }
-
-        public int Health => top.SubHealth + middle.SubHealth + bottom.SubHealth;
+        public int Health => top.Health + middle.Health + bottom.Health;
         public int AttackDamage => top.AttackDamage + middle.AttackDamage + bottom.AttackDamage;
-        public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost + ManaCostModifier;
+
+        public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost;
         public Mana AbilityCost => top.AbilityCost;
         public Mana MoveCost => bottom.MoveCost;
+
+        List<Modifier> modifiers = new List<Modifier>();
 
         Top top;
         Middle middle;
         Bottom bottom;
 
-        public Zettalith(Top top, Middle middle, Bottom bottom)
+        public Piece(Top top, Middle middle, Bottom bottom)
         {
             this.top = top;
             this.middle = middle;
             this.bottom = bottom;
-        }
-
-        public void ModifyMana(Mana modifier)
-        {
-            ManaCostModifier += modifier;
         }
     }
 }
