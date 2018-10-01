@@ -8,12 +8,36 @@ namespace Zettalith.Pieces
 {
     class Piece
     {
-        public int Health => top.Health + middle.Health + bottom.Health;
-        public int AttackDamage => top.AttackDamage + middle.AttackDamage + bottom.AttackDamage;
+        public Stats BaseStats => new Stats()
+        {
+            Health = top.Health + middle.Health + bottom.Health,
+            Mana = top.ManaCost + middle.ManaCost + bottom.ManaCost,
+            AbilityCost = top.AbilityCost,
+            MoveCost = bottom.MoveCost
+        };
 
-        public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost;
-        public Mana AbilityCost => top.AbilityCost;
-        public Mana MoveCost => bottom.MoveCost;
+        public Modifier CumulativeModifier
+        {
+            get
+            {
+                Modifier cumulative = new Modifier();
+
+                foreach (Modifier modifier in modifiers)
+                {
+                    cumulative.StatChanges += modifier.StatChanges;
+
+                    foreach (string mod in modifier.DirectModifiers)
+                    {
+                        if (!cumulative.DirectModifiers.Contains(mod))
+                            cumulative.DirectModifiers.Add(mod);
+                    }
+                }
+
+                return cumulative;
+            }
+        }
+
+        public Stats ModifiedStats => BaseStats + CumulativeModifier.StatChanges;
 
         List<Modifier> modifiers = new List<Modifier>();
 

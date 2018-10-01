@@ -7,28 +7,9 @@ using Zettalith.Pieces;
 
 namespace Zettalith
 {
-    abstract class Modifier
+    class Modifier
     {
-        public abstract void Activate();
-    }
-
-    class HealthModifier : Modifier
-    {
-
-    }
-
-    class ManaModifier : Modifier
-    {
-
-    }
-
-    class CustomModifier : Modifier
-    {
-        public delegate void Manipulate(Piece piece, int turnsElapsed);
-
-        public CustomModifier(Manipulate manipulationCommand)
-        {
-
-        }
+        public Stats StatChanges { get; set; } = new Stats();
+        public List<string> DirectModifiers { get; set; } = new List<string>();
     }
 }
