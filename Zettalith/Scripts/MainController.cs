@@ -23,8 +23,7 @@ namespace Zettalith
             RendererController.Initialize(new Vector2(0, 0), 1);
 
             NetworkManager.Initialize();
-            NetworkManager.CreateClient();
-            NetworkManager.StartPeerSearch();
+            NetworkManager.CreateHost("server.exe");
         }
 
         public void LateInitialize(XNAController game)

@@ -10,7 +10,7 @@ namespace Zettalith.Pieces
     abstract class SubPiece
     {
         public abstract Mana ManaCost { get; set; }
-        public abstract int SubHealth { get; set; }
+        public abstract int Health { get; set; }
         public abstract int AttackDamage { get; set; }
 
     }

@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
+    <Compile Include="Scripts\Modifier.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Scripts\Pieces\Middle.cs" />
     <Compile Include="Scripts\Pieces\SubPiece.cs" />
     <Compile Include="Scripts\Pieces\Top.cs" />
+    <Compile Include="Scripts\Stats.cs" />
     <Compile Include="Scripts\Testing\TestGUI.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
