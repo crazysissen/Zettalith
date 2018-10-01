@@ -35,7 +35,7 @@ namespace Zettalith
 
         public void Update(XNAController game, GameTime gameTime)
         {
-
+            NetworkManager.Update();
             DirectInput.UpdateMethods();
         }
 
