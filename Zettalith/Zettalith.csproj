@@ -90,6 +90,9 @@
     <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
     <Compile Include="Scripts\Renderer.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
