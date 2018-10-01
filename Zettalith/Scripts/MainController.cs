@@ -18,21 +18,26 @@ namespace Zettalith
             
         }
 
-        public void Initialize(XNAController systemController)
+        public void Initialize(XNAController game)
         {
-            renderer = new Renderer.Sprite()
+            RendererController.Initialize(new Vector2(0, 0), 1);
         }
 
-        public void Update(XNAController systemController, GameTime gameTime)
+        public void LateInitialize(XNAController game)
         {
+            renderer = new Renderer.Sprite(ContentController.Get<Texture2D>("Square"), new Vector2(0, 0), new Vector2(5, 5), Color.White, 0, SpriteEffects.None);
 
+        }
+
+        public void Update(XNAController game, GameTime gameTime)
+        {
 
             DirectInput.UpdateMethods();
         }
 
-        public void Draw(XNAController systemController, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
+        public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
-            
+            RendererController.Render(graphics, spriteBatch, gameTime);
         }
     }
 }

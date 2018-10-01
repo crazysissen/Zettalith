@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Deployment.Application;
 using Microsoft.Xna.Framework;
@@ -11,12 +12,14 @@ namespace Zettalith
 {
     public delegate void NetworkListener(byte[] message);
 
-    public delegate void PeerList()
+    public delegate void PeerFound();
 
     public delegate void Callback(bool sucess);
 
     static class NetworkManager
     {
+        public static string PublicIP { get; private set; }
+
         static Dictionary<string, EventListener> listeners = new Dictionary<string, EventListener>();
 
         public static void Send(string callsign, object message)
@@ -62,11 +65,31 @@ namespace Zettalith
 
         }
 
+        public static void GetPublicIP()
+        {
+            string url = "http://checkip.dyndns.org";
+            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+            System.Net.WebResponse resp = req.GetResponse();
+            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+            string response = sr.ReadToEnd().Trim();
+            string[] a = response.Split(':');
+            string a2 = a[1].Substring(1);
+            string[] a3 = a2.Split('<');
+            string a4 = a3[0];
+            PublicIP = a4;
+        }
+
         #region Framework
 
         const int port = 2018;
 
         static NetPeer localPeer;
+
+        public static void Initialize()
+        {
+            Thread thread = new Thread(GetPublicIP);
+            thread.Start();
+        }
 
         public static void CreateHost()
         {
@@ -105,7 +128,7 @@ namespace Zettalith
 
         public static void TryJoin(Callback callback)
         {
-            (localPeer as NetServer).
+
         }
 
         /// <summary>

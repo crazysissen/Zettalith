@@ -11,7 +11,7 @@ namespace Zettalith
     /// <summary>
     /// Automatically converts objects to and from byte arrays, not very elegant or efficient.
     /// </summary>
-    static class Bitstreamer
+    static class Bytestreamer
     {
         /// <summary>
         /// Converts a serializeable object object to an array of bytes, 

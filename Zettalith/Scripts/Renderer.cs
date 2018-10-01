@@ -14,12 +14,25 @@ namespace Zettalith
 
         static List<Renderer> renderers = new List<Renderer>();
 
+        public static void Initialize(Vector2 cameraPosition, float cameraScale)
+        {
+            Camera = new Camera()
+            {
+                Position = cameraPosition,
+                Scale = cameraScale
+            };
+        }
+
         public static void Render(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, GameTime gameTime)
         {
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
             foreach (Renderer renderer in renderers)
             {
                 renderer.Draw(spriteBatch, Camera, (float)gameTime.ElapsedGameTime.TotalSeconds);
             }
+
+            spriteBatch.End();
         }
 
         public static void AddRenderer(Renderer renderer)
