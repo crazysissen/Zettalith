@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
     {
         public Mana ManaCostModifier { get; private set; }
 
+        public int Health => top.SubHealth + middle.SubHealth + bottom.SubHealth;
+        public int AttackDamage => top.AttackDamage + middle.AttackDamage + bottom.AttackDamage;
         public Mana ManaCost => top.ManaCost + middle.ManaCost + bottom.ManaCost + ManaCostModifier;
         public Mana AbilityCost => top.AbilityCost;
         public Mana MoveCost => bottom.MoveCost;
