@@ -119,9 +119,9 @@ namespace Zettalith
             if (localPeer != null)
                 DestroyPeer();
 
-            Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
 
-            NetPeerConfiguration config = new NetPeerConfiguration(string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision))
+            NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test")
             {
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 1,
@@ -192,6 +192,7 @@ namespace Zettalith
                         break;
 
                     case NetIncomingMessageType.DiscoveryRequest:
+                        System.Diagnostics.Debug.WriteLine("Request recieved: " + message.SenderEndPoint);
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
                         localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
