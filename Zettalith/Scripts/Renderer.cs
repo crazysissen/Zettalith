@@ -191,7 +191,7 @@ namespace Zettalith
         {
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-
+                
             }
         }
 

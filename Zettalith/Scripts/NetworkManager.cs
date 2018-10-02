@@ -19,6 +19,7 @@ namespace Zettalith
     static class NetworkManager
     {
         public static string PublicIP { get; private set; }
+        public static string ServerName { get; private set; }
 
         static Dictionary<string, EventListener> listeners = new Dictionary<string, EventListener>();
 
@@ -77,48 +78,72 @@ namespace Zettalith
             string[] a3 = a2.Split('<');
             string a4 = a3[0];
             PublicIP = a4;
+
+            System.Diagnostics.Debug.WriteLine(PublicIP);
         }
 
         #region Framework
 
-        const int port = 2018;
+        const int PORT = 14242;
 
         static NetPeer localPeer;
 
-        public static void Initialize()
+        public static void Initialize(XNAController xnaController)
         {
+            xnaController.Exiting += DestroyPeerEvent;
+
             Thread thread = new Thread(GetPublicIP);
             thread.Start();
         }
 
-        public static void CreateHost()
+        public static void CreateHost(string serverName)
         {
             if (localPeer != null)
                 DestroyPeer();
 
-            Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            ServerName = serverName;
 
-            NetPeerConfiguration config = new NetPeerConfiguration(string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision))
+            //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+
+            NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
                 MaximumHandshakeAttempts = 8,
-                MaximumConnections = 1,
-                Port = port
+                MaximumConnections = 2,
+                Port = PORT
             };
 
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
 
             localPeer = new NetServer(config);
+
+            localPeer.Start();
         }
 
         public static void CreateClient()
         {
+            if (localPeer != null)
+                DestroyPeer();
 
+            //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+
+            NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test")
+            {
+                MaximumHandshakeAttempts = 8,
+                MaximumConnections = 2,
+                Port = PORT
+            };
+
+            config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
+
+            localPeer = new NetClient(config);
+
+            localPeer.Start();
         }
 
         public static void StartPeerSearch()
         {
-
+            localPeer.DiscoverKnownPeer("10.156.46.121", PORT);
         }
 
         public static void StopPeerSearch()
@@ -131,11 +156,18 @@ namespace Zettalith
 
         }
 
+        public static void DestroyPeerEvent(object s, EventArgs e)
+        {
+            DestroyPeer();
+            return null;
+        }
+
         /// <summary>
         /// Cancel all current network activity.
         /// </summary>
         public static void DestroyPeer()
         {
+
         }
 
         public static void Update()
@@ -153,17 +185,17 @@ namespace Zettalith
             {
                 switch (message.MessageType)
                 {
-                    case NetIncomingMessageType.Error:
-                        break;
+                    //case NetIncomingMessageType.Error:
+                    //    break;
 
-                    case NetIncomingMessageType.StatusChanged:
-                        break;
+                    //case NetIncomingMessageType.StatusChanged:
+                    //    break;
 
-                    case NetIncomingMessageType.UnconnectedData:
-                        break;
+                    //case NetIncomingMessageType.UnconnectedData:
+                    //    break;
 
-                    case NetIncomingMessageType.ConnectionApproval:
-                        break;
+                    //case NetIncomingMessageType.ConnectionApproval:
+                    //    break;
 
                     case NetIncomingMessageType.Data:
                         string header = message.ReadString();
@@ -171,32 +203,37 @@ namespace Zettalith
                         Recieve(header, data);
                         break;
 
-                    case NetIncomingMessageType.Receipt:
-                        break;
+                    //case NetIncomingMessageType.Receipt:
+                    //    break;
 
                     case NetIncomingMessageType.DiscoveryRequest:
+                        System.Diagnostics.Debug.WriteLine("Request recieved: " + message.SenderEndPoint);
+                        NetOutgoingMessage response = localPeer.CreateMessage();
+                        response.Write(ServerName);
+                        localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
                         break;
 
                     case NetIncomingMessageType.DiscoveryResponse:
+                        System.Diagnostics.Debug.WriteLine(message.SenderEndPoint + ", " + message.ReadString());
                         break;
 
-                    case NetIncomingMessageType.VerboseDebugMessage:
-                        break;
+                    //case NetIncomingMessageType.VerboseDebugMessage:
+                    //    break;
 
-                    case NetIncomingMessageType.DebugMessage:
-                        break;
+                    //case NetIncomingMessageType.DebugMessage:
+                    //    break;
 
-                    case NetIncomingMessageType.WarningMessage:
-                        break;
+                    //case NetIncomingMessageType.WarningMessage:
+                    //    break;
 
-                    case NetIncomingMessageType.ErrorMessage:
-                        break;
+                    //case NetIncomingMessageType.ErrorMessage:
+                    //    break;
 
-                    case NetIncomingMessageType.NatIntroductionSuccess:
-                        break;
+                    //case NetIncomingMessageType.NatIntroductionSuccess:
+                    //    break;
 
-                    case NetIncomingMessageType.ConnectionLatencyUpdated:
-                        break;
+                    //case NetIncomingMessageType.ConnectionLatencyUpdated:
+                    //    break;
 
                     default:
                         System.Diagnostics.Debug.WriteLine("Unhandled type: " + message.MessageType);
