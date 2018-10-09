@@ -9,8 +9,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith
 {
-    public class MainController
+    class MainController
     {
+        public static InGameController InGame { get; private set; }
+
         Renderer.Sprite renderer;
 
         public MainController()

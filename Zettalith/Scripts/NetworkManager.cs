@@ -159,7 +159,7 @@ namespace Zettalith
         public static void DestroyPeerEvent(object s, EventArgs e)
         {
             DestroyPeer();
-            return null;
+            return;
         }
 
         /// <summary>
