@@ -30,6 +30,6 @@ namespace Zettalith
 
     struct TileActivator
     {
-        public event Action<TileObject> 
+        public event Action<TileObject> EnterTile, 
     }
 }

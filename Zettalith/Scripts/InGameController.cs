@@ -33,34 +33,42 @@ namespace Zettalith
         /// Can move, piece, origin, target
         /// </summary>
         public event Func<bool, TilePiece, Coordinate, Coordinate> MovementAttempt; 
+
         /// <summary>
         /// Piece, origin, target
         /// </summary>
         public event Action<TilePiece, Coordinate, Coordinate> MovementStart, MovementEnd;
+
         /// <summary>
         /// Can cast, caster, target,
         /// </summary>
         public event Func<bool, TilePiece, TilePiece> Ability, Attack;
+
         /// <summary>
         /// Can place, piece, coordinate
         /// </summary>
         public event Func<bool, Piece, Coordinate> Placement;
+
         /// <summary>
         /// Can place, OBS INTE FÄRDIGT, coordinates
         /// </summary>
         public event Func<bool, TileObject, Coordinate> MiscPlacement;
+
         /// <summary>
         /// TODO: Implementera upgrade event
         /// </summary>
         public event Func<bool, object> Upgrade;
+
         /// <summary>
         /// Round number
         /// </summary>
         public event Action<int> TurnEnd, TurnStart;
+
         /// <summary>
         /// Elapsed time
         /// </summary>
         public event Action<float> Timer;
+
         public event Action<Piece> Death;
 
         Player[] players;

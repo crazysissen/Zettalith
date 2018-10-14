@@ -24,7 +24,7 @@ namespace Zettalith
         {
             RendererController.Initialize(new Vector2(0, 0), 1);
 
-            NetworkManager.Initialize();
+            NetworkManager.Initialize(game);
             NetworkManager.CreateHost("server.exe");
         }
 
