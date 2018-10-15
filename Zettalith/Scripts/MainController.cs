@@ -35,12 +35,14 @@ namespace Zettalith
         public void Update(XNAController game, GameTime gameTime)
         {
             NetworkManager.Update();
-            DirectInput.UpdateMethods();
             RendererController.TestGUI.New();
             RendererController.TestGUI.Add(
                 new TestGUI.Button(new Rectangle(10, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestHost),
                 new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin)
                 );
+
+            // Last
+            DirectInput.UpdateMethods();
         }
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
@@ -55,6 +57,7 @@ namespace Zettalith
 
         void TestJoin()
         {
+            System.Diagnostics.Debug.WriteLine("Hello");
             NetworkManager.CreateClient();
             NetworkManager.StartPeerSearch(benneIP);
         }
