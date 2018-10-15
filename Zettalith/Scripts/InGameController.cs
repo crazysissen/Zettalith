@@ -13,6 +13,6 @@ namespace Zettalith
 {
     class InGameController
     {
-
+        
     }
 }

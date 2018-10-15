@@ -8,5 +8,6 @@ namespace Zettalith
 {
     public class StateMachine
     {
+
     }
 }
