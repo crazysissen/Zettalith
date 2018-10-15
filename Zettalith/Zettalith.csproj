@@ -44,7 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
@@ -70,10 +70,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Bitstreamer.cs" />
+    <Compile Include="Scripts\GElement.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
     <Compile Include="Scripts\DirectInput.cs" />
+    <Compile Include="Scripts\Grid.cs" />
+    <Compile Include="Scripts\In Game\TilePiece.cs" />
     <Compile Include="Scripts\InGameController.cs" />
     <Compile Include="Scripts\MainController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +97,8 @@
     <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
+    <Compile Include="Scripts\In Game\TileObject.cs" />
+    <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Renderer.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
@@ -192,6 +197,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Object Hierarchy\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="StupidIdeas.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

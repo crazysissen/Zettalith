@@ -1,0 +1,2 @@
+﻿8/10-2018 Sixten: InGameController, jag har en idé, jadu vi skapar en enum!
+8/10-2018 Det här är en extremt dålig idé -Sixten. No -Benjamin. Start/End enum
