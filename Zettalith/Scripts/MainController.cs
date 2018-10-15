@@ -15,8 +15,6 @@ namespace Zettalith
 
         public static InGameController InGame { get; private set; }
 
-        Renderer.Sprite renderer;
-
         public MainController()
         {
             
@@ -26,11 +24,11 @@ namespace Zettalith
         {
             RendererController.Initialize(new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
+            RendererController.TestGUI = new TestGUI();
         }
 
         public void LateInitialize(XNAController game)
         {
-            renderer = new Renderer.Sprite(ContentController.Get<Texture2D>("Square"), new Vector2(0, 0), new Vector2(5, 5), Color.White, 0, SpriteEffects.None);
 
         }
 

@@ -7,7 +7,7 @@ namespace Zettalith
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class XNAController : Game
+    class XNAController : Game
     {
         public static GraphicsDeviceManager Graphics { get; private set; }
         public static SpriteBatch SpriteBatch { get; private set; }
