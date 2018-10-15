@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Zettalith.Pieces;
+using Lidgren.Network;
 
 namespace Zettalith
 {
@@ -32,17 +33,17 @@ namespace Zettalith
         /// <summary>
         /// Can move, piece, origin, target
         /// </summary>
-        public event Func<bool, TilePiece, Coordinate, Coordinate> MovementAttempt; 
+        public event Func<bool, int, Coordinate, Coordinate> MovementAttempt; 
 
         /// <summary>
         /// Piece, origin, target
         /// </summary>
-        public event Action<TilePiece, Coordinate, Coordinate> MovementStart, MovementEnd;
+        public event Action<int, Coordinate, Coordinate> MovementStart, MovementEnd;
 
         /// <summary>
         /// Can cast, caster, target,
         /// </summary>
-        public event Func<bool, TilePiece, TilePiece> Ability, Attack;
+        public event Func<bool, int, int> Ability, Attack;
 
         /// <summary>
         /// Can place, piece, coordinate
@@ -86,31 +87,104 @@ namespace Zettalith
             {
                 case GameAction.Movement:
                     break;
+
                 case GameAction.Ability:
                     break;
+
                 case GameAction.Attack:
                     break;
+
                 case GameAction.Placement:
                     break;
+
                 case GameAction.MiscPlacement:
                     break;
+
                 case GameAction.Upgrade:
                     break;
+
                 case GameAction.Turn:
                     break;
+
                 case GameAction.Timer:
                     break;
+
                 case GameAction.Death:
                     break;
+
                 default:
                     System.Diagnostics.Debug.WriteLine("Unimplemented GameAction request: " + actionType.ToString());
                     break;
             }
         }
 
+        public void Execute(GameAction actionType, bool host, params object[] arg)
+        {
+            System.Diagnostics.Debug.WriteLine("GameAction: " + actionType + ". Requested locally: " + host + ".");
+
+            switch (actionType)
+            {
+                case GameAction.Movement:
+                    break;
+
+                case GameAction.Ability:
+                    break;
+
+                case GameAction.Attack:
+                    break;
+
+                case GameAction.Placement:
+                    break;
+
+                case GameAction.MiscPlacement:
+                    break;
+
+                case GameAction.Upgrade:
+                    break;
+
+                case GameAction.Turn:
+                    break;
+
+                case GameAction.Timer:
+                    break;
+
+                case GameAction.Death:
+                    break;
+
+                default:
+                    System.Diagnostics.Debug.WriteLine("Unimplemented GameAction request: " + actionType.ToString());
+                    break;
+            }
+
+            NetworkManager.Send("GAMEACTION", Bytestreamer.ToBytes(new GameActionType("EXECUTE", actionType, arg)));
+        }
+
         public void RemoteAction(byte[] data)
         {
-            
+            GameActionType type = Bytestreamer.ToObject<GameActionType>(data);
+
+            switch (type.subHeader)
+            {
+                case "EXECUTE":
+                    Execute((GameAction)type.arg[0], false, (object[])type.arg[1]);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    [System.Serializable]
+    struct GameActionType
+    {
+        public string subHeader;
+        public object[] arg;
+
+        public GameActionType(string subHeader, params object[] arg)
+        {
+            this.subHeader = subHeader;
+            this.arg = arg;
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Zettalith
 {
     class MainController
     {
+        const string benneIP = "10.156.46.56";
+
         public static InGameController InGame { get; private set; }
 
         Renderer.Sprite renderer;
@@ -23,9 +25,7 @@ namespace Zettalith
         public void Initialize(XNAController game)
         {
             RendererController.Initialize(new Vector2(0, 0), 1);
-
             NetworkManager.Initialize(game);
-            NetworkManager.CreateHost("server.exe");
         }
 
         public void LateInitialize(XNAController game)
@@ -38,12 +38,27 @@ namespace Zettalith
         {
             NetworkManager.Update();
             DirectInput.UpdateMethods();
+            RendererController.TestGUI.New();
+            RendererController.TestGUI.Add(
+                new TestGUI.Button(new Rectangle(10, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestHost),
+                new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin)
+                );
         }
-
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
             RendererController.Render(graphics, spriteBatch, gameTime);
+        }
+
+        void TestHost()
+        {
+            NetworkManager.CreateHost("server.exe");
+        }
+
+        void TestJoin()
+        {
+            NetworkManager.CreateClient();
+            NetworkManager.StartPeerSearch(benneIP);
         }
     }
 }

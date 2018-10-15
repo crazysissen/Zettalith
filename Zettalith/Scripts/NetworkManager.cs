@@ -141,9 +141,9 @@ namespace Zettalith
             localPeer.Start();
         }
 
-        public static void StartPeerSearch()
+        public static void StartPeerSearch(string ip)
         {
-            localPeer.DiscoverKnownPeer("10.156.46.121", PORT);
+            localPeer.DiscoverKnownPeer(ip, PORT);
         }
 
         public static void StopPeerSearch()

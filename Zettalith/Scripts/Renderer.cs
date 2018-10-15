@@ -12,6 +12,8 @@ namespace Zettalith
     {
         public static Camera Camera { get; private set; }
 
+        public static TestGUI TestGUI { get; set; }
+
         static List<Renderer> renderers = new List<Renderer>();
 
         public static void Initialize(Vector2 cameraPosition, float cameraScale)
@@ -31,6 +33,8 @@ namespace Zettalith
             {
                 renderer.Draw(spriteBatch, Camera, (float)gameTime.ElapsedGameTime.TotalSeconds);
             }
+
+            TestGUI.Draw(spriteBatch);
 
             spriteBatch.End();
         }
