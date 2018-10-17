@@ -11,7 +11,7 @@ namespace Zettalith
 {
     class MainController
     {
-        const string benneIP = "10.156.46.56";
+        const string remoteTest = "10.156.46.56";
 
         public static InGameController InGame { get; private set; }
 
@@ -59,7 +59,7 @@ namespace Zettalith
         {
             System.Diagnostics.Debug.WriteLine("Hello");
             NetworkManager.CreateClient();
-            NetworkManager.StartPeerSearch(benneIP);
+            NetworkManager.StartPeerSearch(remoteTest);
         }
     }
 }
