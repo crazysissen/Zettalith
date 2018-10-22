@@ -234,6 +234,7 @@ namespace Zettalith
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
                         localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
+                        XNAController.MainController.PeerFound(message.SenderEndPoint, true, message.ReadString());
                         break;
 
                     case NetIncomingMessageType.DiscoveryResponse:

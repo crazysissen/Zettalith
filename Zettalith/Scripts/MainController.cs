@@ -55,7 +55,7 @@ namespace Zettalith
 
         public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
         {
-            System.Diagnostics.Debug.WriteLine("Peer found: " + message + ". IP: " + ipEndPoint);
+            System.Diagnostics.Debug.WriteLine("Peer found: " + message + ". IP: " + ipEndPoint + ". Local peer is host: " + host);
 
             endPoint = ipEndPoint;
         }
