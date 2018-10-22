@@ -187,17 +187,10 @@ namespace Zettalith
 
         }
 
-        static bool connected = false;
         public static void Update()
         {
             if (localPeer != null)
             {
-                if (localPeer.Connections.Count > 0 && connected == false)
-                {
-                    connected = true;
-                    Debug.WriteLine("Connected!");
-                }
-
                 GetMessage();
             }
         }
