@@ -142,6 +142,7 @@ namespace Zettalith
             };
 
             config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
+            config.EnableMessageType(NetIncomingMessageType.StatusChanged);
 
             localPeer = new NetClient(config);
 
@@ -206,8 +207,9 @@ namespace Zettalith
                     //case NetIncomingMessageType.Error:
                     //    break;
 
-                    //case NetIncomingMessageType.StatusChanged:
-                    //    break;
+                    case NetIncomingMessageType.StatusChanged:
+                        Debug.WriteLine("Status changed: " + (NetConnectionStatus)message.ReadByte());
+                        break;
 
                     //case NetIncomingMessageType.UnconnectedData:
                     //    break;
