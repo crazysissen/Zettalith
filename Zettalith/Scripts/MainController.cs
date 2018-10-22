@@ -69,7 +69,7 @@ namespace Zettalith
         {
             System.Diagnostics.Debug.WriteLine("Hello");
             NetworkManager.CreateClient();
-            NetworkManager.StartPeerSearch(benneIP);
+            NetworkManager.StartPeerSearch(remoteTest);
         }
 
         void TestJoin()
