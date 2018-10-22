@@ -11,7 +11,9 @@ namespace Zettalith
 {
     class MainController
     {
-        const string benneIP = "10.156.46.56";
+        const string benneIP = "10.156.46.30";
+
+        System.Net.IPEndPoint endPoint;
 
         public static InGameController InGame { get; private set; }
 
@@ -22,7 +24,7 @@ namespace Zettalith
 
         public void Initialize(XNAController game)
         {
-            RendererController.Initialize(new Vector2(0, 0), 1);
+            RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
             RendererController.TestGUI = new TestGUI();
         }
@@ -38,7 +40,8 @@ namespace Zettalith
             RendererController.TestGUI.New();
             RendererController.TestGUI.Add(
                 new TestGUI.Button(new Rectangle(10, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestHost),
-                new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin)
+                new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, BeginSearch),
+                new TestGUI.Button(new Rectangle(10, 70, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin)
                 );
 
             // Last
@@ -50,16 +53,40 @@ namespace Zettalith
             RendererController.Render(graphics, spriteBatch, gameTime);
         }
 
+        public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
+        {
+            System.Diagnostics.Debug.WriteLine("Peer found: " + message + ". IP: " + ipEndPoint);
+
+            endPoint = ipEndPoint;
+        }
+
         void TestHost()
         {
             NetworkManager.CreateHost("server.exe");
         }
 
-        void TestJoin()
+        void BeginSearch()
         {
             System.Diagnostics.Debug.WriteLine("Hello");
             NetworkManager.CreateClient();
             NetworkManager.StartPeerSearch(benneIP);
+        }
+
+        void TestJoin()
+        {
+            System.Diagnostics.Debug.WriteLine("Attempting join: " + endPoint);
+
+            NetworkManager.TryJoin(endPoint, "JoinTest!", TestCallback);
+        }
+
+        void TestCallback(bool success)
+        {
+
+        }
+
+        void TestSend()
+        {
+
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Deployment.Application;
@@ -88,6 +90,10 @@ namespace Zettalith
 
         static NetPeer localPeer;
 
+        static string password;
+
+        static Callback callback;
+
         public static void Initialize(XNAController xnaController)
         {
             xnaController.Exiting += DestroyPeerEvent;
@@ -114,6 +120,7 @@ namespace Zettalith
 
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+            config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
 
             localPeer = new NetServer(config);
 
@@ -151,9 +158,13 @@ namespace Zettalith
 
         }
 
-        public static void TryJoin(Callback callback)
+        public static void TryJoin(IPEndPoint endPoint, string message, Callback callback)
         {
+            NetworkManager.callback = callback;
 
+            NetOutgoingMessage connectionApproval = localPeer.CreateMessage();
+            connectionApproval.Write(message);
+            localPeer.Connect(endPoint, connectionApproval);
         }
 
         public static void DestroyPeerEvent(object s, EventArgs e)
@@ -170,10 +181,17 @@ namespace Zettalith
 
         }
 
+        static bool connected = false;
         public static void Update()
         {
             if (localPeer != null)
             {
+                if (localPeer.Connections.Count > 0 && connected == false)
+                {
+                    connected = true;
+                    Debug.WriteLine("Connected!");
+                }
+
                 GetMessage();
             }
         }
@@ -194,8 +212,11 @@ namespace Zettalith
                     //case NetIncomingMessageType.UnconnectedData:
                     //    break;
 
-                    //case NetIncomingMessageType.ConnectionApproval:
-                    //    break;
+                    case NetIncomingMessageType.ConnectionApproval:
+                        string attachedMessage = message.ReadString();
+                        Debug.WriteLine("Connection attempt: " + attachedMessage);
+                        message.SenderConnection.Approve();
+                        break;
 
                     case NetIncomingMessageType.Data:
                         string header = message.ReadString();
@@ -214,7 +235,7 @@ namespace Zettalith
                         break;
 
                     case NetIncomingMessageType.DiscoveryResponse:
-                        System.Diagnostics.Debug.WriteLine(message.SenderEndPoint + ", " + message.ReadString());
+                        XNAController.MainController.PeerFound(message.SenderEndPoint, false, message.ReadString());
                         break;
 
                     //case NetIncomingMessageType.VerboseDebugMessage:

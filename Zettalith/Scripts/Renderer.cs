@@ -16,9 +16,9 @@ namespace Zettalith
 
         static List<Renderer> renderers = new List<Renderer>();
 
-        public static void Initialize(Vector2 cameraPosition, float cameraScale)
+        public static void Initialize(GraphicsDeviceManager graphics, Vector2 cameraPosition, float cameraScale)
         {
-            Camera = new Camera()
+            Camera = new Camera(graphics)
             {
                 Position = cameraPosition,
                 Scale = cameraScale
@@ -204,25 +204,47 @@ namespace Zettalith
 
     public class Camera
     {
-        const float WIDTHDIVISIONS = 16;
+        // A square based on the average distances to the screen edges, divided into pieces
+        const float
+            UNIVERSALMODIFIER = 0.1f;
 
-        public Vector2 ScreenWorldDimensions
-            => new Vector2(WIDTHDIVISIONS / Scale, (((float)XNAController.Graphics.PreferredBackBufferHeight / XNAController.Graphics.PreferredBackBufferWidth) * WIDTHDIVISIONS) / Scale);
-
-        public float WorldUnitDiameter
-            => (XNAController.Graphics.PreferredBackBufferWidth) / (WIDTHDIVISIONS * Scale);
+        public const int
+            WORLDUNITPIXELS = 1500;
 
         public Vector2 Position { get; set; }
         public float Scale { get; set; }
 
-        public Vector2 WorldToScreenPosition(Vector2 worldPosition)
+        public Vector2 CenterCoordinate { get; private set; }
+
+        public int ScreenWidth { get; set; }
+        public int ScreenHeight { get; set; }
+
+        private float _standardWUScaling, _standardSquareDiameter;
+
+        public float WorldUnitDiameter => _standardWUScaling * _standardSquareDiameter;
+
+        public Camera(GraphicsDeviceManager graphics)
         {
-            return (worldPosition - Position) * Scale;
+            ScreenWidth = graphics.PreferredBackBufferWidth;
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+
+            _standardSquareDiameter = 0.5f * (ScreenWidth + ScreenHeight);
+
+            _standardWUScaling = _standardSquareDiameter / WORLDUNITPIXELS;
+
+            CenterCoordinate = new Vector2(ScreenWidth * 0.5f, ScreenHeight * 0.5f);
         }
 
+        public Vector2 WorldToScreenPosition(Vector2 worldPosition)
+            => CenterCoordinate + (worldPosition - Position) * _standardSquareDiameter * _standardWUScaling * Scale * UNIVERSALMODIFIER;
+
+        public Vector2 ScreenToWorldPosition(Vector2 screenPosition)
+            => (screenPosition - CenterCoordinate) / (_standardSquareDiameter * _standardWUScaling * Scale * UNIVERSALMODIFIER) + Position;
+
         public Vector2 WorldToScreenSize(Vector2 size)
-        {
-            return size * Scale;
-        }
+            => size * UNIVERSALMODIFIER * Scale;
+
+        public Vector2 ScreenToWorldSize(Vector2 size)
+            => size / (UNIVERSALMODIFIER * Scale);
     }
 }

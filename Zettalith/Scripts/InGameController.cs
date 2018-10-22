@@ -78,7 +78,7 @@ namespace Zettalith
         {
             players = new Player[2] { local, remote };
 
-            NetworkManager.Listen("GAMEACTION", RemoteAction);
+            NetworkManager.Listen("GAMEACTION", RecieveAction);
         }
 
         public void Request(GameAction actionType, params object[] arg)
@@ -86,6 +86,7 @@ namespace Zettalith
             switch (actionType)
             {
                 case GameAction.Movement:
+
                     break;
 
                 case GameAction.Ability:
@@ -159,9 +160,11 @@ namespace Zettalith
             NetworkManager.Send("GAMEACTION", Bytestreamer.ToBytes(new GameActionType("EXECUTE", actionType, arg)));
         }
 
-        public void RemoteAction(byte[] data)
+        public void RecieveAction(byte[] data)
         {
             GameActionType type = Bytestreamer.ToObject<GameActionType>(data);
+
+            System.Diagnostics.Debug.WriteLine(type.subHeader);
 
             switch (type.subHeader)
             {
