@@ -104,6 +104,8 @@ namespace Zettalith
 
         public static void CreateHost(string serverName)
         {
+            Debug.WriteLine("Server created");
+
             if (localPeer != null)
                 DestroyPeer();
 
@@ -114,7 +116,7 @@ namespace Zettalith
             NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
                 MaximumHandshakeAttempts = 8,
-                MaximumConnections = 2,
+                MaximumConnections = 10,
                 Port = PORT
             };
 
@@ -129,15 +131,17 @@ namespace Zettalith
 
         public static void CreateClient()
         {
+            Debug.WriteLine("Client created");
+
             if (localPeer != null)
                 DestroyPeer();
 
             //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
 
-            NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test")
+            NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
                 MaximumHandshakeAttempts = 8,
-                MaximumConnections = 2,
+                MaximumConnections = 10,
                 Port = PORT
             };
 
@@ -151,6 +155,7 @@ namespace Zettalith
 
         public static void StartPeerSearch(string ip)
         {
+            Debug.WriteLine("Peer Search Started");
             localPeer.DiscoverKnownPeer(ip, PORT);
         }
 
@@ -159,13 +164,13 @@ namespace Zettalith
 
         }
 
-        public static void TryJoin(IPEndPoint endPoint, string message, Callback callback)
+        public static void TryJoin(string ip, int port, string message, Callback callback)
         {
             NetworkManager.callback = callback;
 
             NetOutgoingMessage connectionApproval = localPeer.CreateMessage();
             connectionApproval.Write(message);
-            localPeer.Connect(endPoint, connectionApproval);
+            localPeer.Connect(ip, port, connectionApproval);
         }
 
         public static void DestroyPeerEvent(object s, EventArgs e)
@@ -230,7 +235,6 @@ namespace Zettalith
                     //    break;
 
                     case NetIncomingMessageType.DiscoveryRequest:
-                        System.Diagnostics.Debug.WriteLine("Request recieved: " + message.SenderEndPoint);
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
                         localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
@@ -247,8 +251,9 @@ namespace Zettalith
                     //case NetIncomingMessageType.DebugMessage:
                     //    break;
 
-                    //case NetIncomingMessageType.WarningMessage:
-                    //    break;
+                    case NetIncomingMessageType.WarningMessage:
+                        Debug.WriteLine("Warning: " + message.ReadString());
+                        break;
 
                     //case NetIncomingMessageType.ErrorMessage:
                     //    break;

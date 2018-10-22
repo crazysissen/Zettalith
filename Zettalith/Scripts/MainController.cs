@@ -55,7 +55,7 @@ namespace Zettalith
 
         public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
         {
-            System.Diagnostics.Debug.WriteLine("Peer found: " + message + ". IP: " + ipEndPoint + ". Local peer is host: " + host);
+            System.Diagnostics.Debug.WriteLine(!host ? "Server found: " + message + ". " : "Peer found. " + "IP: " + ipEndPoint + ". Local peer is host: " + host);
 
             endPoint = ipEndPoint;
         }
@@ -76,7 +76,7 @@ namespace Zettalith
         {
             System.Diagnostics.Debug.WriteLine("Attempting join: " + endPoint);
 
-            NetworkManager.TryJoin(endPoint, "JoinTest!", TestCallback);
+            NetworkManager.TryJoin(endPoint.Address.ToString(), endPoint.Port, "JoinTest!", TestCallback);
         }
 
         void TestCallback(bool success)
