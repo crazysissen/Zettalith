@@ -65,23 +65,10 @@ namespace Zettalith
 
         static void Recieve(string tag, byte[] message)
         {
-
-        }
-
-        public static void GetPublicIP()
-        {
-            string url = "http://checkip.dyndns.org";
-            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
-            System.Net.WebResponse resp = req.GetResponse();
-            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
-            string response = sr.ReadToEnd().Trim();
-            string[] a = response.Split(':');
-            string a2 = a[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            string a4 = a3[0];
-            PublicIP = a4;
-
-            System.Diagnostics.Debug.WriteLine(PublicIP);
+            if (listeners.ContainsKey(tag))
+            {
+                listeners[tag].Call(message);
+            }
         }
 
         #region Framework
@@ -221,6 +208,7 @@ namespace Zettalith
                     case NetIncomingMessageType.Data:
                         string header = message.ReadString();
                         byte[] data = message.Data;
+                        Debug.WriteLine("Data recieved. Header: " + header);
                         Recieve(header, data);
                         break;
 
@@ -262,6 +250,22 @@ namespace Zettalith
                         break;
                 }
             }
+        }
+
+        public static void GetPublicIP()
+        {
+            string url = "http://checkip.dyndns.org";
+            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+            System.Net.WebResponse resp = req.GetResponse();
+            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+            string response = sr.ReadToEnd().Trim();
+            string[] a = response.Split(':');
+            string a2 = a[1].Substring(1);
+            string[] a3 = a2.Split('<');
+            string a4 = a3[0];
+            PublicIP = a4;
+
+            System.Diagnostics.Debug.WriteLine(PublicIP);
         }
 
         class EventListener

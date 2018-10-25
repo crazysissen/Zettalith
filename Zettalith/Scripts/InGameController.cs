@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +20,11 @@ namespace Zettalith
         Movement, Ability, Attack, Placement, MiscPlacement, Upgrade, Turn, Timer, Death
     }
 
+    enum GameState
+    {
+        Config, Setup, Logistics, Battle, End
+    }
+
     // Det här är en extremt dålig idé -Sixten. No -Benjamin
     enum Type
     {
@@ -29,6 +35,10 @@ namespace Zettalith
     {
         Player Local => players?[0];
         Player Remote => players?[1];
+
+        bool isHost;
+
+        GameState gameState;
 
         /// <summary>
         /// Can move, piece, origin, target
@@ -73,6 +83,14 @@ namespace Zettalith
         public event Action<Piece> Death;
 
         Player[] players;
+
+        public InGameController(bool isHost)
+        {
+            Debug.WriteLine("InGameController created.");
+
+            this.isHost = isHost;
+            gameState = GameState.Config;
+        }
 
         public void Setup(Player local, Player remote)
         {

@@ -13,19 +13,22 @@ namespace Zettalith
     {
         const string benneIP = "10.156.46.30";
 
-        System.Net.IPEndPoint endPoint;
-
         public static InGameController InGame { get; private set; }
+
+        private System.Net.IPEndPoint endPoint;
+        private InGameController inGameController;
+        private Random r;
 
         public MainController()
         {
-            
+            r = new Random();
         }
 
         public void Initialize(XNAController game)
         {
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
+            NetworkManager.Listen("TEST", RecieveTestMessage);
             RendererController.TestGUI = new TestGUI();
         }
 
@@ -60,6 +63,16 @@ namespace Zettalith
             endPoint = ipEndPoint;
         }
 
+        public void Connected(System.Net.IPEndPoint ipEndPoint, bool host)
+        {
+            inGameController = new InGameController(host);
+        }
+
+        void TestMessage()
+        {
+            NetworkManager.Send("TEST", r.Next(0, 0xFFFF));
+        }
+
         void TestHost()
         {
             NetworkManager.CreateHost("server.exe");
@@ -76,6 +89,13 @@ namespace Zettalith
             System.Diagnostics.Debug.WriteLine("Attempting join: " + endPoint);
 
             NetworkManager.TryJoin(endPoint.Address.ToString(), endPoint.Port, "JoinTest!", TestCallback);
+        }
+
+        void RecieveTestMessage(byte[] data)
+        {
+            int integer = data.ToObject<int>();
+
+            System.Diagnostics.Debug.WriteLine(integer.ToString("X4"));
         }
 
         void TestCallback(bool success)
