@@ -86,7 +86,7 @@ namespace Zettalith
 
         public InGameController(bool isHost)
         {
-            Debug.WriteLine("InGameController created.");
+            Test.Log("InGameController created.");
 
             this.isHost = isHost;
             gameState = GameState.Config;
@@ -132,14 +132,14 @@ namespace Zettalith
                     break;
 
                 default:
-                    System.Diagnostics.Debug.WriteLine("Unimplemented GameAction request: " + actionType.ToString());
+                    Test.Log("Unimplemented GameAction request: " + actionType.ToString());
                     break;
             }
         }
 
         public void Execute(GameAction actionType, bool host, params object[] arg)
         {
-            System.Diagnostics.Debug.WriteLine("GameAction: " + actionType + ". Requested locally: " + host + ".");
+            Test.Log("GameAction: " + actionType + ". Requested locally: " + host + ".");
 
             switch (actionType)
             {
@@ -171,7 +171,7 @@ namespace Zettalith
                     break;
 
                 default:
-                    System.Diagnostics.Debug.WriteLine("Unimplemented GameAction request: " + actionType.ToString());
+                    Test.Log("Unimplemented GameAction request: " + actionType.ToString());
                     break;
             }
 
@@ -182,7 +182,7 @@ namespace Zettalith
         {
             GameActionType type = Bytestreamer.ToObject<GameActionType>(data);
 
-            System.Diagnostics.Debug.WriteLine(type.subHeader);
+            Test.Log(type.subHeader);
 
             switch (type.subHeader)
             {

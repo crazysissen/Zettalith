@@ -8,47 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
-    static class RendererController
-    {
-        public static Camera Camera { get; private set; }
-
-        public static TestGUI TestGUI { get; set; }
-
-        static List<Renderer> renderers = new List<Renderer>();
-
-        public static void Initialize(GraphicsDeviceManager graphics, Vector2 cameraPosition, float cameraScale)
-        {
-            Camera = new Camera(graphics)
-            {
-                Position = cameraPosition,
-                Scale = cameraScale
-            };
-        }
-
-        public static void Render(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
-            foreach (Renderer renderer in renderers)
-            {
-                renderer.Draw(spriteBatch, Camera, (float)gameTime.ElapsedGameTime.TotalSeconds);
-            }
-
-            TestGUI.Draw(spriteBatch);
-
-            spriteBatch.End();
-        }
-
-        public static void AddRenderer(Renderer renderer)
-            => renderers.Add(renderer);
-
-        public static void RemoveRenderer(Renderer renderer)
-            => renderers.Remove(renderer);
-    }
-
     abstract class Renderer
     {
         public abstract void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime);
+
+        public abstract Layer Layer { get; set; }
 
         public Renderer()
         {
@@ -97,19 +61,22 @@ namespace Zettalith
             /// </summary>
             public virtual SpriteEffects Effects { get; set; }
 
-            public Sprite(Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, SpriteEffects effects)
+            public override Layer Layer { get; set; }
+
+            public Sprite(Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
             {
                 Texture = texture;
                 Position = position;
                 Size = size;
                 Rotation = rotation;
+                RotationOrigin = rotationOrigin;
                 Color = color;
                 Effects = effects;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, camera.WorldToScreenPosition(Position), null, Color, Rotation, RotationOrigin, Size, Effects, 0);
+                spriteBatch.Draw(Texture, camera.WorldToScreenPosition(Position), null, Color, Rotation, RotationOrigin, Size, Effects, Layer.LayerDepth);
             }
         }
 
@@ -136,41 +103,71 @@ namespace Zettalith
             /// <summary>
             /// The texture of the object
             /// </summary>
-            public Texture2D Texture { get; private set; }
+            public virtual Texture2D Texture { get; set; }
 
             /// <summary>
-            /// The dimensions and location of the object in screen space (pixel coordinates)
+            /// The x & y coordinates of the object in world space
             /// </summary>
-            public Rectangle Rectangle { get; private set; }
+            public virtual Rectangle Transform { get; set; }
+
+            /// <summary>
+            /// The rotation angle of the object measured in degrees (0-360)
+            /// </summary>
+            public virtual float Rotation { get; set; }
+
+            /// <summary>
+            /// The point on the object around which it rotates
+            /// </summary>
+            public virtual Vector2 RotationOrigin { get; set; }
 
             /// <summary>
             /// The color multiplier of the object
             /// </summary>
-            public Color Color { get; private set; }
+            public virtual Color Color { get; set; }
 
-            public SpriteScreen(Texture2D texture, Rectangle rectangle)
+            /// <summary>
+            /// Wether or not the sprite is flipped somehow, stack using binary OR operator (|)
+            /// </summary>
+            public virtual SpriteEffects Effects { get; set; }
+
+            public override Layer Layer { get; set; }
+
+            public SpriteScreen(Texture2D texture, Rectangle transform) : this(texture, transform, Color.White, 0, Vector2.Zero, SpriteEffects.None) { }
+
+            public SpriteScreen(Texture2D texture, Rectangle transform, Color color) : this(texture, transform, color, 0, Vector2.Zero, SpriteEffects.None) { }
+
+            public SpriteScreen(Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
             {
                 Texture = texture;
-                Rectangle = rectangle;
-                Color = Color.White;
-            }
-
-            public SpriteScreen(Texture2D texture, Rectangle rectangle, Color color) : this(texture, rectangle)
-            {
+                Transform = transform;
+                Rotation = rotation;
+                RotationOrigin = rotationOrigin;
                 Color = color;
+                Effects = effects;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, Rectangle, Color);
+                spriteBatch.Draw(Texture, Transform, null, Color, Rotation, RotationOrigin, Effects, Layer.LayerDepth);
             }
         }
 
         public class Text : Renderer
         {
+            public SpriteFont Font { get; set; }
+            public StringBuilder String { get; set; }
+            public Vector2 Position { get; set; }
+            public Vector2 Scale { get; set; }
+            public Vector2 Origin { get; set; }
+            public Color Color { get; set; }
+            public float Rotation { get; set; }
+            public SpriteEffects SpriteEffects { get; set; }
+
+            public override Layer Layer { get; set; }
+
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-
+                spriteBatch.DrawString(Font, String, Position, Color, Rotation, Origin, Scale, SpriteEffects, Layer.LayerDepth);
             }
         }
 
@@ -178,14 +175,17 @@ namespace Zettalith
         {
             public DrawCommand Command { get; private set; }
 
-            public Custom(DrawCommand drawCommand)
+            public override Layer Layer { get; set; }
+
+            public Custom(DrawCommand drawCommand, Layer layer)
             {
                 Command = drawCommand;
+                Layer = layer;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                Command.Invoke(spriteBatch, camera, deltaTime);
+                Command.Invoke(spriteBatch, camera, deltaTime, Layer.LayerDepth);
             }
 
             public void SetCommand(DrawCommand drawCommand) => Command = drawCommand;
@@ -193,58 +193,14 @@ namespace Zettalith
 
         public class Animator : Renderer
         {
+            public override Layer Layer { get; set; }
+
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
                 
             }
         }
 
-        public delegate void DrawCommand(SpriteBatch spriteBatch, Camera camera, float deltaTime);
-    }
-
-    public class Camera
-    {
-        // A square based on the average distances to the screen edges, divided into pieces
-        const float
-            UNIVERSALMODIFIER = 0.1f;
-
-        public const int
-            WORLDUNITPIXELS = 1500;
-
-        public Vector2 Position { get; set; }
-        public float Scale { get; set; }
-
-        public Vector2 CenterCoordinate { get; private set; }
-
-        public int ScreenWidth { get; set; }
-        public int ScreenHeight { get; set; }
-
-        private float _standardWUScaling, _standardSquareDiameter;
-
-        public float WorldUnitDiameter => _standardWUScaling * _standardSquareDiameter;
-
-        public Camera(GraphicsDeviceManager graphics)
-        {
-            ScreenWidth = graphics.PreferredBackBufferWidth;
-            ScreenHeight = graphics.PreferredBackBufferHeight;
-
-            _standardSquareDiameter = 0.5f * (ScreenWidth + ScreenHeight);
-
-            _standardWUScaling = _standardSquareDiameter / WORLDUNITPIXELS;
-
-            CenterCoordinate = new Vector2(ScreenWidth * 0.5f, ScreenHeight * 0.5f);
-        }
-
-        public Vector2 WorldToScreenPosition(Vector2 worldPosition)
-            => CenterCoordinate + (worldPosition - Position) * _standardSquareDiameter * _standardWUScaling * Scale * UNIVERSALMODIFIER;
-
-        public Vector2 ScreenToWorldPosition(Vector2 screenPosition)
-            => (screenPosition - CenterCoordinate) / (_standardSquareDiameter * _standardWUScaling * Scale * UNIVERSALMODIFIER) + Position;
-
-        public Vector2 WorldToScreenSize(Vector2 size)
-            => size * UNIVERSALMODIFIER * Scale;
-
-        public Vector2 ScreenToWorldSize(Vector2 size)
-            => size / (UNIVERSALMODIFIER * Scale);
+        public delegate void DrawCommand(SpriteBatch spriteBatch, Camera camera, float deltaTime, float managedLayer);
     }
 }

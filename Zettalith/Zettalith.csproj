@@ -76,6 +76,8 @@
     <Compile Include="Scripts\EMethods.cs" />
     <Compile Include="Scripts\DirectInput.cs" />
     <Compile Include="Scripts\Grid.cs" />
+    <Compile Include="Scripts\GUI\GUI.cs" />
+    <Compile Include="Scripts\GUI\GUIMembers.cs" />
     <Compile Include="Scripts\In Game\TilePiece.cs" />
     <Compile Include="Scripts\InGameController.cs" />
     <Compile Include="Scripts\MainController.cs" />
@@ -99,13 +101,17 @@
     <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\Player.cs" />
-    <Compile Include="Scripts\Renderer.cs" />
+    <Compile Include="Scripts\Rendering\Camera.cs" />
+    <Compile Include="Scripts\Rendering\Layer.cs" />
+    <Compile Include="Scripts\Rendering\Renderer.cs" />
+    <Compile Include="Scripts\Rendering\RendererController.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
     <Compile Include="Scripts\Pieces\Middle.cs" />
     <Compile Include="Scripts\Pieces\SubPiece.cs" />
     <Compile Include="Scripts\Pieces\Top.cs" />
     <Compile Include="Scripts\Stats.cs" />
+    <Compile Include="Scripts\Testing\Test.cs" />
     <Compile Include="Scripts\Testing\TestGUI.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
@@ -119,6 +125,7 @@
     <Reference Include="System" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

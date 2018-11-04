@@ -135,7 +135,7 @@ namespace Zettalith
             }
             catch
             {
-                System.Diagnostics.Debug.WriteLine("ERROR: Tried to get unloaded content [" + tag + ", " + typeof(T) + "]");
+                Test.Log("ERROR: Tried to get unloaded content [" + tag + ", " + typeof(T) + "]");
                 return default(T);
             }
         }
@@ -175,11 +175,11 @@ namespace Zettalith
                     return newArray;
                 }
 
-                System.Diagnostics.Debug.WriteLine("ERROR: Tried to get content bundle already loaded into another type [" + tag + ", requested type: " + typeof(T[]) + ", loaded type: " + contentCollections[tag].GetType() + "]");
+                Test.Log("ERROR: Tried to get content bundle already loaded into another type [" + tag + ", requested type: " + typeof(T[]) + ", loaded type: " + contentCollections[tag].GetType() + "]");
                 return contentCollections[tag] as T[];
             }
 
-            System.Diagnostics.Debug.WriteLine("ERROR: Tried to get unloaded content bundle [" + tag + ", " + typeof(T[]) + "]");
+            Test.Log("ERROR: Tried to get unloaded content bundle [" + tag + ", " + typeof(T[]) + "]");
             return null;
         }
 
