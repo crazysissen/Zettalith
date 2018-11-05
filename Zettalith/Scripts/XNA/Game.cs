@@ -29,8 +29,8 @@ namespace Zettalith
         public static SpriteBatch SpriteBatch { get; private set; }
         public static MainController MainController { get; private set; }
 
-        public static bool RemoteLocalGame { get; private set; } = false;
-        public static bool LocalLocalGame { get; private set; } = false;
+        public static bool LocalGameClient { get; private set; } = false;
+        public static bool LocalGameHost { get; private set; } = false;
 
         string[] _commandLineArgs;
 
@@ -54,7 +54,7 @@ namespace Zettalith
                 switch (arg)
                 {
                     case LOCALTEST:
-                        RemoteLocalGame = true;
+                        LocalGameClient = true;
                         break;
 
                     default:
@@ -67,21 +67,24 @@ namespace Zettalith
         {
             base.Initialize();
 
-            MainController.Initialize(game: this);
-
-            IsMouseVisible = true;
+            StartType startType = StartType.Main;
+            List<object> args = new List<object>();
 
             if (localGame)
             {
                 // This is the host for a local game
-                if (!RemoteLocalGame)
+                if (!LocalGameClient)
                 {
-                    LocalLocalGame = true;
+                    LocalGameHost = true;
+                    Window.Title = "";
+                    startType = StartType.LocalHost;
                 }
 
                 // This is the client for a local game
                 else
                 {
+                    startType = StartType.LocalClient;
+
                     background = new Color(60, 20, 20);
 
                     Process process = Process.GetCurrentProcess();
@@ -94,6 +97,8 @@ namespace Zettalith
                             IEnumerable<ManagementObject> obj = query.Get().OfType<ManagementObject>();
 
                             parent = obj.Select(p => Process.GetProcessById((int)(uint)p["ParentProcessId"])).First();
+
+                            args.Add(parent);
                         }
                     }
                     catch
@@ -104,9 +109,14 @@ namespace Zettalith
 
                     MainController.LocalGameClientInitialize(parent);
                 }
-
-                return;
             }
+
+            MainController.Initialize(
+                game: this, 
+                type: startType,
+                args: args.ToArray());
+
+            IsMouseVisible = true;
 
             //System.Diagnostics.Debug.WriteLine();
         }
@@ -129,7 +139,9 @@ namespace Zettalith
         {
             base.Update(gameTime);
 
-            MainController.Update(game: this, gameTime: gameTime);
+            MainController.Update(
+                game: this, 
+                gameTime: gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -138,7 +150,13 @@ namespace Zettalith
 
             base.Draw(gameTime);
 
-            MainController.Draw(game: this, gameTime: gameTime, graphics: Graphics, spriteBatch: SpriteBatch);
+            MainController.Draw(
+                game: this, 
+                gameTime: gameTime, 
+                graphics: Graphics, 
+                spriteBatch: SpriteBatch);
         }
     }
+
+    enum StartType { Main, LocalHost, LocalClient }
 }

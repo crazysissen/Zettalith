@@ -43,19 +43,32 @@ namespace Zettalith
 
         public void LocalGameClientInitialize(Process parentProcess)
         {
-            clone = parentProcess;
+ 
         }
 
-        public void Initialize(XNAController game)
+        public void Initialize(XNAController game, StartType type, object[] args)
         {
-            Test.Category = "Main";
+            Test.Category = type.ToString();
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
             NetworkManager.Listen("TEST", RecieveTestMessage);
             RendererController.TestGUI = new TestGUI();
-        }
 
+            if (type == StartType.LocalHost)
+            {
+                StartClone();
+                NetworkManager.CreateLocalGame();
+            }
+
+            if (type == StartType.LocalClient)
+            {
+                clone = (System.Diagnostics.Process)args[0];
+                NetworkManager.CreateClient();
+                NetworkManager.StartPeerSearch(LOCALHOST);
+            }
+
+        }
 
         public void LateInitialize(XNAController game)
         {
@@ -64,16 +77,20 @@ namespace Zettalith
 
         public void Update(XNAController game, GameTime gameTime)
         {
+            if (XNAController.localGame && clone.HasExited)
+            {
+                game.Exit();
+            }
+
             NetworkManager.Update();
             RendererController.TestGUI.New();
             RendererController.TestGUI.Add(
                 new TestGUI.Button(new Rectangle(10, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestHost),
                 new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, BeginSearch),
-                new TestGUI.Button(new Rectangle(10, 70, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin)
-                );
+                new TestGUI.Button(new Rectangle(10, 70, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin));
 
-            if (XNAController.LocalLocalGame)
-                RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
+            //if (XNAController.LocalLocalGame)
+            //    RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
 
             // Last
             In.UpdateMethods();
@@ -87,6 +104,11 @@ namespace Zettalith
         public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
         {
             Test.Log((!host ? "Server found: " + message + ". " : "Peer found. ") + "IP: " + ipEndPoint + ". Local peer is host: " + host);
+
+            if (XNAController.LocalGameClient)
+            {
+                NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Local Server", TestCallback);
+            }
 
             endPoint = ipEndPoint;
         }
@@ -129,6 +151,11 @@ namespace Zettalith
         void TestCallback(bool success)
         {
 
+        }
+
+        void CloseClone()
+        {
+            clone.Close();
         }
 
         void StartClone()
