@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
+    <Compile Include="Scripts\Mathz.cs" />
     <Compile Include="Scripts\Modifier.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />

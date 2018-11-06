@@ -259,19 +259,17 @@ namespace Zettalith
 
         public static void GetPublicIP()
         {
-            System.Net.WebRequest req = System.Net.WebRequest.Create("http://checkip.dyndns.org");
-            System.Net.WebResponse resp = req.GetResponse();
-            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+            System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
+            System.Net.WebResponse webResponse = request.GetResponse();
+            System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
 
-            string response = sr.ReadToEnd().Trim();
+            string response = reader.ReadToEnd().Trim();
             string[] a = response.Split(':');
-            string a2 = a[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            string a4 = a3[0];
+            string[] a2 = a[1].Substring(1).Split('<');
 
-            PublicIP = a4;
+            PublicIP = a2[0];
 
-            Test.Log(PublicIP);
+            Test.Log("Public IP retrieved: " + PublicIP);
         }
 
         class SerializedEvent

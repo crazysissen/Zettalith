@@ -31,7 +31,10 @@ namespace Zettalith
 
             foreach (Renderer renderer in renderers)
             {
-                renderer.Draw(spriteBatch, Camera, (float)gameTime.ElapsedGameTime.TotalSeconds);
+                if (renderer.Automatic)
+                {
+                    renderer.Draw(spriteBatch, Camera, (float)gameTime.ElapsedGameTime.TotalSeconds);
+                }
             }
 
             TestGUI.Draw(spriteBatch);

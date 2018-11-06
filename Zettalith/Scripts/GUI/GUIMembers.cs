@@ -37,9 +37,25 @@ namespace Zettalith
 
         public class Image : IGUIMember
         {
+            Renderer.SpriteScreen renderer;
+
+            /// <summary>Standard image on-screen</summary>
+            public Image(Texture2D texture, Rectangle transform)
+            {
+                renderer = new Renderer.SpriteScreen(texture, transform);
+                renderer.Automatic = false;
+            }
+
+            /// <summary></summary>
+            //public Image(Texture2D texture, Rectangle transform, Color)
+            //{
+            //    renderer = new Renderer.SpriteScreen();
+            //    renderer.Automatic = false;
+            //}
+
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
             {
-
+                renderer.Draw(spriteBatch, null, scaledDeltaTime);
             }
         }
 
