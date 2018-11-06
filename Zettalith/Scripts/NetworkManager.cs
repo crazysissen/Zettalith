@@ -73,7 +73,9 @@ namespace Zettalith
 
         #region Framework
 
-        const int PORT = 14242;
+        const int
+            PORT = 14242,
+            ALTERNATIVEPORT = 14243;
 
         static NetPeer localPeer;
 
@@ -142,13 +144,35 @@ namespace Zettalith
 
         public static void CreateLocalGame()
         {
+            Test.Log("Local server created");
 
+            if (localPeer != null)
+                DestroyPeer();
+
+            ServerName = "localserver";
+
+            //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+
+            NetPeerConfiguration config = new NetPeerConfiguration("Test!")
+            {
+                MaximumHandshakeAttempts = 8,
+                MaximumConnections = 10,
+                Port = ALTERNATIVEPORT
+            };
+
+            config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+            config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+            config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+
+            localPeer = new NetServer(config);
+
+            localPeer.Start();
         }
 
         public static void StartPeerSearch(string ip)
         {
             Test.Log("Peer Search Started");
-            localPeer.DiscoverKnownPeer(ip, PORT);
+            localPeer.DiscoverKnownPeer(ip, XNAController.localGame ? ALTERNATIVEPORT : PORT);
         }
 
         public static void StopPeerSearch()
@@ -194,16 +218,11 @@ namespace Zettalith
             {
                 switch (message.MessageType)
                 {
-                    //case NetIncomingMessageType.Error:
-                    //    break;
-
                     case NetIncomingMessageType.StatusChanged:
                         Test.Log("Status changed: " + (NetConnectionStatus)message.ReadByte());
                         break;
 
-                    //case NetIncomingMessageType.UnconnectedData:
-                    //    break;
-
+                    // This is the host and a connection attempt was recieved
                     case NetIncomingMessageType.ConnectionApproval:
                         string attachedMessage = message.ReadString();
                         Test.Log("Connection attempt: " + attachedMessage);
@@ -217,9 +236,7 @@ namespace Zettalith
                         Recieve(header, data);
                         break;
 
-                    //case NetIncomingMessageType.Receipt:
-                    //    break;
-
+                    // This is the host and a discovery request was recieved
                     case NetIncomingMessageType.DiscoveryRequest:
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
@@ -227,19 +244,29 @@ namespace Zettalith
                         XNAController.MainController.PeerFound(message.SenderEndPoint, true, message.ReadString());
                         break;
 
+                    // This is the client and a discovery request was returned with response
                     case NetIncomingMessageType.DiscoveryResponse:
                         XNAController.MainController.PeerFound(message.SenderEndPoint, false, message.ReadString());
                         break;
+
+                    case NetIncomingMessageType.WarningMessage:
+                        Test.Log("Warning: " + message.ReadString());
+                        break;
+
+                    //case NetIncomingMessageType.Error:
+                    //    break;
+
+                    //case NetIncomingMessageType.UnconnectedData:
+                    //    break;
+
+                    //case NetIncomingMessageType.Receipt:
+                    //    break;
 
                     //case NetIncomingMessageType.VerboseDebugMessage:
                     //    break;
 
                     //case NetIncomingMessageType.DebugMessage:
                     //    break;
-
-                    case NetIncomingMessageType.WarningMessage:
-                        Test.Log("Warning: " + message.ReadString());
-                        break;
 
                     //case NetIncomingMessageType.ErrorMessage:
                     //    break;
