@@ -32,9 +32,9 @@ namespace Zettalith
         public static bool LocalGameClient { get; private set; } = false;
         public static bool LocalGameHost { get; private set; } = false;
 
-        string[] _commandLineArgs;
+        private string[] _commandLineArgs;
 
-        Color background = new Color(20, 20, 60);
+        private Color _background = new Color(20, 20, 60);
 
         public XNAController()
         {
@@ -85,7 +85,7 @@ namespace Zettalith
                 {
                     startType = StartType.LocalClient;
 
-                    background = new Color(60, 20, 20);
+                    _background = new Color(60, 20, 20);
 
                     Process process = Process.GetCurrentProcess();
                     Process parent;
@@ -146,7 +146,7 @@ namespace Zettalith
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(background);
+            GraphicsDevice.Clear(_background);
 
             base.Draw(gameTime);
 
