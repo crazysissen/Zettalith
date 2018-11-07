@@ -35,27 +35,47 @@ namespace Zettalith
             }
         }
 
+        /// <summary>Standard image on-screen</summary>
         public class Image : IGUIMember
         {
             Renderer.SpriteScreen renderer;
 
-            /// <summary>Standard image on-screen</summary>
             public Image(Texture2D texture, Rectangle transform)
             {
                 renderer = new Renderer.SpriteScreen(texture, transform);
                 renderer.Automatic = false;
             }
 
-            /// <summary></summary>
-            //public Image(Texture2D texture, Rectangle transform, Color)
-            //{
-            //    renderer = new Renderer.SpriteScreen();
-            //    renderer.Automatic = false;
-            //}
+            public Image(Texture2D texture, Rectangle transform, Color color)
+            {
+                renderer = new Renderer.SpriteScreen(texture, transform, color);
+                renderer.Automatic = false;
+            }
+
+            public Image(Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 origin, SpriteEffects effects)
+            {
+                renderer = new Renderer.SpriteScreen(texture, transform, color, rotation, origin, effects);
+                renderer.Automatic = false;
+            }
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
             {
                 renderer.Draw(spriteBatch, null, scaledDeltaTime);
+            }
+        }
+
+        public class ImageAnimation : IGUIMember
+        {
+
+
+            public ImageAnimation()
+            {
+
+            }
+
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            {
+
             }
         }
 

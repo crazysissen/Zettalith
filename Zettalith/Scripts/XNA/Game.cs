@@ -76,13 +76,15 @@ namespace Zettalith
                 if (!LocalGameClient)
                 {
                     LocalGameHost = true;
-                    Window.Title = "";
+                    Window.Title = "Local Host";
                     startType = StartType.LocalHost;
                 }
 
                 // This is the client for a local game
                 else
                 {
+                    Window.Title = "Local Client";
+
                     startType = StartType.LocalClient;
 
                     _background = new Color(60, 20, 20);

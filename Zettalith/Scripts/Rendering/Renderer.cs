@@ -28,39 +28,25 @@ namespace Zettalith
 
         public class Sprite : Renderer
         {
-            /// <summary>
-            /// The texture of the object
-            /// </summary>
+            /// <summary>The texture of the object</summary>
             public virtual Texture2D Texture { get; set; }
 
-            /// <summary>
-            /// The x & y coordinates of the object in world space
-            /// </summary>
+            /// <summary>The x & y coordinates of the object in world space</summary>
             public virtual Vector2 Position { get; set; }
 
-            /// <summary>
-            /// The width/height of the object
-            /// </summary>
+            /// <summary>The width/height of the object</summary>
             public virtual Vector2 Size { get; set; }
 
-            /// <summary>
-            /// The rotation angle of the object measured in degrees (0-360)
-            /// </summary>
+            /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>
-            /// The point on the object around which it rotates
-            /// </summary>
+            /// <summary>The point on the object around which it rotates</summary>
             public virtual Vector2 RotationOrigin { get; set; }
 
-            /// <summary>
-            /// The color multiplier of the object
-            /// </summary>
+            /// <summary>The color multiplier of the object</summary>
             public virtual Color Color { get; set; }
 
-            /// <summary>
-            /// Wether or not the sprite is flipped somehow, stack using binary OR operator (|)
-            /// </summary>
+            /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
             public virtual SpriteEffects Effects { get; set; }
 
             public override Layer Layer { get; set; }
@@ -102,34 +88,22 @@ namespace Zettalith
 
         public class SpriteScreen : Renderer
         {
-            /// <summary>
-            /// The texture of the object
-            /// </summary>
+            /// <summary>The texture of the object</summary>
             public virtual Texture2D Texture { get; set; }
 
-            /// <summary>
-            /// The x & y coordinates of the object in world space
-            /// </summary>
+            /// <summary>The x & y coordinates of the object in world spacesummary>
             public virtual Rectangle Transform { get; set; }
 
-            /// <summary>
-            /// The rotation angle of the object measured in degrees (0-360)
-            /// </summary>
+            /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>
-            /// The point on the object around which it rotates
-            /// </summary>
+            /// <summary>The point on the object around which it rotate</summary>
             public virtual Vector2 RotationOrigin { get; set; }
 
-            /// <summary>
-            /// The color multiplier of the object
-            /// </summary>
+            /// <summary>The color multiplier of the object</summary>
             public virtual Color Color { get; set; }
 
-            /// <summary>
-            /// Wether or not the sprite is flipped somehow, stack using binary OR operator (|)
-            /// </summary>
+            /// <summary> Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
             public virtual SpriteEffects Effects { get; set; }
 
             public override Layer Layer { get; set; }
@@ -166,34 +140,22 @@ namespace Zettalith
 
         public class AnimatorScreen : Renderer
         {
-            /// <summary>
-            /// The texture of the object
-            /// </summary>
+            /// <summary>The texture of the object</summary>
             public virtual Texture2D Texture { get; set; }
 
-            /// <summary>
-            /// The x & y coordinates of the object in world space
-            /// </summary>
+            /// <summary>The x & y coordinates of the object in world space</summary>
             public virtual Rectangle Transform { get; set; }
 
-            /// <summary>
-            /// The rotation angle of the object measured in degrees (0-360)
-            /// </summary>
+            /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>
-            /// The point on the object around which it rotates
-            /// </summary>
+            /// <summary>The point on the object around which it rotates</summary>
             public virtual Vector2 RotationOrigin { get; set; }
 
-            /// <summary>
-            /// The color multiplier of the object
-            /// </summary>
+            /// <summary>The color multiplier of the object</summary>
             public virtual Color Color { get; set; }
 
-            /// <summary>
-            /// Wether or not the sprite is flipped somehow, stack using binary OR operator (|)
-            /// </summary>
+            /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
             public virtual SpriteEffects Effects { get; set; }
 
             public override Layer Layer { get; set; }
