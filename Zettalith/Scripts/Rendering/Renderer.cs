@@ -10,10 +10,16 @@ namespace Zettalith
 {
     abstract class Renderer
     {
-        public bool Automatic { get; set; }
+        const float
+            DEGTORAD = (2 * (float)Math.PI) / 360,
+            FONTSIZEMULTIPLIER = 1 / 12;
+
+        /// <summary>Whether or not the object should be drawn automatically</summary>
+        public virtual bool Automatic { get; set; }
 
         public abstract void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime);
 
+        /// <summary>A Layer class to represent what depth it should be drawn at</summary>
         public abstract Layer Layer { get; set; }
 
         public Renderer()
@@ -40,8 +46,9 @@ namespace Zettalith
             /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>The point on the object around which it rotates</summary>
-            public virtual Vector2 RotationOrigin { get; set; }
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
+            /// and what point will line up to the Vector2 position</summary>
+            public virtual Vector2 Origin { get; set; }
 
             /// <summary>The color multiplier of the object</summary>
             public virtual Color Color { get; set; }
@@ -57,34 +64,16 @@ namespace Zettalith
                 Position = position;
                 Size = size;
                 Rotation = rotation;
-                RotationOrigin = rotationOrigin;
+                Origin = rotationOrigin;
                 Color = color;
                 Effects = effects;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, camera.WorldToScreenPosition(Position), null, Color, Rotation, RotationOrigin, Size, Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, camera.WorldToScreenPosition(Position), null, Color, Rotation * DEGTORAD, Origin, Size, Effects, Layer.LayerDepth);
             }
         }
-
-        //public class SpriteAuto : Sprite
-        //{
-        //    Func<Texture2D> getTexture;
-        //    Func<Vector2> getPosition, getSize;
-        //    Func<Color> getColor;
-
-        //    public override Texture2D Texture => getTexture.Invoke();
-        //    public override Vector2 Position => getPosition.Invoke();
-        //    public override Vector2 Size => getSize.Invoke();
-        //    public override Color Color => getColor.Invoke();
-        //    public override SpriteEffects Effects => SpriteEffects.None;
-
-        //    public SpriteAuto()
-        //    {
-
-        //    }
-        //}
 
         public class SpriteScreen : Renderer
         {
@@ -97,8 +86,9 @@ namespace Zettalith
             /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>The point on the object around which it rotate</summary>
-            public virtual Vector2 RotationOrigin { get; set; }
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
+            /// and what point will line up to the Vector2 position</summary>
+            public virtual Vector2 Origin { get; set; }
 
             /// <summary>The color multiplier of the object</summary>
             public virtual Color Color { get; set; }
@@ -117,14 +107,14 @@ namespace Zettalith
                 Texture = texture;
                 Transform = transform;
                 Rotation = rotation;
-                RotationOrigin = rotationOrigin;
+                Origin = rotationOrigin;
                 Color = color;
                 Effects = effects;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, Transform, null, Color, Rotation, RotationOrigin, Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, Transform, null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
             }
         }
 
@@ -149,8 +139,9 @@ namespace Zettalith
             /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>The point on the object around which it rotates</summary>
-            public virtual Vector2 RotationOrigin { get; set; }
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
+            /// and what point will line up to the Vector2 position</summary>
+            public virtual Vector2 Origin { get; set; }
 
             /// <summary>The color multiplier of the object</summary>
             public virtual Color Color { get; set; }
@@ -161,37 +152,32 @@ namespace Zettalith
             public override Layer Layer { get; set; }
 
             public Point FrameDimensions { get; private set; }
+            public float Time { get; set; }
             public float TimeInterval { get; set; }
             public bool Repeat { get; set; }
             public int CurrentFrame { get; private set; }
             public int FrameCount { get; private set; }
 
-            public AnimatorScreen(Texture2D texture, Rectangle transform, Point frameDimensions, float interval, bool repeat) : this(texture, transform, Color.White, 0, Vector2.Zero, SpriteEffects.None) { }
-
-            public AnimatorScreen(Texture2D texture, Rectangle transform, Color color) : this(texture, transform, color, 0, Vector2.Zero, SpriteEffects.None) { }
-
-            public AnimatorScreen(Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            public AnimatorScreen(Texture2D texture, Rectangle transform, Point frameDimensions, float interval, bool repeat, int startFrame)
             {
-                Texture = texture;
-                Transform = transform;
-                Rotation = rotation;
-                RotationOrigin = rotationOrigin;
-                Color = color;
-                Effects = effects;
+
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, Transform, null, Color, Rotation, RotationOrigin, Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, Transform, null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
             }
         }
 
         public class Text : Renderer
         {
             public SpriteFont Font { get; set; }
+            /// <summary>A StringBuilder class to represent the text shown</summary>
             public StringBuilder String { get; set; }
             public Vector2 Position { get; set; }
             public Vector2 Scale { get; set; }
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
+            /// and what point will line up to the Vector2 position</summary>
             public Vector2 Origin { get; set; }
             public Color Color { get; set; }
             public float Rotation { get; set; }
@@ -199,9 +185,53 @@ namespace Zettalith
 
             public override Layer Layer { get; set; }
 
+            public Text(SpriteFont font, string text, float fontSize, float rotation, Vector2 position)
+                : this(font, new StringBuilder(text), Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, new Vector2(0.5f, 0.5f), Color.White, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, StringBuilder text, float fontSize, float rotation, Vector2 position)
+                : this(font, text, Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, new Vector2(0.5f, 0.5f), Color.White, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, string text, float fontSize, float rotation, Vector2 position, Vector2 origin)
+                : this(font, new StringBuilder(text), Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, origin, Color.White, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, StringBuilder text, float fontSize, float rotation, Vector2 position, Vector2 origin)
+                : this(font, text, Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, origin, Color.White, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, string text, float fontSize, float rotation, Vector2 position, Color color)
+                : this(font, new StringBuilder(text), Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, new Vector2(0.5f, 0.5f), color, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, StringBuilder text, float fontSize, float rotation, Vector2 position, Color color)
+                : this(font, text, Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, new Vector2(0.5f, 0.5f), color, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, string text, float fontSize, float rotation, Vector2 position, Vector2 origin, Color color)
+                : this(font, new StringBuilder(text), Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, origin, color, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, StringBuilder text, float fontSize, float rotation, Vector2 position, Vector2 origin, Color color)
+                : this(font, text, Vector2.One * fontSize * FONTSIZEMULTIPLIER, rotation, position, origin, color, SpriteEffects.None)
+            { }
+
+            public Text(SpriteFont font, StringBuilder text, Vector2 scale, float rotation, Vector2 position, Vector2 origin, Color color, SpriteEffects spriteEffects)
+            {
+                Font = font;
+                String = text;
+                Scale = scale;
+                Rotation = rotation;
+                Position = position;
+                Origin = origin;
+                Color = color;
+                SpriteEffects = spriteEffects;
+            }
+
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.DrawString(Font, String, Position, Color, Rotation, Origin, Scale, SpriteEffects, Layer.LayerDepth);
+                spriteBatch.DrawString(Font, String, Position, Color, Rotation * DEGTORAD, Origin, Scale, SpriteEffects, Layer.LayerDepth);
             }
         }
 
