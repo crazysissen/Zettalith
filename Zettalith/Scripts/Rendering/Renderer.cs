@@ -15,7 +15,7 @@ namespace Zettalith
             FONTSIZEMULTIPLIER = 1 / 12;
 
         /// <summary>Whether or not the object should be drawn automatically</summary>
-        public virtual bool Automatic { get; set; }
+        public virtual bool Automatic { get; set; } = true;
 
         public abstract void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime);
 
@@ -152,20 +152,53 @@ namespace Zettalith
             public override Layer Layer { get; set; }
 
             public Point FrameDimensions { get; private set; }
+            public Point CountDimensions { get; private set; }
             public float Time { get; set; }
             public float TimeInterval { get; set; }
             public bool Repeat { get; set; }
-            public int CurrentFrame { get; private set; }
+            public int CurrentFrame => (int)(Time / TimeInterval);
             public int FrameCount { get; private set; }
 
-            public AnimatorScreen(Texture2D texture, Rectangle transform, Point frameDimensions, float interval, bool repeat, int startFrame)
+            public AnimatorScreen(Texture2D sheet, Point frameDimensions, Rectangle transform, Vector2 origin, float rotation, Color color, float interval, float startTime, bool repeat, SpriteEffects spriteEffects)
             {
+                if (sheet.Width % frameDimensions.X != 0 || sheet.Height % frameDimensions.Y != 0)
+                {
+                    throw new Exception("Tried to create AnimatorScreen where the format image was not proportional to the frame size.");
+                }
 
+                FrameDimensions = frameDimensions;
+                Time = startTime;
+                TimeInterval = interval;
+                Repeat = repeat;
+                CountDimensions = new Point(sheet.Width / frameDimensions.X, sheet.Height / frameDimensions.Y);
+                FrameCount = CountDimensions.X * CountDimensions.Y;
+
+                Texture = sheet;
+                Transform = transform;
+                Rotation = rotation;
+                Origin = origin;
+                Color = color;
+                Effects = spriteEffects;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, Transform, null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
+                Time += deltaTime;
+                if (Time > FrameCount * TimeInterval)
+                {
+                    Time %= (FrameCount * TimeInterval);
+                }
+
+                int currentFrame = CurrentFrame;
+                Rectangle DestinationRectangle = new Rectangle()
+                {
+                    X = FrameDimensions.X * (currentFrame % CountDimensions.X),
+                    Y = FrameDimensions.Y * (int)((float)currentFrame / CountDimensions.X),
+                    Width = FrameDimensions.X,
+                    Height = FrameDimensions.Y
+                };
+
+                spriteBatch.Draw(Texture, Transform, DestinationRectangle, Color, Rotation, Origin, Effects, Layer.LayerDepth);
             }
         }
 

@@ -22,6 +22,7 @@ namespace Zettalith
         private InGameController inGameController;
         private Random r;
         private GUI gui;
+        private Renderer renderer;
 
         // Separate testing window
         private Process clone;
@@ -68,11 +69,11 @@ namespace Zettalith
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
 
+            renderer = new Renderer.AnimatorScreen(ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
         }
 
         public void LateInitialize(XNAController game)
         {
-            
         }
 
         public void Update(XNAController game, GameTime gameTime)
