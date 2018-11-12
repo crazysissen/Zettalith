@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.IO.Pipes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +27,7 @@ namespace Zettalith
         private Renderer renderer;
 
         // Separate testing window
-        private Process clone;
+        private Process clone, debugConsole;
 
         public MainController()
         {
@@ -47,7 +49,7 @@ namespace Zettalith
  
         }
 
-        public void Initialize(XNAController game, StartType type, object[] args)
+        public void Initialize(XNAController game, StartType type, Process parent = null)
         {
             Test.Category = type.ToString();
 
@@ -64,7 +66,7 @@ namespace Zettalith
 
             if (type == StartType.LocalClient)
             {
-                clone = (System.Diagnostics.Process)args[0];
+                clone = parent;
                 NetworkManager.CreateClient();
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
@@ -159,16 +161,50 @@ namespace Zettalith
             clone.Close();
         }
 
+        void StartDebugConsole()
+        {
+            using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In))
+            {
+                debugConsole = new Process();
+
+                debugConsole.StartInfo.Arguments = host.GetClientHandleAsString();
+                debugConsole.StartInfo.UseShellExecute = false;
+                debugConsole.Start();
+
+                host.DisposeLocalCopyOfClientHandle();
+
+                try
+                {
+                    using (StreamReader sr = new StreamReader(host))
+                    {
+
+                    }
+                }
+                catch (IOException exception)
+                {
+
+                }
+            }
+        }
+
         void StartClone()
         {
             clone = new Process();
 
+            string args = string.Join(" ",
+                XNAController.LOCALTEST,
+                XNAController.PARENT + Process.GetCurrentProcess().Id);
+
+            Test.Log(args);
+
             clone.StartInfo.FileName = System.Reflection.Assembly.GetEntryAssembly().Location;
-            clone.StartInfo.Arguments = XNAController.LOCALTEST;
             clone.StartInfo.UseShellExecute = false;
             clone.StartInfo.RedirectStandardInput = true;
+            clone.StartInfo.Arguments = args;
 
             clone.Start();
+
+
         }
     }
 }

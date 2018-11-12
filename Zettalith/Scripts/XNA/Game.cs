@@ -20,7 +20,9 @@ namespace Zettalith
 
             // CMD Args
             LOCALTEST = "-local",
-            DEBUG = "-debug";
+            DEBUG = "-debug",
+            PARENT = "-parent:",
+            SERVERHANDLE = "-serverhandle:";
 
         // Boot config
         public static readonly bool localGame = true;
@@ -31,6 +33,8 @@ namespace Zettalith
 
         public static bool LocalGameClient { get; private set; } = false;
         public static bool LocalGameHost { get; private set; } = false;
+
+        public static Dictionary<string, string> CommandLineArgs { get; private set; }
 
         private string[] _commandLineArgs;
 
@@ -48,6 +52,20 @@ namespace Zettalith
             Content.RootDirectory = "Content";
 
             _commandLineArgs = System.Environment.GetCommandLineArgs();
+            CommandLineArgs = new Dictionary<string, string>();
+
+            foreach (string arg in _commandLineArgs)
+            {
+                try
+                {
+                    string[] args = arg.Split(':');
+                    CommandLineArgs.Add(args[0], args[1]);
+                }
+                catch
+                {
+                    CommandLineArgs.Add(arg, default(string));
+                }
+            }
 
             foreach (string arg in _commandLineArgs)
             {
@@ -68,7 +86,7 @@ namespace Zettalith
             base.Initialize();
 
             StartType startType = StartType.Main;
-            List<object> args = new List<object>();
+            Process parent = null;
 
             if (localGame)
             {
@@ -90,24 +108,13 @@ namespace Zettalith
                     _background = new Color(60, 20, 20);
 
                     Process process = Process.GetCurrentProcess();
-                    Process parent;
 
-                    try
+                    if (!CommandLineArgs.ContainsKey(PARENT))
                     {
-                        using (ManagementObjectSearcher query = new ManagementObjectSearcher(PARENTQUERY + process.Id))
-                        {
-                            IEnumerable<ManagementObject> obj = query.Get().OfType<ManagementObject>();
-
-                            parent = obj.Select(p => Process.GetProcessById((int)(uint)p["ParentProcessId"])).First();
-
-                            args.Add(parent);
-                        }
+                        throw new Exception("Child window initialized without feeding parent process ID.");
                     }
-                    catch
-                    {
-                        parent = null;
-                        throw new Exception("Crash when getting parent process");
-                    }
+
+                    parent = Process.GetProcessById(int.Parse(CommandLineArgs[PARENT]));
 
                     MainController.LocalGameClientInitialize(parent);
                 }
@@ -116,7 +123,7 @@ namespace Zettalith
             MainController.Initialize(
                 game: this, 
                 type: startType,
-                args: args.ToArray());
+                parent: parent);
 
             IsMouseVisible = true;
 
