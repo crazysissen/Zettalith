@@ -19,30 +19,47 @@ namespace Zettalith
             Members = new List<IGUIMember>();
         }
 
-        public void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+        public void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime)
         {
-            DrawContainer(this, spriteBatch, mouse, keyboard, scaledDeltaTime, unscaledDeltaTime);
+            DrawContainer(this, spriteBatch, mouse, keyboard, deltaTime, Point.Zero);
         }
 
-        public static void DrawContainer(GUIContainer container, SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+        public static void DrawContainer(GUIContainer container, SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime, Point additiveOrigin)
         {
             foreach(IGUIMember member in container.Members)
             {
                 if (member is GUIContainer)
                 {
-                    DrawContainer((member as GUIContainer), spriteBatch, mouse, keyboard, scaledDeltaTime, unscaledDeltaTime);
+                    if (member is GUIContainerMasked)
+                    {
+                        RendererController.TemporaryAddMask(member as GUIContainerMasked, additiveOrigin);
+
+                        continue;
+                    }
+
+                    DrawContainer((member as GUIContainer), spriteBatch, mouse, keyboard, deltaTime, additiveOrigin + (member as GUIContainer).Origin);
                 }
 
-                member.Draw(spriteBatch, mouse, keyboard, scaledDeltaTime, unscaledDeltaTime);
+                member.Draw(spriteBatch, mouse, keyboard, deltaTime);
             }
         }
     }
 
     public abstract class GUIContainer
     {
-        public virtual void Add(IGUIMember member) => Members.Add(member);
+        public virtual void Add(IGUIMember member)
+        {
+            if (member is Renderer)
+            {
+                (member as Renderer).Automatic = false;
+            }
 
-        public virtual List<IGUIMember> Members { get; protected set; }
+            Members.Add(member);
+        }
+
+        public virtual Point Origin { get; set; }
+
+        public virtual List<IGUIMember> Members { get; protected set; } = new List<IGUIMember>();
 
         public static GUIContainer operator +(GUIContainer container, IGUIMember member)
         {
@@ -55,10 +72,35 @@ namespace Zettalith
             container.Members.AddRange(members);
             return container;
         }
+
+        public static GUIContainer operator -(GUIContainer container, IGUIMember member)
+        {
+            container.Members.Remove(member);
+            return container;
+        }
+    }
+
+    public class GUIContainerMasked : GUIContainer
+    {
+        public Mask Mask { get; set; }
     }
 
     public interface IGUIMember
     {
-        void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime);
+        void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime);
+    }
+
+    public struct Mask
+    {
+        public Texture2D MaskTexture { get; set; }
+        public Rectangle Rectangle { get; set; }
+        public bool RenderOutside { get; set; }
+
+        public Mask(Texture2D mask, Rectangle rectangle, bool renderOutside)
+        {
+            MaskTexture = mask;
+            Rectangle = rectangle;
+            RenderOutside = renderOutside;
+        }
     }
 }

@@ -17,23 +17,29 @@ namespace Zettalith
 
         public static void UpdateMethods()
         {
-            previous = Keyboard.GetState();
+            previous = KeyboardState;
 
-            MouseState state = Mouse.GetState();
+            MouseState state = MouseState;
             previousLeftMouse = state.LeftButton == ButtonState.Pressed;
             previousRightMouse = state.RightButton == ButtonState.Pressed;
         }
 
-        public static Point MousePosition => Mouse.GetState().Position;
+        public static MouseState MouseState => Mouse.GetState();
 
-        public static bool LeftMouse => Mouse.GetState().LeftButton == ButtonState.Pressed;
+        public static KeyboardState KeyboardState => Keyboard.GetState();
 
-        public static bool RightMouse => Mouse.GetState().RightButton == ButtonState.Pressed;
+        public static Point MousePosition => MouseState.Position;
 
-        public static bool LeftMouseDown => Mouse.GetState().LeftButton == ButtonState.Pressed && !previousLeftMouse;
+        public static bool LeftMouse => MouseState.LeftButton == ButtonState.Pressed;
 
-        public static bool RightMouseDown => Mouse.GetState().RightButton == ButtonState.Pressed && !previousRightMouse;
+        public static bool RightMouse => MouseState.RightButton == ButtonState.Pressed;
 
-        public static bool KeyDown(Keys key) => (!previous.IsKeyDown(key) && Keyboard.GetState().IsKeyDown(key));
+        public static bool LeftMouseDown => MouseState.LeftButton == ButtonState.Pressed && !previousLeftMouse;
+
+        public static bool RightMouseDown => MouseState.RightButton == ButtonState.Pressed && !previousRightMouse;
+
+        public static bool Key(Keys key) => KeyboardState.IsKeyDown(key);
+
+        public static bool KeyDown(Keys key) => (!previous.IsKeyDown(key) && KeyboardState.IsKeyDown(key));
     }
 }
