@@ -19,29 +19,32 @@ namespace Zettalith
             PARENTQUERY = "SELECT * FROM Win32_Process WHERE ProcessId=",
 
             // CMD Args
-            LOCALTEST = "-local",
-            DEBUG = "-debug",
-            PARENT = "-parent",
-            SERVERHANDLE = "-serverhandle:";
+            A_LOCALTEST = "-local",
+            A_DEBUG = "-debug",
+            A_PARENT = "-parent",
+            A_SERVERHANDLE = "-serverhandle";
 
         // Boot config
         public static readonly bool localGame = true;
 
+        public static bool DebugConsole { get; private set; } = true;
+
         public static GraphicsDeviceManager Graphics { get; private set; }
         public static SpriteBatch SpriteBatch { get; private set; }
         public static MainController MainController { get; private set; }
-
         public static bool LocalGameClient { get; private set; } = false;
         public static bool LocalGameHost { get; private set; } = false;
-
         public static Dictionary<string, string> CommandLineArgs { get; private set; }
 
-        private string[] _commandLineArgs;
+        private static XNAController _singleton;
 
+        private string[] _commandLineArgs;
         private Color _background = new Color(20, 20, 60);
 
         public XNAController()
         {
+            _singleton = this;
+
             MainController = new MainController();
 
             Graphics = new GraphicsDeviceManager(this)
@@ -69,15 +72,11 @@ namespace Zettalith
 
                     key = args[0];
                     value = args[1];
-
-                    Test.Log("Command Line Argument: {0}: {1}", key, value);
                 }
                 catch
                 {
                     key = arg;
                     value = default(string);
-
-                    Test.Log("Command Line Argument: {0}", key);
                 }
 
                 CommandLineArgs.Add(key, value);
@@ -87,13 +86,48 @@ namespace Zettalith
             {
                 switch (arg)
                 {
-                    case LOCALTEST:
+                    case A_LOCALTEST:
                         LocalGameClient = true;
+                        break;
+
+                    case A_DEBUG:
+                        DebugConsole = true;
                         break;
 
                     default:
                         break;
                 }
+            }
+
+            if (localGame)
+            {
+                if (LocalGameClient)
+                {
+                    Test.Category = "CLIENT";
+                    Window.Title = "ZETTALITH: Local-Game Client"; 
+                }
+                else
+                {
+                    LocalGameHost = true;
+                    Test.Category = "HOST";
+                    Window.Title = "ZETTALITH: Local-Game Host";
+                }
+            }
+            else
+            {
+                Test.Category = "ZETTALITH";
+                Window.Title = "ZETTALITH";
+            }
+
+            foreach (KeyValuePair<string, string> arg in CommandLineArgs)
+            {
+                if (arg.Value == default(string))
+                {
+                    Test.Log("Command Line Argument: {0}", arg.Key);
+                    continue;
+                }
+
+                Test.Log("Command Line Argument: {0}:{1}", arg.Key, arg.Value);
             }
         }
 
@@ -110,14 +144,12 @@ namespace Zettalith
                 if (!LocalGameClient)
                 {
                     LocalGameHost = true;
-                    Window.Title = "Local Host";
                     startType = StartType.LocalHost;
                 }
 
                 // This is the client for a local game
                 else
                 {
-                    Window.Title = "Local Client";
 
                     startType = StartType.LocalClient;
 
@@ -180,6 +212,10 @@ namespace Zettalith
                 graphics: Graphics, 
                 spriteBatch: SpriteBatch);
         }
+
+        public static string GetWindowTitle() => _singleton.Window.Title;
+
+        public static void SetWindowTitle(string title) => _singleton.Window.Title = title;
     }
 
     enum StartType { Main, LocalHost, LocalClient }

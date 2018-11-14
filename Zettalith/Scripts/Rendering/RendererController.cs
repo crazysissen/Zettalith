@@ -84,7 +84,7 @@ namespace Zettalith
                     StencilFunction = CompareFunction.LessEqual,
                     StencilPass = StencilOperation.Keep,
                     ReferenceStencil = iterations,
-                    DepthBufferEnable = false,
+                    DepthBufferEnable = true,
                 };
 
                 Texture2D transparent = new Texture2D(graphics.GraphicsDevice, 1, 1);

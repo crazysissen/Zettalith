@@ -13,7 +13,7 @@ namespace ZettalithDebugConsole
     {
         static void Main(string[] args)
         {
-            using (PipeStream client = new AnonymousPipeClientStream(PipeDirection.Out, args[0]))
+            using (PipeStream client = new AnonymousPipeClientStream(PipeDirection.Out, args[0].Split(':')[1]))
             {
                 using (StreamWriter sw = new StreamWriter(client))
                 {

@@ -14,9 +14,10 @@ namespace Zettalith
 {
     class MainController
     {
-        const string 
+        const string
             TESTIP = "10.156.46.30",
-            LOCALHOST = "localhost";
+            LOCALHOST = "localhost",
+            CONSOLEPATH = @"\Debug\ZettalithDebugConsole.exe";
 
         public static InGameController InGame { get; private set; }
 
@@ -52,7 +53,10 @@ namespace Zettalith
 
         public void Initialize(XNAController game, StartType type, Process parent = null)
         {
-            Test.Category = type.ToString();
+            if (XNAController.DebugConsole)
+            {
+                StartDebugConsole();
+            }
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
@@ -180,8 +184,12 @@ namespace Zettalith
             {
                 debugConsole = new Process();
 
-                debugConsole.StartInfo.Arguments = host.GetClientHandleAsString();
+                debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
+                debugConsole.StartInfo.Arguments = 
+                    XNAController.A_SERVERHANDLE + ":" + host.GetClientHandleAsString() + 
+                    " " + XNAController.GetWindowTitle() + " [DEBUG CONSOLE]";
                 debugConsole.StartInfo.UseShellExecute = false;
+                debugConsole.StartInfo.RedirectStandardOutput = true;
                 debugConsole.Start();
 
                 host.DisposeLocalCopyOfClientHandle();
@@ -190,7 +198,7 @@ namespace Zettalith
                 {
                     using (StreamReader sr = new StreamReader(host))
                     {
-
+                        string readData = sr.ReadLine();
                     }
                 }
                 catch (IOException exception)
@@ -205,8 +213,9 @@ namespace Zettalith
             clone = new Process();
 
             string args = string.Join(" ",
-                XNAController.LOCALTEST,
-                XNAController.PARENT + ":" + Process.GetCurrentProcess().Id);
+                XNAController.A_LOCALTEST,
+                XNAController.A_PARENT + ":" + Process.GetCurrentProcess().Id,
+                XNAController.DebugConsole ? XNAController.A_DEBUG : "");
 
             Test.Log(args);
 

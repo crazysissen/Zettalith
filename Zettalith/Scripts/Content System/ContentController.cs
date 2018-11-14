@@ -14,6 +14,8 @@ namespace Zettalith
 {
     public static class ContentController
     {
+        public static string ApplicationDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory;
+
         static Dictionary<string, object> contentDictionary;
 
         static Dictionary<string, object> contentCollections;
@@ -34,7 +36,7 @@ namespace Zettalith
 
         public static void ImportAll(ContentManager content)
         {
-            ContentBundle bundle = AllFileNames(AppDomain.CurrentDomain.BaseDirectory + "\\" + content.RootDirectory, "", "");
+            ContentBundle bundle = AllFileNames(ApplicationDirectory + "\\" + content.RootDirectory, "", "");
 
             foreach (ImportObject item in bundle.Objects)
             {
