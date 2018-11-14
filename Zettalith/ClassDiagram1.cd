@@ -17,7 +17,7 @@
   <Class Name="Zettalith.In" Collapsed="true">
     <Position X="30.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgIAAAEIAAAQAAAAEAAAABAAACAACQAA=</HashCode>
+      <HashCode>AAAAAAAAAQACgIQAAEIAAAQAAAAEAAAABAAACAACQAA=</HashCode>
       <FileName>Scripts\DirectInput.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -33,59 +33,15 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Class Name="Zettalith.GUI.Collection" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="Zettalith.GUI.Panel" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="Zettalith.GUI.ScrollView" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="Zettalith.GUI.Image" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="Zettalith.GUI.ImageAnimation" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="Zettalith.GUI.Button" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-      <Class Name="Zettalith.GUI.Text" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Scripts\GUI\GUIMembers.cs</NewMemberFileName>
-        </TypeIdentifier>
-        <Lollipop Position="0.2" />
-      </Class>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAwAAQAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Scripts\GUI\GUI.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Zettalith.GUIContainer" Collapsed="true">
+  <Class Name="Zettalith.GUIContainerMasked" Collapsed="true">
     <Position X="14.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>Scripts\GUI\GUI.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -113,7 +69,7 @@
   <Class Name="Zettalith.MainController" Collapsed="true">
     <Position X="25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAFAAUAAQ4AAAEAAAEIAIAAQCCAAAgAhEQQABAA=</HashCode>
+      <HashCode>BAQAAAFAAUAAQ4AAAEAIAEIAIAAQCCAAAgAhEQQAhAA=</HashCode>
       <FileName>Scripts\MainController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -162,14 +118,14 @@
   <Class Name="Zettalith.Renderer" Collapsed="true">
     <Position X="23.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAABIAAAEAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAIgAAAgAAAAAAAAAAAABIAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Scripts\Rendering\Renderer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Zettalith.RendererController" Collapsed="true">
     <Position X="25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACgAAAAAAAAQAAAAQAAACAAAAAAAAAABAAAAAAgAA=</HashCode>
+      <HashCode>AAACgAABAAAAAQAAAAQAAACABAAAAAAAABAAAAAAgAA=</HashCode>
       <FileName>Scripts\Rendering\RendererController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -197,7 +153,7 @@
   <Class Name="Zettalith.XNAController" Collapsed="true">
     <Position X="23.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAEAAAwAAAAwAAAIAAAAEACCAAAIAAQAAAARIAAAQ=</HashCode>
+      <HashCode>AAQAEAAAwAAAAxAABIAAAAEACCAAAIAAQAAQARIAAAQ=</HashCode>
       <FileName>Scripts\XNA\Game.cs</FileName>
     </TypeIdentifier>
   </Class>

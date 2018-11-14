@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith
 {
@@ -75,7 +76,7 @@ namespace Zettalith
             }
         }
 
-        public class SpriteScreen : Renderer
+        public class SpriteScreen : Renderer, IGUIMember
         {
             /// <summary>The texture of the object</summary>
             public virtual Texture2D Texture { get; set; }
@@ -115,6 +116,11 @@ namespace Zettalith
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
                 spriteBatch.Draw(Texture, Transform, null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
+            }
+
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+            {
+                Draw(spriteBatch, null, unscaledDeltaTime);
             }
         }
 

@@ -13,7 +13,15 @@ namespace Zettalith
     {
         public class Collection : GUIContainer, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+            {
+
+            }
+        }
+        
+        public class Mask : GUIContainerMasked, IGUIMember
+        {
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
             }
@@ -21,7 +29,7 @@ namespace Zettalith
 
         public class Panel : GUIContainer, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
             }
@@ -29,38 +37,9 @@ namespace Zettalith
 
         public class ScrollView : GUIContainer, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
-            }
-        }
-
-        /// <summary>Standard image on-screen</summary>
-        public class Image : IGUIMember
-        {
-            Renderer.SpriteScreen renderer;
-
-            public Image(Texture2D texture, Rectangle transform)
-            {
-                renderer = new Renderer.SpriteScreen(texture, transform);
-                renderer.Automatic = false;
-            }
-
-            public Image(Texture2D texture, Rectangle transform, Color color)
-            {
-                renderer = new Renderer.SpriteScreen(texture, transform, color);
-                renderer.Automatic = false;
-            }
-
-            public Image(Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 origin, SpriteEffects effects)
-            {
-                renderer = new Renderer.SpriteScreen(texture, transform, color, rotation, origin, effects);
-                renderer.Automatic = false;
-            }
-
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
-            {
-                renderer.Draw(spriteBatch, null, scaledDeltaTime);
             }
         }
 
@@ -73,7 +52,7 @@ namespace Zettalith
 
             }
 
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
             }
@@ -81,7 +60,7 @@ namespace Zettalith
 
         public class Button : IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
             }
@@ -89,7 +68,7 @@ namespace Zettalith
 
         public class Text : IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float scaledDeltaTime, float unscaledDeltaTime)
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
             }

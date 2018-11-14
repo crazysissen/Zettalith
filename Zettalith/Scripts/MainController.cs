@@ -23,8 +23,9 @@ namespace Zettalith
         private System.Net.IPEndPoint endPoint;
         private InGameController inGameController;
         private Random r;
-        private GUI gui;
         private Renderer renderer;
+
+        private Renderer.SpriteScreen image;
 
         // Separate testing window
         private Process clone, debugConsole;
@@ -72,6 +73,16 @@ namespace Zettalith
             }
 
             renderer = new Renderer.AnimatorScreen(ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
+
+            GUI.Mask maskedContainer = new GUI.Mask();
+            maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), false);
+
+            RendererController.GUI.Add(maskedContainer);
+
+            //GUIContainer maskedContainer = new GUI.Collection();
+
+            image = new Renderer.SpriteScreen(ContentController.Get<Texture2D>("Animation Test"), new Rectangle(100, 100, 300, 300));
+            maskedContainer.Add(image);
         }
 
         public void LateInitialize(XNAController game)
@@ -94,6 +105,8 @@ namespace Zettalith
 
             //if (XNAController.LocalLocalGame)
             //    RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
+
+            image.Transform = new Rectangle(In.MousePosition, image.Transform.Size);
 
             // Last
             In.UpdateMethods();

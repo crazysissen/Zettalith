@@ -125,12 +125,12 @@ namespace Zettalith
 
                     Process process = Process.GetCurrentProcess();
 
-                    if (!CommandLineArgs.ContainsKey(PARENT))
+                    if (!CommandLineArgs.ContainsKey("-parent"))
                     {
                         throw new Exception("Child window initialized without feeding parent process ID.");
                     }
 
-                    parent = Process.GetProcessById(int.Parse(CommandLineArgs[PARENT]));
+                    parent = Process.GetProcessById(int.Parse(CommandLineArgs["-parent"]));
 
                     MainController.LocalGameClientInitialize(parent);
                 }
@@ -171,7 +171,6 @@ namespace Zettalith
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(_background);
 
             base.Draw(gameTime);
 
