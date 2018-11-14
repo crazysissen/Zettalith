@@ -21,7 +21,7 @@ namespace Zettalith
             // CMD Args
             LOCALTEST = "-local",
             DEBUG = "-debug",
-            PARENT = "-parent:",
+            PARENT = "-parent",
             SERVERHANDLE = "-serverhandle:";
 
         // Boot config
@@ -56,15 +56,31 @@ namespace Zettalith
 
             foreach (string arg in _commandLineArgs)
             {
+                if (arg.Contains(":\\"))
+                {
+                    continue;
+                }
+
+                string key, value;
+
                 try
                 {
                     string[] args = arg.Split(':');
-                    CommandLineArgs.Add(args[0], args[1]);
+
+                    key = args[0];
+                    value = args[1];
+
+                    Test.Log("Command Line Argument: {0}: {1}", key, value);
                 }
                 catch
                 {
-                    CommandLineArgs.Add(arg, default(string));
+                    key = arg;
+                    value = default(string);
+
+                    Test.Log("Command Line Argument: {0}", key);
                 }
+
+                CommandLineArgs.Add(key, value);
             }
 
             foreach (string arg in _commandLineArgs)

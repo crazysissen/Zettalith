@@ -193,7 +193,7 @@ namespace Zettalith
 
             string args = string.Join(" ",
                 XNAController.LOCALTEST,
-                XNAController.PARENT + Process.GetCurrentProcess().Id);
+                XNAController.PARENT + ":" + Process.GetCurrentProcess().Id);
 
             Test.Log(args);
 
@@ -203,8 +203,6 @@ namespace Zettalith
             clone.StartInfo.Arguments = args;
 
             clone.Start();
-
-
         }
     }
 }
