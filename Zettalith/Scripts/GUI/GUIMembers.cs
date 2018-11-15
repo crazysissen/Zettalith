@@ -13,18 +13,12 @@ namespace Zettalith
     {
         public class Collection : GUIContainer, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-
-            }
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime) { }
         }
         
-        public class Mask : GUIContainerMasked, IGUIMember
+        public class MaskedCollection : GUIContainerMasked, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-
-            }
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime) { }
         }
 
         public class Panel : GUIContainer, IGUIMember
@@ -45,17 +39,28 @@ namespace Zettalith
 
         public class Button : IGUIMember
         {
+            public enum Display { NoEffect, ColorSwitch, TextureSwitch, AnimatedSwitch }
+            public enum Transition { None, Switch, LinearFade, DecelleratingFade, AcceleratingFade }
+
             public Action OnMouseDown { get; set; }
             public Action OnMosueUp { get; set; }
             public Action OnClick { get; set; }
 
             public bool Hovering { get; private set; }
 
-            public Renderer.SpriteScreen Renderer { get; set; }
+            public Rectangle Transform { get; set; }
+            public Texture2D Texture { get; set; }
+
+            public Texture2D[] TextureSwitch, 
+
+            public Button()
+            {
+                
+            }
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-                //Hovering = 
+
             }
         }
     }

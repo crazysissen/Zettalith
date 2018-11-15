@@ -78,7 +78,7 @@ namespace Zettalith
 
             renderer = new Renderer.AnimatorScreen((MainLayer.Main, 0), ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
 
-            GUI.Mask maskedContainer = new GUI.Mask();
+            GUI.MaskedCollection maskedContainer = new GUI.MaskedCollection();
             maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), false);
 
             RendererController.GUI.Add(maskedContainer);

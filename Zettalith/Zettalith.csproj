@@ -95,6 +95,7 @@
     <Compile Include="Scripts\Grid.cs" />
     <Compile Include="Scripts\GUI\GUI.cs" />
     <Compile Include="Scripts\GUI\GUIMembers.cs" />
+    <Compile Include="Scripts\GUI\SplitTexture.cs" />
     <Compile Include="Scripts\In Game\TilePiece.cs" />
     <Compile Include="Scripts\InGameController.cs" />
     <Compile Include="Scripts\MainController.cs" />
