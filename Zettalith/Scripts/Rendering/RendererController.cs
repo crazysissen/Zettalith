@@ -12,9 +12,7 @@ namespace Zettalith
     static class RendererController
     {
         public static Camera Camera { get; private set; }
-
         public static TestGUI TestGUI { get; set; }
-
         public static GUI GUI { get; set; }
 
         private static List<Renderer> renderers = new List<Renderer>();

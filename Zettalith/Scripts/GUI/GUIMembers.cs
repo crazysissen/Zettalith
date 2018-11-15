@@ -43,34 +43,19 @@ namespace Zettalith
             }
         }
 
-        public class ImageAnimation : IGUIMember
-        {
-
-
-            public ImageAnimation()
-            {
-
-            }
-
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-
-            }
-        }
-
         public class Button : IGUIMember
         {
+            public Action OnMouseDown { get; set; }
+            public Action OnMosueUp { get; set; }
+            public Action OnClick { get; set; }
+
+            public bool Hovering { get; private set; }
+
+            public Renderer.SpriteScreen Renderer { get; set; }
+
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-
-            }
-        }
-
-        public class Text : IGUIMember
-        {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-
+                //Hovering = 
             }
         }
     }

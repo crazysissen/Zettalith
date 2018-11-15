@@ -10,7 +10,7 @@
   <Class Name="Zettalith.ContentController" Collapsed="true">
     <Position X="26.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAQFAAAAAAAAAAAAAAQCAAQgAAEEAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAQFAAAAAAAAAAAAAAQCAIQgAAEEAAAA=</HashCode>
       <FileName>Scripts\Content System\ContentController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -69,7 +69,7 @@
   <Class Name="Zettalith.MainController" Collapsed="true">
     <Position X="25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAQAAAFAAUAAQ4AAAEAIAEIAIAAQCCAAAgAhEQQAhAA=</HashCode>
+      <HashCode>BAQAAAEAAUAAQ4AAAEAIAEIAMAAQCCAAAgAhEQQIhAA=</HashCode>
       <FileName>Scripts\MainController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -125,7 +125,7 @@
   <Class Name="Zettalith.RendererController" Collapsed="true">
     <Position X="25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACgAABAAAAAQAAAAQAAACABAAAAAAAABAAAAAAgAA=</HashCode>
+      <HashCode>AAACgAABAAAAAQAAAAQAAACABAAAAACAABAAAAAAgAA=</HashCode>
       <FileName>Scripts\Rendering\RendererController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -153,7 +153,7 @@
   <Class Name="Zettalith.XNAController" Collapsed="true">
     <Position X="23.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAEAAAwAAAAxAABIAAAAEACCAAAIAAQAAQARIAAAQ=</HashCode>
+      <HashCode>AAQAEAAAgAAAAxAAAIECCAGACCAEAIAARAAAARIAAAQ=</HashCode>
       <FileName>Scripts\XNA\Game.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -258,7 +258,7 @@
   <Struct Name="Zettalith.Layer" Collapsed="true">
     <Position X="26.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAEAAAAACEAAAAACAAAAAIAAAAAAAAAABAAAAAQ=</HashCode>
+      <HashCode>AQAAAAEAAAAACEAAAAACIAAAAIAAAAAAAAAABAAAAAQ=</HashCode>
       <FileName>Scripts\Rendering\Layer.cs</FileName>
     </TypeIdentifier>
   </Struct>

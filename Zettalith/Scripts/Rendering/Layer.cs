@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
+    public enum MainLayer
+    {
+        AbsoluteBottom, Background, Main, Overlay, GUI, AbsoluteTop
+    }
+
     public struct Layer
     {
-        public enum Main
-        {
-            AbsoluteBottom, Background, Main, Overlay, GUI, AbsoluteTop
-        }
-
         public const int
             MAINCOUNT = 6;
 
@@ -23,21 +23,18 @@ namespace Zettalith
 
         public float LayerDepth => 1 - ((int)main * MAININTERVAL + HALFINTERVAL + LAYERINTERVAL * layer);
 
-        public Main main;
+        public MainLayer main;
         public int layer;
 
-        public Layer(Main main, int layer)
+        public Layer(MainLayer main, int layer)
         {
             this.main = main;
             this.layer = layer;
-
-            Layer laer = (Main.Main, 1);
         }
 
+        public static Layer Default => new Layer(MainLayer.Main, 0);
 
-        public static implicit operator Layer((Main tupleMain, int tupleLayer) tuple)
-        {
-            return new Layer(tuple.tupleMain, tuple.tupleLayer);
-        }
+        public static implicit operator Layer((MainLayer tupleMain, int tupleLayer) tuple)
+            => new Layer(tuple.tupleMain, tuple.tupleLayer);
     }
 }

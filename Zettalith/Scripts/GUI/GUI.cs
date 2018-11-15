@@ -11,8 +11,8 @@ namespace Zettalith
 {
     partial class GUI : GUIContainer
     {
-        const Layer.Main
-            LAYER = Layer.Main.GUI;
+        const MainLayer
+            LAYER = MainLayer.GUI;
 
         public void Initialize()
         {
@@ -47,14 +47,22 @@ namespace Zettalith
 
     public abstract class GUIContainer
     {
-        public virtual void Add(IGUIMember member)
+        public virtual void Add(params IGUIMember[] members)
         {
-            if (member is Renderer)
+            foreach (IGUIMember member in members)
             {
-                (member as Renderer).Automatic = false;
-            }
+                if (member is Renderer)
+                {
+                    (member as Renderer).Automatic = false;
+                }
 
-            Members.Add(member);
+                Members.Add(member);
+            }
+        }
+
+        public virtual void Remove(IGUIMember member)
+        {
+            Members.Remove(member);
         }
 
         public virtual Point Origin { get; set; }
@@ -63,24 +71,24 @@ namespace Zettalith
 
         public static GUIContainer operator +(GUIContainer container, IGUIMember member)
         {
-            container.Members.Add(member);
+            container.Add(member);
             return container;
         }
 
         public static GUIContainer operator +(GUIContainer container, IGUIMember[] members)
         {
-            container.Members.AddRange(members);
+            container.Add(members);
             return container;
         }
 
         public static GUIContainer operator -(GUIContainer container, IGUIMember member)
         {
-            container.Members.Remove(member);
+            container.Remove(member);
             return container;
         }
     }
 
-    public class GUIContainerMasked : GUIContainer
+    public abstract class GUIContainerMasked : GUIContainer
     {
         public Mask Mask { get; set; }
     }
@@ -102,5 +110,8 @@ namespace Zettalith
             Rectangle = rectangle;
             RenderOutside = renderOutside;
         }
+
+        public static implicit operator Mask((Texture2D texture, Rectangle rectangle, bool renderOutside) tuple) 
+            => new Mask(tuple.texture, tuple.rectangle, tuple.renderOutside);
     }
 }

@@ -76,7 +76,7 @@ namespace Zettalith
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
 
-            renderer = new Renderer.AnimatorScreen(ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
+            renderer = new Renderer.AnimatorScreen((MainLayer.Main, 0), ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
 
             GUI.Mask maskedContainer = new GUI.Mask();
             maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), false);
@@ -85,7 +85,7 @@ namespace Zettalith
 
             //GUIContainer maskedContainer = new GUI.Collection();
 
-            image = new Renderer.SpriteScreen(ContentController.Get<Texture2D>("Animation Test"), new Rectangle(100, 100, 300, 300));
+            image = new Renderer.SpriteScreen((MainLayer.AbsoluteBottom, 0), ContentController.Get<Texture2D>("Animation Test"), new Rectangle(100, 100, 300, 300));
             maskedContainer.Add(image);
         }
 
@@ -180,14 +180,25 @@ namespace Zettalith
 
         void StartDebugConsole()
         {
+            return;
+
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))
+            {
+                Test.Log("No debug console found.");
+                return;
+            }
+
             using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In))
             {
                 debugConsole = new Process();
 
+                string clientHandle = host.GetClientHandleAsString();
+                Test.Log("Client handle: " + clientHandle);
+                Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
+
                 debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
                 debugConsole.StartInfo.Arguments = 
-                    XNAController.A_SERVERHANDLE + ":" + host.GetClientHandleAsString() + 
-                    " " + XNAController.GetWindowTitle() + " [DEBUG CONSOLE]";
+                    XNAController.A_SERVERHANDLE + ":" + clientHandle;
                 debugConsole.StartInfo.UseShellExecute = false;
                 debugConsole.StartInfo.RedirectStandardOutput = true;
                 debugConsole.Start();
