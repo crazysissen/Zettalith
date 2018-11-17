@@ -51,7 +51,7 @@ namespace Zettalith
             public Rectangle Transform { get; set; }
             public Texture2D Texture { get; set; }
 
-            public Texture2D[] TextureSwitch, 
+            public Texture2D[] TextureSwitch; 
 
             public Button()
             {
