@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
-    class Mathz
+    static class Mathz
     {
+        /// <summary>Accelerating sine. Equation that from 0-1 accelerates according to a sine wave</summary>
+        public static float SineA(float value)
+            => (float)Math.Sin((double)value * Math.PI * 0.5);
 
+        /// <summary>Decellerating sine. Equation that from 0-1 decellerates according to a sine wave</summary>
+        public static float SineD(float value)
+            => (float)Math.Sin((value - 1) * Math.PI * 0.5) + 1;
     }
 }
