@@ -114,13 +114,16 @@
     <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
     <Compile Include="Scripts\Mathz.cs" />
-    <Compile Include="Scripts\Modifier.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
     <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\Player.cs" />
+    <Compile Include="Scripts\Recovery\Addition.cs" />
+    <Compile Include="Scripts\Recovery\Modifier.cs" />
+    <Compile Include="Scripts\Recovery\Multiplication.cs" />
+    <Compile Include="Scripts\Recovery\Piece.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />
@@ -135,7 +138,6 @@
     <Compile Include="Scripts\Testing\TestGUI.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
-    <Compile Include="Scripts\Zettalith.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
