@@ -4,6 +4,7 @@ using System.IO.Pipes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
@@ -25,8 +26,8 @@ namespace Zettalith
         private InGameController inGameController;
         private Random r;
         private Renderer renderer;
-
         private Renderer.SpriteScreen image;
+        private Thread readConsoleThread;
 
         // Separate testing window
         private Process clone, debugConsole;
@@ -53,10 +54,10 @@ namespace Zettalith
 
         public void Initialize(XNAController game, StartType type, Process parent = null)
         {
-            if (XNAController.DebugConsole)
-            {
-                StartDebugConsole();
-            }
+            //if (XNAController.DebugConsole)
+            //{
+            //    StartDebugConsole();
+            //}
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
@@ -121,6 +122,14 @@ namespace Zettalith
             RendererController.Render(graphics, spriteBatch, gameTime);
         }
 
+        public void OnExit()
+        {
+            if (debugConsole != null && !debugConsole.HasExited)
+            {
+                debugConsole.Kill();
+            }
+        }
+
         public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
         {
             Test.Log((!host ? "Server found: " + message + ". " : "Peer found. ") + "IP: " + ipEndPoint + ". Local peer is host: " + host);
@@ -180,42 +189,59 @@ namespace Zettalith
 
         void StartDebugConsole()
         {
-            return;
-
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))
             {
                 Test.Log("No debug console found.");
                 return;
             }
 
-            using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In))
+            //using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
+            //{
+
+            debugConsole = new Process();
+
+            //string clientHandle = host.GetClientHandleAsString();
+            //Test.Log("Client handle: " + clientHandle);
+            //Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
+
+            //debugConsole.StartInfo.Arguments = clientHandle;
+            //debugConsole.StartInfo.UseShellExecute = false;
+            //debugConsole.StartInfo.RedirectStandardOutput = true;
+
+            debugConsole.StartInfo.Arguments = Process.GetCurrentProcess().Id.ToString();
+            debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
+            debugConsole.StartInfo.RedirectStandardOutput = true;
+            debugConsole.StartInfo.UseShellExecute = false;
+            debugConsole.Start();
+
+            readConsoleThread = new Thread(ReadConsole);
+            readConsoleThread.Start(debugConsole);
+
+                //try
+                //{
+                //    using (StreamReader sr = new StreamReader(host))
+                //    {
+                //        string readData = sr.ReadLine();
+                //    }
+                //}
+                //catch (IOException exception)
+                //{
+
+                //}
+            //}
+        }
+
+        void ReadConsole(object process)
+        {
+            Process targetProcess = (Process)process;
+
+            //Thread.Sleep(2000);
+
+            //System.Diagnostics.Stopwatch
+
+            while (true)
             {
-                debugConsole = new Process();
-
-                string clientHandle = host.GetClientHandleAsString();
-                Test.Log("Client handle: " + clientHandle);
-                Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
-
-                debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
-                debugConsole.StartInfo.Arguments = 
-                    XNAController.A_SERVERHANDLE + ":" + clientHandle;
-                debugConsole.StartInfo.UseShellExecute = false;
-                debugConsole.StartInfo.RedirectStandardOutput = true;
-                debugConsole.Start();
-
-                host.DisposeLocalCopyOfClientHandle();
-
-                try
-                {
-                    using (StreamReader sr = new StreamReader(host))
-                    {
-                        string readData = sr.ReadLine();
-                    }
-                }
-                catch (IOException exception)
-                {
-
-                }
+                string read = targetProcess.StandardOutput.ReadLine();
             }
         }
 

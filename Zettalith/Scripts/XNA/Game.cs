@@ -229,6 +229,11 @@ namespace Zettalith
                 spriteBatch: SpriteBatch);
         }
 
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            MainController.OnExit();
+        }
+
         public static string GetWindowTitle() => _singleton.Window.Title;
 
         public static void SetWindowTitle(string title) => _singleton.Window.Title = title;
