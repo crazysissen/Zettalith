@@ -115,9 +115,6 @@
     <Compile Include="Scripts\Mana.cs" />
     <Compile Include="Scripts\Mathz.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
-    <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
-    <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
-    <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
