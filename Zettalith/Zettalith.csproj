@@ -92,11 +92,11 @@
     </Compile>
     <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
-    <Compile Include="Scripts\Modifier.cs" />
+    <Compile Include="Scripts\Modifiers\Addition.cs" />
+    <Compile Include="Scripts\Modifiers\Damage.cs" />
+    <Compile Include="Scripts\Modifiers\Modifier.cs" />
+    <Compile Include="Scripts\Modifiers\Multiplication.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
-    <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
-    <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
-    <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Renderer.cs" />
@@ -109,7 +109,7 @@
     <Compile Include="Scripts\Testing\TestGUI.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
-    <Compile Include="Scripts\Zettalith.cs" />
+    <Compile Include="Scripts\Piece.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
