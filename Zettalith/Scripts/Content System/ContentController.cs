@@ -14,6 +14,8 @@ namespace Zettalith
 {
     public static class ContentController
     {
+        public static string ApplicationDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory;
+
         static Dictionary<string, object> contentDictionary;
 
         static Dictionary<string, object> contentCollections;
@@ -34,7 +36,7 @@ namespace Zettalith
 
         public static void ImportAll(ContentManager content)
         {
-            ContentBundle bundle = AllFileNames(AppDomain.CurrentDomain.BaseDirectory + "\\" + content.RootDirectory, "", "");
+            ContentBundle bundle = AllFileNames(ApplicationDirectory + "\\" + content.RootDirectory, "", "");
 
             foreach (ImportObject item in bundle.Objects)
             {
@@ -135,7 +137,7 @@ namespace Zettalith
             }
             catch
             {
-                System.Diagnostics.Debug.WriteLine("ERROR: Tried to get unloaded content [" + tag + ", " + typeof(T) + "]");
+                Test.Log("ERROR: Tried to get unloaded content [" + tag + ", " + typeof(T) + "]");
                 return default(T);
             }
         }
@@ -175,11 +177,11 @@ namespace Zettalith
                     return newArray;
                 }
 
-                System.Diagnostics.Debug.WriteLine("ERROR: Tried to get content bundle already loaded into another type [" + tag + ", requested type: " + typeof(T[]) + ", loaded type: " + contentCollections[tag].GetType() + "]");
+                Test.Log("ERROR: Tried to get content bundle already loaded into another type [" + tag + ", requested type: " + typeof(T[]) + ", loaded type: " + contentCollections[tag].GetType() + "]");
                 return contentCollections[tag] as T[];
             }
 
-            System.Diagnostics.Debug.WriteLine("ERROR: Tried to get unloaded content bundle [" + tag + ", " + typeof(T[]) + "]");
+            Test.Log("ERROR: Tried to get unloaded content bundle [" + tag + ", " + typeof(T[]) + "]");
             return null;
         }
 

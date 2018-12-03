@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Zettalith.Bytestreamer" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Bitstreamer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.ContentController" Collapsed="true">
+    <Position X="26.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAQFAAAAAAAAAAAAAAQCAIQgAAEEAAAA=</HashCode>
+      <FileName>Scripts\Content System\ContentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.In" Collapsed="true">
+    <Position X="30.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQACgIQAAEIAAAQAAAAEAAAABAAACAACQAA=</HashCode>
+      <FileName>Scripts\DirectInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.EMethods" Collapsed="true">
+    <Position X="28.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\EMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.GUI" Collapsed="true">
+    <Position X="14.5" Y="10.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAwAAQAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GUI\GUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.GUIContainerMasked" Collapsed="true">
+    <Position X="14.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Scripts\GUI\GUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.TileObject" Collapsed="true">
+    <Position X="11.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\In Game\TileObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.TilePiece" Collapsed="true">
+    <Position X="11.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\In Game\TilePiece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.InGameController" Collapsed="true">
+    <Position X="23.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ECAAAAAACCAQAgQAAAAgABggAIBAiAAgIQAgAAAEAEA=</HashCode>
+      <FileName>Scripts\InGameController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.MainController" Collapsed="true">
+    <Position X="25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAEAAUAAQ4AAAEAIAEIAMAAQCCAAAgAhEQQIhAA=</HashCode>
+      <FileName>Scripts\MainController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Mana" Collapsed="true">
+    <Position X="28.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAgAAYAEAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Scripts\Mana.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Mathz" Collapsed="true">
+    <Position X="30.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Mathz.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Modifier" Collapsed="true">
+    <Position X="23.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Modifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.NetworkManager" Collapsed="true">
+    <Position X="25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACRIAAAAEAAAAUCyBEAAIIAQAIBAgIAAAAAAAgAQAAA=</HashCode>
+      <FileName>Scripts\NetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Player" Collapsed="true">
+    <Position X="28.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Camera" Collapsed="true">
+    <Position X="25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAEAAAAIgCAIAAAABgAJAAAAABAAAQAAAgAA=</HashCode>
+      <FileName>Scripts\Rendering\Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Renderer" Collapsed="true">
+    <Position X="23.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIgAAAgAAAAAAAAAAAABIAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Rendering\Renderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.RendererController" Collapsed="true">
+    <Position X="25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAABAAAAAQAAAAQAAACABAAAAACAABAAAAAAgAA=</HashCode>
+      <FileName>Scripts\Rendering\RendererController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.StateMachine" Collapsed="true">
+    <Position X="26.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\StateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Test" Collapsed="true">
+    <Position X="28.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Scripts\Testing\Test.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.TestGUI" Collapsed="true">
+    <Position X="30.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAiAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Testing\TestGUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.XNAController" Collapsed="true">
+    <Position X="23.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAgAAAAxAAAIECCAGACCAEAIAARAAAARIAAAQ=</HashCode>
+      <FileName>Scripts\XNA\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Program" Collapsed="true">
+    <Position X="30.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Scripts\XNA\Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.GElement" Collapsed="true">
+    <Position X="16.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.Label" Collapsed="true">
+    <Position X="11.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.Button" Collapsed="true">
+    <Position X="14" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.Slider" Collapsed="true">
+    <Position X="16.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.DropDown" Collapsed="true">
+    <Position X="18.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.TextInput" Collapsed="true">
+    <Position X="20.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Scripts.MainMenu" Collapsed="true">
+    <Position X="26.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Pieces.Bottom" Collapsed="true">
+    <Position X="11.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Pieces\Bottom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Pieces.Middle" Collapsed="true">
+    <Position X="14" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Pieces\Middle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Pieces.SubPiece" Collapsed="true">
+    <Position X="14" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAA=</HashCode>
+      <FileName>Scripts\Pieces\SubPiece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Pieces.Top" Collapsed="true">
+    <Position X="16.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\Pieces\Top.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zettalith.Pieces.Piece" Collapsed="true">
+    <Position X="26.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAADAAAABAAAAAAAAgAAAAAABAAAAABAAAAAAQ=</HashCode>
+      <FileName>Scripts\Zettalith.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Zettalith.GameActionType" Collapsed="true">
+    <Position X="25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\InGameController.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Zettalith.Layer" Collapsed="true">
+    <Position X="26.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAEAAAAACEAAAAACIAAAAIAAAAAAAAAABAAAAAQ=</HashCode>
+      <FileName>Scripts\Rendering\Layer.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Zettalith.Stats" Collapsed="true">
+    <Position X="28.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAgAAAAAAQAAAAAAAAAAAAACAAAAAIAAAAAA=</HashCode>
+      <FileName>Scripts\Stats.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Coordinate" Collapsed="true">
+    <Position X="23.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAQAAAAA=</HashCode>
+      <FileName>Scripts\Grid.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Zettalith.IGUIMember" Collapsed="true">
+    <Position X="23.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\GUI\GUI.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Zettalith.GameAction" Collapsed="true">
+    <Position X="23.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAABAAiAAgAAIAACAAgAAAAAAAEAAA=</HashCode>
+      <FileName>Scripts\InGameController.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Zettalith.GameState" Collapsed="true">
+    <Position X="25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAACgAAACAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\InGameController.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Zettalith.Type" Collapsed="true">
+    <Position X="28.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\InGameController.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Zettalith.StartType" Collapsed="true">
+    <Position X="26.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACBAAAAAA=</HashCode>
+      <FileName>Scripts\XNA\Game.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Zettalith.NetworkListener" Collapsed="true">
+    <Position X="25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\NetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Zettalith.PeerFound" Collapsed="true">
+    <Position X="26.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\NetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Zettalith.Callback" Collapsed="true">
+    <Position X="23.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scripts\NetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

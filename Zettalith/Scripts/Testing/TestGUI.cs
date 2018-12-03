@@ -142,7 +142,7 @@ namespace Zettalith
                 MouseState state = Mouse.GetState();
 
                 if (state.Position.X >= rectangle.Left && state.Position.X <= rectangle.Right && state.Position.Y >= rectangle.Top && state.Position.Y <= rectangle.Bottom)
-                    return DirectInput.LeftMouseDown ? GUIButtonState.Click : GUIButtonState.Hover;
+                    return In.LeftMouseDown ? GUIButtonState.Click : GUIButtonState.Hover;
 
                 return GUIButtonState.Neutral;
             }

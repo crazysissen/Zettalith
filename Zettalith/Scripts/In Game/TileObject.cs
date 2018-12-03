@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
-    unsafe abstract class TileObject
+    abstract class TileObject
     {
-        
-
         public TileObject()
         {
             

@@ -23,7 +23,7 @@ namespace Zettalith
         public static string PublicIP { get; private set; }
         public static string ServerName { get; private set; }
 
-        static Dictionary<string, EventListener> listeners = new Dictionary<string, EventListener>();
+        static Dictionary<string, SerializedEvent> listeners = new Dictionary<string, SerializedEvent>();
 
         public static void Send(string callsign, object message)
         {
@@ -49,7 +49,7 @@ namespace Zettalith
         {
             if (!listeners.ContainsKey(callsign))
             {
-                listeners.Add(callsign, new EventListener());
+                listeners.Add(callsign, new SerializedEvent());
             }
 
             listeners[callsign] += listener;
@@ -65,28 +65,17 @@ namespace Zettalith
 
         static void Recieve(string tag, byte[] message)
         {
-
-        }
-
-        public static void GetPublicIP()
-        {
-            string url = "http://checkip.dyndns.org";
-            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
-            System.Net.WebResponse resp = req.GetResponse();
-            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
-            string response = sr.ReadToEnd().Trim();
-            string[] a = response.Split(':');
-            string a2 = a[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            string a4 = a3[0];
-            PublicIP = a4;
-
-            System.Diagnostics.Debug.WriteLine(PublicIP);
+            if (listeners.ContainsKey(tag))
+            {
+                listeners[tag].Call(message);
+            }
         }
 
         #region Framework
 
-        const int PORT = 14242;
+        const int
+            PORT = 14242,
+            ALTERNATIVEPORT = 14243;
 
         static NetPeer localPeer;
 
@@ -104,7 +93,7 @@ namespace Zettalith
 
         public static void CreateHost(string serverName)
         {
-            Debug.WriteLine("Server created");
+            Test.Log("Server created");
 
             if (localPeer != null)
                 DestroyPeer();
@@ -131,7 +120,7 @@ namespace Zettalith
 
         public static void CreateClient()
         {
-            Debug.WriteLine("Client created");
+            Test.Log("Client created");
 
             if (localPeer != null)
                 DestroyPeer();
@@ -153,10 +142,37 @@ namespace Zettalith
             localPeer.Start();
         }
 
+        public static void CreateLocalGame()
+        {
+            Test.Log("Local server created");
+
+            if (localPeer != null)
+                DestroyPeer();
+
+            ServerName = "localserver";
+
+            //Version ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+
+            NetPeerConfiguration config = new NetPeerConfiguration("Test!")
+            {
+                MaximumHandshakeAttempts = 8,
+                MaximumConnections = 10,
+                Port = ALTERNATIVEPORT
+            };
+
+            config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+            config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+            config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+
+            localPeer = new NetServer(config);
+
+            localPeer.Start();
+        }
+
         public static void StartPeerSearch(string ip)
         {
-            Debug.WriteLine("Peer Search Started");
-            localPeer.DiscoverKnownPeer(ip, PORT);
+            Test.Log("Peer Search Started");
+            localPeer.DiscoverKnownPeer(ip, XNAController.localGame ? ALTERNATIVEPORT : PORT);
         }
 
         public static void StopPeerSearch()
@@ -202,31 +218,25 @@ namespace Zettalith
             {
                 switch (message.MessageType)
                 {
-                    //case NetIncomingMessageType.Error:
-                    //    break;
-
                     case NetIncomingMessageType.StatusChanged:
-                        Debug.WriteLine("Status changed: " + (NetConnectionStatus)message.ReadByte());
+                        Test.Log("Status changed: " + (NetConnectionStatus)message.ReadByte());
                         break;
 
-                    //case NetIncomingMessageType.UnconnectedData:
-                    //    break;
-
+                    // This is the host and a connection attempt was recieved
                     case NetIncomingMessageType.ConnectionApproval:
                         string attachedMessage = message.ReadString();
-                        Debug.WriteLine("Connection attempt: " + attachedMessage);
+                        Test.Log("Connection attempt: " + attachedMessage);
                         message.SenderConnection.Approve();
                         break;
 
                     case NetIncomingMessageType.Data:
                         string header = message.ReadString();
                         byte[] data = message.Data;
+                        Test.Log("Data recieved. Header: " + header);
                         Recieve(header, data);
                         break;
 
-                    //case NetIncomingMessageType.Receipt:
-                    //    break;
-
+                    // This is the host and a discovery request was recieved
                     case NetIncomingMessageType.DiscoveryRequest:
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
@@ -234,19 +244,29 @@ namespace Zettalith
                         XNAController.MainController.PeerFound(message.SenderEndPoint, true, message.ReadString());
                         break;
 
+                    // This is the client and a discovery request was returned with response
                     case NetIncomingMessageType.DiscoveryResponse:
                         XNAController.MainController.PeerFound(message.SenderEndPoint, false, message.ReadString());
                         break;
+
+                    case NetIncomingMessageType.WarningMessage:
+                        Test.Log("Warning: " + message.ReadString());
+                        break;
+
+                    //case NetIncomingMessageType.Error:
+                    //    break;
+
+                    //case NetIncomingMessageType.UnconnectedData:
+                    //    break;
+
+                    //case NetIncomingMessageType.Receipt:
+                    //    break;
 
                     //case NetIncomingMessageType.VerboseDebugMessage:
                     //    break;
 
                     //case NetIncomingMessageType.DebugMessage:
                     //    break;
-
-                    case NetIncomingMessageType.WarningMessage:
-                        Debug.WriteLine("Warning: " + message.ReadString());
-                        break;
 
                     //case NetIncomingMessageType.ErrorMessage:
                     //    break;
@@ -258,13 +278,28 @@ namespace Zettalith
                     //    break;
 
                     default:
-                        System.Diagnostics.Debug.WriteLine("Unhandled type: " + message.MessageType);
+                        Test.Log("Unhandled type: " + message.MessageType);
                         break;
                 }
             }
         }
 
-        class EventListener
+        public static void GetPublicIP()
+        {
+            //System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
+            //System.Net.WebResponse webResponse = request.GetResponse();
+            //System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
+
+            //string response = reader.ReadToEnd().Trim();
+            //string[] a = response.Split(':');
+            //string[] a2 = a[1].Substring(1).Split('<');
+
+            //PublicIP = a2[0];
+
+            //Test.Log("Public IP retrieved: " + PublicIP);
+        }
+
+        class SerializedEvent
         {
             protected event NetworkListener Listener;
 
@@ -273,13 +308,13 @@ namespace Zettalith
                 Listener?.Invoke(message);
             }
 
-            public static EventListener operator +(EventListener kElement, NetworkListener kDelegate)
+            public static SerializedEvent operator +(SerializedEvent kElement, NetworkListener kDelegate)
             {
                 kElement.Listener += kDelegate;
                 return kElement;
             }
 
-            public static EventListener operator -(EventListener kElement, NetworkListener kDelegate)
+            public static SerializedEvent operator -(SerializedEvent kElement, NetworkListener kDelegate)
             {
                 kElement.Listener -= kDelegate;
                 return kElement;

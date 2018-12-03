@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +20,11 @@ namespace Zettalith
         Movement, Ability, Attack, Placement, MiscPlacement, Upgrade, Turn, Timer, Death
     }
 
+    enum GameState
+    {
+        Config, Setup, Logistics, Battle, End
+    }
+
     // Det här är en extremt dålig idé -Sixten. No -Benjamin
     enum Type
     {
@@ -29,6 +35,10 @@ namespace Zettalith
     {
         Player Local => players?[0];
         Player Remote => players?[1];
+
+        bool isHost;
+
+        GameState gameState;
 
         /// <summary>
         /// Can move, piece, origin, target
@@ -74,6 +84,14 @@ namespace Zettalith
 
         Player[] players;
 
+        public InGameController(bool isHost)
+        {
+            Test.Log("InGameController created.");
+
+            this.isHost = isHost;
+            gameState = GameState.Config;
+        }
+
         public void Setup(Player local, Player remote)
         {
             players = new Player[2] { local, remote };
@@ -114,14 +132,14 @@ namespace Zettalith
                     break;
 
                 default:
-                    System.Diagnostics.Debug.WriteLine("Unimplemented GameAction request: " + actionType.ToString());
+                    Test.Log("Unimplemented GameAction request: " + actionType.ToString());
                     break;
             }
         }
 
         public void Execute(GameAction actionType, bool host, params object[] arg)
         {
-            System.Diagnostics.Debug.WriteLine("GameAction: " + actionType + ". Requested locally: " + host + ".");
+            Test.Log("GameAction: " + actionType + ". Requested locally: " + host + ".");
 
             switch (actionType)
             {
@@ -153,7 +171,7 @@ namespace Zettalith
                     break;
 
                 default:
-                    System.Diagnostics.Debug.WriteLine("Unimplemented GameAction request: " + actionType.ToString());
+                    Test.Log("Unimplemented GameAction request: " + actionType.ToString());
                     break;
             }
 
@@ -164,7 +182,7 @@ namespace Zettalith
         {
             GameActionType type = Bytestreamer.ToObject<GameActionType>(data);
 
-            System.Diagnostics.Debug.WriteLine(type.subHeader);
+            Test.Log(type.subHeader);
 
             switch (type.subHeader)
             {

@@ -29,15 +29,17 @@
     <TargetCulture>en-SE</TargetCulture>
     <ProductName>Zettalith</ProductName>
     <PublisherName>Borealic Games</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>Debug Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,7 +49,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <OutputPath>Release Build\</OutputPath>
     <DefineConstants>TRACE;LINUX</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -55,6 +57,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\DesktopIcon.ico</ApplicationIcon>
@@ -68,6 +71,21 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3696D5E50293169666B856581D1D637F4ECC8387</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Zettalith_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Bitstreamer.cs" />
     <Compile Include="Scripts\GElement.cs" />
@@ -76,6 +94,9 @@
     <Compile Include="Scripts\EMethods.cs" />
     <Compile Include="Scripts\DirectInput.cs" />
     <Compile Include="Scripts\Grid.cs" />
+    <Compile Include="Scripts\GUI\GUI.cs" />
+    <Compile Include="Scripts\GUI\GUIMembers.cs" />
+    <Compile Include="Scripts\GUI\SplitTexture.cs" />
     <Compile Include="Scripts\In Game\TilePiece.cs" />
     <Compile Include="Scripts\InGameController.cs" />
     <Compile Include="Scripts\MainController.cs" />
@@ -92,24 +113,29 @@
     </Compile>
     <Compile Include="Scripts\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
-    <Compile Include="Scripts\Modifiers\Addition.cs" />
-    <Compile Include="Scripts\Modifiers\Damage.cs" />
-    <Compile Include="Scripts\Modifiers\Modifier.cs" />
-    <Compile Include="Scripts\Modifiers\Multiplication.cs" />
+    <Compile Include="Scripts\Mathz.cs" />
+    <Compile Include="Scripts\Modifier.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces\Bottoms.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces\Middles.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces\Tops.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\Player.cs" />
-    <Compile Include="Scripts\Renderer.cs" />
+    <Compile Include="Scripts\Rendering\Camera.cs" />
+    <Compile Include="Scripts\Rendering\Layer.cs" />
+    <Compile Include="Scripts\Rendering\Renderer.cs" />
+    <Compile Include="Scripts\Rendering\RendererController.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
     <Compile Include="Scripts\Pieces\Middle.cs" />
     <Compile Include="Scripts\Pieces\SubPiece.cs" />
     <Compile Include="Scripts\Pieces\Top.cs" />
     <Compile Include="Scripts\Stats.cs" />
+    <Compile Include="Scripts\Testing\Test.cs" />
     <Compile Include="Scripts\Testing\TestGUI.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
-    <Compile Include="Scripts\Piece.cs" />
+    <Compile Include="Scripts\Zettalith.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
@@ -119,6 +145,7 @@
     <Reference Include="System" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -177,12 +204,19 @@
     </None>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Zettalith_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>

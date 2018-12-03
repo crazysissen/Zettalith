@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zettalith", "Zettalith\Zettalith.csproj", "{9AEA21D3-77D5-4EBB-848C-615F945322FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZettalithDebugConsole", "ZettalithDebugConsole\ZettalithDebugConsole.csproj", "{C74E9A22-C148-41B4-8992-551B965E38EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9AEA21D3-77D5-4EBB-848C-615F945322FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AEA21D3-77D5-4EBB-848C-615F945322FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AEA21D3-77D5-4EBB-848C-615F945322FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C74E9A22-C148-41B4-8992-551B965E38EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C74E9A22-C148-41B4-8992-551B965E38EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C74E9A22-C148-41B4-8992-551B965E38EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C74E9A22-C148-41B4-8992-551B965E38EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
