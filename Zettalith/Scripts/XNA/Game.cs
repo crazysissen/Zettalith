@@ -140,6 +140,22 @@ namespace Zettalith
 
             if (localGame)
             {
+                if (LocalGameClient)
+                {
+                    Window.Title = "ZETTALITH: Local-Game Client";
+                }
+                else
+                {
+                    Window.Title = "ZETTALITH: Local-Game Host";
+                }
+            }
+            else
+            {
+                Window.Title = "ZETTALITH";
+            }
+
+            if (localGame)
+            {
                 // This is the host for a local game
                 if (!LocalGameClient)
                 {
