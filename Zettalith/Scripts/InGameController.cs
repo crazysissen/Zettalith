@@ -33,6 +33,8 @@ namespace Zettalith
 
     class InGameController
     {
+        public static Grid<Tile> Grid { get; private set; }
+
         Player Local => players?[0];
         Player Remote => players?[1];
 
@@ -97,6 +99,16 @@ namespace Zettalith
             players = new Player[2] { local, remote };
 
             NetworkManager.Listen("GAMEACTION", RecieveAction);
+        }
+
+        public void NewTurnStart()
+        {
+
+        }
+
+        public void Update(float deltaTime, MainController mainController, XNAController xnaController)
+        {
+
         }
 
         public void Request(GameAction actionType, params object[] arg)

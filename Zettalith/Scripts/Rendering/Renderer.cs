@@ -75,7 +75,7 @@ namespace Zettalith
             }
         }
 
-        public class SpriteScreen : Renderer, IGUIMember
+        public class SpriteScreen : RendererIGUI
         {
             /// <summary>The texture of the object</summary>
             public virtual Texture2D Texture { get; set; }
@@ -113,12 +113,7 @@ namespace Zettalith
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, Transform, null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
-            }
-
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-                Draw(spriteBatch, null, unscaledDeltaTime);
+                spriteBatch.Draw(Texture, new Rectangle(Transform.Location + Offset, Transform.Size), null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
             }
         }
 
@@ -200,7 +195,7 @@ namespace Zettalith
             }
         }
 
-        public class AnimatorScreen : Renderer, IGUIMember
+        public class AnimatorScreen : RendererIGUI
         {
             /// <summary>The texture of the object</summary>
             public virtual Texture2D Texture { get; set; }
@@ -270,16 +265,13 @@ namespace Zettalith
                     Height = FrameDimensions.Y
                 };
 
-                spriteBatch.Draw(Texture, Transform, DestinationRectangle, Color, Rotation, Origin, Effects, Layer.LayerDepth);
-            }
+                Rectangle transform = new Rectangle(Transform.Location + Offset, Transform.Size);
 
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-                Draw(spriteBatch, null, unscaledDeltaTime);
+                spriteBatch.Draw(Texture, transform, DestinationRectangle, Color, Rotation, Origin, Effects, Layer.LayerDepth);
             }
         }
 
-        public class Text : Renderer, IGUIMember
+        public class Text : RendererIGUI
         {
             public SpriteFont Font { get; set; }
             /// <summary>A StringBuilder class to represent the text shown</summary>
@@ -333,13 +325,8 @@ namespace Zettalith
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.DrawString(Font, String, Position, Color, Rotation * DEGTORAD, Origin, Scale, SpriteEffects, Layer.LayerDepth);
-            }
-
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-                Draw(spriteBatch, null, unscaledDeltaTime);
-            }
+                spriteBatch.DrawString(Font, String, Position + Offset.ToVector2(), Color, Rotation * DEGTORAD, Origin, Scale, SpriteEffects, Layer.LayerDepth);
+            }           
         }
 
         public class Custom : Renderer
@@ -361,5 +348,16 @@ namespace Zettalith
         }
 
         public delegate void DrawCommand(SpriteBatch spriteBatch, Camera camera, float deltaTime, float managedLayer);
+    }
+
+    abstract class RendererIGUI : Renderer, IGUIMember
+    {
+        public Point Offset { get; set; }
+        Point IGUIMember.Origin { get => Offset; set => Offset = value; }
+
+        void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+        {
+            Draw(spriteBatch, null, unscaledDeltaTime);
+        }
     }
 }
