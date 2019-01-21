@@ -8,21 +8,16 @@ namespace Zettalith
 {
     struct Stats
     {
+        public int AttackDamage { get; set; }
+        public int MaxHealth { get; set; }
         public int Health { get; set; }
         public Mana Mana { get; set; }
         public Mana AbilityCost { get; set; }
         public Mana MoveCost { get; set; }
 
-        public Stats(int health)
-        {
-            Health = health;
-            Mana = new Mana(0, 0, 0);
-            AbilityCost = new Mana(0, 0, 0);
-            MoveCost = new Mana(0, 0, 0);
-        }
-
         public static Stats operator +(Stats a, Stats b) => new Stats
         {
+            MaxHealth = a.MaxHealth + b.MaxHealth,
             Health = a.Health + b.Health,
             Mana = a.Mana + b.Mana,
             AbilityCost = a.AbilityCost + b.AbilityCost,
@@ -31,6 +26,7 @@ namespace Zettalith
 
         public static Stats operator *(Stats a, Stats b) => new Stats
         {
+            MaxHealth = a.MaxHealth + b.MaxHealth,
             Health = a.Health * b.Health,
             Mana = a.Mana * b.Mana,
             AbilityCost = a.AbilityCost * b.AbilityCost,

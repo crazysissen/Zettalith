@@ -87,6 +87,7 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\Bitstreamer.cs" />
     <Compile Include="Scripts\GElement.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
@@ -230,6 +231,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Object Hierarchy\" />
+    <Folder Include="Scripts\Pieces\Bottoms\" />
+    <Folder Include="Scripts\Pieces\Middles\" />
+    <Folder Include="Scripts\Pieces\Tops\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="StupidIdeas.txt" />

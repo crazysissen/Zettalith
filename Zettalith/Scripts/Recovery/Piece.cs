@@ -7,10 +7,12 @@ using Zettalith.Pieces;
 
 namespace Zettalith
 {
-    class Piece
+    class Piece : TileObject
     {
         public Stats BaseStats => new Stats()
         {
+            AttackDamage = top.AttackDamage + middle.AttackDamage + bottom.AttackDamage,
+            MaxHealth = top.Health + middle.Health + bottom.Health,
             Health = top.Health + middle.Health + bottom.Health,
             Mana = top.ManaCost + middle.ManaCost + bottom.ManaCost,
             AbilityCost = top.AbilityCost,
@@ -43,9 +45,10 @@ namespace Zettalith
             }
         }
 
-        public bool Damaged { get; private set; }
+        public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
 
         List<Modifier> modifiers = new List<Modifier>();
+
         //Addition statChange = new Addition(null, new Stats(0));
 
         //public Modifier CumulativeModifier
@@ -89,20 +92,18 @@ namespace Zettalith
             modifiers.Add(modifier);
         }
 
-        public void ApplyMod(Modifier mod, Piece target = null, List<Piece> targets = null)
+        public static void ApplyMod(Modifier mod, Piece target)
         {
-            if (target != null)
-            {
-                target.Mod(mod);
-            }
-            if (targets != null)
-            {
-                foreach (Piece piece in targets)
-                {
-                    piece.Mod(mod);
-                }
-            }
+            target.Mod(mod);
         }
+
+        //public static void ApplyMultipleMods(List<(Modifier mod, Piece target)> modifiers)
+        //{
+        //    for (int i = 0; i < modifiers.Count; ++i)
+        //    {
+        //        modifiers[i].target.Mod(modifiers[i].mod);
+        //    }
+        //}
 
         public void ClearMods()
         {
