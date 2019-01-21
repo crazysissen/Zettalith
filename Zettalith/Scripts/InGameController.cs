@@ -33,7 +33,7 @@ namespace Zettalith
 
     class InGameController
     {
-        public static Grid<Tile> Grid { get; private set; }
+        public static Grid Grid { get; private set; }
 
         Player Local => players?[0];
         Player Remote => players?[1];
