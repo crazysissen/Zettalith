@@ -49,7 +49,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\DesktopGL\AnyCPU\Releases\</OutputPath>
+    <OutputPath>bin\DesktopGL\AnyCPU\Release\</OutputPath>
     <DefineConstants>TRACE;LINUX</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -93,7 +93,7 @@
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
-    <Compile Include="Scripts\DirectInput.cs" />
+    <Compile Include="Scripts\In.cs" />
     <Compile Include="Scripts\Grid.cs" />
     <Compile Include="Scripts\GUI\GUI.cs" />
     <Compile Include="Scripts\GUI\GUIMembers.cs" />

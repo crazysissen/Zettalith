@@ -15,12 +15,20 @@ namespace Zettalith
     {
         public class Collection : GUIContainer, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime) { }
+            Point IGUIMember.Origin { get; set; }
+
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+            {
+
+            }
         }
         
         public class MaskedCollection : GUIContainerMasked, IGUIMember
         {
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime) { }
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+            {
+
+            }
         }
 
         public class Panel : GUIContainer, IGUIMember
@@ -53,6 +61,9 @@ namespace Zettalith
             public event Action OnMouseDown;
             public event Action OnClick;
 
+            Point IGUIMember.Origin { get => _origin; set => _origin = value; }
+            Point _origin;
+
             public State CurrentState { get; private set; }
             public Type DisplayType { get; private set; }
             public Transition TransitionType { get; set; }
@@ -63,7 +74,7 @@ namespace Zettalith
             public Texture2D[] TextureSwitch { get; private set; }
             public Color[] ColorSwitch { get; private set; }
 
-            public Layer layer;
+            public Layer Layer { get; set; }
 
             private Func<float, float> _transition;
             private Color _textBaseColor;
@@ -245,9 +256,12 @@ namespace Zettalith
                     }
                 }
 
+                Rectangle drawTransform = Transform;
+                drawTransform.Location += _origin;
+
                 foreach (TA textureAlpha in textures)
                 {
-                    spriteBatch.Draw(textureAlpha.texture, Transform, null, new Color(color, textureAlpha.a), 0, Vector2.Zero, SpriteEffects.None, layer.LayerDepth);
+                    spriteBatch.Draw(textureAlpha.texture, Transform, null, new Color(color, textureAlpha.a), 0, Vector2.Zero, SpriteEffects.None, Layer.LayerDepth);
                 }
 
                 if (!pressed)
@@ -318,7 +332,7 @@ namespace Zettalith
             public void AddText(string text, int fontSize, bool centered, Color baseColor, SpriteFont font)
             {
                 Text = new Renderer.Text(
-                    layer, font, text, fontSize, 0,
+                    Layer, font, text, fontSize, 0,
                     centered ? new Vector2((Transform.Left + Transform.Right) * 0.5f, (Transform.Top + Transform.Bottom) * 0.5f) : new Vector2(Transform.Left + 2, (Transform.Top + Transform.Bottom) * 0.5f),
                     centered ? new Vector2(0.5f, 0.5f) : new Vector2(0, 0.5f),
                     baseColor);
@@ -351,17 +365,17 @@ namespace Zettalith
 
             public void SetColorSwitch(Color[] colors)
                 => ColorSwitch = colors.Length == 3 ? colors : ColorSwitch;
-        }
 
-        struct TA
-        {
-            public Texture2D texture;
-            public float a;
-
-            public TA(Texture2D texture, float a)
+            struct TA
             {
-                this.texture = texture;
-                this.a = a;
+                public Texture2D texture;
+                public float a;
+
+                public TA(Texture2D texture, float a)
+                {
+                    this.texture = texture;
+                    this.a = a;
+                }
             }
         }
     }

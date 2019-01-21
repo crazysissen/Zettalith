@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zettalith", "Zettalith\Zett
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZettalithDebugConsole", "ZettalithDebugConsole\ZettalithDebugConsole.csproj", "{C74E9A22-C148-41B4-8992-551B965E38EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektfildelning", "Projektfildelning", "{FA51445C-7EF1-4C77-A13F-9B900766F468}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
