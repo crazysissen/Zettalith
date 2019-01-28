@@ -100,7 +100,7 @@ namespace Zettalith
             TileObject = 0;
 
             Grid g = new Grid(1, 1, 1);
-            g[]
+            //g[]
         }
     }
 
