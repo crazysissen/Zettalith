@@ -47,7 +47,7 @@ namespace Zettalith
             /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the sprite is rotated
             /// and what point will line up to the Vector2 position</summary>
             public virtual Vector2 Origin { get; set; }
 

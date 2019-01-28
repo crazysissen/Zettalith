@@ -43,6 +43,24 @@ namespace Zettalith
                 member.Draw(spriteBatch, mouse, keyboard, deltaTime);
             }
         }
+
+        public static GUI operator +(GUI gui, IGUIMember member)
+        {
+            gui.Add(member);
+            return gui;
+        }
+
+        public static GUI operator +(GUI gui, IGUIMember[] members)
+        {
+            gui.Add(members);
+            return gui;
+        }
+
+        public static GUI operator -(GUI gui, IGUIMember member)
+        {
+            gui.Remove(member);
+            return gui;
+        }
     }
 
     public abstract class GUIContainer
@@ -101,17 +119,19 @@ namespace Zettalith
     public struct Mask
     {
         public Texture2D MaskTexture { get; set; }
+        public Color Color { get; set; }
         public Rectangle Rectangle { get; set; }
         public bool RenderOutside { get; set; }
 
-        public Mask(Texture2D mask, Rectangle rectangle, bool renderOutside)
+        public Mask(Texture2D mask, Rectangle rectangle, Color color, bool renderOutside)
         {
             MaskTexture = mask;
             Rectangle = rectangle;
             RenderOutside = renderOutside;
+            Color = color;
         }
 
         public static implicit operator Mask((Texture2D texture, Rectangle rectangle, bool renderOutside) tuple) 
-            => new Mask(tuple.texture, tuple.rectangle, tuple.renderOutside);
+            => new Mask(tuple.texture, tuple.rectangle, Color.White, tuple.renderOutside);
     }
 }
