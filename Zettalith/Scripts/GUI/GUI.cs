@@ -40,6 +40,7 @@ namespace Zettalith
                     DrawContainer((member as GUIContainer), spriteBatch, mouse, keyboard, deltaTime, additiveOrigin + (member as GUIContainer).Origin);
                 }
 
+                member.Origin = additiveOrigin;
                 member.Draw(spriteBatch, mouse, keyboard, deltaTime);
             }
         }
@@ -114,6 +115,8 @@ namespace Zettalith
     public interface IGUIMember
     {
         void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime);
+
+        Point Origin { get; set; }
     }
 
     public struct Mask

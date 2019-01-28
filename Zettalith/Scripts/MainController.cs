@@ -20,6 +20,7 @@ namespace Zettalith
             LOCALHOST = "localhost",
             CONSOLEPATH = @"\Debug\ZettalithDebugConsole.exe";
 
+
         public static InGameController InGame { get; private set; }
 
         private System.Net.IPEndPoint endPoint;
