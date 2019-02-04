@@ -7,10 +7,18 @@ using Zettalith.Pieces;
 
 namespace Zettalith
 {
-    public static class PersonalData
+    [Serializable]
+    public struct PersonalData
     {
-        static List<SubPiece> savedSubPieces;
-        static List<Piece> savedPieces;
-        static List<Army> savedArmies;
+        List<SubPiece> savedSubPieces;
+        List<Piece> savedPieces;
+        List<Army> savedArmies;
+
+        public PersonalData(List<SubPiece> subPieces, List<Piece> pieces, List<Army> armies)
+        {
+            savedSubPieces = subPieces;
+            savedPieces = pieces;
+            savedArmies = armies;
+        }
     }
 }
