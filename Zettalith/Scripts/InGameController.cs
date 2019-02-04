@@ -20,7 +20,7 @@ namespace Zettalith
         Movement, Ability, Attack, Placement, MiscPlacement, Upgrade, Turn, Timer, Death
     }
 
-    enum GameState
+    enum InGameState
     {
         Config, Setup, Logistics, Battle, End
     }
@@ -33,6 +33,8 @@ namespace Zettalith
 
     class InGameController
     {
+        public static InGameController Main { get; private set; }
+
         public static Grid Grid { get; private set; }
 
         Player Local => players?[0];
@@ -40,7 +42,7 @@ namespace Zettalith
 
         bool isHost;
 
-        GameState gameState;
+        InGameState gameState;
 
         /// <summary>
         /// Can move, piece, origin, target
@@ -88,10 +90,12 @@ namespace Zettalith
 
         public InGameController(bool isHost)
         {
+            Main = this;
+
             Test.Log("InGameController created.");
 
             this.isHost = isHost;
-            gameState = GameState.Config;
+            gameState = InGameState.Config;
         }
 
         public void Setup(Player local, Player remote)

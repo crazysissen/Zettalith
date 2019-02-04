@@ -45,114 +45,26 @@ namespace Zettalith
         {
             _singleton = this;
 
-            MainController = new MainController();
-
             Graphics = new GraphicsDeviceManager(this)
             {
                 PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
             };
 
             Content.RootDirectory = "Content";
-
-            _commandLineArgs = System.Environment.GetCommandLineArgs();
-            CommandLineArgs = new Dictionary<string, string>();
-
-            foreach (string arg in _commandLineArgs)
-            {
-                if (arg.Contains(":\\"))
-                {
-                    continue;
-                }
-
-                string key, value;
-
-                try
-                {
-                    string[] args = arg.Split(':');
-
-                    key = args[0];
-                    value = args[1];
-                }
-                catch
-                {
-                    key = arg;
-                    value = default(string);
-                }
-
-                CommandLineArgs.Add(key, value);
-            }
-
-            foreach (string arg in _commandLineArgs)
-            {
-                switch (arg)
-                {
-                    case A_LOCALTEST:
-                        LocalGameClient = true;
-                        break;
-
-                    case A_DEBUG:
-                        DebugConsole = true;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            if (localGame)
-            {
-                if (LocalGameClient)
-                {
-                    Test.Category = "CLIENT";
-                    Window.Title = "ZETTALITH: Local-Game Client"; 
-                }
-                else
-                {
-                    LocalGameHost = true;
-                    Test.Category = "HOST";
-                    Window.Title = "ZETTALITH: Local-Game Host";
-                }
-            }
-            else
-            {
-                Test.Category = "ZETTALITH";
-                Window.Title = "ZETTALITH";
-            }
-
-            foreach (KeyValuePair<string, string> arg in CommandLineArgs)
-            {
-                if (arg.Value == default(string))
-                {
-                    Test.Log("Command Line Argument: {0}", arg.Key);
-                    continue;
-                }
-
-                Test.Log("Command Line Argument: {0}:{1}", arg.Key, arg.Value);
-            }
         }
 
         protected override void Initialize()
         {
+            SetupCommandLineArgs();
+            SetupLocalMachineGame();
+            WriteCommandLineArgs();
+
+            MainController = new MainController();
+
             base.Initialize();
 
             StartType startType = StartType.Main;
             Process parent = null;
-
-            if (localGame)
-            {
-                if (LocalGameClient)
-                {
-                    Window.Title = "ZETTALITH: Local-Game Client";
-                }
-                else
-                {
-                    Window.Title = "ZETTALITH: Local-Game Host";
-                }
-            }
-            else
-            {
-                Window.Title = "ZETTALITH";
-            }
 
             if (localGame)
             {
@@ -198,7 +110,7 @@ namespace Zettalith
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            ContentController.Initialize(Content, true);
+            Load.Initialize(Content, true);
 
             MainController.LateInitialize(game: this);
         }
@@ -237,6 +149,91 @@ namespace Zettalith
         public static string GetWindowTitle() => _singleton.Window.Title;
 
         public static void SetWindowTitle(string title) => _singleton.Window.Title = title;
+
+        private void SetupLocalMachineGame()
+        {
+            if (localGame)
+            {
+                if (LocalGameClient)
+                {
+                    Test.Category = "CLIENT";
+                    Window.Title = "ZETTALITH: Local-Game Client";
+                }
+                else
+                {
+                    LocalGameHost = true;
+                    Test.Category = "HOST";
+                    Window.Title = "ZETTALITH: Local-Game Host";
+                }
+            }
+            else
+            {
+                Test.Category = "ZETTALITH";
+                Window.Title = "ZETTALITH";
+            }
+        }
+
+        private void SetupCommandLineArgs()
+        {
+            _commandLineArgs = System.Environment.GetCommandLineArgs();
+            CommandLineArgs = new Dictionary<string, string>();
+
+            foreach (string arg in _commandLineArgs)
+            {
+                if (arg.Contains(":\\"))
+                {
+                    continue;
+                }
+
+                string key, value;
+
+                try
+                {
+                    string[] args = arg.Split(':');
+
+                    key = args[0];
+                    value = args[1];
+                }
+                catch
+                {
+                    key = arg;
+                    value = default(string);
+                }
+
+                CommandLineArgs.Add(key, value);
+            }
+
+            foreach (string arg in _commandLineArgs)
+            {
+                switch (arg)
+                {
+                    case A_LOCALTEST:
+                        LocalGameClient = true;
+                        break;
+
+                    case A_DEBUG:
+                        DebugConsole = true;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void WriteCommandLineArgs()
+        {
+            foreach (KeyValuePair<string, string> arg in CommandLineArgs)
+            {
+                if (arg.Value == default(string))
+                {
+                    Test.Log("Command Line Argument: {0}", arg.Key);
+                    continue;
+                }
+
+                Test.Log("Command Line Argument: {0}:{1}", arg.Key, arg.Value);
+            }
+        }
     }
 
     enum StartType { Main, LocalHost, LocalClient }

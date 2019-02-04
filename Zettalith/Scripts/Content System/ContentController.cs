@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Zettalith
 {
-    public static class ContentController
+    public static class Load
     {
         public static string ApplicationDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -20,7 +20,7 @@ namespace Zettalith
 
         static Dictionary<string, object> contentCollections;
 
-        static ContentController()
+        static Load()
         {
             contentDictionary = new Dictionary<string, object>();
             contentCollections = new Dictionary<string, object>();

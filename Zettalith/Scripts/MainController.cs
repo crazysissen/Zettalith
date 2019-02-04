@@ -24,17 +24,15 @@ namespace Zettalith
         public static InGameController InGame { get; private set; }
 
         private System.Net.IPEndPoint endPoint;
-        private InGameController inGameController;
         private Random r;
-        private Renderer renderer;
-        private Renderer.SpriteScreen image;
-        private Thread readConsoleThread;
 
         // Separate testing window
-        private Process clone, debugConsole;
+        private Process clone/*, debugConsole*/;
 
-        Renderer.SpriteScreen sC;
-        GUI.Collection collection;
+        // Update Fork
+        private InGameController inGameController;
+        private MainMenu mainMenu;
+        private 
 
         public MainController()
         {
@@ -66,7 +64,6 @@ namespace Zettalith
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
             NetworkManager.Listen("TEST", RecieveTestMessage);
-            RendererController.TestGUI = new TestGUI();
 
             if (type == StartType.LocalHost)
             {
@@ -80,25 +77,6 @@ namespace Zettalith
                 NetworkManager.CreateClient();
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
-
-            renderer = new Renderer.AnimatorScreen((MainLayer.Main, 0), ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
-
-            GUI.MaskedCollection maskedContainer = new GUI.MaskedCollection();
-            maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), Color.White, false);
-
-            RendererController.GUI.Add(maskedContainer);
-
-            GUI.Button button = new GUI.Button(new Rectangle(200, 10, 100, 20), Color.White);
-            button.OnClick += CloseClone;
-            RendererController.GUI += button;
-
-            //GUIContainer maskedContainer = new GUI.Collection();
-
-            image = new Renderer.SpriteScreen((MainLayer.AbsoluteBottom, 0), ContentController.Get<Texture2D>("Animation Test"), new Rectangle(100, 100, 300, 300));
-            maskedContainer.Add(image);
-
-            SaveLoad.Save(3);
-
         }
 
         public void LateInitialize(XNAController game)
@@ -114,12 +92,6 @@ namespace Zettalith
 
             NetworkManager.Update();
 
-
-            //if (XNAController.LocalLocalGame)
-            //    RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
-
-            //image.Transform = new Rectangle(In.MousePosition, image.Transform.Size);
-
             // Last
             In.UpdateMethods();
         }
@@ -131,10 +103,10 @@ namespace Zettalith
 
         public void OnExit()
         {
-            if (debugConsole != null && !debugConsole.HasExited)
-            {
-                debugConsole.Kill();
-            }
+            //if (debugConsole != null && !debugConsole.HasExited)
+            //{
+            //    debugConsole.Kill();
+            //}
         }
 
         public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
@@ -194,63 +166,63 @@ namespace Zettalith
             clone.Close();
         }
 
-        void StartDebugConsole()
-        {
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))
-            {
-                Test.Log("No debug console found.");
-                return;
-            }
+        //void StartDebugConsole()
+        //{
+        //    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))
+        //    {
+        //        Test.Log("No debug console found.");
+        //        return;
+        //    }
 
-            //using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
-            //{
+        //    //using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
+        //    //{
 
-            debugConsole = new Process();
+        //    debugConsole = new Process();
 
-            //string clientHandle = host.GetClientHandleAsString();
-            //Test.Log("Client handle: " + clientHandle);
-            //Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
+        //    //string clientHandle = host.GetClientHandleAsString();
+        //    //Test.Log("Client handle: " + clientHandle);
+        //    //Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
 
-            //debugConsole.StartInfo.Arguments = clientHandle;
-            //debugConsole.StartInfo.UseShellExecute = false;
-            //debugConsole.StartInfo.RedirectStandardOutput = true;
+        //    //debugConsole.StartInfo.Arguments = clientHandle;
+        //    //debugConsole.StartInfo.UseShellExecute = false;
+        //    //debugConsole.StartInfo.RedirectStandardOutput = true;
 
-            debugConsole.StartInfo.Arguments = Process.GetCurrentProcess().Id.ToString();
-            debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
-            debugConsole.StartInfo.RedirectStandardOutput = true;
-            debugConsole.StartInfo.UseShellExecute = false;
-            debugConsole.Start();
+        //    debugConsole.StartInfo.Arguments = Process.GetCurrentProcess().Id.ToString();
+        //    debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
+        //    debugConsole.StartInfo.RedirectStandardOutput = true;
+        //    debugConsole.StartInfo.UseShellExecute = false;
+        //    debugConsole.Start();
 
-            readConsoleThread = new Thread(ReadConsole);
-            readConsoleThread.Start(debugConsole);
+        //    readConsoleThread = new Thread(ReadConsole);
+        //    readConsoleThread.Start(debugConsole);
 
-                //try
-                //{
-                //    using (StreamReader sr = new StreamReader(host))
-                //    {
-                //        string readData = sr.ReadLine();
-                //    }
-                //}
-                //catch (IOException exception)
-                //{
+        //        //try
+        //        //{
+        //        //    using (StreamReader sr = new StreamReader(host))
+        //        //    {
+        //        //        string readData = sr.ReadLine();
+        //        //    }
+        //        //}
+        //        //catch (IOException exception)
+        //        //{
 
-                //}
-            //}
-        }
+        //        //}
+        //    //}
+        //}
 
-        void ReadConsole(object process)
-        {
-            Process targetProcess = (Process)process;
+        //void ReadConsole(object process)
+        //{
+        //    Process targetProcess = (Process)process;
 
-            //Thread.Sleep(2000);
+        //    //Thread.Sleep(2000);
 
-            //System.Diagnostics.Stopwatch
+        //    //System.Diagnostics.Stopwatch
 
-            while (true)
-            {
-                string read = targetProcess.StandardOutput.ReadLine();
-            }
-        }
+        //    while (true)
+        //    {
+        //        string read = targetProcess.StandardOutput.ReadLine();
+        //    }
+        //}
 
         void StartClone()
         {
