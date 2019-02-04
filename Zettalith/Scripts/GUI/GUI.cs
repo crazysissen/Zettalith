@@ -19,17 +19,21 @@ namespace Zettalith
             Members = new List<IGUIMember>();
         }
 
-        public void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime)
+        public static IGUIMember[] GetMembers(GUIContainer container, MouseState mouse, KeyboardState keyboard, float deltaTime, Point additiveOrigin, bool drawThis = false)
         {
-            DrawContainer(this, spriteBatch, mouse, keyboard, deltaTime, Point.Zero);
-        }
+            // Recursive method to retrieve all 
 
-        public static void DrawContainer(GUIContainer container, SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime, Point additiveOrigin)
-        {
-            foreach(IGUIMember member in container.Members)
+            List<IGUIMember> newMembers = new List<IGUIMember>();
+
+            foreach (IGUIMember member in container.Members)
             {
                 if (member is GUIContainer)
                 {
+                    if (!(member as GUIContainer).Active)
+                    {
+                        continue;
+                    }
+
                     if (member is GUIContainerMasked)
                     {
                         RendererController.TemporaryAddMask(member as GUIContainerMasked, additiveOrigin);
@@ -37,24 +41,47 @@ namespace Zettalith
                         continue;
                     }
 
-                    DrawContainer((member as GUIContainer), spriteBatch, mouse, keyboard, deltaTime, additiveOrigin + (member as GUIContainer).Origin);
+                    newMembers.AddRange(GetMembers((member as GUIContainer), mouse, keyboard, deltaTime, additiveOrigin + (member as GUIContainer).Origin));
                 }
 
                 member.Origin = additiveOrigin;
-                member.Draw(spriteBatch, mouse, keyboard, deltaTime);
+
+                newMembers.Add(member);
             }
+
+            return newMembers.ToArray();
+        }
+
+        public static GUI operator +(GUI gui, IGUIMember member)
+        {
+            gui.Add(member);
+            return gui;
+        }
+
+        public static GUI operator +(GUI gui, IGUIMember[] members)
+        {
+            gui.Add(members);
+            return gui;
+        }
+
+        public static GUI operator -(GUI gui, IGUIMember member)
+        {
+            gui.Remove(member);
+            return gui;
         }
     }
 
     public abstract class GUIContainer
     {
+        public bool Active = true;
+
         public virtual void Add(params IGUIMember[] members)
         {
             foreach (IGUIMember member in members)
             {
                 if (member is Renderer)
                 {
-                    (member as Renderer).Automatic = false;
+                    (member as Renderer).Active = false;
                 }
 
                 Members.Add(member);
@@ -96,6 +123,8 @@ namespace Zettalith
 
     public interface IGUIMember
     {
+        Layer Layer { get; }
+
         void Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float deltaTime);
 
         Point Origin { get; set; }
@@ -104,17 +133,19 @@ namespace Zettalith
     public struct Mask
     {
         public Texture2D MaskTexture { get; set; }
+        public Color Color { get; set; }
         public Rectangle Rectangle { get; set; }
         public bool RenderOutside { get; set; }
 
-        public Mask(Texture2D mask, Rectangle rectangle, bool renderOutside)
+        public Mask(Texture2D mask, Rectangle rectangle, Color color, bool renderOutside)
         {
             MaskTexture = mask;
             Rectangle = rectangle;
             RenderOutside = renderOutside;
+            Color = color;
         }
 
         public static implicit operator Mask((Texture2D texture, Rectangle rectangle, bool renderOutside) tuple) 
-            => new Mask(tuple.texture, tuple.rectangle, tuple.renderOutside);
+            => new Mask(tuple.texture, tuple.rectangle, Color.White, tuple.renderOutside);
     }
 }

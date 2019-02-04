@@ -33,6 +33,9 @@ namespace Zettalith
         // Separate testing window
         private Process clone, debugConsole;
 
+        Renderer.SpriteScreen sC;
+        GUI.Collection collection;
+
         public MainController()
         {
             r = new Random();
@@ -81,9 +84,13 @@ namespace Zettalith
             renderer = new Renderer.AnimatorScreen((MainLayer.Main, 0), ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
 
             GUI.MaskedCollection maskedContainer = new GUI.MaskedCollection();
-            maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), false);
+            maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), Color.White, false);
 
             RendererController.GUI.Add(maskedContainer);
+
+            GUI.Button button = new GUI.Button(new Rectangle(200, 10, 100, 20), Color.White);
+            button.OnClick += CloseClone;
+            RendererController.GUI += button;
 
             //GUIContainer maskedContainer = new GUI.Collection();
 
@@ -103,16 +110,12 @@ namespace Zettalith
             }
 
             NetworkManager.Update();
-            RendererController.TestGUI.New();
-            RendererController.TestGUI.Add(
-                new TestGUI.Button(new Rectangle(10, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestHost),
-                new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, BeginSearch),
-                new TestGUI.Button(new Rectangle(10, 70, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin));
+
 
             //if (XNAController.LocalLocalGame)
             //    RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
 
-            image.Transform = new Rectangle(In.MousePosition, image.Transform.Size);
+            //image.Transform = new Rectangle(In.MousePosition, image.Transform.Size);
 
             // Last
             In.UpdateMethods();
@@ -120,7 +123,7 @@ namespace Zettalith
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
-            RendererController.Render(graphics, spriteBatch, gameTime);
+            RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public void OnExit()
