@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Zettalith.Pieces
 {
     [Serializable]
-    class Army
+    class Collection
     {
         public List<Piece> Pieces { get; private set; }
 
