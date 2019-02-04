@@ -8,7 +8,7 @@ using Zettalith.Pieces;
 namespace Zettalith
 {
     [Serializable]
-    public struct PersonalData
+    struct PersonalData
     {
         List<SubPiece> savedSubPieces;
         List<Piece> savedPieces;

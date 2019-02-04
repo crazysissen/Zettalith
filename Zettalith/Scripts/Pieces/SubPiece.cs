@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    public abstract class SubPiece
+    [Serializable]
+    abstract class SubPiece
     {
         public abstract string Name { get; }
         public abstract Mana ManaCost { get; }

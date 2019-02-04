@@ -8,7 +8,7 @@ using Zettalith.Pieces;
 namespace Zettalith
 {
     [Serializable]
-    public class Piece
+    class Piece
     {
         public Top Top { get; set; }
         public Middle Middle { get; set; }

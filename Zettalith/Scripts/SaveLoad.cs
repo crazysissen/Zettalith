@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Zettalith
 {
-    public static class SaveLoad
+    static class SaveLoad
     {
         static string FullPath => Path + fileName;
 
@@ -17,12 +17,16 @@ namespace Zettalith
 
         public static void Save(PersonalData data)
         {
+            if (!Directory.Exists(FullPath))
+            {
+                Directory.CreateDirectory(Path);
+            }
             File.WriteAllBytes(FullPath, Encrypt(Bytestreamer.ToBytes(data)));
         }
 
         public static object Load()
         {
-            return Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+            return Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath + fileName)));
         }
 
         static byte[] Encrypt(byte[] data)
