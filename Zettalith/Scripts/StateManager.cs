@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Zettalith
 {
-    public enum GameState { Splash, MainMenu, ArmyDesigner, Lobby, InGame }
+    public enum GameState { Splash, MainMenu, ArmyDesigner, Lobby, GameLoad, InGame }
 
     class StateManager
     {
