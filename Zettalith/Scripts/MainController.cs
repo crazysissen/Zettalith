@@ -85,6 +85,16 @@ namespace Zettalith
                 NetworkManager.CreateClient();
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
+
+            // SAVE LOAD TESTING, TOM LISTA AV PERSONALDATA SPARAS OCH LADDAS
+
+            //List<SubPiece> subPieces = new List<SubPiece>();
+            //List<Piece> pieces = new List<Piece>();
+            //List<Army> armies = new List<Army>();
+            //PersonalData data = new PersonalData(subPieces, pieces, armies);
+            //SaveLoad.Save(data);
+
+            //PersonalData temp = SaveLoad.Load();
         }
 
         public void LateInitialize(XNAController game)
