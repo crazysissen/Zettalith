@@ -15,6 +15,8 @@ namespace Zettalith
     {
         public class Collection : GUIContainer, IGUIMember
         {
+            Layer IGUIMember.Layer => Layer.Default;
+
             Point IGUIMember.Origin { get; set; }
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
@@ -25,6 +27,8 @@ namespace Zettalith
         
         public class MaskedCollection : GUIContainerMasked, IGUIMember
         {
+            Layer IGUIMember.Layer => Layer.Default;
+
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
@@ -33,6 +37,8 @@ namespace Zettalith
 
         public class Panel : GUIContainer, IGUIMember
         {
+            Layer IGUIMember.Layer => Layer.Default;
+
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
@@ -41,6 +47,8 @@ namespace Zettalith
 
         public class ScrollView : GUIContainer, IGUIMember
         {
+            Layer IGUIMember.Layer => Layer.Default;
+
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
 
@@ -49,6 +57,8 @@ namespace Zettalith
 
         public class Button : IGUIMember
         {
+            Layer IGUIMember.Layer => Layer;
+
             const float
                 DEFAULTTRANSITIONTIME = 0.04f;
 

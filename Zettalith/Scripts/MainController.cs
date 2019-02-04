@@ -33,6 +33,9 @@ namespace Zettalith
         // Separate testing window
         private Process clone, debugConsole;
 
+        Renderer.SpriteScreen sC;
+        GUI.Collection collection;
+
         public MainController()
         {
             r = new Random();
@@ -103,11 +106,7 @@ namespace Zettalith
             }
 
             NetworkManager.Update();
-            RendererController.TestGUI.New();
-            RendererController.TestGUI.Add(
-                new TestGUI.Button(new Rectangle(10, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestHost),
-                new TestGUI.Button(new Rectangle(10, 40, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, BeginSearch),
-                new TestGUI.Button(new Rectangle(10, 70, 100, 20), ContentController.Get<Texture2D>("Square"), Color.White, Color.Gray, Color.Green, TestJoin));
+
 
             //if (XNAController.LocalLocalGame)
             //    RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
@@ -120,7 +119,7 @@ namespace Zettalith
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
-            RendererController.Render(graphics, spriteBatch, gameTime);
+            RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public void OnExit()
