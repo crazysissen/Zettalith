@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
+    [Serializable]
     class Army
     {
         public List<Piece> army;
