@@ -96,6 +96,9 @@ namespace Zettalith
 
             image = new Renderer.SpriteScreen((MainLayer.AbsoluteBottom, 0), ContentController.Get<Texture2D>("Animation Test"), new Rectangle(100, 100, 300, 300));
             maskedContainer.Add(image);
+
+            SaveLoad.Save(3);
+
         }
 
         public void LateInitialize(XNAController game)
