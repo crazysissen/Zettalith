@@ -88,9 +88,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
-    <Compile Include="Scripts\Bitstreamer.cs" />
+    <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\DeckDesigner.cs" />
-    <Compile Include="Scripts\GElement.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
@@ -118,6 +117,7 @@
     <Compile Include="Scripts\Mathz.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
+    <Compile Include="Scripts\PersonalData.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />
@@ -127,6 +127,7 @@
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />
     <Compile Include="Scripts\Rendering\RendererController.cs" />
+    <Compile Include="Scripts\SaveLoad.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
     <Compile Include="Scripts\Pieces\Middle.cs" />
