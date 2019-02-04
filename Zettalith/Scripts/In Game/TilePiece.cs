@@ -13,7 +13,7 @@ namespace Zettalith
 
         Top Top => piece.Top;
         Middle Middle => piece.Middle;
-        Bottom bottom => piece.Bottom;
+        Bottom Bottom => piece.Bottom;
 
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
 
@@ -21,12 +21,12 @@ namespace Zettalith
 
         public Stats BaseStats => new Stats()
         {
-            AttackDamage = Top.AttackDamage + Middle.AttackDamage + bottom.AttackDamage,
-            MaxHealth = Top.Health + Middle.Health + bottom.Health,
-            Health = Top.Health + Middle.Health + bottom.Health,
-            Mana = Top.ManaCost + Middle.ManaCost + bottom.ManaCost,
+            AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
+            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
+            Health = Top.Health + Middle.Health + Bottom.Health,
+            Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
             AbilityCost = Top.AbilityCost,
-            MoveCost = bottom.MoveCost
+            MoveCost = Bottom.MoveCost
         };
 
         public Stats ModifiedStats

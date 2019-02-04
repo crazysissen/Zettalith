@@ -88,7 +88,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
-    <Compile Include="Scripts\Bitstreamer.cs" />
+    <Compile Include="Scripts\Army.cs" />
+    <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\GElement.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
