@@ -24,9 +24,9 @@ namespace Zettalith
             File.WriteAllBytes(FullPath, Encrypt(Bytestreamer.ToBytes(data)));
         }
 
-        public static object Load()
+        public static PersonalData Load()
         {
-            return Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath + fileName)));
+            return Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
         }
 
         static byte[] Encrypt(byte[] data)
@@ -42,10 +42,5 @@ namespace Zettalith
 
             return temp;
         }
-
-        //static byte[] Decrypt(byte[] data)
-        //{
-
-        //}
     }
 }

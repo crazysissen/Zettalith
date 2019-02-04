@@ -86,12 +86,15 @@ namespace Zettalith
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
 
-            // TESTA SAVE LOAD FUNKTION MED PERSONAL DATA SKAPA SHIT YEAH
-            List<SubPiece> subPieces = new List<SubPiece>();
-            List<Piece> pieces = new List<Piece>();
-            List<Army> armies = new List<Army>();
-            PersonalData data = new PersonalData(subPieces, pieces, armies);
-            SaveLoad.Save(data);
+            // SAVE LOAD TESTING, TOM LISTA AV PERSONALDATA SPARAS OCH LADDAS
+
+            //List<SubPiece> subPieces = new List<SubPiece>();
+            //List<Piece> pieces = new List<Piece>();
+            //List<Army> armies = new List<Army>();
+            //PersonalData data = new PersonalData(subPieces, pieces, armies);
+            //SaveLoad.Save(data);
+
+            //PersonalData temp = SaveLoad.Load();
         }
 
         public void LateInitialize(XNAController game)
