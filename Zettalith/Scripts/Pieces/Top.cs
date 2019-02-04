@@ -8,9 +8,6 @@ namespace Zettalith.Pieces
 {
     sealed class Top : SubPiece
     {
-        public Top()
-        {
 
-        }
     }
 }
