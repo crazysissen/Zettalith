@@ -83,7 +83,7 @@ namespace Zettalith
                 this.rectangle = rectangle;
                 this.color = color;
 
-                texture = ContentController.Get<Texture2D>("Square");
+                texture = Load.Get<Texture2D>("Square");
             }
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, int order) => spriteBatch.Draw(texture, rectangle, null, color, 0, Vector2.Zero, SpriteEffects.None, 0.2f - 0.0001f * order);

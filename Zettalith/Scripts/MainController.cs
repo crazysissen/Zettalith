@@ -66,7 +66,6 @@ namespace Zettalith
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
             NetworkManager.Listen("TEST", RecieveTestMessage);
-            RendererController.TestGUI = new TestGUI();
 
             if (type == StartType.LocalHost)
             {
@@ -80,22 +79,6 @@ namespace Zettalith
                 NetworkManager.CreateClient();
                 NetworkManager.StartPeerSearch(LOCALHOST);
             }
-
-            renderer = new Renderer.AnimatorScreen((MainLayer.Main, 0), ContentController.Get<Texture2D>("Animation Test"), new Point(16, 16), new Rectangle(200, 200, 32, 32), Vector2.Zero, 0, Color.White, 1, 0, true, SpriteEffects.None);
-
-            GUI.MaskedCollection maskedContainer = new GUI.MaskedCollection();
-            maskedContainer.Mask = new Mask(ContentController.Get<Texture2D>("TestMask"), new Rectangle(100, 100, 300, 300), Color.White, false);
-
-            RendererController.GUI.Add(maskedContainer);
-
-            GUI.Button button = new GUI.Button(new Rectangle(200, 10, 100, 20), Color.White);
-            button.OnClick += CloseClone;
-            RendererController.GUI += button;
-
-            //GUIContainer maskedContainer = new GUI.Collection();
-
-            image = new Renderer.SpriteScreen((MainLayer.AbsoluteBottom, 0), ContentController.Get<Texture2D>("Animation Test"), new Rectangle(100, 100, 300, 300));
-            maskedContainer.Add(image);
         }
 
         public void LateInitialize(XNAController game)
@@ -110,12 +93,6 @@ namespace Zettalith
             }
 
             NetworkManager.Update();
-
-
-            //if (XNAController.LocalLocalGame)
-            //    RendererController.TestGUI.Add(new TestGUI.Button(new Rectangle(120, 10, 100, 20), ContentController.Get<Texture2D>("Square"), Color.Green, Color.Gray, Color.Green, StartClone));
-
-            //image.Transform = new Rectangle(In.MousePosition, image.Transform.Size);
 
             // Last
             In.UpdateMethods();

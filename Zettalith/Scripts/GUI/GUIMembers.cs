@@ -57,6 +57,9 @@ namespace Zettalith
 
         public class Button : IGUIMember
         {
+            Point IGUIMember.Origin { get => _origin; set => _origin = value; }
+            Point _origin = new Point();
+
             Layer IGUIMember.Layer => Layer;
 
             const float
@@ -70,9 +73,6 @@ namespace Zettalith
             public event Action OnExit;
             public event Action OnMouseDown;
             public event Action OnClick;
-
-            Point IGUIMember.Origin { get => _origin; set => _origin = value; }
-            Point _origin;
 
             public State CurrentState { get; private set; }
             public Type DisplayType { get; private set; }
@@ -93,16 +93,16 @@ namespace Zettalith
             private Color _startColor, _targetColor;
             private Texture2D _startTexture, _targetTexture;
             private State _startState;
-            private SoundEffect effect, hoverEffect = ContentController.Get<SoundEffect>("MenuBlipNeutral");
+            private SoundEffect effect;
 
             /// <summary>Testing button</summary>
             public Button(Rectangle transform)
-                : this(transform, ContentController.Get<Texture2D>("Square"), new Color(0.9f, 0.9f, 0.9f))
+                : this(transform, Load.Get<Texture2D>("Square"), new Color(0.9f, 0.9f, 0.9f))
             { }
 
             /// <summary>Testing button</summary>
             public Button(Rectangle transform, Color color)
-                : this(transform, ContentController.Get<Texture2D>("Square"), color)
+                : this(transform, Load.Get<Texture2D>("Square"), color)
             { }
 
             /// <summary>Simple button with preset color multipliers, for testing primarily</summary>
@@ -163,60 +163,7 @@ namespace Zettalith
                 bool onButton = Transform.Contains(mouse.Position);
                 bool pressed = mouse.LeftButton == ButtonState.Pressed;
 
-                if (pressed && !_pressedLastFrame && onButton)
-                {
-                    _beginHoldOnButton = true;
-                }
-
-                if (CurrentState != State.Idle && !onButton)
-                {
-                    OnExit?.Invoke();
-                    ChangeState(State.Idle);
-                }
-                else
-                    switch (CurrentState)
-                    {
-                        case State.Idle:
-                            if (onButton)
-                            {
-                                OnEnter?.Invoke();
-                                hoverEffect.Play();
-                                if (pressed)
-                                {
-                                    ChangeState(State.Pressed);
-                                    if (!_pressedLastFrame)
-                                        OnMouseDown?.Invoke();
-                                }
-                                if (!pressed)
-                                    ChangeState(State.Hovered);
-                            }
-                            break;
-
-                        case State.Hovered:
-                            if (onButton && pressed && _beginHoldOnButton)
-                            {
-                                OnMouseDown?.Invoke();
-                                ChangeState(State.Pressed);
-                            }
-                            break;
-
-                        case State.Pressed:
-                            if (!pressed && onButton)
-                            {
-                                ChangeState(State.Hovered);
-                                if (_beginHoldOnButton)
-                                {
-                                    OnClick?.Invoke();
-
-                                    if (effect != null)
-                                    {
-                                        effect.Play();
-                                    }
-                                }
-                            }
-                            break;
-                    }
-
+                Transfer(pressed, onButton);
 
                 List<TA> textures = new List<TA>();
                 Color color = Color.White;
@@ -266,12 +213,9 @@ namespace Zettalith
                     }
                 }
 
-                Rectangle drawTransform = Transform;
-                drawTransform.Location += _origin;
-
                 foreach (TA textureAlpha in textures)
                 {
-                    spriteBatch.Draw(textureAlpha.texture, Transform, null, new Color(color, textureAlpha.a), 0, Vector2.Zero, SpriteEffects.None, Layer.LayerDepth);
+                    spriteBatch.Draw(textureAlpha.texture, new Rectangle(Transform.Location + _origin, Transform.Size), null, new Color(color, textureAlpha.a), 0, Vector2.Zero, SpriteEffects.None, Layer.LayerDepth);
                 }
 
                 if (!pressed)
@@ -280,6 +224,62 @@ namespace Zettalith
                 }
 
                 _pressedLastFrame = pressed;
+            }
+
+            private void Transfer(bool pressed, bool onButton)
+            {
+                if (pressed && !_pressedLastFrame && onButton)
+                {
+                    _beginHoldOnButton = true;
+                }
+
+                if (CurrentState != State.Idle && !onButton)
+                {
+                    OnExit?.Invoke();
+                    ChangeState(State.Idle);
+                }
+                else
+                    switch (CurrentState)
+                    {
+                        case State.Idle:
+                            if (onButton)
+                            {
+                                OnEnter?.Invoke();
+                                if (pressed)
+                                {
+                                    ChangeState(State.Pressed);
+                                    if (!_pressedLastFrame)
+                                        OnMouseDown?.Invoke();
+                                }
+                                if (!pressed)
+                                    ChangeState(State.Hovered);
+                            }
+                            break;
+
+                        case State.Hovered:
+                            if (onButton && pressed && _beginHoldOnButton)
+                            {
+                                OnMouseDown?.Invoke();
+                                ChangeState(State.Pressed);
+                            }
+                            break;
+
+                        case State.Pressed:
+                            if (!pressed && onButton)
+                            {
+                                ChangeState(State.Hovered);
+                                if (_beginHoldOnButton)
+                                {
+                                    OnClick?.Invoke();
+
+                                    if (effect != null)
+                                    {
+                                        effect.Play();
+                                    }
+                                }
+                            }
+                            break;
+                    }
             }
 
             private void ChangeState(State state)
@@ -330,11 +330,11 @@ namespace Zettalith
                         return;
 
                     case Transition.DecelleratingFade:
-                        _transition = Mathz.SineD;
+                        _transition = MathZ.SineD;
                         return;
 
                     case Transition.AcceleratingFade:
-                        _transition = Mathz.SineA;
+                        _transition = MathZ.SineA;
                         return;
                 }
             }
