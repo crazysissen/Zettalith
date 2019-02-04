@@ -20,11 +20,15 @@ namespace Zettalith
             LOCALHOST = "localhost",
             CONSOLEPATH = @"\Debug\ZettalithDebugConsole.exe";
 
-
         public static InGameController InGame { get; private set; }
+        public static MainController Main { get; private set; }
+
+        public static GameState CurrentState => Main.stateManager.GameState;
+        public static int CurrentSubState => Main.stateManager.Peek;
 
         private System.Net.IPEndPoint endPoint;
         private Random r;
+        private StateManager stateManager;
 
         // Separate testing window
         private Process clone/*, debugConsole*/;
@@ -32,10 +36,11 @@ namespace Zettalith
         // Update Fork
         private InGameController inGameController;
         private MainMenu mainMenu;
-        private 
+        private DeckDesigner deckDesigner;
 
         public MainController()
         {
+            Main = this;
             r = new Random();
         }
 
@@ -91,6 +96,31 @@ namespace Zettalith
             }
 
             NetworkManager.Update();
+
+            switch (CurrentState)
+            {
+                case GameState.Splash:
+                    stateManager.SetGameState(GameState.MainMenu, 0);
+                    break;
+
+                case GameState.MainMenu:
+                    break;
+
+                case GameState.ArmyDesigner:
+                    break;
+
+                case GameState.Lobby:
+                    break;
+
+                case GameState.GameLoad:
+                    break;
+
+                case GameState.InGame:
+                    break;
+
+                default:
+                    break;
+            }
 
             // Last
             In.UpdateMethods();
