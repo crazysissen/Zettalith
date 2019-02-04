@@ -89,7 +89,6 @@
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\Bitstreamer.cs" />
-    <Compile Include="Scripts\GElement.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
