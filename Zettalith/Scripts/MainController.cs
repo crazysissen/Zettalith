@@ -24,17 +24,15 @@ namespace Zettalith
         public static InGameController InGame { get; private set; }
 
         private System.Net.IPEndPoint endPoint;
-        private InGameController inGameController;
         private Random r;
-        private Renderer renderer;
-        private Renderer.SpriteScreen image;
-        private Thread readConsoleThread;
 
         // Separate testing window
-        private Process clone, debugConsole;
+        private Process clone/*, debugConsole*/;
 
-        Renderer.SpriteScreen sC;
-        GUI.Collection collection;
+        // Update Fork
+        private InGameController inGameController;
+        private MainMenu mainMenu;
+        private 
 
         public MainController()
         {
@@ -105,10 +103,10 @@ namespace Zettalith
 
         public void OnExit()
         {
-            if (debugConsole != null && !debugConsole.HasExited)
-            {
-                debugConsole.Kill();
-            }
+            //if (debugConsole != null && !debugConsole.HasExited)
+            //{
+            //    debugConsole.Kill();
+            //}
         }
 
         public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
@@ -168,63 +166,63 @@ namespace Zettalith
             clone.Close();
         }
 
-        void StartDebugConsole()
-        {
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))
-            {
-                Test.Log("No debug console found.");
-                return;
-            }
+        //void StartDebugConsole()
+        //{
+        //    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))
+        //    {
+        //        Test.Log("No debug console found.");
+        //        return;
+        //    }
 
-            //using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
-            //{
+        //    //using (AnonymousPipeServerStream host = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable))
+        //    //{
 
-            debugConsole = new Process();
+        //    debugConsole = new Process();
 
-            //string clientHandle = host.GetClientHandleAsString();
-            //Test.Log("Client handle: " + clientHandle);
-            //Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
+        //    //string clientHandle = host.GetClientHandleAsString();
+        //    //Test.Log("Client handle: " + clientHandle);
+        //    //Test.Log("Debugged handle: " + (XNAController.A_SERVERHANDLE + ":" + clientHandle).Split(':')[1]);
 
-            //debugConsole.StartInfo.Arguments = clientHandle;
-            //debugConsole.StartInfo.UseShellExecute = false;
-            //debugConsole.StartInfo.RedirectStandardOutput = true;
+        //    //debugConsole.StartInfo.Arguments = clientHandle;
+        //    //debugConsole.StartInfo.UseShellExecute = false;
+        //    //debugConsole.StartInfo.RedirectStandardOutput = true;
 
-            debugConsole.StartInfo.Arguments = Process.GetCurrentProcess().Id.ToString();
-            debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
-            debugConsole.StartInfo.RedirectStandardOutput = true;
-            debugConsole.StartInfo.UseShellExecute = false;
-            debugConsole.Start();
+        //    debugConsole.StartInfo.Arguments = Process.GetCurrentProcess().Id.ToString();
+        //    debugConsole.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH;
+        //    debugConsole.StartInfo.RedirectStandardOutput = true;
+        //    debugConsole.StartInfo.UseShellExecute = false;
+        //    debugConsole.Start();
 
-            readConsoleThread = new Thread(ReadConsole);
-            readConsoleThread.Start(debugConsole);
+        //    readConsoleThread = new Thread(ReadConsole);
+        //    readConsoleThread.Start(debugConsole);
 
-                //try
-                //{
-                //    using (StreamReader sr = new StreamReader(host))
-                //    {
-                //        string readData = sr.ReadLine();
-                //    }
-                //}
-                //catch (IOException exception)
-                //{
+        //        //try
+        //        //{
+        //        //    using (StreamReader sr = new StreamReader(host))
+        //        //    {
+        //        //        string readData = sr.ReadLine();
+        //        //    }
+        //        //}
+        //        //catch (IOException exception)
+        //        //{
 
-                //}
-            //}
-        }
+        //        //}
+        //    //}
+        //}
 
-        void ReadConsole(object process)
-        {
-            Process targetProcess = (Process)process;
+        //void ReadConsole(object process)
+        //{
+        //    Process targetProcess = (Process)process;
 
-            //Thread.Sleep(2000);
+        //    //Thread.Sleep(2000);
 
-            //System.Diagnostics.Stopwatch
+        //    //System.Diagnostics.Stopwatch
 
-            while (true)
-            {
-                string read = targetProcess.StandardOutput.ReadLine();
-            }
-        }
+        //    while (true)
+        //    {
+        //        string read = targetProcess.StandardOutput.ReadLine();
+        //    }
+        //}
 
         void StartClone()
         {
