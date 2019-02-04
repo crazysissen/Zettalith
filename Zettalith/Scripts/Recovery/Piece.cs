@@ -7,47 +7,19 @@ using Zettalith.Pieces;
 
 namespace Zettalith
 {
-    class Piece : TileObject
+    [Serializable]
+    class Piece
     {
-        public Stats BaseStats => new Stats()
+        public Top Top { get; set; }
+        public Middle Middle { get; set; }
+        public Bottom Bottom { get; set; }
+
+        public Piece(Top top, Middle middle, Bottom bottom)
         {
-            AttackDamage = top.AttackDamage + middle.AttackDamage + bottom.AttackDamage,
-            MaxHealth = top.Health + middle.Health + bottom.Health,
-            Health = top.Health + middle.Health + bottom.Health,
-            Mana = top.ManaCost + middle.ManaCost + bottom.ManaCost,
-            AbilityCost = top.AbilityCost,
-            MoveCost = bottom.MoveCost
-        };
-
-        public Stats ModifiedStats
-        {
-            get
-            {
-                Stats modified = BaseStats;
-
-                foreach (Modifier modifier in modifiers)
-                {
-                    if (modifier is Addition)
-                    {
-                        modified += (modifier as Addition).StatChanges;
-                    }
-                    else if (modifier is Multiplication)
-                    {
-                        modified *= (modifier as Multiplication).StatChanges;
-                    }
-                    //else if (modifier is NEWMODIFIER)
-                    //{
-
-                    //}
-                }
-
-                return modified;
-            }
+            this.Top = top;
+            this.Middle = middle;
+            this.Bottom = bottom;
         }
-
-        public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
-
-        List<Modifier> modifiers = new List<Modifier>();
 
         //Addition statChange = new Addition(null, new Stats(0));
 
@@ -75,50 +47,5 @@ namespace Zettalith
         //public Stats ModifiedStats => BaseStats + CumulativeModifier.StatChanges;
 
         //List<Modifier> modifiers = new List<Modifier>();
-
-        Top top;
-        Middle middle;
-        Bottom bottom;
-
-        public Piece(Top top, Middle middle, Bottom bottom)
-        {
-            this.top = top;
-            this.middle = middle;
-            this.bottom = bottom;
-        }
-
-        public void Mod(Modifier modifier)
-        {
-            modifiers.Add(modifier);
-        }
-
-        public static void ApplyMod(Modifier mod, Piece target)
-        {
-            target.Mod(mod);
-        }
-
-        //public static void ApplyMultipleMods(List<(Modifier mod, Piece target)> modifiers)
-        //{
-        //    for (int i = 0; i < modifiers.Count; ++i)
-        //    {
-        //        modifiers[i].target.Mod(modifiers[i].mod);
-        //    }
-        //}
-
-        public void ClearMods()
-        {
-            foreach (Modifier modifier in modifiers)
-            {
-                if (!modifier.Permanent)
-                {
-                    modifiers.Remove(modifier);
-                }
-            }
-        }
-
-        public void ResetMods()
-        {
-            modifiers.Clear();
-        }
     }
 }
