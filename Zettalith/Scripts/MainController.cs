@@ -57,7 +57,7 @@ namespace Zettalith
 
         public void LocalGameClientInitialize(Process parentProcess)
         {
- 
+            
         }
 
         public void Initialize(XNAController game, StartType type, Process parent = null)
@@ -66,6 +66,8 @@ namespace Zettalith
             //{
             //    StartDebugConsole();
             //}
+
+            stateManager = new StateManager(GameState.MainMenu, 0);
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
             NetworkManager.Initialize(game);
