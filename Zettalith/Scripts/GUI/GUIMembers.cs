@@ -202,12 +202,12 @@ namespace Zettalith
                     switch (DisplayType)
                     {
                         case Type.ColorSwitch:
-                            textures.Add(new TA(Texture, 1));
+                            textures.Add(new TA(Texture, 255));
                             color = ColorSwitch[(int)CurrentState];
                             break;
 
                         case Type.TextureSwitch:
-                            textures.Add(new TA(TextureSwitch[(int)CurrentState], 1));
+                            textures.Add(new TA(TextureSwitch[(int)CurrentState], 255));
                             color = Color.White;
                             break;
                     }
