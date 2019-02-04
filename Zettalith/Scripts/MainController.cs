@@ -257,6 +257,12 @@ namespace Zettalith
         //    }
         //}
 
+        void CreateMainMenu()
+        {
+            mainMenu = new MainMenu();
+            mainMenu.Initialize(this);
+        }
+
         void StartClone()
         {
             clone = new Process();
