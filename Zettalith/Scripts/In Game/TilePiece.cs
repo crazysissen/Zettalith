@@ -11,13 +11,21 @@ namespace Zettalith
     {
         Piece piece;
 
-        Top Top => piece.Top;
-        Middle Middle => piece.Middle;
-        Bottom Bottom => piece.Bottom;
+        Top Top/* => tops[piece.TopIndex]*/;
+        Middle Middle/* => middles[piece.MiddleIndex]*/;
+        Bottom Bottom/* => bottoms[piece.BottomIndex]*/;
 
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
 
         List<Modifier> modifiers = new List<Modifier>();
+
+        public TilePiece(Piece piece)
+        {
+            this.piece = piece;
+            Top = tops[piece.TopIndex];
+            Middle = middles[piece.MiddleIndex];
+            Bottom = bottoms[piece.BottomIndex];
+        }
 
         public Stats BaseStats => new Stats()
         {

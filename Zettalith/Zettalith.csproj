@@ -119,6 +119,7 @@
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\PersonalData.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Top1.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />
@@ -236,7 +237,6 @@
     <Folder Include="Scripts\Object Hierarchy\" />
     <Folder Include="Scripts\Pieces\Bottoms\" />
     <Folder Include="Scripts\Pieces\Middles\" />
-    <Folder Include="Scripts\Pieces\Tops\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="StupidIdeas.txt" />

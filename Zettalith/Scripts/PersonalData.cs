@@ -12,13 +12,13 @@ namespace Zettalith
     {
         List<SubPiece> savedSubPieces;
         List<Piece> savedPieces;
-        List<Army> savedArmies;
+        List<Collection> savedCollections;
 
-        public PersonalData(List<SubPiece> subPieces, List<Piece> pieces, List<Army> armies)
+        public PersonalData(List<SubPiece> subPieces, List<Piece> pieces, List<Collection> collections)
         {
             savedSubPieces = subPieces;
             savedPieces = pieces;
-            savedArmies = armies;
+            savedCollections = collections;
         }
     }
 }

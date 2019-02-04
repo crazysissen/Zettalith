@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    sealed class Middle : SubPiece
+    class Top1 : Top
     {
-
+        
     }
 }

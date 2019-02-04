@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    abstract class Top : SubPiece
+    sealed class Top : SubPiece
     {
-        public abstract Mana AbilityCost { get; set; }
+        public Top()
+        {
 
+        }
     }
 }

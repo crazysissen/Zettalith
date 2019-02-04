@@ -10,16 +10,27 @@ namespace Zettalith
     [Serializable]
     class Piece
     {
-        public Top Top { get; set; }
-        public Middle Middle { get; set; }
-        public Bottom Bottom { get; set; }
+        public int TopIndex { get; private set; }
+        public int MiddleIndex { get; private set; }
+        public int BottomIndex { get; private set; }
 
-        public Piece(Top top, Middle middle, Bottom bottom)
+        public Piece(int topIndex, int middleIndex, int bottomIndex)
         {
-            this.Top = top;
-            this.Middle = middle;
-            this.Bottom = bottom;
+            TopIndex = topIndex;
+            MiddleIndex = middleIndex;
+            BottomIndex = bottomIndex;
         }
+
+        //public Top Top { get; set; }
+        //public Middle Middle { get; set; }
+        //public Bottom Bottom { get; set; }
+
+        //public Piece(Top top, Middle middle, Bottom bottom)
+        //{
+        //    this.Top = top;
+        //    this.Middle = middle;
+        //    this.Bottom = bottom;
+        //}
 
         //Addition statChange = new Addition(null, new Stats(0));
 
