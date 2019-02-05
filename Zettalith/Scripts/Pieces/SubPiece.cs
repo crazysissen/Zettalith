@@ -14,6 +14,17 @@ namespace Zettalith.Pieces
         public int Health { get; set; }
         public int AttackDamage { get; set; }
         public Mana ManaCost { get; set; }
+        public Mana MoveCost { get; set; }
         public Ability Ability { get; set; }
+
+        public int ToIndex()
+        {
+            return Subpieces.subpieces.IndexOf(GetType());
+        }
+
+        public SubPiece FromIndex(int index)
+        {
+            return (SubPiece)Activator.CreateInstance(Subpieces.subpieces[index]);
+        }
     }
 }
