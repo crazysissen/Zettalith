@@ -16,6 +16,7 @@ namespace Zettalith
         Bottom bottom/* => bottoms[piece.BottomIndex]*/;
 
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
+        public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
         List<Modifier> modifiers = new List<Modifier>();
 
@@ -68,24 +69,33 @@ namespace Zettalith
 
         //}
 
-        public void Mod(Modifier modifier)
+        //TODO: GameAction?
+        public void ModThis(Modifier mod)
         {
-            modifiers.Add(modifier);
+            modifiers.Add(mod);
         }
 
-        public static void ApplyMod(Modifier mod, TilePiece target)
+        //TODO: GameAction?
+        public static void ModOther(Modifier mod, TilePiece target)
         {
-            target.Mod(mod);
+            target.ModThis(mod);
         }
 
         public void ClearMods()
         {
+            List<Modifier> remove = new List<Modifier>();
+
             foreach (Modifier modifier in modifiers)
             {
                 if (!modifier.Permanent)
                 {
-                    modifiers.Remove(modifier);
+                    remove.Add(modifier);
                 }
+            }
+
+            for (int i = 0; i < remove.Count; ++i)
+            {
+                modifiers.Remove(remove[i]);
             }
         }
 
