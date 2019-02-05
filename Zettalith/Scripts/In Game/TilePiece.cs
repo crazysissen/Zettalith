@@ -22,9 +22,9 @@ namespace Zettalith
         public TilePiece(Piece piece)
         {
             this.piece = piece;
-            Top = tops[piece.TopIndex];
-            Middle = middles[piece.MiddleIndex];
-            Bottom = bottoms[piece.BottomIndex];
+            //Top = tops[piece.TopIndex];
+            //Middle = middles[piece.MiddleIndex];
+            //Bottom = bottoms[piece.BottomIndex];
         }
 
         public Stats BaseStats => new Stats()
@@ -33,7 +33,7 @@ namespace Zettalith
             MaxHealth = Top.Health + Middle.Health + Bottom.Health,
             Health = Top.Health + Middle.Health + Bottom.Health,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            AbilityCost = Top.AbilityCost,
+            //AbilityCost = Top.AbilityCost,
             MoveCost = Bottom.MoveCost
         };
 
