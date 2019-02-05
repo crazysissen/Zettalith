@@ -60,7 +60,7 @@ namespace Zettalith
             
         }
 
-        public void Initialize(XNAController game, StartType type, Process parent = null)
+        public void Initialize(XNAController game, StartType type, Color backgroundColor, Process parent = null)
         {
             //if (XNAController.DebugConsole)
             //{
@@ -69,7 +69,7 @@ namespace Zettalith
 
             stateManager = new StateManager(GameState.MainMenu, 0);
 
-            RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1);
+            RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1, backgroundColor);
             NetworkManager.Initialize(game);
             NetworkManager.Listen("TEST", RecieveTestMessage);
 
@@ -105,6 +105,8 @@ namespace Zettalith
 
         public void Update(XNAController game, GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (XNAController.localGame && clone.HasExited)
             {
                 game.Exit();
@@ -119,9 +121,11 @@ namespace Zettalith
                     break;
 
                 case GameState.MainMenu:
+                    mainMenu.Update();
                     break;
 
                 case GameState.ArmyDesigner:
+                    deckDesigner.Update(deltaTime);
                     break;
 
                 case GameState.Lobby:
@@ -209,6 +213,14 @@ namespace Zettalith
         void CloseClone()
         {
             clone.Close();
+        }
+
+        public void ToArmies()
+        {
+            stateManager.SetGameState(GameState.ArmyDesigner, 0);
+
+            deckDesigner = new DeckDesigner();
+            deckDesigner.Initialize();
         }
 
         //void StartDebugConsole()
