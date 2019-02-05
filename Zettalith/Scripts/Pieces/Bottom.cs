@@ -8,7 +8,17 @@ namespace Zettalith.Pieces
 {
     abstract class Bottom : SubPiece
     {
-        public abstract Mana MoveCost { get; set; }
+        public Mana MoveCost { get; set; }
 
+        public int ToIndex()
+        {
+            return Bottoms.bottoms.IndexOf(GetType());
+        }
+
+        public Bottom FromIndex(int index)
+        {
+            Bottom tempBottom = (Bottom)Activator.CreateInstance(Bottoms.bottoms[index]);
+            return tempBottom;
+        }
     }
 }

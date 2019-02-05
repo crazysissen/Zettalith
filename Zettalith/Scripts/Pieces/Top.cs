@@ -8,7 +8,15 @@ namespace Zettalith.Pieces
 {
     abstract class Top : SubPiece
     {
-        public abstract Mana AbilityCost { get; set; }
+        public int ToIndex()
+        {
+            return Tops.tops.IndexOf(GetType());
+        }
 
+        public Top FromIndex(int index)
+        {
+            Top tempTop = (Top)Activator.CreateInstance(Tops.tops[index]);
+            return tempTop;
+        }
     }
 }

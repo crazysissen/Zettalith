@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
+    [Serializable]
     public class Mana
     {
         public int Red { get; private set; }

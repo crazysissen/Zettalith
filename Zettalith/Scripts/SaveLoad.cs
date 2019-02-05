@@ -10,16 +10,16 @@ namespace Zettalith
 {
     static class SaveLoad
     {
-        static string FullPath => Path + fileName;
+        static string FullPath => path + fileName;
 
-        static string Path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
+        static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
         static string fileName = "UserData.zth";
 
         public static void Save(PersonalData data)
         {
-            if (!Directory.Exists(FullPath))
+            if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(Path);
+                Directory.CreateDirectory(path);
             }
             File.WriteAllBytes(FullPath, Encrypt(Bytestreamer.ToBytes(data)));
         }
@@ -33,7 +33,9 @@ namespace Zettalith
         {
             int length = data.Length;
             byte[] temp = new byte[length];
+            #region T O P  S E C R E T
             byte key = 49;
+            #endregion
 
             for (int i = 0; i < length; ++i)
             {

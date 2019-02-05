@@ -11,22 +11,31 @@ namespace Zettalith
     {
         Piece piece;
 
-        Top Top => piece.Top;
-        Middle Middle => piece.Middle;
-        Bottom Bottom => piece.Bottom;
+        Top top/* => tops[piece.TopIndex]*/;
+        Middle middle/* => middles[piece.MiddleIndex]*/;
+        Bottom bottom/* => bottoms[piece.BottomIndex]*/;
 
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
+        public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
         List<Modifier> modifiers = new List<Modifier>();
 
+        public TilePiece(Piece piece)
+        {
+            this.piece = piece;
+            top = top.FromIndex(piece.TopIndex);
+            middle = middle.FromIndex(piece.MiddleIndex);
+            bottom = bottom.FromIndex(piece.BottomIndex);
+        }
+
         public Stats BaseStats => new Stats()
         {
-            AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
-            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
-            Health = Top.Health + Middle.Health + Bottom.Health,
-            Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            AbilityCost = Top.AbilityCost,
-            MoveCost = Bottom.MoveCost
+            AttackDamage = top.AttackDamage + middle.AttackDamage + bottom.AttackDamage,
+            MaxHealth = top.Health + middle.Health + bottom.Health,
+            Health = top.Health + middle.Health + bottom.Health,
+            Mana = top.ManaCost + middle.ManaCost + bottom.ManaCost,
+            //AbilityCost = Top.AbilityCost,
+            MoveCost = bottom.MoveCost
         };
 
         public Stats ModifiedStats
@@ -60,24 +69,33 @@ namespace Zettalith
 
         //}
 
-        public void Mod(Modifier modifier)
+        //TODO: GameAction?
+        public void ModThis(Modifier mod)
         {
-            modifiers.Add(modifier);
+            modifiers.Add(mod);
         }
 
-        public static void ApplyMod(Modifier mod, TilePiece target)
+        //TODO: GameAction?
+        public static void ModOther(Modifier mod, TilePiece target)
         {
-            target.Mod(mod);
+            target.ModThis(mod);
         }
 
         public void ClearMods()
         {
+            List<Modifier> remove = new List<Modifier>();
+
             foreach (Modifier modifier in modifiers)
             {
                 if (!modifier.Permanent)
                 {
-                    modifiers.Remove(modifier);
+                    remove.Add(modifier);
                 }
+            }
+
+            for (int i = 0; i < remove.Count; ++i)
+            {
+                modifiers.Remove(remove[i]);
             }
         }
 
