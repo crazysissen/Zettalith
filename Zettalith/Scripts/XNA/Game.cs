@@ -47,7 +47,9 @@ namespace Zettalith
 
             Graphics = new GraphicsDeviceManager(this)
             {
-                PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
+                PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8,
+                PreferredBackBufferHeight = 1080,
+                PreferredBackBufferWidth = 1920
             };
 
             Content.RootDirectory = "Content";
@@ -97,13 +99,12 @@ namespace Zettalith
             }
 
             MainController.Initialize(
-                game: this, 
+                game: this,
                 type: startType,
+                backgroundColor: _background,
                 parent: parent);
 
             IsMouseVisible = true;
-
-            //System.Diagnostics.Debug.WriteLine();
         }
 
         protected override void LoadContent()
@@ -144,6 +145,11 @@ namespace Zettalith
         protected override void OnExiting(object sender, EventArgs args)
         {
             MainController.OnExit();
+        }
+
+        public static void Quit()
+        {
+            _singleton.Exit();
         }
 
         public static string GetWindowTitle() => _singleton.Window.Title;

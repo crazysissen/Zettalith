@@ -18,7 +18,9 @@ namespace Zettalith
         private static List<Renderer> renderers = new List<Renderer>();
         private static List<(GUIContainerMasked, Point)> renderMasks = new List<(GUIContainerMasked, Point)>();
 
-        public static void Initialize(GraphicsDeviceManager graphics, Vector2 cameraPosition, float cameraScale)
+        private static Color backgroundColor;
+
+        public static void Initialize(GraphicsDeviceManager graphics, Vector2 cameraPosition, float cameraScale, Color backgroundColor)
         {
             GUI = new GUI();
 
@@ -27,6 +29,8 @@ namespace Zettalith
                 Position = cameraPosition,
                 Scale = cameraScale
             };
+
+            RendererController.backgroundColor = backgroundColor;
         }
 
         #region Old Render
@@ -105,7 +109,7 @@ namespace Zettalith
 
         public static void Render(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, GameTime gameTime, float deltaTime)
         {
-            graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.Stencil, Color.CornflowerBlue, 0, 0);
+            graphics.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.Stencil, backgroundColor, 0, 0);
             //System.Diagnostics.Debug.WriteLine(Camera.ScreenToWorldPosition(Mouse.GetState().Position.ToVector2()));
 
             //camera.Scale -= (0.2f * (float)gameTime.ElapsedGameTime.TotalSeconds);
