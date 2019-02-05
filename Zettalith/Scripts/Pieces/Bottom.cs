@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    sealed class Bottom : SubPiece
+    abstract class Bottom : SubPiece
     {
-        public Mana MoveCost { get; set; }
+        //public int ToIndex()
+        //{
+        //    return Bottoms.bottoms.IndexOf(GetType());
+        //}
 
+        //public Bottom FromIndex(int index)
+        //{
+        //    return (Bottom)Activator.CreateInstance(Bottoms.bottoms[index]);
+        //}
     }
 }

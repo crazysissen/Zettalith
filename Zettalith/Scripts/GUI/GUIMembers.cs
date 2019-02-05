@@ -160,7 +160,7 @@ namespace Zettalith
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-                bool onButton = Transform.Contains(mouse.Position);
+                bool onButton = new Rectangle(Transform.Location + _origin, Transform.Size).Contains(mouse.Position);
                 bool pressed = mouse.LeftButton == ButtonState.Pressed;
 
                 Transfer(pressed, onButton);
@@ -342,7 +342,7 @@ namespace Zettalith
             public void AddText(string text, int fontSize, bool centered, Color baseColor, SpriteFont font)
             {
                 Text = new Renderer.Text(
-                    Layer, font, text, fontSize, 0,
+                    new Layer(Layer.main, Layer.layer + 1), font, text, fontSize, 0,
                     centered ? new Vector2((Transform.Left + Transform.Right) * 0.5f, (Transform.Top + Transform.Bottom) * 0.5f) : new Vector2(Transform.Left + 2, (Transform.Top + Transform.Bottom) * 0.5f),
                     centered ? new Vector2(0.5f, 0.5f) : new Vector2(0, 0.5f),
                     baseColor);

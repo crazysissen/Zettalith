@@ -13,6 +13,68 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Animation Test.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Animation Test.png
+
+#begin Fonts/Alkhemikal.ttf
+/copy:Fonts/Alkhemikal.ttf
+
+#begin Fonts/EnterCommand.ttf
+/copy:Fonts/EnterCommand.ttf
+
+#begin Fonts/EnterCommandBold.ttf
+/copy:Fonts/EnterCommandBold.ttf
+
+#begin Fonts/EnterCommandItalic.ttf
+/copy:Fonts/EnterCommandItalic.ttf
+
+#begin Fonts/FontDefault.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontDefault.spritefont
+
+#begin Fonts/FontDefaultBold.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontDefaultBold.spritefont
+
+#begin Fonts/FontDefaultItalic.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontDefaultItalic.spritefont
+
+#begin Fonts/FontSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontSmall.spritefont
+
+#begin Fonts/FontStyled.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/FontStyled.spritefont
+
+#begin Fonts/Poco.ttf
+/copy:Fonts/Poco.ttf
+
 #begin Linus.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,18 +110,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Square.png
-
-#begin Animation Test.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Animation Test.png
 
 #begin TestMask.png
 /importer:TextureImporter

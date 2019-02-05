@@ -17,8 +17,9 @@ namespace Zettalith
         public static string ApplicationDirectory { get; } = AppDomain.CurrentDomain.BaseDirectory;
 
         static Dictionary<string, object> contentDictionary;
-
         static Dictionary<string, object> contentCollections;
+
+        static string[] ignoredExtensions = { ".ttf" };
 
         static Load()
         {
@@ -107,8 +108,11 @@ namespace Zettalith
             {
                 string currentName = Path.GetFileNameWithoutExtension(file.FullName);
 
-                allFiles.Add(new ImportObject(currentName, appendableAdditionalPath + currentName));
-                currentCollectionNames.Add(currentName);
+                if (!ignoredExtensions.Contains(file.Extension))
+                {
+                    allFiles.Add(new ImportObject(currentName, appendableAdditionalPath + currentName));
+                    currentCollectionNames.Add(currentName);
+                }
             }
 
             foreach (DirectoryInfo dir in directories)

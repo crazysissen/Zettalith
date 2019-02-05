@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    sealed class Top : SubPiece
+    abstract class Top : SubPiece
     {
+        //public int ToIndex()
+        //{
+        //    return Tops.tops.IndexOf(GetType());
+        //}
 
+        //public Top FromIndex(int index)
+        //{
+        //    return (Top)Activator.CreateInstance(Tops.tops[index]);
+        //}
     }
 }

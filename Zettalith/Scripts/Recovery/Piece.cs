@@ -10,11 +10,11 @@ namespace Zettalith
     [Serializable]
     class Piece
     {
-        public int TopIndex { get; private set; }
-        public int MiddleIndex { get; private set; }
-        public int BottomIndex { get; private set; }
+        public byte TopIndex { get; private set; }
+        public byte MiddleIndex { get; private set; }
+        public byte BottomIndex { get; private set; }
 
-        public Piece(int topIndex, int middleIndex, int bottomIndex)
+        public Piece(byte topIndex, byte middleIndex, byte bottomIndex)
         {
             TopIndex = topIndex;
             MiddleIndex = middleIndex;
