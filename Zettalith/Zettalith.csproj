@@ -91,6 +91,7 @@
     <Compile Include="Scripts\Bottoms.cs" />
     <Compile Include="Scripts\GameSetup.cs" />
     <Compile Include="Scripts\Middles.cs" />
+    <Compile Include="Scripts\Pieces\Subpieces.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
     <Compile Include="Scripts\Pieces\Collection.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
@@ -143,7 +144,6 @@
     <Compile Include="Scripts\Stats.cs" />
     <Compile Include="Scripts\Testing\Test.cs" />
     <Compile Include="Scripts\Testing\TestGUI.cs" />
-    <Compile Include="Scripts\Tops.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
   </ItemGroup>

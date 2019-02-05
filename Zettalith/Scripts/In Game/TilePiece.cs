@@ -23,9 +23,9 @@ namespace Zettalith
         public TilePiece(Piece piece)
         {
             this.piece = piece;
-            top = top.FromIndex(piece.TopIndex);
-            middle = middle.FromIndex(piece.MiddleIndex);
-            bottom = bottom.FromIndex(piece.BottomIndex);
+            top = top.FromIndex(piece.TopIndex) as Top;
+            middle = middle.FromIndex(piece.MiddleIndex) as Middle;
+            bottom = bottom.FromIndex(piece.BottomIndex) as Bottom;
         }
 
         public Stats BaseStats => new Stats()
