@@ -8,14 +8,14 @@ namespace Zettalith.Pieces
 {
     abstract class Top : SubPiece
     {
-        protected int ToIndex()
+        public int ToIndex()
         {
             return Tops.tops.IndexOf(GetType());
         }
 
-        protected Top FromIndex()
+        public Top FromIndex(int index)
         {
-            Top tempTop = (Top)Activator.CreateInstance(Tops.tops[Index]);
+            Top tempTop = (Top)Activator.CreateInstance(Tops.tops[index]);
             return tempTop;
         }
     }

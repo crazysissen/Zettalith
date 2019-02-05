@@ -11,9 +11,9 @@ namespace Zettalith
     {
         Piece piece;
 
-        Top Top/* => tops[piece.TopIndex]*/;
-        Middle Middle/* => middles[piece.MiddleIndex]*/;
-        Bottom Bottom/* => bottoms[piece.BottomIndex]*/;
+        Top top/* => tops[piece.TopIndex]*/;
+        Middle middle/* => middles[piece.MiddleIndex]*/;
+        Bottom bottom/* => bottoms[piece.BottomIndex]*/;
 
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
 
@@ -22,19 +22,19 @@ namespace Zettalith
         public TilePiece(Piece piece)
         {
             this.piece = piece;
-            Top = tops[piece.TopIndex];
-            Middle = middles[piece.MiddleIndex];
-            Bottom = bottoms[piece.BottomIndex];
+            top = top.FromIndex(piece.TopIndex);
+            middle = middle.FromIndex(piece.MiddleIndex);
+            bottom = bottom.FromIndex(piece.BottomIndex);
         }
 
         public Stats BaseStats => new Stats()
         {
-            AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
-            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
-            Health = Top.Health + Middle.Health + Bottom.Health,
-            Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            AbilityCost = Top.AbilityCost,
-            MoveCost = Bottom.MoveCost
+            AttackDamage = top.AttackDamage + middle.AttackDamage + bottom.AttackDamage,
+            MaxHealth = top.Health + middle.Health + bottom.Health,
+            Health = top.Health + middle.Health + bottom.Health,
+            Mana = top.ManaCost + middle.ManaCost + bottom.ManaCost,
+            //AbilityCost = Top.AbilityCost,
+            MoveCost = bottom.MoveCost
         };
 
         public Stats ModifiedStats

@@ -9,7 +9,7 @@ namespace Zettalith.Pieces
     [Serializable]
     abstract class SubPiece
     {
-        public int Index { get; set; }
+        //public int Index { get; set; }
         public string Name { get; set; }
         public int Health { get; set; }
         public int AttackDamage { get; set; }

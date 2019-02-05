@@ -10,14 +10,14 @@ namespace Zettalith.Pieces
     {
         public Mana MoveCost { get; set; }
 
-        protected int ToIndex()
+        public int ToIndex()
         {
             return Bottoms.bottoms.IndexOf(GetType());
         }
 
-        protected Bottom FromIndex()
+        public Bottom FromIndex(int index)
         {
-            Bottom tempBottom = (Bottom)Activator.CreateInstance(Bottoms.bottoms[Index]);
+            Bottom tempBottom = (Bottom)Activator.CreateInstance(Bottoms.bottoms[index]);
             return tempBottom;
         }
     }
