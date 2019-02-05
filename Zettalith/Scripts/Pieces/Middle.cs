@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
-    sealed class Middle : SubPiece
+    abstract class Middle : SubPiece
     {
+        protected int ToIndex()
+        {
+            return Middles.middles.IndexOf(GetType());
+        }
 
+        protected Middle FromIndex()
+        {
+            Middle tempMiddle = (Middle)Activator.CreateInstance(Middles.middles[Index]);
+            return tempMiddle;
+        }
     }
 }

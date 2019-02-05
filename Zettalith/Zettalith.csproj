@@ -88,6 +88,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
+    <Compile Include="Scripts\Bottoms.cs" />
+    <Compile Include="Scripts\Middles.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
     <Compile Include="Scripts\Pieces\Collection.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\DeckDesigner.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\PersonalData.cs" />
+    <Compile Include="Scripts\Pieces\Middles\Middle1.cs" />
     <Compile Include="Scripts\Pieces\Tops\Top1.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
@@ -138,6 +142,7 @@
     <Compile Include="Scripts\Stats.cs" />
     <Compile Include="Scripts\Testing\Test.cs" />
     <Compile Include="Scripts\Testing\TestGUI.cs" />
+    <Compile Include="Scripts\Tops.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
   </ItemGroup>
@@ -235,8 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Object Hierarchy\" />
-    <Folder Include="Scripts\Pieces\Bottoms\" />
-    <Folder Include="Scripts\Pieces\Middles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="StupidIdeas.txt" />
