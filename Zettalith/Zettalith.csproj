@@ -93,7 +93,7 @@
     <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
     <Compile Include="Scripts\Pieces\Collection.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
-    <Compile Include="Scripts\DeckDesigner.cs" />
+    <Compile Include="Scripts\SetDesigner.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
