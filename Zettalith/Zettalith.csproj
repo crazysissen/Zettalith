@@ -88,9 +88,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
-    <Compile Include="Scripts\Bottoms.cs" />
     <Compile Include="Scripts\GameSetup.cs" />
-    <Compile Include="Scripts\Middles.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
     <Compile Include="Scripts\Pieces\Collection.cs" />
