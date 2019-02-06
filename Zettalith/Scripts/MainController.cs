@@ -37,7 +37,7 @@ namespace Zettalith
         // Update Fork
         private InGameController inGameController;
         private MainMenu mainMenu;
-        private DeckDesigner deckDesigner;
+        private SetDesigner setDesigner;
 
         public MainController()
         {
@@ -125,7 +125,7 @@ namespace Zettalith
                     break;
 
                 case GameState.ArmyDesigner:
-                    deckDesigner.Update(deltaTime);
+                    setDesigner.Update(deltaTime);
                     break;
 
                 case GameState.Lobby:
@@ -219,8 +219,8 @@ namespace Zettalith
         {
             stateManager.SetGameState(GameState.ArmyDesigner, 0);
 
-            deckDesigner = new DeckDesigner();
-            deckDesigner.Initialize();
+            setDesigner = new SetDesigner();
+            setDesigner.Initialize(this);
         }
 
         //void StartDebugConsole()
