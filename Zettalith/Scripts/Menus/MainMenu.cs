@@ -67,6 +67,11 @@ namespace Zettalith
 
         }
 
+        public void CloseMenu()
+        {
+            collection.Active = false;
+        }
+
         private void BHost()
         {
             if (setup == null)
@@ -95,8 +100,6 @@ namespace Zettalith
 
         private void BArmies()
         {
-            collection.Active = false;
-
             controller.ToArmies();
         }
 

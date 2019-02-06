@@ -89,7 +89,9 @@
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\Font.cs" />
-    <Compile Include="Scripts\GameSetup.cs" />
+    <Compile Include="Scripts\Menus\GameSetup.cs" />
+    <Compile Include="Scripts\Menus\Lobby.cs" />
+    <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
     <Compile Include="Scripts\Pieces\Collection.cs" />
@@ -117,7 +119,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Scripts\MainMenu.cs" />
+    <Compile Include="Scripts\Menus\MainMenu.cs" />
     <Compile Include="Scripts\Mana.cs" />
     <Compile Include="Scripts\Mathz.cs" />
     <Compile Include="Scripts\NetworkManager.cs" />

@@ -44,9 +44,12 @@ namespace Zettalith
                     newMembers.AddRange(GetMembers((member as GUIContainer), mouse, keyboard, deltaTime, additiveOrigin + (member as GUIContainer).Origin));
                 }
 
-                member.Origin = additiveOrigin;
+                if (member != null)
+                {
+                    member.Origin = additiveOrigin;
+                    newMembers.Add(member);
+                }
 
-                newMembers.Add(member);
             }
 
             return newMembers.ToArray();

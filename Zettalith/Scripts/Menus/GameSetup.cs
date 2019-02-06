@@ -23,6 +23,10 @@ namespace Zettalith
         private MainController controller;
         private InGameController inGameController;
 
+        private StartupConfig config;
+
+        private ParameterizedAction<int>[] actions;
+
         private GUI.Collection content;
         private Renderer.SpriteScreen background;
         private Renderer.Text title;
@@ -33,6 +37,11 @@ namespace Zettalith
         {
             this.controller = controller;
             this.inGameController = inGameController;
+
+            config = new StartupConfig()
+            {
+                mapDiameter = 8
+            };
 
             Collection = new GUI.Collection()
             {
@@ -46,14 +55,16 @@ namespace Zettalith
                 Origin = new Point(WINDOWMARGIN, WINDOWMARGIN)
             };
 
-            int buttonHeight = 60, buttonDistance = 20;
+            int buttonHeight = 60, buttonDistance = 20, sizeButtonWidth = 100;
 
             title = new Renderer.Text(new Layer(MainLayer.GUI, 11), Font.Bold, "Host Game", 6, 0, Vector2.Zero);
 
-            int sizeButtonWidth = 100;
+            actions = new ParameterizedAction<int>[presetSizes.Length];
             bSizes = new GUI.Button[presetSizes.Length];
             for (int i = 0; i < bSizes.Length; ++i)
             {
+                actions[i] = new ParameterizedAction<int>(MapSize, presetSizes[i]);
+
                 bSizes[i] = new GUI.Button(new Layer(MainLayer.GUI, 11), new Rectangle(i * (sizeButtonWidth + 10), buttonHeight + buttonDistance, sizeButtonWidth, buttonHeight));
                 bSizes[i].AddText(presetSizes[i].ToString(), 3, true, Color.Black, Font.Default);
             }
@@ -72,9 +83,21 @@ namespace Zettalith
 
         }
 
+        private void MapSize(int size)
+        {
+            config.mapDiameter = size;
+        }
+
         private void Confirm()
         {
+            Collection.Active = false;
 
+            controller.ToLobby(config);
         }
+    }
+
+    struct StartupConfig
+    {
+        public int mapDiameter;
     }
 }
