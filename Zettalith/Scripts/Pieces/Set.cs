@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zettalith.Pieces
 {
     [Serializable]
-    class Collection
+    class Set
     {
         public List<Piece> Pieces { get; private set; }
 

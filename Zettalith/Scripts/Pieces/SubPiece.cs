@@ -16,6 +16,7 @@ namespace Zettalith.Pieces
         public Mana ManaCost { get; set; }
         public Mana MoveCost { get; set; }
         public Ability Ability { get; set; }
+        public string Description { get; set; }
 
         public int ToIndex()
         {
