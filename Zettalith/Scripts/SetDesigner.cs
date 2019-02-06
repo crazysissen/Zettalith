@@ -14,7 +14,7 @@ namespace Zettalith
 
         GUI.Collection collections, collectionInspector, setDesigner;
 
-        GUI.Button bCreate, bBack, bCancelSet;
+        GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2;
 
         Renderer.SpriteScreen collectionInspectorLines, setDesignerLines;
 
@@ -49,6 +49,13 @@ namespace Zettalith
             bCancelSet.AddText("Cancel", 4, true, textColor, Font.Default);
             bCancelSet.OnClick += BCancelSet;
 
+            #region //ArrowButtons
+            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.008f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
+            bArrowHead1.OnClick += BArrow;
+
+            //bArrowHead2 = new GUI.Button()
+            #endregion
+
             setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
             #endregion
 
@@ -78,6 +85,11 @@ namespace Zettalith
         {
             setDesigner.Active = false;
             collectionInspector.Active = true;
+        }
+
+        private void BArrow()
+        {
+
         }
     }
 }
