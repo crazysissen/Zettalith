@@ -32,6 +32,13 @@ namespace Zettalith
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
+            CustomParameterCall[] arrowCalls = new CustomParameterCall[6];
+            for (int i = 0; i < arrowCalls.Length; i++)
+            {
+                arrowCalls[i] = new CustomParameterCall() { targetMethod = BArrow, subPiece = (int)(i * 0.5), b1 = (i % 2 == 0)};
+            }
+
+
             #region //CollectionInspector
             bCreate = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.508f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
             bCreate.AddText("Create Deck", 4, true, textColor, Font.Default);
@@ -50,17 +57,30 @@ namespace Zettalith
             bCancelSet.OnClick += BCancelSet;
 
             #region //ArrowButtons
-            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.008f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
-            bArrowHead1.OnClick += BArrow;
+            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.05f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch , 0f);
+            bArrowHead1.OnClick += arrowCalls[0].Activate;
 
-            //bArrowHead2 = new GUI.Button()
+            bArrowHead2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.1f), (int)(Settings.Resolution.Y * 0.05f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowHead2.OnClick += arrowCalls[1].Activate;
+
+            bArrowMiddle1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.1f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowMiddle1.OnClick += arrowCalls[2].Activate;
+
+            bArrowMiddle2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.1f), (int)(Settings.Resolution.Y * 0.1f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowMiddle2.OnClick += arrowCalls[3].Activate;
+
+            bArrowBottom1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.15f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowBottom1.OnClick += arrowCalls[4].Activate;
+
+            bArrowBottom2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.1f), (int)(Settings.Resolution.Y * 0.15f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowBottom2.OnClick += arrowCalls[5].Activate;
             #endregion
 
             setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
             #endregion
 
             collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet);
+            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2);
             collections.Add(collectionInspector, setDesigner);
         }
 
@@ -87,9 +107,21 @@ namespace Zettalith
             collectionInspector.Active = true;
         }
 
-        private void BArrow()
+        public void BArrow(int subPiece, bool b1)
         {
 
+        }
+    }
+
+    struct CustomParameterCall
+    {
+        public Action<int, bool> targetMethod;
+        public int subPiece;
+        public bool b1;
+
+        public void Activate()
+        {
+            targetMethod.Invoke(subPiece, b1);
         }
     }
 }
