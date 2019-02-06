@@ -26,7 +26,18 @@ namespace Zettalith
 
         public static PersonalData Load()
         {
-            return Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+            PersonalData temp = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+
+            return temp;
+
+            //if (temp == null)
+            //{
+
+            //}
+            //else
+            //{
+            //    return temp;
+            //}
         }
 
         static byte[] Encrypt(byte[] data)

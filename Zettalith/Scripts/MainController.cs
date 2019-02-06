@@ -44,6 +44,8 @@ namespace Zettalith
         {
             Main = this;
             r = new Random();
+
+            SaveLoad.Load();
         }
 
         public void NormalInitialize()
