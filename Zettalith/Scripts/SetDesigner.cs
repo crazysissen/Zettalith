@@ -13,9 +13,7 @@ namespace Zettalith
         MainController controller;
 
         GUI.Collection collection;
-
-        Renderer.Text title;
-        GUI.Button bHost, bJoin, bArmies, bSettings, bQuit, bBlah;
+        GUI.Button bBlah;
 
         public void Initialize(MainController controller)
         {
@@ -26,58 +24,15 @@ namespace Zettalith
 
             RendererController.GUI.Add(collection);
 
-            int buttonHeight = 30, buttonSpace = 15;
-            int tempButtonWidth = 100;
-
-            bHost = new GUI.Button(new Rectangle(0, 0, tempButtonWidth, buttonHeight));
-            bHost.OnClick += BHost;
-
-            bJoin = new GUI.Button(new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight));
-            bJoin.OnClick += BJoin;
-
-            bArmies = new GUI.Button(new Rectangle(0, 2 * buttonHeight + 2 * buttonSpace, tempButtonWidth, buttonHeight));
-            bArmies.OnClick += BArmies;
-
-            bSettings = new GUI.Button(new Rectangle(0, 3 * buttonHeight + 3 * buttonSpace, tempButtonWidth, buttonHeight));
-            bSettings.OnClick += BSettings;
-
-            bQuit = new GUI.Button(new Rectangle(0, 4 * buttonHeight + 4 * buttonSpace, tempButtonWidth, buttonHeight));
-            bQuit.OnClick += BQuit;
-
-            bBlah = new GUI.Button(new Rectangle(0, 5 * buttonHeight + 5 * buttonSpace, tempButtonWidth, buttonHeight));
+            bBlah = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle(0, 0, 200, 40));
             bBlah.OnClick += BBlah;
 
-            collection.Add(bHost, bJoin, bSettings, bArmies, bQuit, bBlah);
+            collection.Add(bBlah);
         }
 
         public void Update(float deltaTime)
         {
 
-        }
-
-        private void BHost()
-        {
-
-        }
-
-        private void BJoin()
-        {
-
-        }
-
-        private void BArmies()
-        {
-            
-        }
-
-        private void BSettings()
-        {
-
-        }
-
-        private void BQuit()
-        {
-            XNAController.Quit();
         }
 
         private void BBlah()

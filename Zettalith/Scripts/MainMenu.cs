@@ -35,26 +35,28 @@ namespace Zettalith
             int buttonHeight = 30, buttonSpace = 15;
             int tempButtonWidth = 200;
 
+            Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
+
             title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Zettalith", 10, 0, new Vector2(0, -200));
 
-            bHost = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 0, tempButtonWidth, buttonHeight));
-            bHost.AddText("Host", 4, false, Color.Black, Font.Default);
+            bHost = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonColor);
+            bHost.AddText("Host", 4, false, textColor, Font.Default);
             bHost.OnClick += BHost;
 
-            bJoin = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight));
-            bJoin.AddText("Join", 4, false, Color.Black, Font.Default);
+            bJoin = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonColor);
+            bJoin.AddText("Join", 4, false, textColor, Font.Default);
             bJoin.OnClick += BJoin;
 
-            bArmies = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 2 * buttonHeight + 2 * buttonSpace, tempButtonWidth, buttonHeight));
-            bArmies.AddText("Collection", 4, false, Color.Black, Font.Default);
+            bArmies = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 2 * buttonHeight + 2 * buttonSpace, tempButtonWidth, buttonHeight), buttonColor);
+            bArmies.AddText("Collection", 4, false, textColor, Font.Default);
             bArmies.OnClick += BArmies;
 
-            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * buttonHeight + 3 * buttonSpace, tempButtonWidth, buttonHeight));
-            bSettings.AddText("Settings", 4, false, Color.Black, Font.Default);
+            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * buttonHeight + 3 * buttonSpace, tempButtonWidth, buttonHeight), buttonColor);
+            bSettings.AddText("Settings", 4, false, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * buttonHeight + 4 * buttonSpace, tempButtonWidth, buttonHeight));
-            bQuit.AddText("Quit", 4, false, Color.Black, Font.Default);
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * buttonHeight + 4 * buttonSpace, tempButtonWidth, buttonHeight), buttonColor);
+            bQuit.AddText("Quit", 4, false, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
             main.Add(title, bHost, bJoin, bSettings, bArmies, bQuit);
