@@ -112,6 +112,7 @@ namespace Zettalith
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Load.Initialize(Content, true);
+            Font.Initialize();
 
             MainController.LateInitialize(game: this);
         }

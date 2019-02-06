@@ -13,7 +13,7 @@ namespace Zettalith
     {
         const float
             DEGTORAD = (2 * (float)Math.PI) / 360,
-            FONTSIZEMULTIPLIER = 1 / 12;
+            FONTSIZEMULTIPLIER = 1.0f / 4;
 
         /// <summary>Whether or not the object should be drawn automatically</summary>
         public virtual bool Active { get; set; } = true;

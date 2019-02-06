@@ -88,6 +88,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
+    <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\GameSetup.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Scripts\Rendering\Renderer.cs" />
     <Compile Include="Scripts\Rendering\RendererController.cs" />
     <Compile Include="Scripts\SaveLoad.cs" />
+    <Compile Include="Scripts\Settings.cs" />
     <Compile Include="Scripts\StateManager.cs" />
     <Compile Include="Scripts\Pieces\Bottom.cs" />
     <Compile Include="Scripts\Pieces\Middle.cs" />
@@ -217,7 +219,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Zettalith_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -237,9 +238,7 @@
   <ItemGroup>
     <None Include="Resources\DesktopIcon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\Object Hierarchy\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="StupidIdeas.txt" />
   </ItemGroup>

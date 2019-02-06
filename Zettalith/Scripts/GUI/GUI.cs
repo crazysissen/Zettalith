@@ -75,22 +75,39 @@ namespace Zettalith
     {
         public bool Active = true;
 
+        ~GUIContainer()
+        {
+            foreach (IGUIMember member in Members)
+            {
+                //member.
+            }
+        }
+
         public virtual void Add(params IGUIMember[] members)
         {
             foreach (IGUIMember member in members)
             {
+                Members.Add(member);
+
                 if (member is Renderer)
                 {
-                    (member as Renderer).Active = false;
+                    (member as Renderer).AutomaticDraw = false;
                 }
 
-                Members.Add(member);
+                if (member is GUI.Button && (member as GUI.Button).Text != null)
+                {
+                    Add((member as GUI.Button).Text);
+                }
             }
         }
 
         public virtual void Remove(IGUIMember member)
         {
-            Members.Remove(member);
+            if (Members.Contains(member))
+            {
+                Members.Remove(member);
+                Members.TrimExcess();
+            }
         }
 
         public virtual Point Origin { get; set; }

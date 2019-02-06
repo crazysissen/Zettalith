@@ -96,40 +96,42 @@ namespace Zettalith
             private SoundEffect effect;
 
             /// <summary>Testing button</summary>
-            public Button(Rectangle transform)
-                : this(transform, Load.Get<Texture2D>("Square"), new Color(0.9f, 0.9f, 0.9f))
+            public Button(Layer layer, Rectangle transform)
+                : this(layer, transform, Load.Get<Texture2D>("Square"), new Color(0.9f, 0.9f, 0.9f))
             { }
 
             /// <summary>Testing button</summary>
-            public Button(Rectangle transform, Color color)
-                : this(transform, Load.Get<Texture2D>("Square"), color)
+            public Button(Layer layer, Rectangle transform, Color color)
+                : this(layer, transform, Load.Get<Texture2D>("Square"), color)
             { }
 
             /// <summary>Simple button with preset color multipliers, for testing primarily</summary>
-            public Button(Rectangle transform, Texture2D texture)
-                : this(transform, texture, new Color(0.9f, 0.9f, 0.9f))
+            public Button(Layer layer, Rectangle transform, Texture2D texture)
+                : this(layer, transform, texture, new Color(0.9f, 0.9f, 0.9f))
             { }
 
             /// <summary>Simple button, for testing primarily</summary>
-            public Button(Rectangle transform, Texture2D texture, Color color)
-                : this(transform, texture, PseudoDefaultColors(color), Transition.LinearFade, DEFAULTTRANSITIONTIME)
+            public Button(Layer layer, Rectangle transform, Texture2D texture, Color color)
+                : this(layer, transform, texture, PseudoDefaultColors(color), Transition.LinearFade, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Simple button that switches color (color multiplier) when hovered/clicked</summary>
-            public Button(Rectangle transform, Texture2D texture, Color idle, Color hover, Color click)
-                : this(transform, texture, idle, hover, click, Transition.LinearFade, DEFAULTTRANSITIONTIME)
+            public Button(Layer layer, Rectangle transform, Texture2D texture, Color idle, Color hover, Color click)
+                : this(layer, transform, texture, idle, hover, click, Transition.LinearFade, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Simple button that changes color (color multiplier) when hovered/clicked according to a set transition type and time</summary>
-            public Button(Rectangle transform, Texture2D texture, Color idle, Color hover, Color click, Transition transitionType, float transitionTime)
-                : this(transform, texture, new Color[] { idle, hover, click }, transitionType, transitionTime)
+            public Button(Layer layer, Rectangle transform, Texture2D texture, Color idle, Color hover, Color click, Transition transitionType, float transitionTime)
+                : this(layer, transform, texture, new Color[] { idle, hover, click }, transitionType, transitionTime)
             { }
 
             /// <summary>Simple button that changes color (color multiplier) when hovered/clicked according to a set transition type and time</summary>
             /// <param name="colorSwitch">Color array in order [idle, hover, click]</param>
-            public Button(Rectangle transform, Texture2D texture, Color[] colorSwitch, Transition transitionType, float transitionTime)
+            public Button(Layer layer, Rectangle transform, Texture2D texture, Color[] colorSwitch, Transition transitionType, float transitionTime)
             {
                 DisplayType = Type.ColorSwitch;
+
+                Layer = layer;
 
                 Transform = transform;
                 Texture = texture;
@@ -341,10 +343,12 @@ namespace Zettalith
 
             public void AddText(string text, int fontSize, bool centered, Color baseColor, SpriteFont font)
             {
+                Vector2 measure = font.MeasureString(text);
+
                 Text = new Renderer.Text(
                     new Layer(Layer.main, Layer.layer + 1), font, text, fontSize, 0,
-                    centered ? new Vector2((Transform.Left + Transform.Right) * 0.5f, (Transform.Top + Transform.Bottom) * 0.5f) : new Vector2(Transform.Left + 2, (Transform.Top + Transform.Bottom) * 0.5f),
-                    centered ? new Vector2(0.5f, 0.5f) : new Vector2(0, 0.5f),
+                    centered ? new Vector2((Transform.Left + Transform.Right) * 0.5f, (Transform.Top + Transform.Bottom) * 0.5f) : new Vector2(Transform.Left + 8, (Transform.Top + Transform.Bottom) * 0.5f),
+                    centered ? new Vector2(0.5f, 0.5f) * measure : new Vector2(0, 0.5f) * measure,
                     baseColor);
 
                 _textBaseColor = baseColor;

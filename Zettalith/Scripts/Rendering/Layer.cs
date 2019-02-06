@@ -17,11 +17,11 @@ namespace Zettalith
             MAINCOUNT = 6;
 
         public const float
-            LAYERINTERVAL = float.Epsilon,
-            MAININTERVAL = 1 / MAINCOUNT,
+            LAYERINTERVAL = 0.00001f,
+            MAININTERVAL = 1.0f / MAINCOUNT,
             HALFINTERVAL = MAININTERVAL * 0.5f;
 
-        public float LayerDepth => 1 - ((int)main * MAININTERVAL + HALFINTERVAL + LAYERINTERVAL * layer);
+        public float LayerDepth => (int)main * MAININTERVAL + HALFINTERVAL + LAYERINTERVAL * layer;
 
         public MainLayer main;
         public int layer;
