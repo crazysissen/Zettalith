@@ -77,14 +77,14 @@ namespace Zettalith
             if (type == StartType.LocalHost)
             {
                 StartClone();
-                NetworkManager.CreateLocalGame();
+                //NetworkManager.CreateLocalGame();
             }
 
             if (type == StartType.LocalClient)
             {
                 clone = parent;
-                NetworkManager.CreateClient();
-                NetworkManager.StartPeerSearch(LOCALHOST);
+                //NetworkManager.CreateClient();
+                //NetworkManager.StartPeerSearch(LOCALHOST);
             }
 
             CreateMainMenu();

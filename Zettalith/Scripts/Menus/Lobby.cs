@@ -31,10 +31,21 @@ namespace Zettalith
 
             title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Lobby", 10, 0, Vector2.Zero);
 
-            //localIP = new Renderer.Text();
+            UpdateIPs();
 
             RendererController.GUI.Add(collection);
-            collection.Add(title, localIP);
+            collection.Add(title, localIP, globalIP);
+
+            if (XNAController.LocalGameHost)
+            {
+                NetworkManager.CreateHost(playerName + "'s Game");
+            }
+
+            if (XNAController.LocalGameClient)
+            {
+                NetworkManager.CreateClient();
+                NetworkManager.StartPeerSearch("localhost");
+            }
         }
 
         public void Update(float deltaTime)
@@ -44,7 +55,8 @@ namespace Zettalith
 
         private void UpdateIPs()
         {
-            //globalIP = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Bold, "Local IP:\n" + playerName, 4, 0, new Vector2(0, 180))
+            globalIP = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Bold, "Local IP:\n" + NetworkManager.LocalIP, 4, 0, new Vector2(0, 180));
+            localIP = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Bold, "Global IP:\n" + NetworkManager.PublicIP, 4, 0, new Vector2(0, 300));
         }
     }
 }
