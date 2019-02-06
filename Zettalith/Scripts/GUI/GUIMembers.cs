@@ -63,11 +63,11 @@ namespace Zettalith
             Layer IGUIMember.Layer => Layer;
 
             const float
-                DEFAULTTRANSITIONTIME = 0.04f;
+                DEFAULTTRANSITIONTIME = 0.06f;
 
             public enum State { Idle, Hovered, Pressed }
             public enum Type { ColorSwitch, TextureSwitch, AnimatedSwitch }
-            public enum Transition { Custom, Switch, LinearFade, DecelleratingFade, AcceleratingFade }
+            public enum Transition { Custom, Switch, LinearFade, DecelleratingFade, AcceleratingFade, EaseOutBack, EaseOutElastic, EaseOutQuartic }
 
             public event Action OnEnter;
             public event Action OnExit;
@@ -84,20 +84,25 @@ namespace Zettalith
             public Texture2D[] TextureSwitch { get; private set; }
             public Color[] ColorSwitch { get; private set; }
 
+            public bool ScaleEffect { get; set; } = true;
+            public float ScaleEffectMultiplier { get; set; } = 1;
+
             public Layer Layer { get; set; }
 
             private Func<float, float> _transition;
             private Color _textBaseColor;
-            private float _currentTime, _targetTime, _timeMultiplier;
+            private float _currentTime, _targetTime, _timeMultiplier, _startScale, _targetScale, _currentScale;
             private bool _inTransition, _beginHoldOnButton, _pressedLastFrame;
             private Color _startColor, _targetColor;
             private Texture2D _startTexture, _targetTexture;
             private State _startState;
-            private SoundEffect effect;
+            private SoundEffect _effect;
+
+            private float[] _scaleSwitch = { 1.0f, 1.05f, 0.965f };
 
             /// <summary>Testing button</summary>
             public Button(Layer layer, Rectangle transform)
-                : this(layer, transform, Load.Get<Texture2D>("Square"), new Color(0.9f, 0.9f, 0.9f))
+                : this(layer, transform, Load.Get<Texture2D>("Square"), Color.White)
             { }
 
             /// <summary>Testing button</summary>
@@ -107,7 +112,7 @@ namespace Zettalith
 
             /// <summary>Simple button with preset color multipliers, for testing primarily</summary>
             public Button(Layer layer, Rectangle transform, Texture2D texture)
-                : this(layer, transform, texture, new Color(0.9f, 0.9f, 0.9f))
+                : this(layer, transform, texture, Color.White)
             { }
 
             /// <summary>Simple button, for testing primarily</summary>
@@ -169,11 +174,11 @@ namespace Zettalith
 
                 Transfer(pressed, onButton);
 
-                List<TA> textures = new List<TA>();
+                List<TAS> textures = new List<TAS>();
                 Color color = Color.White;
                 float scaledValue = _transition.Invoke(_currentTime);
 
-                if (_currentTime >= 1 || scaledValue >= 1)
+                if (_currentTime >= 1)
                 {
                     _inTransition = false;
                     _currentTime = 0;
@@ -182,18 +187,20 @@ namespace Zettalith
 
                 if (_inTransition)
                 {
-                    _currentTime += unscaledDeltaTime * _timeMultiplier;
+                    _currentTime += unscaledDeltaTime / TransitionTime;
+
+                    _currentScale = scaledValue.Lerp(_startScale, _targetScale);
 
                     switch (DisplayType)
                     {
                         case Type.ColorSwitch:
-                            textures.Add(new TA(Texture, 1));
+                            textures.Add(new TAS(Texture, 1));
                             color = Color.Lerp(_startColor, _targetColor, scaledValue);
                             break;
 
                         case Type.TextureSwitch:
-                            textures.Add(new TA(_startTexture, scaledValue));
-                            textures.Add(new TA(_targetTexture, 1 - scaledValue));
+                            textures.Add(new TAS(_startTexture, scaledValue));
+                            textures.Add(new TAS(_targetTexture, 1 - scaledValue));
                             color = Color.White;
                             break;
 
@@ -203,23 +210,31 @@ namespace Zettalith
 
                 if (!_inTransition)
                 {
+                    _currentScale = _scaleSwitch[(int)CurrentState];
+
                     switch (DisplayType)
                     {
                         case Type.ColorSwitch:
-                            textures.Add(new TA(Texture, 255));
+                            textures.Add(new TAS(Texture, 255));
                             color = ColorSwitch[(int)CurrentState];
                             break;
 
                         case Type.TextureSwitch:
-                            textures.Add(new TA(TextureSwitch[(int)CurrentState], 255));
+                            textures.Add(new TAS(TextureSwitch[(int)CurrentState], 255));
                             color = Color.White;
                             break;
                     }
                 }
 
-                foreach (TA textureAlpha in textures)
+                Vector2 
+                    halfSize = new Vector2(Transform.Size.X * 0.5f, Transform.Size.Y * 0.5f),
+                    middlePosition = Transform.Location.ToVector2() + halfSize;
+
+                Rectangle targetRectangle = new Rectangle(_origin + (middlePosition - halfSize * _currentScale).ToPoint(), (Transform.Size.ToVector2() * _currentScale).ToPoint());
+
+                foreach (TAS textureAlpha in textures)
                 {
-                    spriteBatch.Draw(textureAlpha.texture, new Rectangle(Transform.Location + _origin, Transform.Size), null, new Color(color, textureAlpha.a), 0, Vector2.Zero, SpriteEffects.None, Layer.LayerDepth);
+                    spriteBatch.Draw(textureAlpha.texture, targetRectangle, null, new Color(color, textureAlpha.alpha), 0, new Vector2(0.5f, 0.5f), SpriteEffects.None, Layer.LayerDepth);
                 }
 
                 if (!pressed)
@@ -276,9 +291,9 @@ namespace Zettalith
                                 {
                                     OnClick?.Invoke();
 
-                                    if (effect != null)
+                                    if (_effect != null)
                                     {
-                                        effect.Play();
+                                        _effect.Play();
                                     }
                                 }
                             }
@@ -297,16 +312,19 @@ namespace Zettalith
                 _targetTime = (_inTransition && state == previousStartState) ? _targetTime - _currentTime : 1;
                 _currentTime = 0;
 
+                _startScale = _scaleSwitch[(int)_startState];
+                _targetScale = _scaleSwitch[(int)state];
+
                 switch (DisplayType)
                 {
                     case Type.ColorSwitch:
                         _startColor = ColorSwitch[(int)_startState];
-                        _targetColor = ColorSwitch[(int)CurrentState];
+                        _targetColor = ColorSwitch[(int)state];
                         break;
 
                     case Type.TextureSwitch:
                         _startTexture = TextureSwitch[(int)_startState];
-                        _targetTexture = TextureSwitch[(int)CurrentState];
+                        _targetTexture = TextureSwitch[(int)state];
                         break;
 
                     case Type.AnimatedSwitch:
@@ -316,8 +334,6 @@ namespace Zettalith
 
             public void SetTransitionType(Transition type)
             {
-                _timeMultiplier = 1 / TransitionTime;
-
                 if (type != Transition.Custom)
                 {
                     TransitionType = type;
@@ -356,19 +372,19 @@ namespace Zettalith
                 _textBaseColor = baseColor;
             }
 
-            public void AddEffect(SoundEffect effect) => this.effect = effect;
+            public void AddEffect(SoundEffect effect) => this._effect = effect;
 
             public static Color[] DefaultColors()
-                => new Color[] { new Color(0.9f, 0.9f, 0.9f), Color.White, new Color(0.75f, 0.75f, 0.75f) };
+                => new Color[] { Color.White, new Color(0.85f, 0.85f, 0.85f), new Color(0.7f, 0.7f, 0.7f) };
 
             public static Color[] PseudoDefaultColors(Color origin)
-                => new Color[] { origin, origin * 1.15f, origin * 0.85f };
+                => new Color[] { origin, origin * 0.85f, origin * 0.7f };
 
             public void SetPseudoDefaultColors(Color origin)
-                => ColorSwitch = new Color[] { origin, origin * 1.15f, origin * 0.85f };
+                => ColorSwitch = PseudoDefaultColors(origin);
 
             public void SetDefaultColors()
-                => ColorSwitch = new Color[] { new Color(0.9f, 0.9f, 0.9f), Color.White, new Color(0.75f, 0.75f, 0.75f) };
+                => ColorSwitch = DefaultColors();
 
             public void SetTransitionExplicit(Func<float, float> function)
                 => _transition = function;
@@ -382,15 +398,15 @@ namespace Zettalith
             public void SetColorSwitch(Color[] colors)
                 => ColorSwitch = colors.Length == 3 ? colors : ColorSwitch;
 
-            struct TA
+            struct TAS
             {
                 public Texture2D texture;
-                public float a;
+                public float alpha;
 
-                public TA(Texture2D texture, float a)
+                public TAS(Texture2D texture, float alpha)
                 {
                     this.texture = texture;
-                    this.a = a;
+                    this.alpha = alpha;
                 }
             }
         }

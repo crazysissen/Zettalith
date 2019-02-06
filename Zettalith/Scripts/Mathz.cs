@@ -21,7 +21,7 @@ namespace Zettalith
         public static float SineD(float value)
             => (float)Math.Sin((value - 1) * Math.PI * 0.5) + 1;
 
-        public static float Lerp(this float min, float max, float value)
+        public static float Lerp(this float value, float min, float max)
             => min + (max - min) * value;
 
         public static Vector2 Rotate(this Vector2 vector, float radian)
