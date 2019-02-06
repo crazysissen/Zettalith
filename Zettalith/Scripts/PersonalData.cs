@@ -7,9 +7,21 @@ using Zettalith.Pieces;
 
 namespace Zettalith
 {
+    [Serializable]
     struct PersonalData
     {
-        public static PersonalData UserData { get; set; } = SaveLoad.Load();
+        public static PersonalData UserData { get; set; } = new PersonalData();
+
+        public static PersonalData Default = new PersonalData
+        {
+            SavedPieces = new List<Piece>(),
+            SavedSets = new List<Set>()
+            {
+                new Set(),
+            },
+            Locked = Achievements.DefaultLocked,
+            Unlocked = Achievements.DefaultUnlocked,
+        };
 
         public bool[] UnlockedPieces => Subpieces.Unlocked;
         //public List<SubPiece> SavedSubPieces { get; set; }

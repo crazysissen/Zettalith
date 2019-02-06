@@ -12,23 +12,41 @@ namespace Zettalith
     {
         static string FullPath => path + fileName;
 
-        static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
-        static string fileName = "UserData.zth";
+        public static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
+        public static string fileName = "UserData.zth";
 
-        public static void Save(PersonalData data)
+        // Saves the current UserData to AppData/Roaming/Zettalith/UserData (PersonalData.UserData)
+        public static void Save()
         {
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            File.WriteAllBytes(FullPath, Encrypt(Bytestreamer.ToBytes(data)));
+            File.WriteAllBytes(FullPath, Encrypt(Bytestreamer.ToBytes(PersonalData.UserData)));
         }
 
-        public static PersonalData Load()
+        // Sets current UserData to what is currently saved in save folder
+        public static void Load()
         {
-            return Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+            PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
         }
 
+        // Saves default UserData if it's the first time the game is opened
+        // If not, loads the player's currently saved data
+        public static void Initialize()
+        {
+            if (!File.Exists(path + fileName))
+            {
+                PersonalData.UserData = PersonalData.Default;
+                Save();
+            }
+            else
+            {
+                Load();
+            }
+        }
+
+        // Encrypts and decrypts our savedata with a T O P  S E C R E T encryption keys
         static byte[] Encrypt(byte[] data)
         {
             int length = data.Length;

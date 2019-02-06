@@ -13,7 +13,7 @@ namespace Zettalith
 
         public string Description { get; private set; }
 
-        public bool Complete { get; private set; }
+        //public bool Complete { get; private set; }
 
         public object Value { get; set; }
         public object TargetValue { get; private set; }
@@ -25,9 +25,9 @@ namespace Zettalith
             TargetValue = targetValue;
         }
 
-        public void Achieve()
-        {
-            Complete = true;
-        }
+        //public void Achieve()
+        //{
+        //    Complete = true;
+        //}
     }
 }

@@ -10,17 +10,19 @@ namespace Zettalith
     {
         public enum VariableType { Bool, Double, Long }
 
-        public static Dictionary<string, Achievement> locked = new Dictionary<string, Achievement>
+        public static Dictionary<string, Achievement> DefaultLocked => new Dictionary<string, Achievement>
         {
-            { "Test", new Achievement(VariableType.Long, "Achieve five style points", 5) },
-            //{ "Achievement name", new Achievement(VariableType.Double, "Achievement description", ) }
+            // TODO: Add all new achievements here
+            // Bool if false or true achievement, Double if decimal value achievment (ex float, double, decimal), Long if integer achievement (ex int, uint, long)
+            { "Test", new Achievement(VariableType.Long, "Achieve five epic points", 5) },
+            //{ "Achievement name", new Achievement(VariableType.Double, "Achievement description", ValueToBeReached) },
         };
 
-        public static Dictionary<string, Achievement> unlocked = new Dictionary<string, Achievement>();
+        public static Dictionary<string, Achievement> DefaultUnlocked => new Dictionary<string, Achievement>();
 
         public static void Check()
         {
-            foreach (KeyValuePair<string, Achievement> achievement in locked)
+            foreach (KeyValuePair<string, Achievement> achievement in PersonalData.UserData.Locked)
             {
                 if (achievement.Value.Type == VariableType.Bool)
                 {
@@ -38,7 +40,7 @@ namespace Zettalith
                 }
                 else if (achievement.Value.Type == VariableType.Long)
                 {
-                    if ((long)achievement.Value.Value >= (long)achievement.Value.Value)
+                    if ((long)achievement.Value.Value >= (long)achievement.Value.TargetValue)
                     {
                         Complete(achievement);
                     }
@@ -46,18 +48,12 @@ namespace Zettalith
             }
         }
 
-        //public static void LoadAchievements()
-        //{
-        //    PersonalData data = SaveLoad.Load();
-        //    locked = data.Locked;
-        //    unlocked = data.Unlocked;
-        //}
-
+        // Run for completed achievment, moves from locked to unlocked dictionary
         static void Complete(KeyValuePair<string, Achievement> achievement)
         {
-            locked.Remove(achievement.Key);
-            unlocked.Add(achievement.Key, achievement.Value);
-            achievement.Value.Achieve();
+            PersonalData.UserData.Locked.Remove(achievement.Key);
+            PersonalData.UserData.Unlocked.Add(achievement.Key, achievement.Value);
+            //achievement.Value.Achieve();
         }
     }
 }

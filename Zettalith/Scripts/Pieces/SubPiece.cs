@@ -12,7 +12,6 @@ namespace Zettalith.Pieces
     [Serializable]
     abstract class SubPiece
     {
-        //public int Index { get; set; }
         public bool Unlocked => Subpieces.Unlocked[ToIndex()];
 
         public string Name { get; set; }
@@ -24,21 +23,25 @@ namespace Zettalith.Pieces
         public string Description { get; set; }
         public Texture2D Texture { get; set; }
 
+        // Creates an index for this subpiece to be saved as
         public int ToIndex()
         {
             return Subpieces.subpieces.IndexOf(GetType());
         }
 
+        // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
         public SubPiece FromIndex(int index)
         {
             return (SubPiece)Activator.CreateInstance(Subpieces.subpieces[index]);
         }
 
+        // Unlocks this subpiece to the player
         public void Unlock()
         {
             Subpieces.Unlocked[ToIndex()] = true;
         }
 
+        //Locks this subpiece to the player
         public void Lock()
         {
             Subpieces.Unlocked[ToIndex()] = false;
