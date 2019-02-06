@@ -46,12 +46,12 @@ namespace Zettalith
             }
         }
 
-        public static void LoadAchievements()
-        {
-            PersonalData data = SaveLoad.Load();
-            locked = data.Locked;
-            unlocked = data.Unlocked;
-        }
+        //public static void LoadAchievements()
+        //{
+        //    PersonalData data = SaveLoad.Load();
+        //    locked = data.Locked;
+        //    unlocked = data.Unlocked;
+        //}
 
         static void Complete(KeyValuePair<string, Achievement> achievement)
         {

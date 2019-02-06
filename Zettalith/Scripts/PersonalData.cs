@@ -9,7 +9,10 @@ namespace Zettalith
 {
     struct PersonalData
     {
-        public List<SubPiece> SavedSubPieces { get; set; }
+        public static PersonalData UserData { get; set; } = SaveLoad.Load();
+
+        public bool[] UnlockedPieces => Subpieces.Unlocked;
+        //public List<SubPiece> SavedSubPieces { get; set; }
         public List<Piece> SavedPieces { get; set; }
         public List<Set> SavedSets { get; set; }
 

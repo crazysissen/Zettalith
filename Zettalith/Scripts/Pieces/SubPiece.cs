@@ -13,6 +13,8 @@ namespace Zettalith.Pieces
     abstract class SubPiece
     {
         //public int Index { get; set; }
+        public bool Unlocked => Subpieces.Unlocked[ToIndex()];
+
         public string Name { get; set; }
         public int Health { get; set; }
         public int AttackDamage { get; set; }
@@ -30,6 +32,16 @@ namespace Zettalith.Pieces
         public SubPiece FromIndex(int index)
         {
             return (SubPiece)Activator.CreateInstance(Subpieces.subpieces[index]);
+        }
+
+        public void Unlock()
+        {
+            Subpieces.Unlocked[ToIndex()] = true;
+        }
+
+        public void Lock()
+        {
+            Subpieces.Unlocked[ToIndex()] = false;
         }
     }
 }
