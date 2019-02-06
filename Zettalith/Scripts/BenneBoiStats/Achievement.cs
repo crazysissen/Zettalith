@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
+    [Serializable]
     class Achievement
     {
         public Achievements.VariableType Type { get; private set; }

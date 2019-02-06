@@ -95,10 +95,13 @@
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\TestBottom2.cs" />
+    <Compile Include="Scripts\Pieces\Middles\TestMiddle2.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
-    <Compile Include="Scripts\Pieces\Bottoms\Bottom1.cs" />
-    <Compile Include="Scripts\Pieces\Collection.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\TestBottom1.cs" />
+    <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\TestTop2.cs" />
     <Compile Include="Scripts\SetDesigner.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
@@ -128,8 +131,8 @@
     <Compile Include="Scripts\NetworkManager.cs" />
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\PersonalData.cs" />
-    <Compile Include="Scripts\Pieces\Middles\Middle1.cs" />
-    <Compile Include="Scripts\Pieces\Tops\Top1.cs" />
+    <Compile Include="Scripts\Pieces\Middles\TestMiddle1.cs" />
+    <Compile Include="Scripts\Pieces\Tops\TestTop1.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />

@@ -234,6 +234,14 @@ namespace Zettalith
             lobby.Initialize("Player", config);
         }
 
+        public void ToMenu()
+        {
+            stateManager.SetGameState(GameState.MainMenu, 0);
+
+            mainMenu = new MainMenu();
+            mainMenu.Initialize(this);
+        }
+
         //void StartDebugConsole()
         //{
         //    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + CONSOLEPATH))

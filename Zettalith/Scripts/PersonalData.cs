@@ -7,18 +7,16 @@ using Zettalith.Pieces;
 
 namespace Zettalith
 {
-    [Serializable]
     struct PersonalData
     {
-        List<SubPiece> savedSubPieces;
-        List<Piece> savedPieces;
-        List<Collection> savedCollections;
+        public static PersonalData UserData { get; set; } = SaveLoad.Load();
 
-        public PersonalData(List<SubPiece> subPieces, List<Piece> pieces, List<Collection> collections)
-        {
-            savedSubPieces = subPieces;
-            savedPieces = pieces;
-            savedCollections = collections;
-        }
+        public bool[] UnlockedPieces => Subpieces.Unlocked;
+        //public List<SubPiece> SavedSubPieces { get; set; }
+        public List<Piece> SavedPieces { get; set; }
+        public List<Set> SavedSets { get; set; }
+
+        public Dictionary<string, Achievement> Locked { get; set; }
+        public Dictionary<string, Achievement> Unlocked { get; set; }
     }
 }

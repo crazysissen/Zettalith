@@ -9,6 +9,6 @@ namespace Zettalith
     static class Statistics
     {
         // ADD ALL STATS THAT COULD EVER EXIST TO MAKE THIS SCRIPT THE MOST POWERFUL STAT-SCRIPT OF ALL TIME
-        public static int Test { get; set;  } = 5;
+        public static int Test { get; set; }
     }
 }
