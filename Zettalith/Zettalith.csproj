@@ -94,6 +94,7 @@
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
+    <Compile Include="Scripts\Misc\Easings.cs" />
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\TestBottom2.cs" />
     <Compile Include="Scripts\Pieces\Middles\TestMiddle2.cs" />
