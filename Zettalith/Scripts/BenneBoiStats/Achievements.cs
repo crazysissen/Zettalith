@@ -12,7 +12,8 @@ namespace Zettalith
 
         public static Dictionary<string, Achievement> locked = new Dictionary<string, Achievement>
         {
-            { "Test", new Achievement(VariableType.Long, "Achieve five style points",Statistics.Test) },
+            { "Test", new Achievement(VariableType.Long, "Achieve five style points", 5) },
+            //{ "Achievement name", new Achievement(VariableType.Double, "Achievement description", ) }
         };
 
         public static Dictionary<string, Achievement> unlocked = new Dictionary<string, Achievement>();
@@ -43,6 +44,13 @@ namespace Zettalith
                     }
                 }
             }
+        }
+
+        public static void LoadAchievements()
+        {
+            PersonalData data = SaveLoad.Load();
+            locked = data.Locked;
+            unlocked = data.Unlocked;
         }
 
         static void Complete(KeyValuePair<string, Achievement> achievement)
