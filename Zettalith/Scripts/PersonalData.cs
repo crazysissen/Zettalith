@@ -9,8 +9,11 @@ namespace Zettalith
 {
     struct PersonalData
     {
-        public static List<SubPiece> savedSubPieces { get; set; }
-        public static List<Piece> savedPieces { get; set; }
-        public static List<Set> savedSets { get; set; }
+        public List<SubPiece> SavedSubPieces { get; set; }
+        public List<Piece> SavedPieces { get; set; }
+        public List<Set> SavedSets { get; set; }
+
+        public Dictionary<string, Achievement> Locked { get; set; }
+        public Dictionary<string, Achievement> Unlocked { get; set; }
     }
 }
