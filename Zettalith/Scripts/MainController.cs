@@ -27,7 +27,6 @@ namespace Zettalith
         public static GameState CurrentState => Main.stateManager.GameState;
         public static int CurrentSubState => Main.stateManager.Peek;
 
-        private System.Net.IPEndPoint endPoint;
         private Random r;
         private StateManager stateManager;
 
@@ -72,7 +71,6 @@ namespace Zettalith
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1, backgroundColor);
             NetworkManager.Initialize(game);
-            NetworkManager.Listen("TEST", RecieveTestMessage);
 
             if (type == StartType.LocalHost)
             {
@@ -159,58 +157,6 @@ namespace Zettalith
             //}
         }
 
-        public void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
-        {
-            Test.Log((!host ? "Server found: " + message + ". " : "Peer found. ") + "IP: " + ipEndPoint + ". Local peer is host: " + host);
-
-            if (XNAController.LocalGameClient)
-            {
-                NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Local Server", TestCallback);
-            }
-
-            endPoint = ipEndPoint;
-        }
-
-        public void Connected(System.Net.IPEndPoint ipEndPoint, bool host)
-        {
-            inGameController = new InGameController(host);
-        }
-
-        void TestMessage()
-        {
-            NetworkManager.Send("TEST", r.Next(0, 0xFFFF));
-        }
-
-        void TestHost()
-        {
-            NetworkManager.CreateHost("server.exe");
-        }
-
-        void BeginSearch()
-        {
-            NetworkManager.CreateClient();
-            NetworkManager.StartPeerSearch(TESTIP);
-        }
-
-        void TestJoin()
-        {
-            Test.Log("Attempting join: " + endPoint);
-
-            NetworkManager.TryJoin(endPoint.Address.ToString(), endPoint.Port, "JoinTest!", TestCallback);
-        }
-
-        void RecieveTestMessage(byte[] data)
-        {
-            int integer = data.ToObject<int>();
-
-            Test.Log(integer.ToString("X4"));
-        }
-
-        void TestCallback(bool success)
-        {
-
-        }
-
         void CloseClone()
         {
             clone.Close();
@@ -219,6 +165,8 @@ namespace Zettalith
         public void ToArmies()
         {
             stateManager.SetGameState(GameState.ArmyDesigner, 0);
+
+            mainMenu.CloseMenu();
 
             setDesigner = new SetDesigner();
             setDesigner.Initialize(this);

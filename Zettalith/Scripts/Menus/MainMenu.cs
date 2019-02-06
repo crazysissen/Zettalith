@@ -95,7 +95,15 @@ namespace Zettalith
 
         private void BJoin()
         {
+            if (XNAController.localGame)
+            {
+                if (XNAController.LocalGameClient)
+                {
+                    controller.ToLobby(null);
+                }
 
+                return;
+            }
         }
 
         private void BArmies()
