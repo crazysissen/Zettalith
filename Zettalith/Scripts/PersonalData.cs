@@ -12,6 +12,17 @@ namespace Zettalith
     {
         public static PersonalData UserData { get; set; } = new PersonalData();
 
+        public static PersonalData Default = new PersonalData
+        {
+            SavedPieces = new List<Piece>(),
+            SavedSets = new List<Set>()
+            {
+                new Set(),
+            },
+            Locked = Achievements.DefaultLocked,
+            Unlocked = Achievements.DefaultUnlocked,
+        };
+
         public bool[] UnlockedPieces => Subpieces.Unlocked;
         //public List<SubPiece> SavedSubPieces { get; set; }
         public List<Piece> SavedPieces { get; set; }

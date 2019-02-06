@@ -68,10 +68,7 @@ namespace Zettalith
             //    StartDebugConsole();
             //}
 
-            if (!File.Exists(SaveLoad.path + SaveLoad.fileName))
-            {
-                SaveLoad.Save(PersonalData.UserData);
-            }
+            SaveLoad.Initialize();
 
             stateManager = new StateManager(GameState.MainMenu, 0);
 
