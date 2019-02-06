@@ -49,7 +49,6 @@ namespace Zettalith
                     member.Origin = additiveOrigin;
                     newMembers.Add(member);
                 }
-
             }
 
             return newMembers.ToArray();
