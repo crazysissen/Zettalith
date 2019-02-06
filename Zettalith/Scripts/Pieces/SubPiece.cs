@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
@@ -17,6 +20,7 @@ namespace Zettalith.Pieces
         public Mana MoveCost { get; set; }
         public Ability Ability { get; set; }
         public string Description { get; set; }
+        public Texture2D Texture { get; set; }
 
         public int ToIndex()
         {
