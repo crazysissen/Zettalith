@@ -63,7 +63,7 @@ namespace Zettalith
             Layer IGUIMember.Layer => Layer;
 
             const float
-                DEFAULTTRANSITIONTIME = 0.06f;
+                DEFAULTTRANSITIONTIME = 0.05f;
 
             public enum State { Idle, Hovered, Pressed }
             public enum Type { ColorSwitch, TextureSwitch, AnimatedSwitch }
@@ -83,9 +83,10 @@ namespace Zettalith
             public Texture2D Texture { get; set; }
             public Texture2D[] TextureSwitch { get; private set; }
             public Color[] ColorSwitch { get; private set; }
+            public SpriteEffects SpriteEffects { get; set; }
 
-            public bool ScaleEffect { get; set; } = true;
-            public float ScaleEffectMultiplier { get; set; } = 1;
+            public bool ScaleEffect { get; set; } = false;
+            public float ScaleEffectAmplitude { get; set; } = 1.0f;
 
             public Layer Layer { get; set; }
 
@@ -98,7 +99,7 @@ namespace Zettalith
             private State _startState;
             private SoundEffect _effect;
 
-            private float[] _scaleSwitch = { 1.0f, 1.05f, 0.965f };
+            private float[] _scaleSwitch = { 1.0f, 1.03f, 0.975f };
 
             /// <summary>Testing button</summary>
             public Button(Layer layer, Rectangle transform)
@@ -117,12 +118,12 @@ namespace Zettalith
 
             /// <summary>Simple button, for testing primarily</summary>
             public Button(Layer layer, Rectangle transform, Texture2D texture, Color color)
-                : this(layer, transform, texture, PseudoDefaultColors(color), Transition.LinearFade, DEFAULTTRANSITIONTIME)
+                : this(layer, transform, texture, PseudoDefaultColors(color), Transition.EaseOutQuartic, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Simple button that switches color (color multiplier) when hovered/clicked</summary>
             public Button(Layer layer, Rectangle transform, Texture2D texture, Color idle, Color hover, Color click)
-                : this(layer, transform, texture, idle, hover, click, Transition.LinearFade, DEFAULTTRANSITIONTIME)
+                : this(layer, transform, texture, idle, hover, click, Transition.EaseOutQuartic, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Simple button that changes color (color multiplier) when hovered/clicked according to a set transition type and time</summary>
@@ -189,7 +190,14 @@ namespace Zettalith
                 {
                     _currentTime += unscaledDeltaTime / TransitionTime;
 
-                    _currentScale = scaledValue.Lerp(_startScale, _targetScale);
+                    if (ScaleEffect)
+                    {
+                        _currentScale = scaledValue.Lerp(_startScale, _targetScale);
+                    }
+                    else
+                    {
+                        _currentScale = 1;
+                    }
 
                     switch (DisplayType)
                     {
@@ -234,7 +242,7 @@ namespace Zettalith
 
                 foreach (TAS textureAlpha in textures)
                 {
-                    spriteBatch.Draw(textureAlpha.texture, targetRectangle, null, new Color(color, textureAlpha.alpha), 0, new Vector2(0.5f, 0.5f), SpriteEffects.None, Layer.LayerDepth);
+                    spriteBatch.Draw(textureAlpha.texture, targetRectangle, null, new Color(color, textureAlpha.alpha), 0, new Vector2(0.5f, 0.5f), SpriteEffects, Layer.LayerDepth);
                 }
 
                 if (!pressed)
@@ -312,8 +320,8 @@ namespace Zettalith
                 _targetTime = (_inTransition && state == previousStartState) ? _targetTime - _currentTime : 1;
                 _currentTime = 0;
 
-                _startScale = _scaleSwitch[(int)_startState];
-                _targetScale = _scaleSwitch[(int)state];
+                _startScale = (_scaleSwitch[(int)_startState] - 1) * ScaleEffectAmplitude + 1;
+                _targetScale = (_scaleSwitch[(int)state] - 1) * ScaleEffectAmplitude + 1;
 
                 switch (DisplayType)
                 {
@@ -355,6 +363,18 @@ namespace Zettalith
 
                     case Transition.AcceleratingFade:
                         _transition = MathZ.SineA;
+                        return;
+
+                    case Transition.EaseOutBack:
+                        _transition = Easing.EaseOutBack;
+                        return;
+
+                    case Transition.EaseOutElastic:
+                        _transition = Easing.EaseOutElastic;
+                        return;
+
+                    case Transition.EaseOutQuartic:
+                        _transition = Easing.EaseOutQuartic;
                         return;
                 }
             }
