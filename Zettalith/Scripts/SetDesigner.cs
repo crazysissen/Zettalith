@@ -53,7 +53,7 @@ namespace Zettalith
             bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.008f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
             bArrowHead1.OnClick += BArrow;
 
-            //bArrowHead2 = new GUI.Button()
+            bArrowHead2 = new GUI.Button(new Rectangle((int)(Settings.Resolution.X * 0.5f), (int)(Settings.Resolution.Y * 0.5f), (int)(Settings.Resolution.X * 1f), (int)(Settings.Resolution.Y * 1f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), new GUI.Button.Transition(), 0);
             #endregion
 
             setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
