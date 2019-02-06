@@ -143,14 +143,16 @@ namespace Zettalith
             }
 
             /// <summary>Button that switches texture when hovered/clicked</summary>
-            public Button(Rectangle transform, Texture2D idle, Texture2D hover, Texture2D click)
-                : this(transform, idle, hover, click, Transition.LinearFade, DEFAULTTRANSITIONTIME)
+            public Button(Layer layer, Rectangle transform, Texture2D idle, Texture2D hover, Texture2D click)
+                : this(layer, transform, idle, hover, click, Transition.LinearFade, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Button that changes texture when hovered/clicked according to a set transition type and time</summary>
-            public Button(Rectangle transform, Texture2D idle, Texture2D hover, Texture2D click, Transition transitionType, float transitionTime)
+            public Button(Layer layer, Rectangle transform, Texture2D idle, Texture2D hover, Texture2D click, Transition transitionType, float transitionTime)
             {
                 DisplayType = Type.TextureSwitch;
+
+                Layer = layer;
 
                 Transform = transform;
                 TextureSwitch = new Texture2D[] { idle, hover, click };
