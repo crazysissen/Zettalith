@@ -28,6 +28,7 @@ namespace Zettalith
             bottom = bottom.FromIndex(piece.BottomIndex) as Bottom;
         }
 
+        // Returns just the units base stats
         public Stats BaseStats => new Stats()
         {
             AttackDamage = top.AttackDamage + middle.AttackDamage + bottom.AttackDamage,
@@ -38,6 +39,7 @@ namespace Zettalith
             MoveCost = bottom.MoveCost
         };
 
+        // Returns a units base stats with all modification applied
         public Stats ModifiedStats
         {
             get
@@ -69,19 +71,21 @@ namespace Zettalith
 
         //}
 
-        //TODO: GameAction?
+        // TODO: GameAction?
+        // Adds a modifier to this unit
         public void ModThis(Modifier mod)
         {
             modifiers.Add(mod);
         }
 
-        //TODO: GameAction?
-        public static void ModOther(Modifier mod, TilePiece target)
-        {
-            target.ModThis(mod);
-        }
+        // TODO: GameAction?
+        //public static void ModOther(Modifier mod, TilePiece target)
+        //{
+        //    target.ModThis(mod);
+        //}
 
-        //TODO: GameAction?
+        // TODO: GameAction?
+        // Clears modifications that are not permanent
         public void ClearMods()
         {
             List<Modifier> remove = new List<Modifier>();
@@ -100,6 +104,7 @@ namespace Zettalith
             }
         }
 
+        // Clears all mods, aka resets the unit to its factory state
         public void ResetMods()
         {
             modifiers.Clear();
