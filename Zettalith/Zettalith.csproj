@@ -88,6 +88,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Ability.cs" />
+    <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
+    <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
+    <Compile Include="Scripts\BenneBoiStats\Statistics.cs" />
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\GameSetup.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />

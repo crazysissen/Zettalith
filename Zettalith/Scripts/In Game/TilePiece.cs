@@ -81,6 +81,7 @@ namespace Zettalith
             target.ModThis(mod);
         }
 
+        //TODO: GameAction?
         public void ClearMods()
         {
             List<Modifier> remove = new List<Modifier>();
