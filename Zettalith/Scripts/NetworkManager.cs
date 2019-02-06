@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Deployment.Application;
 using Microsoft.Xna.Framework;
 using Lidgren.Network;
+using System.Net.Sockets;
+using System.Net.NetworkInformation;
 
 namespace Zettalith
 {
@@ -21,6 +23,7 @@ namespace Zettalith
     static class NetworkManager
     {
         public static string PublicIP { get; private set; }
+        public static string LocalIP { get; private set; }
         public static string ServerName { get; private set; }
 
         static Dictionary<string, SerializedEvent> listeners = new Dictionary<string, SerializedEvent>();
@@ -87,8 +90,9 @@ namespace Zettalith
         {
             xnaController.Exiting += DestroyPeerEvent;
 
-            Thread thread = new Thread(GetPublicIP);
-            thread.Start();
+            Thread threadG = new Thread(GetPublicIP), threadL = new Thread(GetLocalIP);
+            threadG.Start();
+            threadL.Start();
         }
 
         public static void CreateHost(string serverName)
@@ -284,19 +288,32 @@ namespace Zettalith
             }
         }
 
-        public static void GetPublicIP()
+        private static void GetLocalIP()
         {
-            //System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
-            //System.Net.WebResponse webResponse = request.GetResponse();
-            //System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
+            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress ip in localIPs)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    Test.Log("Local IP Retrieved: " + ip);
+                    LocalIP = ip.ToString();
+                }
+            }
+        }
 
-            //string response = reader.ReadToEnd().Trim();
-            //string[] a = response.Split(':');
-            //string[] a2 = a[1].Substring(1).Split('<');
+        private static void GetPublicIP()
+        {
+            System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
+            System.Net.WebResponse webResponse = request.GetResponse();
+            System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
 
-            //PublicIP = a2[0];
+            string response = reader.ReadToEnd().Trim();
+            string[] a = response.Split(':');
+            string[] a2 = a[1].Substring(1).Split('<');
 
-            //Test.Log("Public IP retrieved: " + PublicIP);
+            PublicIP = a2[0];
+
+            Test.Log("Public IP retrieved: " + PublicIP);
         }
 
         class SerializedEvent

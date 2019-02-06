@@ -38,6 +38,7 @@ namespace Zettalith
         private InGameController inGameController;
         private MainMenu mainMenu;
         private SetDesigner setDesigner;
+        private Lobby lobby;
 
         public MainController()
         {
@@ -221,6 +222,16 @@ namespace Zettalith
 
             setDesigner = new SetDesigner();
             setDesigner.Initialize(this);
+        }
+
+        public void ToLobby(StartupConfig? config = null)
+        {
+            stateManager.SetGameState(GameState.Lobby, 0);
+
+            mainMenu.CloseMenu();
+
+            lobby = new Lobby();
+            lobby.Initialize("Player", config);
         }
 
         public void ToMenu()
