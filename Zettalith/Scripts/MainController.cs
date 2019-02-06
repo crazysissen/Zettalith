@@ -44,8 +44,6 @@ namespace Zettalith
         {
             Main = this;
             r = new Random();
-
-            SaveLoad.Load();
         }
 
         public void NormalInitialize()
@@ -70,6 +68,11 @@ namespace Zettalith
             //    StartDebugConsole();
             //}
 
+            if (!File.Exists(SaveLoad.path + SaveLoad.fileName))
+            {
+                SaveLoad.Save(PersonalData.UserData);
+            }
+
             stateManager = new StateManager(GameState.MainMenu, 0);
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1, backgroundColor);
@@ -93,13 +96,9 @@ namespace Zettalith
 
             //SAVE LOAD TESTING, TOM LISTA AV PERSONALDATA SPARAS OCH LADDAS
 
-            //List<SubPiece> subPieces = new List<SubPiece>();
-            //List<Piece> pieces = new List<Piece>();
-            //List<Collection> collections = new List<Collection>();
-            //PersonalData data = new PersonalData(subPieces, pieces, collections);
-            //SaveLoad.Save(data);
+            //SaveLoad.Save(PersonalData.UserData);
 
-            //PersonalData temp = SaveLoad.Load();
+            //PersonalData.UserData = SaveLoad.Load();
         }
 
         public void LateInitialize(XNAController game)

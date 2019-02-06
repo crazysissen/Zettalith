@@ -12,8 +12,8 @@ namespace Zettalith
     {
         static string FullPath => path + fileName;
 
-        static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
-        static string fileName = "UserData.zth";
+        public static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
+        public static string fileName = "UserData.zth";
 
         public static void Save(PersonalData data)
         {
