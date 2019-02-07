@@ -99,6 +99,6 @@ namespace Zettalith
     [Serializable]
     struct StartupConfig
     {
-        public Point mapDiameter;
+        public SPoint mapDiameter;
     }
 }
