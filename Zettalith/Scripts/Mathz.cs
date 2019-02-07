@@ -38,6 +38,9 @@ namespace Zettalith
             return vector;
         }
 
+        public static Point RoundToPoint(this Vector2 vector)
+            => new Point((int)Math.Round(vector.X), (int)Math.Round(vector.Y));
+
         public static int HighestPowerLessThanOrEqual(this int number, out int power)
         {
             if (number < 2)

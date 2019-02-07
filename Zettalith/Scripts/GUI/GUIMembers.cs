@@ -99,11 +99,11 @@ namespace Zettalith
             private State _startState;
             private SoundEffect _effect;
 
-            private float[] _scaleSwitch = { 1.0f, 1.03f, 0.975f };
+            private float[] _scaleSwitch = { 1.0f, 1.04f, 0.97f };
 
             /// <summary>Testing button</summary>
             public Button(Layer layer, Rectangle transform)
-                : this(layer, transform, Load.Get<Texture2D>("Square"), Color.White)
+                : this(layer, transform, Load.Get<Texture2D>("Square"), new Color(0.9f, 0.9f, 0.9f))
             { }
 
             /// <summary>Testing button</summary>
@@ -113,17 +113,17 @@ namespace Zettalith
 
             /// <summary>Simple button with preset color multipliers, for testing primarily</summary>
             public Button(Layer layer, Rectangle transform, Texture2D texture)
-                : this(layer, transform, texture, Color.White)
+                : this(layer, transform, texture, new Color(0.9f, 0.9f, 0.9f))
             { }
 
             /// <summary>Simple button, for testing primarily</summary>
             public Button(Layer layer, Rectangle transform, Texture2D texture, Color color)
-                : this(layer, transform, texture, PseudoDefaultColors(color), Transition.EaseOutQuartic, DEFAULTTRANSITIONTIME)
+                : this(layer, transform, texture, PseudoDefaultColors(color), Transition.LinearFade, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Simple button that switches color (color multiplier) when hovered/clicked</summary>
             public Button(Layer layer, Rectangle transform, Texture2D texture, Color idle, Color hover, Color click)
-                : this(layer, transform, texture, idle, hover, click, Transition.EaseOutQuartic, DEFAULTTRANSITIONTIME)
+                : this(layer, transform, texture, idle, hover, click, Transition.LinearFade, DEFAULTTRANSITIONTIME)
             { }
 
             /// <summary>Simple button that changes color (color multiplier) when hovered/clicked according to a set transition type and time</summary>
@@ -238,7 +238,7 @@ namespace Zettalith
                     halfSize = new Vector2(Transform.Size.X * 0.5f, Transform.Size.Y * 0.5f),
                     middlePosition = Transform.Location.ToVector2() + halfSize;
 
-                Rectangle targetRectangle = new Rectangle(_origin + (middlePosition - halfSize * _currentScale).ToPoint(), (Transform.Size.ToVector2() * _currentScale).ToPoint());
+                Rectangle targetRectangle = new Rectangle(_origin + (middlePosition - halfSize * _currentScale).RoundToPoint(), (Transform.Size.ToVector2() * _currentScale).RoundToPoint());
 
                 foreach (TAS textureAlpha in textures)
                 {
@@ -395,10 +395,10 @@ namespace Zettalith
             public void AddEffect(SoundEffect effect) => this._effect = effect;
 
             public static Color[] DefaultColors()
-                => new Color[] { Color.White, new Color(0.85f, 0.85f, 0.85f), new Color(0.7f, 0.7f, 0.7f) };
+                => new Color[] { Color.White, new Color(1.15f, 1.15f, 1.15f), new Color(0.85f, 0.85f, 0.85f) };
 
             public static Color[] PseudoDefaultColors(Color origin)
-                => new Color[] { origin, origin * 0.85f, origin * 0.7f };
+                => new Color[] { origin, origin * 1.15f, origin * 0.85f };
 
             public void SetPseudoDefaultColors(Color origin)
                 => ColorSwitch = PseudoDefaultColors(origin);
