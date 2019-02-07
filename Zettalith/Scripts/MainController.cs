@@ -126,6 +126,7 @@ namespace Zettalith
                     break;
 
                 case GameState.Lobby:
+                    lobby.Update(deltaTime);
                     break;
 
                 case GameState.GameLoad:
@@ -184,8 +185,22 @@ namespace Zettalith
         {
             stateManager.SetGameState(GameState.MainMenu, 0);
 
-            mainMenu = new MainMenu();
-            mainMenu.Initialize(this);
+            if (mainMenu == null)
+            {
+                mainMenu = new MainMenu();
+                mainMenu.Initialize(this);
+                return;
+            }
+
+            mainMenu.OpenMenu();
+        }
+
+        public void ToGame(StartupConfig config, bool host)
+        {
+            stateManager.SetGameState(GameState.InGame, 0);
+
+            inGameController = new InGameController(host);
+            inGameController.Setup(config);            
         }
 
         //void StartDebugConsole()
