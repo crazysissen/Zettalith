@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
@@ -11,9 +13,9 @@ namespace Zettalith
         const int
             MAXSIZE = 4096;
 
-        int _xL, _yL, _zL;
+        readonly int _xL, _yL;
 
-        Tile[,,] _tileArray;
+        Tile[,] _tileArray;
         TileObject[] _objects;
 
         public TileObject this[int id]
@@ -29,65 +31,66 @@ namespace Zettalith
             }
         }
 
-        public TileObject this[int x, int y, int z]
+        public Tile this[int x, int y]
         {
             get
             {
-                if (!InBounds(x, y, z))
+                if (!InBounds(x, y))
                 {
                     return null;
                 }
 
-                if (_tileArray[x, y, z] == null)
+                if (_tileArray[x, y] == null)
                 {
-                    _tileArray[x, y, z] = new Tile();
                     return null;
                 }
 
-                return _objects[_tileArray[x, y, z].TileObject];
+                return _tileArray[x, y];
             }
 
             set
             {
+                if (!InBounds(x, y))
+                {
+                    return;
+                }
 
+                _tileArray[x, y] = value;
             }
         }
 
-        public TileObject this[Coordinate coordinate]
+        public Tile this[Point point]
         {
-            get => this[coordinate.x, coordinate.y, coordinate.z];
+            get => this[point.X, point.Y];
 
-            set => this[coordinate.x, coordinate.y, coordinate.z] = value;
+            set => this[point.Y, point.Y] = value;
         }
 
-        public Grid(int x, int y, int z)
+        public Grid(int x, int y)
         {
-            if (x < 0 || y < 0 || z < 0)
+            if (x < 0 || y < 0)
                 throw new OverflowException("Tried to initialize array with negative dimension(s).");
 
             _xL = x;
             _yL = y;
-            _zL = z;
 
-            _tileArray = new Tile[x, y, z];
+            _tileArray = new Tile[x, y];
             _objects = new TileObject[MAXSIZE];
         }
 
-        public bool InBounds(int x, int y, int z)
+        public TileObject GetObject(int x, int y)
         {
-            return x > -1 && y > -1 && z > -1 && x < _xL && y < _yL && z < _zL;
+            if (!InBounds(x, y))
+            {
+                return null;
+            }
+
+            return _objects[_tileArray[x, y].TileObject];
         }
-    }
 
-    struct Coordinate
-    {
-        public int x, y, z;
-
-        public Coordinate(int x, int y, int z)
+        public bool InBounds(int x, int y)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            return x > -1 && y > -1 && x < _xL && y < _yL;
         }
     }
 
