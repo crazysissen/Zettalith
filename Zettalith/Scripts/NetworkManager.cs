@@ -223,7 +223,8 @@ namespace Zettalith
                 switch (message.MessageType)
                 {
                     case NetIncomingMessageType.StatusChanged:
-                        Test.Log("Status changed: " + (NetConnectionStatus)message.ReadByte());
+                        NetConnectionStatus state = (NetConnectionStatus)message.ReadByte();
+                        Test.Log("Status changed: " + state);
                         break;
 
                     // This is the host and a connection attempt was recieved
@@ -245,12 +246,12 @@ namespace Zettalith
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
                         localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
-                        XNAController.MainController.PeerFound(message.SenderEndPoint, true, message.ReadString());
+                        Lobby.PeerFound(message.SenderEndPoint, true, message.ReadString());
                         break;
 
                     // This is the client and a discovery request was returned with response
                     case NetIncomingMessageType.DiscoveryResponse:
-                        XNAController.MainController.PeerFound(message.SenderEndPoint, false, message.ReadString());
+                        Lobby.PeerFound(message.SenderEndPoint, false, message.ReadString());
                         break;
 
                     case NetIncomingMessageType.WarningMessage:

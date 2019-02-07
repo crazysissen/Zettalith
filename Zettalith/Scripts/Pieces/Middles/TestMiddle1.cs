@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             Health = 10;
             AttackDamage = 7;
             ManaCost = new Mana(5, 0, 0);
-            Description = "Weak but strong head.";
+            Description = "Frail but powerful body.";
             Texture = Load.Get<Texture2D>("TestSubpiece");
         }
     }
