@@ -33,7 +33,7 @@ namespace Zettalith
             loadThread.Start();
 
             animation = Load.Get<Texture2D>("LoadingScreen");
-            loading = new Renderer.AnimatorScreen(Layer.Default, animation, new Point(128, 72), new Rectangle(Point.Zero, Settings.Resolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+            loading = new Renderer.AnimatorScreen(Layer.Default, animation, new Point(128, 72), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
         }
 
         public void Update(float deltaTime)
