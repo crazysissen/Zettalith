@@ -26,7 +26,7 @@ namespace Zettalith.Pieces
         // Creates an index for this subpiece to be saved as
         public int ToIndex()
         {
-            return Subpieces.subpieces.IndexOf(GetType());
+            return Subpieces.SubPieces.IndexOf(GetType());
         }
 
         // Unlocks this subpiece to the player

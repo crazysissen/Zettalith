@@ -10,7 +10,7 @@ namespace Zettalith
     static class Subpieces
     {
         // TODO: Add all SubPieces to exist in the game to this list with the format below
-        public static List<System.Type> subpieces = new List<System.Type>
+        public static List<System.Type> SubPieces = new List<System.Type>
         {
             typeof(TestTop1), typeof(TestTop2), //typeof(Top2),
             typeof(TestMiddle1), typeof(TestMiddle2), //typeof(Middle2),
@@ -29,14 +29,14 @@ namespace Zettalith
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
         public static SubPiece FromIndex(int index)
         {
-            return (SubPiece)Activator.CreateInstance(subpieces[index]);
+            return (SubPiece)Activator.CreateInstance(SubPieces[index]);
         }
 
         public static List<T> GetSubpieces<T>() where T : SubPiece
         {
             List<T> tempList = new List<T>();
 
-            for (int i = 0; i < subpieces.Count; ++i)
+            for (int i = 0; i < SubPieces.Count; ++i)
             {
                 if (PersonalData.UserData.UnlockedPieces[i])
                 {
