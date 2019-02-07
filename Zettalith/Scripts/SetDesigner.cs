@@ -73,6 +73,12 @@ namespace Zettalith
             bCancelSet.AddText("Cancel", 4, true, textColor, Font.Default);
             bCancelSet.OnClick += BCancelSet;
 
+            for (int i = 0; i < miniliths.Length; ++i)
+            {
+                //TODO
+                //miniliths[i] = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.21f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            }
+
             #region //ArrowButtons
             bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.21f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowHead1.OnClick += arrowCalls[1].Activate;
@@ -100,6 +106,7 @@ namespace Zettalith
             middle = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedMiddleList[currentlyShowingMiddle].Texture, new Rectangle((int)(Settings.Resolution.X * 0.20f), (int)(Settings.Resolution.Y * 0.40f), (int)(Settings.Resolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.Resolution.X * 0.1)));
             bottom = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedBottomList[currentlyShowingBottom].Texture, new Rectangle((int)(Settings.Resolution.X * 0.20f), (int)(Settings.Resolution.Y * 0.66f), (int)(Settings.Resolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.Resolution.X * 0.1)));
 
+            #region //Descriptions
             topName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             topHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedTopList[currentlyShowingTop].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             topAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
@@ -117,7 +124,7 @@ namespace Zettalith
             bottomAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             bottomMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             bottomDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-
+            #endregion
 
             setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
             #endregion
