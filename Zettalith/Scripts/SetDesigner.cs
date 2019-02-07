@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Zettalith.Pieces;
 
 namespace Zettalith
 {
@@ -16,7 +17,11 @@ namespace Zettalith
 
         GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2;
 
-        Renderer.SpriteScreen collectionInspectorLines, setDesignerLines;
+        Renderer.SpriteScreen collectionInspectorLines, setDesignerLines, top, middle, bottom;
+
+        List<Top> unlockedTopList;
+        List<Middle> unlockedMiddleList;
+        List<Bottom> unlockedBottomList;
 
         public void Initialize(MainController controller)
         {
@@ -30,12 +35,15 @@ namespace Zettalith
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
+            unlockedTopList = Subpieces.GetSubpieces<Top>();
+            unlockedMiddleList = Subpieces.GetSubpieces<Middle>();
+            unlockedBottomList = Subpieces.GetSubpieces<Bottom>();
+
             CustomParameterCall[] arrowCalls = new CustomParameterCall[6];
             for (int i = 0; i < arrowCalls.Length; i++)
             {
                 arrowCalls[i] = new CustomParameterCall() { TargetMethod = BArrow, SubPiece = (int)(i * 0.5), B1 = (i % 2 == 0)};
             }
-
 
             #region //CollectionInspector
             bCreate = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.508f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
@@ -77,11 +85,15 @@ namespace Zettalith
             bArrowBottom2.OnClick += arrowCalls[5].Activate;
             #endregion
 
+            top = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedTopList[0].Texture, new Rectangle((int)(Settings.Resolution.X * 0.175f), (int)(Settings.Resolution.X * 0.17f), Settings.Resolution.X, Settings.Resolution.Y));
+            middle = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedMiddleList[0].Texture, new Rectangle((int)(Settings.Resolution.X * 0.175f), (int)(Settings.Resolution.X * 0.47f), Settings.Resolution.X, Settings.Resolution.Y));
+            bottom = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedBottomList[0].Texture, new Rectangle((int)(Settings.Resolution.X * 0.175f), (int)(Settings.Resolution.X * 0.77f), Settings.Resolution.X, Settings.Resolution.Y));
+
             setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
             #endregion
 
             collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2);
+            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, top, middle, bottom);
             collections.Add(collectionInspector, setDesigner);
         }
 
