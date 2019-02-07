@@ -25,12 +25,6 @@ namespace Zettalith
         Config, Setup, Logistics, Battle, End
     }
 
-    // Det här är en extremt dålig idé -Sixten. No -Benjamin
-    enum Type
-    {
-        Start, End
-    }
-
     class InGameController
     {
         public static InGameController Main { get; private set; }
@@ -42,17 +36,20 @@ namespace Zettalith
 
         bool isHost;
 
+        bool loading;
+        LoadGame loadGame;
+
         InGameState gameState;
 
         /// <summary>
         /// Can move, piece, origin, target
         /// </summary>
-        public event Func<bool, int, Coordinate, Coordinate> MovementAttempt; 
+        public event Func<bool, int, Point, Point> MovementAttempt; 
 
         /// <summary>
         /// Piece, origin, target
         /// </summary>
-        public event Action<int, Coordinate, Coordinate> MovementStart, MovementEnd;
+        public event Action<int, Point, Point> MovementStart, MovementEnd;
 
         /// <summary>
         /// Can cast, caster, target,
@@ -60,14 +57,14 @@ namespace Zettalith
         public event Func<bool, int, int> Ability, Attack;
 
         /// <summary>
-        /// Can place, piece, coordinate
+        /// Can place, piece, Point
         /// </summary>
-        public event Func<bool, Piece, Coordinate> Placement;
+        public event Func<bool, Piece, Point> Placement;
 
         /// <summary>
-        /// Can place, OBS INTE FÄRDIGT, coordinates
+        /// Can place, OBS INTE FÄRDIGT, Points
         /// </summary>
-        public event Func<bool, TileObject, Coordinate> MiscPlacement;
+        public event Func<bool, TileObject, Point> MiscPlacement;
 
         /// <summary>
         /// TODO: Implementera upgrade event
@@ -91,18 +88,26 @@ namespace Zettalith
         public InGameController(bool isHost)
         {
             Main = this;
-
             Test.Log("InGameController created.");
 
             this.isHost = isHost;
             gameState = InGameState.Config;
         }
 
-        public void Setup(Player local, Player remote)
+        public void Setup(StartupConfig config)
         {
-            players = new Player[2] { local, remote };
+            //players = new Player[2] { local, remote };
 
+            loading = true;
+            loadGame = new LoadGame();
+            loadGame.Initialize(config, this, isHost);
+        }
+
+        public void Initialize(LoadedConfig loadedConfig)
+        {
             NetworkManager.Listen("GAMEACTION", RecieveAction);
+
+
         }
 
         public void NewTurnStart()
@@ -112,7 +117,12 @@ namespace Zettalith
 
         public void Update(float deltaTime, MainController mainController, XNAController xnaController)
         {
+            if (loading)
+            {
+                loadGame.Update(deltaTime);
 
+                return;
+            }
         }
 
         public void Request(GameAction actionType, params object[] arg)

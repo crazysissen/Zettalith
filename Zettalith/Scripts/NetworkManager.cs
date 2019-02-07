@@ -41,9 +41,10 @@ namespace Zettalith
                 {
                     NetOutgoingMessage outMessage = localPeer.CreateMessage();
                     outMessage.Write(callsign);
-                    outMessage.Data = message;
+                    outMessage.Write(message.Length);
+                    outMessage.Write(message);
 
-                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableOrdered);
+                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableUnordered);
                 }
             }
         }
@@ -55,7 +56,7 @@ namespace Zettalith
                 listeners.Add(callsign, new SerializedEvent());
             }
 
-            listeners[callsign] += listener;
+            listeners[callsign] += listener; 
         }
 
         public static void RevokeListen(string callsign, NetworkListener listener)
@@ -85,6 +86,8 @@ namespace Zettalith
         static string password;
 
         static Callback callback;
+
+        public static event Action OnConnected, OnDisconnected; 
 
         public static void Initialize(XNAController xnaController)
         {
@@ -204,7 +207,8 @@ namespace Zettalith
         /// </summary>
         public static void DestroyPeer()
         {
-
+            localPeer.Shutdown("Bye");
+            localPeer = null;
         }
 
         public static void Update()
@@ -223,39 +227,62 @@ namespace Zettalith
                 switch (message.MessageType)
                 {
                     case NetIncomingMessageType.StatusChanged:
+
                         NetConnectionStatus state = (NetConnectionStatus)message.ReadByte();
+
                         Test.Log("Status changed: " + state);
+
+                        if (state == NetConnectionStatus.Connected)
+                        {
+                            OnConnected?.Invoke();
+                        }
+
+                        if (state == NetConnectionStatus.Disconnected)
+                        {
+                            OnDisconnected?.Invoke();
+                        }
+
                         break;
 
                     // This is the host and a connection attempt was recieved
                     case NetIncomingMessageType.ConnectionApproval:
+
                         string attachedMessage = message.ReadString();
                         Test.Log("Connection attempt: " + attachedMessage);
                         message.SenderConnection.Approve();
+
                         break;
 
                     case NetIncomingMessageType.Data:
+
                         string header = message.ReadString();
-                        byte[] data = message.Data;
+                        byte[] data = message.ReadBytes(message.ReadInt32());
                         Test.Log("Data recieved. Header: " + header);
                         Recieve(header, data);
+
                         break;
 
                     // This is the host and a discovery request was recieved
                     case NetIncomingMessageType.DiscoveryRequest:
+
                         NetOutgoingMessage response = localPeer.CreateMessage();
                         response.Write(ServerName);
                         localPeer.SendDiscoveryResponse(response, message.SenderEndPoint);
                         Lobby.PeerFound(message.SenderEndPoint, true, message.ReadString());
+
                         break;
 
                     // This is the client and a discovery request was returned with response
                     case NetIncomingMessageType.DiscoveryResponse:
+
                         Lobby.PeerFound(message.SenderEndPoint, false, message.ReadString());
+
                         break;
 
                     case NetIncomingMessageType.WarningMessage:
+
                         Test.Log("Warning: " + message.ReadString());
+
                         break;
 
                     //case NetIncomingMessageType.Error:

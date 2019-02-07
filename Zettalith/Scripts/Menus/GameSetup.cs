@@ -40,7 +40,7 @@ namespace Zettalith
 
             config = new StartupConfig()
             {
-                mapDiameter = 8
+                mapDiameter = new Point(presetSizes[0], presetSizes[0])
             };
 
             Collection = new GUI.Collection()
@@ -85,7 +85,7 @@ namespace Zettalith
 
         private void MapSize(int size)
         {
-            config.mapDiameter = size;
+            config.mapDiameter = new Point(size, size);
         }
 
         private void Confirm()
@@ -96,8 +96,9 @@ namespace Zettalith
         }
     }
 
+    [Serializable]
     struct StartupConfig
     {
-        public int mapDiameter;
+        public Point mapDiameter;
     }
 }

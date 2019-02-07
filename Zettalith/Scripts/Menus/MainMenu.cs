@@ -72,6 +72,11 @@ namespace Zettalith
             collection.Active = false;
         }
 
+        public void OpenMenu()
+        {
+            collection.Active = true;
+        }
+
         private void BHost()
         {
             if (setup == null)

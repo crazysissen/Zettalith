@@ -33,6 +33,7 @@ namespace Zettalith
         }
 
         public static Layer Default => new Layer(MainLayer.Main, 0);
+        public static Layer GUI => new Layer(MainLayer.GUI, 0);
 
         public static implicit operator Layer((MainLayer tupleMain, int tupleLayer) tuple)
             => new Layer(tuple.tupleMain, tuple.tupleLayer);
