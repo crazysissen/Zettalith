@@ -38,7 +38,7 @@ namespace Zettalith
 
             for (int i = 0; i < SubPieces.Count; ++i)
             {
-                if (PersonalData.UserData.UnlockedPieces[i])
+                if (PersonalData.UserData.UnlockedPieces[i] && SubPieces[i].BaseType == typeof(T))
                 {
                     tempList.Add(FromIndex(i) as T);
                 }
