@@ -46,7 +46,7 @@ namespace Zettalith
 
         private void Setup()
         {
-            Grid grid = new Grid(config.mapDiameter.X, config.mapDiameter.Y);
+            Map map = MapGen.SquareMap(config.mapDiameter.X, config.mapDiameter.Y);
 
             complete = true;
         }
@@ -56,6 +56,6 @@ namespace Zettalith
 
     class LoadedConfig
     {
-        public Grid grid;
+        public Map grid;
     }
 }

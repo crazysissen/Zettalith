@@ -94,6 +94,7 @@
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
     <Compile Include="Scripts\Misc\Easings.cs" />
+    <Compile Include="Scripts\Misc\ImageProcessing.cs" />
     <Compile Include="Scripts\Misc\LoadGame.cs" />
     <Compile Include="Scripts\Misc\MapGen.cs" />
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
