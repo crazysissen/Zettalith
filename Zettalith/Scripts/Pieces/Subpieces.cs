@@ -25,5 +25,26 @@ namespace Zettalith
             true, true, /*Middles*/
             true, true, /*Bottoms*/
         };
+
+        // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
+        public static SubPiece FromIndex(int index)
+        {
+            return (SubPiece)Activator.CreateInstance(subpieces[index]);
+        }
+
+        public static List<T> GetSubpieces<T>() where T : SubPiece
+        {
+            List<T> tempList = new List<T>();
+
+            for (int i = 0; i < subpieces.Count; ++i)
+            {
+                if (PersonalData.UserData.UnlockedPieces[i])
+                {
+                    tempList.Add(FromIndex(i) as T);
+                }
+            }
+
+            return tempList;
+        }
     }
 }

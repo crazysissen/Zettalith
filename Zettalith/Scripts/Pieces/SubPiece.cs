@@ -29,12 +29,6 @@ namespace Zettalith.Pieces
             return Subpieces.subpieces.IndexOf(GetType());
         }
 
-        // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
-        public SubPiece FromIndex(int index)
-        {
-            return (SubPiece)Activator.CreateInstance(Subpieces.subpieces[index]);
-        }
-
         // Unlocks this subpiece to the player
         public void Unlock()
         {
