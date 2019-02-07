@@ -35,9 +35,9 @@ namespace Zettalith
 
             collections = new GUI.Collection();
             collectionInspector = new GUI.Collection();
-            topFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.Resolution.X * 0f), (int)(Settings.Resolution.Y * -0.375f)) };
-            middleFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.Resolution.X * 0f), (int)(Settings.Resolution.Y * -0.1f)) };
-            bottomFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.Resolution.X * 0f), (int)(Settings.Resolution.Y * 0.15f)) };
+            topFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * -0.375f)) };
+            middleFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * -0.1f)) };
+            bottomFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * 0.15f)) };
             setDesigner = new GUI.Collection() { Active = false };
 
             RendererController.GUI.Add(collections);
@@ -57,76 +57,76 @@ namespace Zettalith
             }
 
             #region //CollectionInspector
-            bCreate = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.523f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
+            bCreate = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bCreate.AddText("Create Deck", 4, true, textColor, Font.Default);
             bCreate.OnClick += BCreate;
 
-            bBack = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.023f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
+            bBack = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.023f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bBack.AddText("Back", 4, true, textColor, Font.Default);
             bBack.OnClick += BBackToMain;
 
-            collectionInspectorLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("CollectionInspectorLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
+            collectionInspectorLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("CollectionInspectorLines"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
             #endregion
 
             #region //SetDesigner
-            bCancelSet = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.023f), (int)(Settings.Resolution.Y * 0.9f), (int)(Settings.Resolution.X * 0.486f), (int)(Settings.Resolution.Y * 0.09f)));
+            bCancelSet = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.023f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bCancelSet.AddText("Cancel", 4, true, textColor, Font.Default);
             bCancelSet.OnClick += BCancelSet;
 
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 //TODO
-                //miniliths[i] = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.21f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+                //miniliths[i] = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.21f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             }
 
             #region //ArrowButtons
-            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.21f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.21f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowHead1.OnClick += arrowCalls[1].Activate;
 
-            bArrowHead2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.4f), (int)(Settings.Resolution.Y * 0.21f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
+            bArrowHead2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.4f), (int)(Settings.GetResolution.Y * 0.21f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
             { SpriteEffects = SpriteEffects.FlipHorizontally };
             bArrowHead2.OnClick += arrowCalls[2].Activate;
 
-            bArrowMiddle1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.47f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowMiddle1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.47f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowMiddle1.OnClick += arrowCalls[3].Activate;
 
-            bArrowMiddle2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.4f), (int)(Settings.Resolution.Y * 0.47f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
+            bArrowMiddle2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.4f), (int)(Settings.GetResolution.Y * 0.47f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
             { SpriteEffects = SpriteEffects.FlipHorizontally };
             bArrowMiddle2.OnClick += arrowCalls[4].Activate;
 
-            bArrowBottom1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.73f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowBottom1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.73f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowBottom1.OnClick += arrowCalls[5].Activate;
 
-            bArrowBottom2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.4f), (int)(Settings.Resolution.Y * 0.73f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
+            bArrowBottom2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.4f), (int)(Settings.GetResolution.Y * 0.73f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
             { SpriteEffects = SpriteEffects.FlipHorizontally };
             bArrowBottom2.OnClick += arrowCalls[6].Activate;
             #endregion
 
-            top = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedTopList[currentlyShowingTop].Texture, new Rectangle((int)(Settings.Resolution.X * 0.20f), (int)(Settings.Resolution.Y * 0.14f), (int)(Settings.Resolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.Resolution.X * 0.1)));
-            middle = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedMiddleList[currentlyShowingMiddle].Texture, new Rectangle((int)(Settings.Resolution.X * 0.20f), (int)(Settings.Resolution.Y * 0.40f), (int)(Settings.Resolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.Resolution.X * 0.1)));
-            bottom = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedBottomList[currentlyShowingBottom].Texture, new Rectangle((int)(Settings.Resolution.X * 0.20f), (int)(Settings.Resolution.Y * 0.66f), (int)(Settings.Resolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.Resolution.X * 0.1)));
+            top = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedTopList[currentlyShowingTop].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.14f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.X * 0.1)));
+            middle = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedMiddleList[currentlyShowingMiddle].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.40f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.X * 0.1)));
+            bottom = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedBottomList[currentlyShowingBottom].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.66f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.X * 0.1)));
 
             #region //Descriptions
-            topName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            topHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedTopList[currentlyShowingTop].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            topAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            topMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            topDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            topName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            topHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedTopList[currentlyShowingTop].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            topAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            topMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            topDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
 
-            middleName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            middleHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            middleAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            middleMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            middleDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            middleName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            middleHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            middleAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            middleMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            middleDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
 
-            bottomName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            bottomHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            bottomAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            bottomMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            bottomDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.Resolution.X * 0.51f), (int)(Settings.Resolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            bottomName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            bottomHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            bottomAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            bottomMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            bottomDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             #endregion
 
-            setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y));
+            setDesignerLines = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
             #endregion
 
             topFullDesc.Add(topName, topHealth, topAttack, topMana, topDesc);
