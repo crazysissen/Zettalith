@@ -24,9 +24,7 @@ namespace Zettalith
 
             collections = new GUI.Collection();
             collectionInspector = new GUI.Collection();
-            setDesigner = new GUI.Collection();
-
-            setDesigner.Active = false;
+            setDesigner = new GUI.Collection() { Active = false };
 
             RendererController.GUI.Add(collections);
 
@@ -35,7 +33,7 @@ namespace Zettalith
             CustomParameterCall[] arrowCalls = new CustomParameterCall[6];
             for (int i = 0; i < arrowCalls.Length; i++)
             {
-                arrowCalls[i] = new CustomParameterCall() { targetMethod = BArrow, subPiece = (int)(i * 0.5), b1 = (i % 2 == 0)};
+                arrowCalls[i] = new CustomParameterCall() { TargetMethod = BArrow, SubPiece = (int)(i * 0.5), B1 = (i % 2 == 0)};
             }
 
 
@@ -57,22 +55,25 @@ namespace Zettalith
             bCancelSet.OnClick += BCancelSet;
 
             #region //ArrowButtons
-            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.05f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch , 0f);
+            bArrowHead1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.17f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowHead1.OnClick += arrowCalls[0].Activate;
 
-            bArrowHead2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.1f), (int)(Settings.Resolution.Y * 0.05f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowHead2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.4f), (int)(Settings.Resolution.Y * 0.17f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
+            { SpriteEffects = SpriteEffects.FlipHorizontally };
             bArrowHead2.OnClick += arrowCalls[1].Activate;
 
-            bArrowMiddle1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.1f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowMiddle1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.47f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowMiddle1.OnClick += arrowCalls[2].Activate;
 
-            bArrowMiddle2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.1f), (int)(Settings.Resolution.Y * 0.1f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowMiddle2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.4f), (int)(Settings.Resolution.Y * 0.47f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
+            { SpriteEffects = SpriteEffects.FlipHorizontally };
             bArrowMiddle2.OnClick += arrowCalls[3].Activate;
 
-            bArrowBottom1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.15f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowBottom1 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.05f), (int)(Settings.Resolution.Y * 0.77f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
             bArrowBottom1.OnClick += arrowCalls[4].Activate;
 
-            bArrowBottom2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.1f), (int)(Settings.Resolution.Y * 0.15f), (int)(Settings.Resolution.X * 0.04f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f);
+            bArrowBottom2 = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.Resolution.X * 0.4f), (int)(Settings.Resolution.Y * 0.77f), (int)(Settings.Resolution.X * 0.03f), (int)(Settings.Resolution.Y * 0.04f)), Load.Get<Texture2D>("Arrow"), Load.Get<Texture2D>("ArrowHover"), Load.Get<Texture2D>("ArrowPressed"), GUI.Button.Transition.Switch, 0f)
+            { SpriteEffects = SpriteEffects.FlipHorizontally };
             bArrowBottom2.OnClick += arrowCalls[5].Activate;
             #endregion
 
@@ -115,13 +116,13 @@ namespace Zettalith
 
     struct CustomParameterCall
     {
-        public Action<int, bool> targetMethod;
-        public int subPiece;
-        public bool b1;
+        public Action<int, bool> TargetMethod;
+        public int SubPiece;
+        public bool B1;
 
         public void Activate()
         {
-            targetMethod.Invoke(subPiece, b1);
+            TargetMethod.Invoke(SubPiece, B1);
         }
     }
 }
