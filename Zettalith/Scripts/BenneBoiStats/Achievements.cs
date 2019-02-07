@@ -20,6 +20,7 @@ namespace Zettalith
 
         public static Dictionary<string, Achievement> DefaultUnlocked => new Dictionary<string, Achievement>();
 
+        // TODO: Call this somewhere
         public static void Check()
         {
             foreach (KeyValuePair<string, Achievement> achievement in PersonalData.UserData.Locked)

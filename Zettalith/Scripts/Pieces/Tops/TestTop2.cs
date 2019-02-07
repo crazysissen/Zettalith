@@ -11,14 +11,14 @@ namespace Zettalith.Pieces
 {
     class TestTop2 : Top
     {
-        TestTop2()
+        public TestTop2()
         {
             Name = "TestTop2";
             Health = 20;
             AttackDamage = 3;
             ManaCost = new Mana(0, 4, 0);
-            Description = "Strong but not very powerful head.";
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Description = "Sturdy but not very powerful head.";
+            Texture = Load.Get<Texture2D>("TestSubpiece2");
         }
     }
 }

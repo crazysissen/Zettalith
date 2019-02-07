@@ -24,10 +24,5 @@ namespace Zettalith
             Description = description;
             TargetValue = targetValue;
         }
-
-        //public void Achieve()
-        //{
-        //    Complete = true;
-        //}
     }
 }

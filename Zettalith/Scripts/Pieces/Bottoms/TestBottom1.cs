@@ -11,7 +11,7 @@ namespace Zettalith.Pieces
 {
     class TestBottom1 : Bottom
     {
-        TestBottom1()
+        public TestBottom1()
         {
             Name = "TestBottom1";
             Health = 10;

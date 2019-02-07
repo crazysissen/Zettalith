@@ -11,14 +11,14 @@ namespace Zettalith.Pieces
 {
     class TestMiddle2 : Middle
     {
-        TestMiddle2()
+        public TestMiddle2()
         {
             Name = "TestMiddle2";
             Health = 20;
             AttackDamage = 3;
             ManaCost = new Mana(0, 4, 0);
-            Description = "Strong but not very powerful body.";
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Description = "Sturdy but not very powerful body.";
+            Texture = Load.Get<Texture2D>("TestSubpiece2");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Zettalith
 
         public static PersonalData Default = new PersonalData
         {
+            UnlockedPieces = Subpieces.Unlocked,
             SavedPieces = new List<Piece>(),
             SavedSets = new List<Set>()
             {
@@ -23,7 +24,7 @@ namespace Zettalith
             Unlocked = Achievements.DefaultUnlocked,
         };
 
-        public bool[] UnlockedPieces => Subpieces.Unlocked;
+        public bool[] UnlockedPieces { get; set; }
         //public List<SubPiece> SavedSubPieces { get; set; }
         public List<Piece> SavedPieces { get; set; }
         public List<Set> SavedSets { get; set; }
