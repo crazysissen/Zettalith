@@ -10,10 +10,12 @@ namespace Zettalith
     [Serializable]
     struct PersonalData
     {
+        public static Settings Settings => UserData.CurrentSettings;
         public static PersonalData UserData { get; set; } = new PersonalData();
 
         public static PersonalData Default = new PersonalData
         {
+            CurrentSettings = new Settings(),
             UnlockedPieces = Subpieces.Unlocked,
             SavedPieces = new List<Piece>(),
             SavedSets = new List<Set>()
@@ -23,6 +25,8 @@ namespace Zettalith
             Locked = Achievements.DefaultLocked,
             Unlocked = Achievements.DefaultUnlocked,
         };
+
+        public Settings CurrentSettings { get; set; }
 
         public bool[] UnlockedPieces { get; set; }
         //public List<SubPiece> SavedSubPieces { get; set; }

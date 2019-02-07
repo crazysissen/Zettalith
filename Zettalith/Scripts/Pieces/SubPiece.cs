@@ -18,7 +18,7 @@ namespace Zettalith.Pieces
         public int Health { get; set; }
         public int AttackDamage { get; set; }
         public Mana ManaCost { get; set; }
-        public Mana MoveCost { get; set; }
+        public Mana MoveCost { get; set; } = new Mana(0, 0, 0);
         public Ability Ability { get; set; }
         public string Description { get; set; }
         public Texture2D Texture { get; set; }

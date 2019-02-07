@@ -10,18 +10,18 @@ namespace Zettalith
 {
     static class SaveLoad
     {
-        static string FullPath => path + fileName;
+        static string FullPath => Path + fileName;
 
-        public static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
-        public static string fileName = "UserData.zth";
+        public static string Path => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
+        public const string fileName = "UserData.zth";
 
         // TODO: Save userdata/Call this somewhere
         // Saves the current UserData to AppData/Roaming/Zettalith/UserData (PersonalData.UserData)
         public static void Save()
         {
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(Path))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(Path);
             }
             File.WriteAllBytes(FullPath, Encrypt(Bytestreamer.ToBytes(PersonalData.UserData)));
         }
@@ -36,7 +36,7 @@ namespace Zettalith
         // If not, loads the player's currently saved data
         public static void Initialize()
         {
-            if (!File.Exists(path + fileName))
+            if (!File.Exists(Path + fileName))
             {
                 PersonalData.UserData = PersonalData.Default;
                 Save();
@@ -44,6 +44,7 @@ namespace Zettalith
             else
             {
                 Load();
+                PersonalData.Settings.ApplySettings();
             }
         }
 

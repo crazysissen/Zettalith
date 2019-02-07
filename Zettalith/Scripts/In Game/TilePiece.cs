@@ -22,7 +22,7 @@ namespace Zettalith
 
         public TilePiece(Piece piece)
         {
-            this.piece = piece;
+            //this.piece = piece;
             top = Subpieces.FromIndex(piece.TopIndex) as Top;
             middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
             bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;

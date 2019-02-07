@@ -45,7 +45,7 @@ namespace Zettalith
 
             Collection = new GUI.Collection()
             {
-                Origin = Settings.HalfResolution - new Point(WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
+                Origin = Settings.GetHalfResolution - new Point(WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
             };
 
             background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 9), Load.Get<Texture2D>("Square"), new Rectangle(0, 0, WINDOWHEIGHT, WINDOWHEIGHT), Color.DarkGray);
