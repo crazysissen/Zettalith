@@ -21,6 +21,8 @@ namespace Zettalith
 
         Renderer.Text topName, topHealth, topAttack, topMana, topDesc, middleName, middleHealth, middleAttack, middleMana, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc;
 
+        GUI.Button[] miniliths;
+
         List<Top> unlockedTopList;
         List<Middle> unlockedMiddleList;
         List<Bottom> unlockedBottomList;
@@ -45,6 +47,8 @@ namespace Zettalith
             unlockedTopList = Subpieces.GetSubpieces<Top>();
             unlockedMiddleList = Subpieces.GetSubpieces<Middle>();
             unlockedBottomList = Subpieces.GetSubpieces<Bottom>();
+
+            miniliths = new GUI.Button[20];
 
             CustomParameterCall[] arrowCalls = new CustomParameterCall[7];
             for (int i = 0; i < arrowCalls.Length; i++)
