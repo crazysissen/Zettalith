@@ -129,9 +129,13 @@ namespace Zettalith
                 {
                     if (ready)
                     {
-                        NetworkManager.Send(STARTHEADER, config.ToBytes());
+                        StartupConfig tempConfig = config.Value;
 
-                        Start(config.Value);
+                        tempConfig.seed = (new Random()).Next();
+
+                        NetworkManager.Send(STARTHEADER, tempConfig.ToBytes());
+
+                        Start(tempConfig);
                     }
 
                     return;

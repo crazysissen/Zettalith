@@ -6,13 +6,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Zettalith.Pieces;
 
 namespace Zettalith
 {
     class LoadGame
     {
+        const string
+            PLAYERDATAHEADER = "GETPLAYERDATA";
+
         InGameController controller;
         StartupConfig config;
+        PlayerSetupData playerData;
 
         Thread loadThread;
 
@@ -29,6 +34,8 @@ namespace Zettalith
 
             loadedConfig = new LoadedConfig();
 
+            NetworkManager.Listen(PLAYERDATAHEADER, GetPlayerData);
+
             loadThread = new Thread(Setup);
             loadThread.Start();
 
@@ -44,9 +51,31 @@ namespace Zettalith
             }
         }
 
+        void GetPlayerData(byte[] data)
+        {
+
+        }
+
         private void Setup()
         {
-            Map map = MapGen.SquareMap(config.mapDiameter.X, config.mapDiameter.Y);
+            Random r = new Random(config.seed);
+
+            Map map = MapGen.Generate(r, config.mapDiameter.X, config.mapDiameter.Y, config.type);
+
+            int startPlayer = r.Next(2);
+
+            // Wait for playerData
+            while (playerData == null) { Thread.Sleep(5); }
+
+
+
+            // Finalization
+
+            loadedConfig = new LoadedConfig()
+            {
+                map = map,
+                startPlayer = startPlayer
+            };
 
             complete = true;
         }
@@ -56,6 +85,13 @@ namespace Zettalith
 
     class LoadedConfig
     {
-        public Map grid;
+        public Map map;
+        public int startPlayer;
+        public Set[] sets;
+    }
+
+    class PlayerSetupData
+    {
+        public Set set;
     }
 }

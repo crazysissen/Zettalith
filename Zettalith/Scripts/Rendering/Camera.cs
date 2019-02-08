@@ -5,7 +5,7 @@ namespace Zettalith
     public class Camera
     {
         public const int
-            WORLDUNITPIXELS = 1500;
+            WORLDUNITPIXELS = 32;
 
         // A square based on the average distances to the screen edges, divided into pieces
         private const float
