@@ -23,7 +23,7 @@ namespace Zettalith
             this.controller = controller;
 
             int buttonHeight = Settings.GetResolution.Y / 36, buttonSpace = Settings.GetResolution.Y / 48;
-            int tempButtonWidth = (5 * Settings.GetResolution.X / 48);
+            int tempButtonWidth = 5 * Settings.GetResolution.X / 48;
 
             collection = new GUI.Collection();
             main = new GUI.Collection()
