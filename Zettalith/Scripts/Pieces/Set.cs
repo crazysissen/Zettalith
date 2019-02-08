@@ -11,7 +11,8 @@ namespace Zettalith.Pieces
         public string Name { get; set; } = "Unnamed Collection";
         public bool Complete => Pieces.Count == MaxSize;
 
-        int MaxSize { get; set; } = 20;
+        public static int MaxSize { get; private set; } = 20;
+        public int Size { get; set; } = 20;
 
         public void AddUnit(Piece unit)
         {
