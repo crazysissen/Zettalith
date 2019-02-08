@@ -13,9 +13,11 @@ namespace Zettalith
     {
         MainController controller;
 
+        Piece[] newSet;
+
         GUI.Collection collections, collectionInspector, setDesigner, topFullDesc, middleFullDesc, bottomFullDesc;
 
-        GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2;
+        GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, bNext, bDone;
 
         Renderer.SpriteScreen collectionInspectorLines, setDesignerLines, topSubPiece, middleSubPiece, bottomSubPiece;
 
@@ -27,7 +29,7 @@ namespace Zettalith
         List<Middle> unlockedMiddleList;
         List<Bottom> unlockedBottomList;
 
-        int currentlyShowingTop = 0, currentlyShowingMiddle = 0, currentlyShowingBottom = 0;
+        int currentlyShowingTop = 0, currentlyShowingMiddle = 0, currentlyShowingBottom = 0, selectedPiece = 0;
 
         public void Initialize(MainController controller)
         {
@@ -35,9 +37,9 @@ namespace Zettalith
 
             collections = new GUI.Collection();
             collectionInspector = new GUI.Collection();
-            topFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * -0.375f)) };
-            middleFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * -0.1f)) };
-            bottomFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * 0.15f)) };
+            topFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.375f)) };
+            middleFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.1f)) };
+            bottomFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.15f)) };
             setDesigner = new GUI.Collection() { Active = false };
 
             RendererController.GUI.Add(collections);
@@ -48,18 +50,24 @@ namespace Zettalith
             unlockedMiddleList = Subpieces.GetSubpieces<Middle>();
             unlockedBottomList = Subpieces.GetSubpieces<Bottom>();
 
-            miniliths = new GUI.Button[20];
+            miniliths = new GUI.Button[Set.MaxSize];
 
-            CustomParameterCall[] arrowCalls = new CustomParameterCall[7];
+            CustomArrowCall[] arrowCalls = new CustomArrowCall[7];
             for (int i = 0; i < arrowCalls.Length; i++)
             {
-                arrowCalls[i] = new CustomParameterCall() { TargetMethod = BArrow, SubPiece = (int)(i * 0.5 + 0.5), B1 = (i % 2 == 0) };
+                arrowCalls[i] = new CustomArrowCall() { TargetMethod = BArrow, SubPiece = (int)(i * 0.5 + 0.5), B1 = (i % 2 == 0) };
+            }
+
+            CustomSelectPieceCall[] selectPieceCalls = new CustomSelectPieceCall[Set.MaxSize];
+            for (int i = 0; i < selectPieceCalls.Length; i++)
+            {
+                selectPieceCalls[i] = new CustomSelectPieceCall() { TargetMethod = BSelectPiece, PieceToSelect = i };
             }
 
             #region //CollectionInspector
             bCreate = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bCreate.AddText("Create Deck", 4, true, textColor, Font.Default);
-            bCreate.OnClick += BCreate;
+            bCreate.OnClick += BCreateSet;
 
             bBack = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.023f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bBack.AddText("Back", 4, true, textColor, Font.Default);
@@ -75,8 +83,9 @@ namespace Zettalith
 
             for (int i = 0; i < miniliths.Length; ++i)
             {
-                miniliths[i] = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(0.4762 * (Settings.GetResolution.X + i)), (int)(Settings.GetResolution.Y * 0.1f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), Load.Get<Texture2D>("Minilith"));
+                miniliths[i] = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 1/(Set.MaxSize + 1) * (i + 1) - Settings.GetResolution.X * 0.015), (int)(Settings.GetResolution.Y * 0.02f), (int)(Settings.GetResolution.X * 0.03), (int)(Settings.GetResolution.Y * 0.06f)), Load.Get<Texture2D>("Minilith"));
                 miniliths[i].ScaleEffect = true;
+                miniliths[i].OnClick += selectPieceCalls[i].Activate;
             }
 
             #region //ArrowButtons
@@ -102,9 +111,17 @@ namespace Zettalith
             bArrowBottom2.OnClick += arrowCalls[6].Activate;
             #endregion
 
-            topSubPiece = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedTopList[currentlyShowingTop].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.14f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.X * 0.1)));
-            middleSubPiece = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedMiddleList[currentlyShowingMiddle].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.40f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.X * 0.1)));
-            bottomSubPiece = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedBottomList[currentlyShowingBottom].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.66f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.X * 0.1)));
+            topSubPiece = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedTopList[currentlyShowingTop].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.14f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.Y * 0.177777777)));
+            middleSubPiece = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedMiddleList[currentlyShowingMiddle].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.40f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.Y * 0.177777777)));
+            bottomSubPiece = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), unlockedBottomList[currentlyShowingBottom].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.66f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.Y * 0.177777777)));
+
+            bNext = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.4), (int)(Settings.GetResolution.Y * 0.3), (int)(Settings.GetResolution.X * 0.05), (int)(Settings.GetResolution.Y * 0.05)), buttonColor);
+            bNext.AddText("Next", 4, true, textColor, Font.Default);
+            bNext.OnClick += BNextPiece;
+
+            bDone = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.5f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)), buttonColor);
+            bDone.AddText("Done", 4, true, textColor, Font.Default);
+            bDone.OnClick += BDone;
 
             #region //Descriptions
             topName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
@@ -121,7 +138,7 @@ namespace Zettalith
 
             bottomName = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             bottomHealth = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.546f)), new Vector2(0, 0), textColor, SpriteEffects.None);
-            bottomAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
+            bottomAttack = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString()), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.582f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             bottomMana = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             bottomDesc = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             #endregion
@@ -133,7 +150,7 @@ namespace Zettalith
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleMana, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc);
             collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc);
+            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext);
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 setDesigner.Add(miniliths[i]);
@@ -146,15 +163,52 @@ namespace Zettalith
 
         }
 
-        private void CreateSet()
+        private void BDone()
         {
-
+            PersonalData.UserData.SavedSets.Add(new Set() { Pieces = newSet.ToList(), Name = "Set " + PersonalData.UserData.SavedSets.Count + 1});
         }
 
-        private void BCreate()
+        private void BCreateSet()
         {
             collectionInspector.Active = false;
             setDesigner.Active = true;
+            newSet = new Piece[Set.MaxSize];
+            for (int i = 0; i < newSet.Length; ++i)
+            {
+                newSet[i] = new Piece(0, 0, 0);
+            }
+            currentlyShowingTop = 0;
+            currentlyShowingMiddle = 0;
+            currentlyShowingBottom = 0;
+            selectedPiece = 0;
+        }
+
+        private void BNextPiece()
+        {
+            if (selectedPiece == Set.MaxSize - 1)
+                selectedPiece = 0;
+            else
+                selectedPiece++;
+
+            ChangeShownPiece();
+        }
+
+        private void BSelectPiece(int pieceToSelect)
+        {
+            selectedPiece = pieceToSelect;
+
+            ChangeShownPiece();
+        }
+
+        private void ChangeShownPiece()
+        {
+            currentlyShowingTop = newSet[selectedPiece].TopIndex;
+            currentlyShowingMiddle = newSet[selectedPiece].MiddleIndex;
+            currentlyShowingBottom = newSet[selectedPiece].BottomIndex;
+
+            UpdateShownTop();
+            UpdateShownMiddle();
+            UpdateShownBottom();
         }
 
         private void BBackToMain()
@@ -187,12 +241,7 @@ namespace Zettalith
                     else
                         currentlyShowingTop--;
                 }
-                topSubPiece.Texture = unlockedTopList[currentlyShowingTop].Texture;
-                topName.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Name);
-                topHealth.String = new StringBuilder("Health: " + unlockedTopList[currentlyShowingTop].Health.ToString());
-                topAttack.String = new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString());
-                topMana.String = new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue");
-                topDesc.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Description);
+                UpdateShownTop();
             }
             if (subPiece == 2)
             {
@@ -210,12 +259,7 @@ namespace Zettalith
                     else
                         currentlyShowingMiddle--;
                 }
-                middleSubPiece.Texture = unlockedMiddleList[currentlyShowingMiddle].Texture;
-                middleName.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name);
-                middleHealth.String = new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString());
-                middleAttack.String = new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString());
-                middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue");
-                middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
+                UpdateShownMiddle();
             }
             if (subPiece == 3)
             {
@@ -233,17 +277,45 @@ namespace Zettalith
                     else
                         currentlyShowingBottom--;
                 }
-                bottomSubPiece.Texture = unlockedBottomList[currentlyShowingBottom].Texture;
-                bottomName.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name);
-                bottomHealth.String = new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString());
-                bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
-                bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue");
-                bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
+                UpdateShownBottom();
             }
+        }
+
+        private void UpdateShownTop()
+        {
+            topSubPiece.Texture = unlockedTopList[currentlyShowingTop].Texture;
+            topName.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Name);
+            topHealth.String = new StringBuilder("Health: " + unlockedTopList[currentlyShowingTop].Health.ToString());
+            topAttack.String = new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString());
+            topMana.String = new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue");
+            topDesc.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Description);
+            newSet[selectedPiece].TopIndex = (byte)currentlyShowingTop;
+        }
+
+        private void UpdateShownMiddle()
+        {
+            middleSubPiece.Texture = unlockedMiddleList[currentlyShowingMiddle].Texture;
+            middleName.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name);
+            middleHealth.String = new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString());
+            middleAttack.String = new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString());
+            middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue");
+            middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
+            newSet[selectedPiece].MiddleIndex = (byte)currentlyShowingMiddle;
+        }
+
+        private void UpdateShownBottom()
+        {
+            bottomSubPiece.Texture = unlockedBottomList[currentlyShowingBottom].Texture;
+            bottomName.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name);
+            bottomHealth.String = new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString());
+            bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
+            bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue");
+            bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
+            newSet[selectedPiece].BottomIndex = (byte)currentlyShowingBottom;
         }
     }
 
-    struct CustomParameterCall
+    struct CustomArrowCall
     {
         public Action<int, bool> TargetMethod;
         public int SubPiece;
@@ -252,6 +324,17 @@ namespace Zettalith
         public void Activate()
         {
             TargetMethod.Invoke(SubPiece, B1);
+        }
+    }
+
+    struct CustomSelectPieceCall
+    {
+        public Action<int> TargetMethod;
+        public int PieceToSelect;
+
+        public void Activate()
+        {
+            TargetMethod.Invoke(PieceToSelect);
         }
     }
 }
