@@ -133,6 +133,7 @@ namespace Zettalith
                     break;
 
                 case GameState.InGame:
+                    //inGameController.Update(deltaTime, this);
                     break;
 
                 default:

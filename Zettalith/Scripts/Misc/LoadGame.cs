@@ -31,6 +31,7 @@ namespace Zettalith
         {
             this.config = config;
             this.controller = controller;
+            this.host = host;
 
             loadedConfig = new LoadedConfig();
 
@@ -47,7 +48,10 @@ namespace Zettalith
         {
             if (complete)
             {
+                loading.Destroy();
+                loading = null;
 
+                controller.Initialize(loadedConfig);
             }
         }
 
@@ -65,9 +69,7 @@ namespace Zettalith
             int startPlayer = r.Next(2);
 
             // Wait for playerData
-            while (playerData == null) { Thread.Sleep(5); }
-
-
+            while (PlayerSetupData.recievedData == null) { Thread.Sleep(5); }
 
             // Finalization
 
@@ -90,8 +92,12 @@ namespace Zettalith
         public Set[] sets;
     }
 
+    [Serializable]
     class PlayerSetupData
     {
         public Set set;
+
+        public static PlayerSetupData recievedData;
+        public static void RecieveData(byte[] data) => recievedData = data.ToObject<PlayerSetupData>();
     }
 }

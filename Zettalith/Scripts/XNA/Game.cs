@@ -80,7 +80,6 @@ namespace Zettalith
                 // This is the client for a local game
                 else
                 {
-
                     startType = StartType.LocalClient;
 
                     _background = new Color(60, 20, 20);
