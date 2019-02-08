@@ -37,9 +37,9 @@ namespace Zettalith
 
             collections = new GUI.Collection();
             collectionInspector = new GUI.Collection();
-            topFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * -0.375f)) };
-            middleFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * -0.1f)) };
-            bottomFullDesc = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0f), (int)(Settings.GetResolution.Y * 0.15f)) };
+            topFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.375f)) };
+            middleFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.1f)) };
+            bottomFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.15f)) };
             setDesigner = new GUI.Collection() { Active = false };
 
             RendererController.GUI.Add(collections);
@@ -177,6 +177,10 @@ namespace Zettalith
             {
                 newSet[i] = new Piece(0, 0, 0);
             }
+            currentlyShowingTop = 0;
+            currentlyShowingMiddle = 0;
+            currentlyShowingBottom = 0;
+            selectedPiece = 0;
         }
 
         private void BNextPiece()
