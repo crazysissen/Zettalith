@@ -29,7 +29,15 @@ namespace Zettalith
         // Sets current UserData to what is currently saved in save folder
         public static void Load()
         {
-            PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+            try
+            {
+                PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+            }
+            catch
+            {
+                File.Delete(FullPath);
+                Save();
+            }
         }
 
         // Saves default UserData if it's the first time the game is opened
