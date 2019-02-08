@@ -150,7 +150,7 @@ namespace Zettalith
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleMana, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc);
             collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext);
+            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone);
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 setDesigner.Add(miniliths[i]);
