@@ -24,7 +24,6 @@ namespace Zettalith
             set
             {
                 fullscreen = value;
-                XNAController.Graphics.IsFullScreen = value;
             }
         }
 
