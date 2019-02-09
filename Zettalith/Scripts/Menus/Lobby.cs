@@ -10,7 +10,8 @@ namespace Zettalith
     class Lobby
     {
         const string
-            STARTHEADER = "START";
+            STARTHEADER = "START",
+            RECIEVEDATAHEADER = "RECIEVEPLAYERDATA";
 
         private static Lobby singleton;
         private static Callback callback;
@@ -73,6 +74,7 @@ namespace Zettalith
             NetworkManager.OnDisconnected += Disconnected;
 
             NetworkManager.Listen(STARTHEADER, Ready);
+            NetworkManager.Listen(RECIEVEDATAHEADER, PlayerSetupData.RecieveData);
         }
 
         public void Update(float deltaTime)
@@ -129,16 +131,20 @@ namespace Zettalith
                 {
                     if (ready)
                     {
-                        NetworkManager.Send(STARTHEADER, config.ToBytes());
+                        StartupConfig tempConfig = config.Value;
 
-                        Start(config.Value);
+                        tempConfig.seed = (new Random()).Next();
+
+                        NetworkManager.Send(STARTHEADER, tempConfig);
+
+                        Start(tempConfig);
                     }
 
                     return;
                 }
 
                 ready = !ready;
-                NetworkManager.Send(STARTHEADER, (ready).ToBytes());
+                NetworkManager.Send(STARTHEADER, ready);
             }
         }
 
@@ -164,6 +170,13 @@ namespace Zettalith
         void Start(StartupConfig config)
         {
             collection.Active = false;
+
+            PlayerSetupData playerData = new PlayerSetupData()
+            {
+                set = new Pieces.Set()
+            };
+
+            NetworkManager.Send(RECIEVEDATAHEADER, playerData);
 
             MainController.Main.ToGame(config, host);
         }
