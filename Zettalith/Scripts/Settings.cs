@@ -14,26 +14,12 @@ namespace Zettalith
         public static Point GetHalfResolution => new Point(GetResolution.X / 2, GetResolution.Y / 2);
 
         public Point Resolution { get => resolution; set => resolution = value; }
-        public bool FullScreen
-        {
-            get
-            {
-                fullscreen = XNAController.Graphics.IsFullScreen;
-                return fullscreen;
-            }
-            set
-            {
-                fullscreen = value;
-                XNAController.Graphics.IsFullScreen = value;
-            }
-        }
+        public bool FullScreen { get; set; }
 
         public float VolumeMaster { get; set; } = 0.8f;
         public float VolumeMusic { get { return VolumeMusic * VolumeMaster; } set { volumeMusic = value; } }
         public float VolumeSFX { get { return VolumeSFX * VolumeMaster; } set { volumeSFX = value; } }
         public float VolumeAmbient { get { return VolumeAmbient * VolumeMaster; } set { volumeAmbient = value; } }
-
-        bool fullscreen;
 
         float
             volumeMusic = 1,
