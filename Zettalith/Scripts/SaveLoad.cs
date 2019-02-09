@@ -54,6 +54,8 @@ namespace Zettalith
                 Load();
                 PersonalData.Settings.ApplySettings();
             }
+
+            PersonalData.Settings.ApplySettings();
         }
 
         // Encrypts and decrypts our savedata with a T O P  S E C R E T encryption keys
