@@ -107,7 +107,7 @@ namespace Zettalith
         {
             NetworkManager.Listen("GAMEACTION", RecieveAction);
 
-
+            loading = false;
         }
 
         public void NewTurnStart()

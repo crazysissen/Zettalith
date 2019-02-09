@@ -22,22 +22,23 @@ namespace Zettalith
         {
             this.controller = controller;
 
+            int buttonHeight = Settings.GetResolution.Y / 36, buttonSpace = Settings.GetResolution.Y / 48;
+            int tempButtonWidth = 5 * Settings.GetResolution.X / 48;
+
             collection = new GUI.Collection();
             main = new GUI.Collection()
             {
-                Origin = new Point(40, 240)
+                Origin = new Point((int)(Settings.GetHalfResolution.X - tempButtonWidth * 0.5 ), (int)(Settings.GetResolution.Y * 0.36))
             };
 
             collection.Add(main);
 
             RendererController.GUI.Add(collection);
 
-            int buttonHeight = 30, buttonSpace = 15;
-            int tempButtonWidth = 200;
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
-            title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Zettalith", 10, 0, new Vector2(0, -200));
+            title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Zettalith", 10, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
 
             bHost = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bHost.AddText("Host", 4, false, textColor, Font.Default);
@@ -47,15 +48,15 @@ namespace Zettalith
             bJoin.AddText("Join", 4, false, textColor, Font.Default);
             bJoin.OnClick += BJoin;
 
-            bArmies = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 2 * buttonHeight + 2 * buttonSpace, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bArmies = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bArmies.AddText("Collection", 4, false, textColor, Font.Default);
             bArmies.OnClick += BArmies;
 
-            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * buttonHeight + 3 * buttonSpace, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bSettings.AddText("Settings", 4, false, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * buttonHeight + 4 * buttonSpace, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bQuit.AddText("Quit", 4, false, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
@@ -118,7 +119,9 @@ namespace Zettalith
 
         private void BSettings()
         {
-            
+            Action GoBackToMain = controller.ToMenu;
+
+            controller.ToSettings(GoBackToMain);
         }
 
         private void BQuit()

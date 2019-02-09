@@ -92,6 +92,8 @@ namespace Zettalith
         {
             Collection.Active = false;
 
+            config.type = MapGen.Type.SquareMap;
+
             controller.ToLobby(config);
         }
     }
@@ -100,5 +102,7 @@ namespace Zettalith
     struct StartupConfig
     {
         public SPoint mapDiameter;
+        public int seed;
+        public MapGen.Type type;
     }
 }

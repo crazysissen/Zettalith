@@ -9,7 +9,19 @@ namespace Zettalith
 {
     static class MapGen
     {
-        public static Map SquareMap(int width, int height)
+        const float
+            MAXSPAWNDISTANCE = 1.0f / 4;
+
+        public enum Type
+        {
+            SquareMap
+        }
+
+        static Func<Random, int, int, Map>[] functions = { SquareMap };
+
+        public static Map Generate(Random r, int width, int height, Type type) => functions[(int)type].Invoke(r, width, height);
+
+        public static Map SquareMap(Random r, int width, int height)
         {
             Grid grid = new Grid(width, height);
 
@@ -21,20 +33,30 @@ namespace Zettalith
                 }
             }
 
-            Point[] kingPositions = new Point[2];
+            int maxSpawnTiles = (int)Math.Round(height * MAXSPAWNDISTANCE);
+            List<Point> possibleSpawnPoints = new List<Point>();
 
-            for (int i = 0; i < 2; ++i)
+            for (int x = 0; x < width; ++x)
             {
-
+                for (int y = 0; y < maxSpawnTiles; ++y)
+                {
+                    if (grid[x, y] != null && grid[x + 1, y] != null && grid[x, y + 1] != null && grid[x + 1, x + 1] != null)
+                    {
+                        possibleSpawnPoints.Add(new Point(x, y));
+                    }
+                }
             }
 
-            return new Map() { grid = grid };
+            Point spawnPoint = possibleSpawnPoints[r.Next(possibleSpawnPoints.Count)];
+            Point[] spawnPoints = { spawnPoint, new Point(spawnPoint.X, height - 1 - spawnPoint.Y) };
+
+            return new Map() { grid = grid, spawnPositions = spawnPoints };
         }
     }
 
     struct Map
     {
         public Grid grid;
-        public Point[] kingPositions;
+        public Point[] spawnPositions;
     }
 }

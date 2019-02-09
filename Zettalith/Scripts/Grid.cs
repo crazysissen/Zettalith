@@ -85,7 +85,9 @@ namespace Zettalith
                 return null;
             }
 
-            return _objects[_tileArray[x, y].TileObject];
+            int? tileObject = _tileArray[x, y].TileObject;
+
+            return tileObject.HasValue ? _objects[tileObject.Value] : null;
         }
 
         public bool InBounds(int x, int y)
@@ -96,11 +98,16 @@ namespace Zettalith
 
     class Tile
     {
-        public int TileObject { get; set; }
+        public int? TileObject { get; set; }
 
         public Tile()
         {
-            TileObject = 0;
+            TileObject = null;
+        }
+
+        public Tile(int tileObject)
+        {
+            TileObject = tileObject;
         }
     }
 

@@ -93,7 +93,9 @@
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
+    <Compile Include="Scripts\Menus\SettingsMenu.cs" />
     <Compile Include="Scripts\Misc\Easings.cs" />
+    <Compile Include="Scripts\Misc\ImageProcessing.cs" />
     <Compile Include="Scripts\Misc\LoadGame.cs" />
     <Compile Include="Scripts\Misc\MapGen.cs" />
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
@@ -104,7 +106,7 @@
     <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop2.cs" />
-    <Compile Include="Scripts\SetDesigner.cs" />
+    <Compile Include="Scripts\Menus\SetDesigner.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
     <Compile Include="Scripts\EMethods.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Scripts\Pieces\Middles\TestMiddle1.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop1.cs" />
     <Compile Include="Scripts\Player.cs" />
+    <Compile Include="Scripts\PlayerRendering.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />
     <Compile Include="Scripts\Recovery\Multiplication.cs" />
