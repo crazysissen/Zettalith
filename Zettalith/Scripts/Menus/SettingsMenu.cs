@@ -14,11 +14,13 @@ namespace Zettalith
 
         GameSetup setup;
 
-        GUI.Collection collection, mainCollection;
-        Renderer.Text Header;
-        GUI.Button bHost, bJoin, bArmies, bSettings, bQuit;
+        GUI.Collection collection, mainCollection, fullscreenCollection, musicCollection;
+        Renderer.Text Header, fullscreenText, resolutionText;
+        GUI.Button bFullscreen;
 
         Action GoBack;
+
+        Texture2D unchecked2D, checked2D;
 
         public void Initialize(MainController controller, Action goBack)
         {
@@ -27,23 +29,28 @@ namespace Zettalith
             this.controller = controller;
 
             collection = new GUI.Collection();
-            mainCollection = new GUI.Collection()
-            {
-                Origin = new Point(40, 240)
-            };
+            mainCollection = new GUI.Collection() { Origin = new Point(0, 0) };
+            fullscreenCollection = new GUI.Collection() { Origin = Settings.GetHalfResolution};
 
             collection.Add(mainCollection);
+
+            checked2D = Load.Get<Texture2D>("CheckedBox");
+            unchecked2D = Load.Get<Texture2D>("UncheckedBox");
 
             RendererController.GUI.Add(collection);
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
-            Header = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Settings", 10, 0, new Vector2(0, -200));
+            //Header = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(1, 1, 1, 1), buttonColor) { ScaleEffect = true };
-            bQuit.AddText("Quit", 4, false, textColor, Font.Default);
+            fullscreenText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Fullscreen", 4, 0, new Vector2(0, 0), buttonColor);
+            bFullscreen = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.085), (int)(Settings.GetResolution.Y * 0.0126), (int)(Settings.GetResolution.X * 0.18 / 16), (int)(Settings.GetResolution.Y * 0.02)), PersonalData.Settings.FullScreen ? checked2D : unchecked2D);
+            bFullscreen.OnClick += BFullscreen;
 
-            mainCollection.Add(Header, bHost, bJoin, bSettings, bArmies, bQuit);
+
+
+            fullscreenCollection.Add(fullscreenText, bFullscreen);
+            mainCollection.Add(Header, fullscreenCollection);
         }
 
         public void Update()
@@ -51,7 +58,21 @@ namespace Zettalith
 
         }
 
-        public void BGoBack()
+        private void BFullscreen()
+        {
+            if (PersonalData.Settings.FullScreen == true)
+            {
+                PersonalData.Settings.FullScreen = false;
+                bFullscreen.Texture = unchecked2D;
+            }
+            else
+            {
+                PersonalData.Settings.FullScreen = true;
+                bFullscreen.Texture = checked2D;
+            }
+        }
+
+        private void BGoBack()
         {
             GoBack.Invoke();
         }
