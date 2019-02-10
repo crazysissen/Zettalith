@@ -32,8 +32,7 @@ namespace Zettalith
         public void ApplySettings()
         {
             // TODO: Apply all settings
-            XNAController.Graphics.PreferredBackBufferWidth = Resolution.X;
-            XNAController.Graphics.PreferredBackBufferHeight = Resolution.Y;
+            // Tog bort ändring av XNAController.Graphics.PreferredBackBuffer härifrån. Det ska bara hända vid startup.
             XNAController.Graphics.IsFullScreen = PersonalData.Settings.FullScreen;
 
             XNAController.Graphics.ApplyChanges();
