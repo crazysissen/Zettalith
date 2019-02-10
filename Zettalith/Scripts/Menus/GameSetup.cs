@@ -10,11 +10,6 @@ namespace Zettalith
 {
     class GameSetup
     {
-        const int
-            WINDOWWIDTH = 400,
-            WINDOWHEIGHT = 500,
-            WINDOWMARGIN = 20;
-
         readonly int[]
             presetSizes = { 8, 12, 16, 20 };
 
@@ -38,6 +33,16 @@ namespace Zettalith
             this.controller = controller;
             this.inGameController = inGameController;
 
+            Point res = Settings.GetResolution;
+
+            int
+                windowWidth = (int)(res.X * 0.2f),
+                windowHeight = (int)(res.Y * 0.4f),
+                windowMargain = (int)(windowWidth * 0.05f),
+                screenDistance = (int)(res.X * 0.02f),
+                buttonHeight = (int)(windowHeight * 0.08f),
+                contentWidth = windowWidth - windowMargain * 2; 
+
             config = new StartupConfig()
             {
                 mapDiameter = new Point(presetSizes[0], presetSizes[0])
@@ -45,19 +50,22 @@ namespace Zettalith
 
             Collection = new GUI.Collection()
             {
-                Origin = Settings.GetHalfResolution - new Point(WINDOWWIDTH / 2, WINDOWHEIGHT / 2)
+                Origin = new Point(screenDistance, (res.Y - windowHeight) / 2)
             };
 
-            background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 9), Load.Get<Texture2D>("Square"), new Rectangle(0, 0, WINDOWHEIGHT, WINDOWHEIGHT), Color.DarkGray);
+            background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 9), Load.Get<Texture2D>("Square"), new Rectangle(0, 0, windowWidth, windowHeight), Color.DarkGray);
 
             content = new GUI.Collection()
             {
-                Origin = new Point(WINDOWMARGIN, WINDOWMARGIN)
+                Origin = new Point(windowMargain, windowMargain)
             };
 
-            int buttonHeight = 60, buttonDistance = 20, sizeButtonWidth = 100;
-
             title = new Renderer.Text(new Layer(MainLayer.GUI, 11), Font.Bold, "Host Game", 6, 0, Vector2.Zero);
+
+            float spaceProportion = 0.2f;
+
+            int buttonWidth = (int)(contentWidth / ((presetSizes.Length - 1) * spaceProportion + presetSizes.Length)),
+                spaceWidth = (int)(contentWidth / ((presetSizes.Length - 1) * (1 / spaceProportion) + presetSizes.Length));
 
             actions = new ParameterizedAction<int>[presetSizes.Length];
             bSizes = new GUI.Button[presetSizes.Length];
@@ -65,11 +73,13 @@ namespace Zettalith
             {
                 actions[i] = new ParameterizedAction<int>(MapSize, presetSizes[i]);
 
-                bSizes[i] = new GUI.Button(new Layer(MainLayer.GUI, 11), new Rectangle(i * (sizeButtonWidth + 10), buttonHeight + buttonDistance, sizeButtonWidth, buttonHeight));
+                bSizes[i] = new GUI.Button(new Layer(MainLayer.GUI, 11), new Rectangle(i * (buttonWidth + spaceWidth), windowHeight / 5, buttonWidth, buttonHeight));
                 bSizes[i].AddText(presetSizes[i].ToString(), 3, true, Color.Black, Font.Default);
+                bSizes[i].OnClick += actions[i].Activate;
             }
 
-            bConfirm = new GUI.Button(new Layer(MainLayer.GUI, 11), new Rectangle(0, WINDOWHEIGHT - WINDOWMARGIN * 2 - buttonHeight, 200, buttonHeight), Color.LightYellow);
+
+            bConfirm = new GUI.Button(new Layer(MainLayer.GUI, 11), new Rectangle(0, windowHeight - windowMargain * 2 - buttonHeight, contentWidth, windowHeight / 12), Color.LightYellow);
             bConfirm.AddText("Confirm", 4, false, Color.Black, Font.Bold);
             bConfirm.OnClick += Confirm;
 

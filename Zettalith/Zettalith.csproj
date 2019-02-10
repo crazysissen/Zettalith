@@ -91,6 +91,8 @@
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
     <Compile Include="Scripts\Font.cs" />
+    <Compile Include="Scripts\In Game\BattleHUD.cs" />
+    <Compile Include="Scripts\In Game\LogisticsHUD.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
     <Compile Include="Scripts\Menus\SettingsMenu.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />
     <Compile Include="Scripts\Rendering\RendererController.cs" />
+    <Compile Include="Scripts\Rendering\RendererFocus.cs" />
     <Compile Include="Scripts\SaveLoad.cs" />
     <Compile Include="Scripts\Settings.cs" />
     <Compile Include="Scripts\StateManager.cs" />
