@@ -14,11 +14,10 @@ namespace Zettalith
 
         GameSetup setup;
 
-        GUI.Collection collection, mainCollection, fullscreenCollection, resolutionCollection, volumeCollection;
-        Renderer.Text Header, fullscreenText, resolutionText, appliedAtRestartText, masterVolumeText;
-        GUI.Button bFullscreen, bResolution, bMasterSpeaker;
-        GUI.Button[] bMaster;
-        Renderer.SpriteScreen masterSpeaker;
+        GUI.Collection collection, mainCollection, fullscreenCollection, resolutionCollection, volumeCollection, masterVolCollection, musicVolCollection, sFXVolCollection, ambientVolCollection;
+        Renderer.Text Header, fullscreenText, resolutionText, appliedAtRestartText, masterVolumeText, musicVolumeText, sFXVolumeText, ambientVolumeText;
+        GUI.Button bFullscreen, bResolution, bMasterSpeaker, bMusicSpeaker, bSFXSpeaker, bAmbientSpeaker, bBack;
+        GUI.Button[] bMaster, bMusic, bSFX, bAmbient;
 
         Action GoBack;
 
@@ -28,6 +27,15 @@ namespace Zettalith
 
         int currentDisplay;
 
+        Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
+
+        CustomVolumeCall[] masterVolumeCalls = new CustomVolumeCall[10];
+        CustomVolumeCall[] musicVolumeCalls = new CustomVolumeCall[10];
+        CustomVolumeCall[] sFXVolumeCalls = new CustomVolumeCall[10];
+        CustomVolumeCall[] ambientVolumeCalls = new CustomVolumeCall[10];
+        
+        float masterToApply, musicToApply, sFXToApply, ambientToApply;
+
         public void Initialize(MainController controller, Action goBack)
         {
             GoBack = goBack;
@@ -35,12 +43,21 @@ namespace Zettalith
             this.controller = controller;
 
             collection = new GUI.Collection();
-            mainCollection = new GUI.Collection() { Origin = Settings.GetHalfResolution };
-            fullscreenCollection = new GUI.Collection() { Origin = new Point(0, 0) };
-            resolutionCollection = new GUI.Collection() { Origin = new Point(0, 0) };
-            volumeCollection = new GUI.Collection() { Origin = new Point(0, 0) };
+            mainCollection = new GUI.Collection() { Origin = new Point((int)(Settings.GetHalfResolution.X - Settings.GetResolution.X * 0.143), (int)(Settings.GetResolution.Y * 0.18)) };
+            fullscreenCollection = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0.075), (int)(Settings.GetResolution.Y * 0.15)) };
+            resolutionCollection = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0.045), (int)(Settings.GetResolution.Y * 0.2)) };
+            volumeCollection = new GUI.Collection() { Origin = new Point((int)(Settings.GetResolution.X * 0.015), (int)(Settings.GetResolution.Y * 0.25)) };
+            masterVolCollection = new GUI.Collection() { Origin = new Point(0, 0) };
+            musicVolCollection = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.1)) };
+            sFXVolCollection = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.2)) };
+            ambientVolCollection = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.3)) };
+
+            volumeCollection.Add(masterVolCollection, musicVolCollection, sFXVolCollection, ambientVolCollection);
 
             bMaster = new GUI.Button[10];
+            bMusic = new GUI.Button[10];
+            bSFX = new GUI.Button[10];
+            bAmbient = new GUI.Button[10];
 
             collection.Add(mainCollection);
 
@@ -56,24 +73,26 @@ namespace Zettalith
 
             RendererController.GUI.Add(collection);
 
-            Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
+            for (int i = 0; i < masterVolumeCalls.Length; i++) { masterVolumeCalls[i] = new CustomVolumeCall() { TargetMethod = CallBMasterAudioChange, newVolume = i + 1,  }; }
+            for (int i = 0; i < musicVolumeCalls.Length; i++) { musicVolumeCalls[i] = new CustomVolumeCall() { TargetMethod = CallBMusicAudioChange, newVolume = i + 1, }; }
+            for (int i = 0; i < sFXVolumeCalls.Length; i++) { sFXVolumeCalls[i] = new CustomVolumeCall() { TargetMethod = CallBSFXAudioChange, newVolume = i + 1, }; }
+            for (int i = 0; i < ambientVolumeCalls.Length; i++) { ambientVolumeCalls[i] = new CustomVolumeCall() { TargetMethod = CallBAmbientAudioChange, newVolume = i + 1, }; }
 
-            CustomMasterVolumeCall[] masterCalls = new CustomMasterVolumeCall[10];
-            for (int i = 0; i < masterCalls.Length; i++)
-            {
-                masterCalls[i] = new CustomMasterVolumeCall() { TargetMethod = BMaster, newVolume = (float)(0.1 * (i + 1))};
-            }
+            Action CallMasterMute = CallBMasterAudioMute;
+            Action CallMusicMute = CallBMusicAudioMute;
+            Action CallSFXMute = CallBSFXAudioMute;
+            Action CallAmbientMute = CallBAmbientAudioMute;
 
-            //Header = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
+            Header = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
 
             #region //Fullscreen
-            /*fullscreenText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Fullscreen", 4, 0, new Vector2(0, 0), buttonColor);
+            fullscreenText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Fullscreen", 4, 0, new Vector2(0, 0), buttonColor);
             bFullscreen = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.085), (int)(Settings.GetResolution.Y * 0.0126), (int)(Settings.GetResolution.X * 0.18 / 16), (int)(Settings.GetResolution.Y * 0.02)), PersonalData.Settings.FullScreen ? checked2D : unchecked2D);
-            bFullscreen.OnClick += BFullscreen;*/
+            bFullscreen.OnClick += BFullscreen;
             #endregion
 
             #region //Resolution
-            /*DisplayModeCollection c = GraphicsAdapter.DefaultAdapter.SupportedDisplayModes;
+            DisplayModeCollection c = GraphicsAdapter.DefaultAdapter.SupportedDisplayModes;
             List<Point> tempResList = new List<Point>();
             float ratio = 16.0f / 9.0f;
             foreach (DisplayMode displayMode in c)
@@ -97,25 +116,27 @@ namespace Zettalith
             resolutionText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Resolution: " + displays[currentDisplay].Y + "p", 4, 0, new Vector2(0, 0), textColor);
             bResolution = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.152f), 0, (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), arrow2D, arrowHover2D, arrowPressed2D) { SpriteEffects = SpriteEffects.FlipHorizontally };
             bResolution.OnClick += BResolution;
-            appliedAtRestartText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Settings applied at restart", 4, 0, new Vector2((float)(Settings.GetResolution.X * 0.195f), 0), textColor) { Active = false };*/
+            appliedAtRestartText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Settings applied at restart", 4, 0, new Vector2((float)(Settings.GetResolution.X * 0.195f), 0), textColor) { Active = false };
             #endregion
 
-            masterVolumeText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Master Volume", 4, 0, new Vector2((int)(Settings.GetResolution.X * 0.055), 0), textColor);
+            #region //Volume
+            CreateAudioBar(ref masterVolumeText, "Master Volume", ref bMaster, masterToApply, ref masterVolCollection, ref bMasterSpeaker, masterVolumeCalls, CallBMasterAudioMute);
+            CreateAudioBar(ref musicVolumeText, "Music Volume", ref bMusic, musicToApply, ref musicVolCollection, ref bMusicSpeaker, musicVolumeCalls, CallBMusicAudioMute);
+            CreateAudioBar(ref sFXVolumeText, "SFX Volume", ref bSFX, sFXToApply, ref sFXVolCollection, ref bSFXSpeaker, sFXVolumeCalls, CallBSFXAudioMute);
+            CreateAudioBar(ref ambientVolumeText, "Ambient Volume", ref bAmbient, ambientToApply, ref ambientVolCollection, ref bAmbientSpeaker, ambientVolumeCalls, CallBAmbientAudioMute);
+            #endregion
 
-            for (int i = 0; i < bMaster.Length; i++)
-            {
-                bMaster[i] = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.02 * (i + 1)), (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), PersonalData.Settings.VolumeMaster >= (0.1 * (i + 1)) ? checkedAudio2D : uncheckedAudio2D);
-                bMaster[i].OnClick += masterCalls[i].Activate;
-                volumeCollection.Add(bMaster[i]);
-            }
+            bBack = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.68f), (int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.05f)));
+            bBack.AddText("Back", 4, true, textColor, Font.Default);
+            bBack.OnClick += BGoBack;
 
-            bMasterSpeaker = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), PersonalData.Settings.VolumeMaster > 0 ? audioSpeaker2D : mutedAudioSpeaker2D);
-            bMasterSpeaker.OnClick += BMasterMute;
-
-            volumeCollection.Add(bMasterSpeaker, masterVolumeText);
+            masterVolCollection.Add(bMasterSpeaker, masterVolumeText);
+            musicVolCollection.Add(bMusicSpeaker, musicVolumeText);
+            sFXVolCollection.Add(bSFXSpeaker, sFXVolumeText);
+            ambientVolCollection.Add(bAmbientSpeaker, ambientVolumeText);
             resolutionCollection.Add(resolutionText, bResolution, appliedAtRestartText);
             fullscreenCollection.Add(fullscreenText, bFullscreen);
-            mainCollection.Add(Header, fullscreenCollection, resolutionCollection, volumeCollection);
+            mainCollection.Add(Header, fullscreenCollection, resolutionCollection, volumeCollection, bBack);
         }
 
         public void Update()
@@ -123,32 +144,47 @@ namespace Zettalith
 
         }
 
-        private void BMasterMute()
-        {
-            PersonalData.Settings.VolumeMaster = 0;
-            bMasterSpeaker.Texture = mutedAudioSpeaker2D;
+        private void CallBMasterAudioMute() { BAudioMute(ref masterToApply, ref bMasterSpeaker, ref bMaster); }
+        private void CallBMusicAudioMute() { BAudioMute(ref musicToApply, ref bMusicSpeaker, ref bMusic); }
+        private void CallBSFXAudioMute() { BAudioMute(ref sFXToApply, ref bSFXSpeaker, ref bSFX); }
+        private void CallBAmbientAudioMute() { BAudioMute(ref ambientToApply, ref bAmbientSpeaker, ref bAmbient); }
 
-            for (int i = 0; i < bMaster.Length; i++)
+        private void BAudioMute(ref float currentVolume, ref GUI.Button bSpeaker, ref GUI.Button[] buttonArray)
+        {
+            currentVolume = 0;
+            bSpeaker.Texture = mutedAudioSpeaker2D;
+
+            for (int i = 0; i < buttonArray.Length; i++)
             {
-                bMaster[i].Texture = uncheckedAudio2D;
+                buttonArray[i].Texture = uncheckedAudio2D;
             }
+
+            ApplyVolumes();
         }
 
-        private void BMaster(float newVolume)
+        private void CallBMasterAudioChange(int newVolume) { BAudioChange(newVolume, ref masterToApply, ref bMaster, ref bMasterSpeaker); }
+        private void CallBMusicAudioChange(int newVolume) { BAudioChange(newVolume, ref musicToApply, ref bMusic, ref bMusicSpeaker); }
+        private void CallBSFXAudioChange(int newVolume) { BAudioChange(newVolume, ref sFXToApply, ref bSFX, ref bSFXSpeaker); }
+        private void CallBAmbientAudioChange(int newVolume) { BAudioChange(newVolume, ref ambientToApply, ref bAmbient, ref bAmbientSpeaker); }
+
+        private void BAudioChange(int newVolume, ref float currentVolume, ref GUI.Button[] buttonArray, ref GUI.Button bSpeaker)
         {
-            PersonalData.Settings.VolumeMaster = newVolume;
-            for (int i = 0; i < bMaster.Length; i++)
+            currentVolume = newVolume / 10;
+
+            for (int i = 0; i < buttonArray.Length; i++)
             {
-                if ((i + 1) * 0.1 <= newVolume)
+                if (i + 1 <= newVolume)
                 {
-                    bMaster[i].Texture = checkedAudio2D;
+                    buttonArray[i].Texture = checkedAudio2D;
                 }
                 else
                 {
-                    bMaster[i].Texture = uncheckedAudio2D;
+                    buttonArray[i].Texture = uncheckedAudio2D;
                 }
             }
-            bMasterSpeaker.Texture = audioSpeaker2D;
+            bSpeaker.Texture = audioSpeaker2D;
+
+            ApplyVolumes();
         }
 
         private void BFullscreen()
@@ -180,14 +216,38 @@ namespace Zettalith
 
         private void BGoBack()
         {
+            collection.Active = false;
             GoBack.Invoke();
+        }
+
+        private void CreateAudioBar(ref Renderer.Text textVar, string printedText, ref GUI.Button[] buttonArray, float currentVolume, ref GUI.Collection relevantCollection, ref GUI.Button bSpeaker, CustomVolumeCall[] calls, Action muteMethod)
+        {
+            textVar = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, printedText, 4, 0, new Vector2((int)(Settings.GetResolution.X * 0.055), 0), textColor);
+
+            for (int i = 0; i < buttonArray.Length; i++)
+            {
+                buttonArray[i] = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.02 * (i + 1)), (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume >= (0.1 * (i + 1)) ? checkedAudio2D : uncheckedAudio2D);
+                buttonArray[i].OnClick += calls[i].Activate;
+                relevantCollection.Add(buttonArray[i]);
+            }
+
+            bSpeaker = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume > 0 ? audioSpeaker2D : mutedAudioSpeaker2D);
+            bSpeaker.OnClick += muteMethod;
+        }
+
+        private void ApplyVolumes()
+        {
+            PersonalData.Settings.VolumeMaster = masterToApply;
+            PersonalData.Settings.VolumeMusic = musicToApply;
+            PersonalData.Settings.VolumeSFX = sFXToApply;
+            PersonalData.Settings.VolumeAmbient = ambientToApply;
         }
     }
 
-    struct CustomMasterVolumeCall
+    struct CustomVolumeCall
     {
-        public Action<float> TargetMethod;
-        public float newVolume;
+        public Action<int> TargetMethod;
+        public int newVolume;
 
         public void Activate()
         {
