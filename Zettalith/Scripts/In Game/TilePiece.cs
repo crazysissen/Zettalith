@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zettalith.Pieces;
+using Microsoft.Xna.Framework;
 
 namespace Zettalith
 {
     class TilePiece : TileObject
     {
+        Stats baseStats;
+
         Piece piece;
 
         Top top/* => tops[piece.TopIndex]*/;
@@ -26,6 +29,7 @@ namespace Zettalith
             top = Subpieces.FromIndex(piece.TopIndex) as Top;
             middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
             bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
+            baseStats = BaseStats;
         }
 
         // Returns just the units base stats
@@ -39,12 +43,12 @@ namespace Zettalith
             MoveCost = bottom.MoveCost
         };
 
-        // Returns a units base stats with all modification applied
+        // Returns a units base stats with all modifications applied
         public Stats ModifiedStats
         {
             get
             {
-                Stats modified = BaseStats;
+                Stats modified = baseStats;
 
                 foreach (Modifier modifier in modifiers)
                 {
@@ -56,20 +60,16 @@ namespace Zettalith
                     {
                         modified *= (modifier as Multiplication).StatChanges;
                     }
-                    //else if (modifier is NEWMODIFIER)
-                    //{
-
-                    //}
+                    else if (modifier is Direct)
+                    {
+                        ClearMods();
+                        modified = (modifier as Direct).StatChanges; 
+                    }
                 }
 
                 return modified;
             }
         }
-
-        //public TilePiece(Top top, Middle middle, Bottom bottom)
-        //{
-
-        //}
 
         // TODO: GameAction?
         // Adds a modifier to this unit
@@ -79,12 +79,6 @@ namespace Zettalith
         }
 
         // TODO: GameAction?
-        //public static void ModOther(Modifier mod, TilePiece target)
-        //{
-        //    target.ModThis(mod);
-        //}
-
-        // TODO: GameAction?
         // Clears modifications that are not permanent
         public void ClearMods()
         {
@@ -92,16 +86,13 @@ namespace Zettalith
 
             foreach (Modifier modifier in modifiers)
             {
-                if (!modifier.Permanent)
+                if (!modifier.Permanent || modifier is Direct)
                 {
                     remove.Add(modifier);
                 }
             }
 
-            for (int i = 0; i < remove.Count; ++i)
-            {
-                modifiers.Remove(remove[i]);
-            }
+            remove.Clear();
         }
 
         // Clears all mods, aka resets the unit to its factory state

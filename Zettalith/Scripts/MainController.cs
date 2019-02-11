@@ -175,6 +175,7 @@ namespace Zettalith
 
         public void ToSettings(Action goBackTO)
         {
+            SaveLoad.Load();
             mainMenu.CloseMenu();
 
             settingsMenu = new SettingsMenu();

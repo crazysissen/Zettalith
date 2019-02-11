@@ -34,7 +34,7 @@ namespace Zettalith
         CustomVolumeCall[] sFXVolumeCalls = new CustomVolumeCall[10];
         CustomVolumeCall[] ambientVolumeCalls = new CustomVolumeCall[10];
         
-        float masterToApply, musicToApply, sFXToApply, ambientToApply;
+        int masterToApply, musicToApply, sFXToApply, ambientToApply;
 
         public void Initialize(MainController controller, Action goBack)
         {
@@ -82,6 +82,11 @@ namespace Zettalith
             Action CallMusicMute = CallBMusicAudioMute;
             Action CallSFXMute = CallBSFXAudioMute;
             Action CallAmbientMute = CallBAmbientAudioMute;
+            
+            masterToApply = (int)(PersonalData.Settings.VolumeMaster * 10);
+            musicToApply = (int)(PersonalData.Settings.VolumeMusicForMenu * 10);
+            sFXToApply = (int)(PersonalData.Settings.VolumeSFXForMenu * 10);
+            ambientToApply = (int)(PersonalData.Settings.VolumeAmbientForMenu * 10);
 
             Header = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
 
@@ -106,7 +111,7 @@ namespace Zettalith
 
             for (int i = 0; i < displays.Length; ++i)
             {
-                if (displays[i] == Settings.GetResolution)
+                if (displays[i] == PersonalData.Settings.Resolution)
                 {
                     currentDisplay = i;
                     i = displays.Length;
@@ -149,7 +154,7 @@ namespace Zettalith
         private void CallBSFXAudioMute() { BAudioMute(ref sFXToApply, ref bSFXSpeaker, ref bSFX); }
         private void CallBAmbientAudioMute() { BAudioMute(ref ambientToApply, ref bAmbientSpeaker, ref bAmbient); }
 
-        private void BAudioMute(ref float currentVolume, ref GUI.Button bSpeaker, ref GUI.Button[] buttonArray)
+        private void BAudioMute(ref int currentVolume, ref GUI.Button bSpeaker, ref GUI.Button[] buttonArray)
         {
             currentVolume = 0;
             bSpeaker.Texture = mutedAudioSpeaker2D;
@@ -167,9 +172,9 @@ namespace Zettalith
         private void CallBSFXAudioChange(int newVolume) { BAudioChange(newVolume, ref sFXToApply, ref bSFX, ref bSFXSpeaker); }
         private void CallBAmbientAudioChange(int newVolume) { BAudioChange(newVolume, ref ambientToApply, ref bAmbient, ref bAmbientSpeaker); }
 
-        private void BAudioChange(int newVolume, ref float currentVolume, ref GUI.Button[] buttonArray, ref GUI.Button bSpeaker)
+        private void BAudioChange(int newVolume, ref int currentVolume, ref GUI.Button[] buttonArray, ref GUI.Button bSpeaker)
         {
-            currentVolume = newVolume / 10;
+            currentVolume = newVolume;
 
             for (int i = 0; i < buttonArray.Length; i++)
             {
@@ -200,6 +205,7 @@ namespace Zettalith
                 bFullscreen.Texture = checked2D;
             }
             PersonalData.Settings.ApplySettings();
+            SaveLoad.Save();
         }
 
         private void BResolution()
@@ -212,10 +218,13 @@ namespace Zettalith
             resolutionText.String = new StringBuilder("Resolution: " + displays[currentDisplay].Y + "p");
             PersonalData.Settings.Resolution = displays[currentDisplay];
             appliedAtRestartText.Active = true;
+            SaveLoad.Save();
         }
 
         private void BGoBack()
         {
+            SaveLoad.Save();
+
             collection.Active = false;
             GoBack.Invoke();
         }
@@ -226,7 +235,7 @@ namespace Zettalith
 
             for (int i = 0; i < buttonArray.Length; i++)
             {
-                buttonArray[i] = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.02 * (i + 1)), (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume >= (0.1 * (i + 1)) ? checkedAudio2D : uncheckedAudio2D);
+                buttonArray[i] = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.02 * (i + 1)), (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume >= i + 1 ? checkedAudio2D : uncheckedAudio2D);
                 buttonArray[i].OnClick += calls[i].Activate;
                 relevantCollection.Add(buttonArray[i]);
             }
@@ -237,10 +246,10 @@ namespace Zettalith
 
         private void ApplyVolumes()
         {
-            PersonalData.Settings.VolumeMaster = masterToApply;
-            PersonalData.Settings.VolumeMusic = musicToApply;
-            PersonalData.Settings.VolumeSFX = sFXToApply;
-            PersonalData.Settings.VolumeAmbient = ambientToApply;
+            PersonalData.Settings.VolumeMaster = ((float)masterToApply) / 10f;
+            PersonalData.Settings.VolumeMusic = ((float)musicToApply) / 10f;
+            PersonalData.Settings.VolumeSFX = ((float)sFXToApply) / 10f;
+            PersonalData.Settings.VolumeAmbient = ((float)ambientToApply) / 10f;
         }
     }
 
