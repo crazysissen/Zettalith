@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Zettalith
 {
-
     partial class GUI : GUIContainer
     {
         public class Collection : GUIContainer, IGUIMember
@@ -92,7 +91,7 @@ namespace Zettalith
 
             private Func<float, float> _transition;
             private Color _textBaseColor;
-            private float _currentTime, _targetTime, _timeMultiplier, _startScale, _targetScale, _currentScale;
+            private float _currentTime, _targetTime, _timeMultiplier, _startScale, _targetScale, _currentScale = 1;
             private bool _inTransition, _beginHoldOnButton, _pressedLastFrame;
             private Color _startColor, _targetColor;
             private Texture2D _startTexture, _targetTexture;
@@ -170,7 +169,7 @@ namespace Zettalith
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-                bool onButton = new Rectangle(Transform.Location + _origin, Transform.Size).Contains(mouse.Position);
+                bool onButton = RendererFocus.OnArea(new Rectangle(Transform.Location + _origin, Transform.Size), Layer);
                 bool pressed = mouse.LeftButton == ButtonState.Pressed;
 
                 Transfer(pressed, onButton);
@@ -218,7 +217,10 @@ namespace Zettalith
 
                 if (!_inTransition)
                 {
-                    _currentScale = _scaleSwitch[(int)CurrentState];
+                    if (ScaleEffect)
+                    {
+                        _currentScale = _scaleSwitch[(int)CurrentState];
+                    }
 
                     switch (DisplayType)
                     {

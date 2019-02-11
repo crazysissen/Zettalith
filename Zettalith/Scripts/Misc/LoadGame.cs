@@ -62,6 +62,8 @@ namespace Zettalith
 
         private void Setup()
         {
+            Thread.Sleep(2000);
+
             Random r = new Random(config.seed);
 
             Map map = MapGen.Generate(r, config.mapDiameter.X, config.mapDiameter.Y, config.type);
