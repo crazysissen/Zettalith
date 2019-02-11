@@ -78,6 +78,9 @@ namespace Zettalith
             _objects = new TileObject[MAXSIZE];
         }
 
+        public bool Vacant(int x, int y)
+            => InBounds(x, y) && _tileArray[x, y] != null && !_tileArray[x, y].TileObject.HasValue;
+
         public TileObject GetObject(int x, int y)
         {
             if (!InBounds(x, y))
@@ -90,10 +93,8 @@ namespace Zettalith
             return tileObject.HasValue ? _objects[tileObject.Value] : null;
         }
 
-        public bool InBounds(int x, int y)
-        {
-            return x > -1 && y > -1 && x < _xL && y < _yL;
-        }
+        public bool InBounds(int x, int y) 
+            => x > -1 && y > -1 && x < _xL && y < _yL;
     }
 
     class Tile
