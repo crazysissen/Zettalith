@@ -52,7 +52,6 @@ namespace Zettalith
             else
             {
                 Load();
-                PersonalData.Settings.ApplySettings();
             }
 
             PersonalData.Settings.ApplySettings();

@@ -17,9 +17,9 @@ namespace Zettalith
         public bool FullScreen { get; set; }
 
         public float VolumeMaster { get; set; } = 0.8f;
-        public float VolumeMusic { get { return VolumeMusic * VolumeMaster; } set { volumeMusic = value; } }
-        public float VolumeSFX { get { return VolumeSFX * VolumeMaster; } set { volumeSFX = value; } }
-        public float VolumeAmbient { get { return VolumeAmbient * VolumeMaster; } set { volumeAmbient = value; } }
+        public float VolumeMusic { get { return volumeMusic * VolumeMaster; } set { volumeMusic = value; } }
+        public float VolumeSFX { get { return volumeSFX * VolumeMaster; } set { volumeSFX = value; } }
+        public float VolumeAmbient { get { return volumeAmbient * VolumeMaster; } set { volumeAmbient = value; } }
 
         float
             volumeMusic = 1,

@@ -20,5 +20,11 @@ namespace Zettalith.Pieces
             Description = "Frail but powerful legs.";
             Texture = Load.Get<Texture2D>("TestSubpiece");
         }
+
+        public override List<Point> RequestMove()
+        {
+            List<Point> tiles = new List<Point>();
+            InGameController.Grid[]
+        }
     }
 }
