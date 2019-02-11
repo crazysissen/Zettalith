@@ -17,14 +17,13 @@ namespace Zettalith
         public bool FullScreen { get; set; }
 
         public float VolumeMaster { get; set; } = 0.8f;
-        public float VolumeMusic { get { return VolumeMusic * VolumeMaster; } set { volumeMusic = value; } }
-        public float VolumeSFX { get { return VolumeSFX * VolumeMaster; } set { volumeSFX = value; } }
-        public float VolumeAmbient { get { return VolumeAmbient * VolumeMaster; } set { volumeAmbient = value; } }
+        public float VolumeMusicForMenu { get; set; } = 0.8f;
+        public float VolumeSFXForMenu { get; set; } = 0.8f;
+        public float VolumeAmbientForMenu { get; set; } = 0.8f;
 
-        float
-            volumeMusic = 1,
-            volumeSFX = 1,
-            volumeAmbient = 1;
+        public float VolumeMusic { get { return VolumeMusicForMenu * VolumeMaster; } set { VolumeMusicForMenu = value; } }
+        public float VolumeSFX { get { return VolumeSFXForMenu * VolumeMaster; } set { VolumeSFXForMenu = value; } }
+        public float VolumeAmbient { get { return VolumeAmbientForMenu * VolumeMaster; } set { VolumeAmbientForMenu = value; } }
 
         SPoint
             resolution = GetResolution;
@@ -40,7 +39,8 @@ namespace Zettalith
 
         public void Intitialize()
         {
-
+            XNAController.Graphics.PreferredBackBufferWidth = PersonalData.Settings.Resolution.X;
+            XNAController.Graphics.PreferredBackBufferHeight = PersonalData.Settings.Resolution.Y;
         }
     }
 
