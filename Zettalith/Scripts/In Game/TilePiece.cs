@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zettalith.Pieces;
+using Microsoft.Xna.Framework;
 
 namespace Zettalith
 {
@@ -20,18 +21,15 @@ namespace Zettalith
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
-        public int Index { get; set; }
-        
         List<Modifier> modifiers = new List<Modifier>();
 
-        public TilePiece(Piece piece, int index)
+        public TilePiece(Piece piece)
         {
             //this.piece = piece;
             top = Subpieces.FromIndex(piece.TopIndex) as Top;
             middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
             bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
             baseStats = BaseStats;
-            Index = index;
         }
 
         // Returns just the units base stats

@@ -14,7 +14,7 @@ namespace Zettalith
         {
             typeof(TestTop1), typeof(TestTop2), //typeof(Top2),
             typeof(TestMiddle1), typeof(TestMiddle2), //typeof(Middle2),
-            typeof(TestBottom1), typeof(TestBottom2) //typeof(Bottom2)
+            typeof(TestBottom1), typeof(TestBottom2), typeof(Straight), //typeof(Bottom2)
         };
 
         // Bool values here decides if a subpiece is unlocked or not

@@ -9,8 +9,16 @@ namespace Zettalith.Pieces
 {
     abstract class Top : SubPiece
     {
-        public abstract List<Point> RequestAttack();
-        public abstract void ActivateAttack();
+        // TODO: Make abstract
+        public virtual List<Point> RequestAttack(Point origin)
+        {
+            return null;
+        }
+
+        public virtual void ActivateAttack(Point tile)
+        {
+
+        }
 
         //public int ToIndex()
         //{

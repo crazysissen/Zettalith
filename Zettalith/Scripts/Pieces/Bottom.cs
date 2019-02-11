@@ -11,8 +11,15 @@ namespace Zettalith.Pieces
     {
         public int MoveRange { get; set; }
 
-        public abstract List<Point> RequestMove();
-        public abstract void ActivateMove(Point tile);
+        public virtual List<Point> RequestMove(Point origin)
+        {
+            return null;
+        }
+
+        public virtual void ActivateMove(Point tile)
+        {
+
+        }
 
         //public int ToIndex()
         //{

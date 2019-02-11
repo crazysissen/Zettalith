@@ -21,10 +21,9 @@ namespace Zettalith.Pieces
             Texture = Load.Get<Texture2D>("TestSubpiece");
         }
 
-        public override List<Point> RequestMove()
-        {
-            List<Point> tiles = new List<Point>();
-            InGameController.Grid[]
-        }
+        //public override List<Point> RequestMove()
+        //{
+
+        //}
     }
 }
