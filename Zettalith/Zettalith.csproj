@@ -93,6 +93,8 @@
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\In Game\BattleHUD.cs" />
     <Compile Include="Scripts\In Game\LogisticsHUD.cs" />
+    <Compile Include="Scripts\In Game\Player Types\PlayerLocal.cs" />
+    <Compile Include="Scripts\In Game\Player Types\PlayerRemote.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
     <Compile Include="Scripts\Menus\SettingsMenu.cs" />
@@ -139,8 +141,8 @@
     <Compile Include="Scripts\PersonalData.cs" />
     <Compile Include="Scripts\Pieces\Middles\TestMiddle1.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop1.cs" />
-    <Compile Include="Scripts\Player.cs" />
-    <Compile Include="Scripts\PlayerRendering.cs" />
+    <Compile Include="Scripts\In Game\Player Types\Player.cs" />
+    <Compile Include="Scripts\In Game\PlayerRendering.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />
     <Compile Include="Scripts\Recovery\Multiplication.cs" />

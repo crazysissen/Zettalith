@@ -17,12 +17,12 @@ namespace Zettalith
     // Jag har en idé, vi skapar en enum -Sixten
     enum GameAction
     {
-        Movement, Ability, Attack, Placement, MiscPlacement, Upgrade, Turn, Timer, Death
+        Movement, Ability, Attack, Placement
     }
 
     enum InGameState
     {
-        Config, Setup, Logistics, Battle, End
+        Setup, Logistics, Battle, End
     }
 
     class InGameController
@@ -85,13 +85,14 @@ namespace Zettalith
 
         Player[] players;
 
+        LoadedConfig loadedConfig;
+
         public InGameController(bool isHost)
         {
             Main = this;
             Test.Log("InGameController created.");
 
             this.isHost = isHost;
-            gameState = InGameState.Config;
         }
 
         public void Setup(StartupConfig config)
@@ -105,9 +106,12 @@ namespace Zettalith
 
         public void Initialize(LoadedConfig loadedConfig)
         {
+            this.loadedConfig = loadedConfig;
+
             NetworkManager.Listen("GAMEACTION", RecieveAction);
 
             loading = false;
+            gameState = InGameState.Setup;
         }
 
         public void NewTurnStart()
@@ -122,6 +126,25 @@ namespace Zettalith
                 loadGame.Update(deltaTime);
 
                 return;
+            }
+
+            switch (gameState)
+            {
+                case InGameState.Setup:
+
+                    break;
+
+                case InGameState.Logistics:
+
+                    break;
+
+                case InGameState.Battle:
+
+                    break;
+
+                case InGameState.End:
+
+                    break;
             }
         }
 
@@ -140,21 +163,6 @@ namespace Zettalith
                     break;
 
                 case GameAction.Placement:
-                    break;
-
-                case GameAction.MiscPlacement:
-                    break;
-
-                case GameAction.Upgrade:
-                    break;
-
-                case GameAction.Turn:
-                    break;
-
-                case GameAction.Timer:
-                    break;
-
-                case GameAction.Death:
                     break;
 
                 default:
@@ -179,21 +187,6 @@ namespace Zettalith
                     break;
 
                 case GameAction.Placement:
-                    break;
-
-                case GameAction.MiscPlacement:
-                    break;
-
-                case GameAction.Upgrade:
-                    break;
-
-                case GameAction.Turn:
-                    break;
-
-                case GameAction.Timer:
-                    break;
-
-                case GameAction.Death:
                     break;
 
                 default:
