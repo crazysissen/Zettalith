@@ -10,7 +10,7 @@ namespace Zettalith
     static class Subpieces
     {
         // TODO: Add all SubPieces to exist in the game to this list with the format below
-        public static List<System.Type> SubPieces = new List<System.Type>
+        public static List<Type> SubPieces = new List<Type>
         {
             typeof(TestTop1), typeof(TestTop2), //typeof(Top2),
             typeof(TestMiddle1), typeof(TestMiddle2), //typeof(Middle2),
