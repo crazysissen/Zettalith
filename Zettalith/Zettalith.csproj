@@ -90,9 +90,12 @@
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
+    <Compile Include="Scripts\Direct.cs" />
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\In Game\BattleHUD.cs" />
     <Compile Include="Scripts\In Game\LogisticsHUD.cs" />
+    <Compile Include="Scripts\In Game\Player Types\PlayerLocal.cs" />
+    <Compile Include="Scripts\In Game\Player Types\PlayerRemote.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
     <Compile Include="Scripts\Menus\SettingsMenu.cs" />
@@ -101,6 +104,9 @@
     <Compile Include="Scripts\Misc\LoadGame.cs" />
     <Compile Include="Scripts\Misc\MapGen.cs" />
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
+    <Compile Include="Scripts\Movement.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\Diagonal.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\Straight.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\TestBottom2.cs" />
     <Compile Include="Scripts\Pieces\Middles\TestMiddle2.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
@@ -139,8 +145,8 @@
     <Compile Include="Scripts\PersonalData.cs" />
     <Compile Include="Scripts\Pieces\Middles\TestMiddle1.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop1.cs" />
-    <Compile Include="Scripts\Player.cs" />
-    <Compile Include="Scripts\PlayerRendering.cs" />
+    <Compile Include="Scripts\In Game\Player Types\Player.cs" />
+    <Compile Include="Scripts\In Game\PlayerRendering.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />
     <Compile Include="Scripts\Recovery\Multiplication.cs" />

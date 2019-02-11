@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zettalith.Scripts
+namespace Zettalith
 {
     class PlayerRendering
     {
+        public void Render(float deltaTime)
+        {
+
+        }
     }
 }

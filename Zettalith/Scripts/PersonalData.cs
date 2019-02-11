@@ -16,7 +16,7 @@ namespace Zettalith
         public static PersonalData Default = new PersonalData
         {
             CurrentSettings = new Settings(),
-            UnlockedPieces = Subpieces.Unlocked,
+            UnlockedPieces = Subpieces.Unlocked.ToList(),
             SavedPieces = new List<Piece>(),
             SavedSets = new List<Set>()
             {
@@ -28,7 +28,7 @@ namespace Zettalith
 
         public Settings CurrentSettings { get; set; }
 
-        public bool[] UnlockedPieces { get; set; }
+        public List<bool> UnlockedPieces { get; set; }
         //public List<SubPiece> SavedSubPieces { get; set; }
         public List<Piece> SavedPieces { get; set; }
         public List<Set> SavedSets { get; set; }
