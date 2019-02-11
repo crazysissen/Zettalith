@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
@@ -11,7 +12,8 @@ namespace Zettalith.Pieces
     {
         public Diagonal()
         {
-
+            ManaCost = new Mana(1, 2, 3);
+            Texture = Load.Get<Texture2D>("TestSubpiece");
         }
 
         public override List<Point> RequestMove(Point origin)

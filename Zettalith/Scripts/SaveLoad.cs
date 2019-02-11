@@ -32,6 +32,14 @@ namespace Zettalith
             try
             {
                 PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
+
+                if (PersonalData.UserData.UnlockedPieces.Count < Subpieces.Unlocked.Length)
+                {
+                    for (int i = PersonalData.UserData.UnlockedPieces.Count + 1; i <= Subpieces.Unlocked.Length; ++i)
+                    {
+                        PersonalData.UserData.UnlockedPieces.Add(Subpieces.Unlocked[i]);
+                    }
+                }
             }
             catch
             {
@@ -44,7 +52,7 @@ namespace Zettalith
         // If not, loads the player's currently saved data
         public static void Initialize()
         {
-            if (!File.Exists(Path + fileName))
+            if (!File.Exists(FullPath))
             {
                 PersonalData.UserData = PersonalData.Default;
                 Save();
