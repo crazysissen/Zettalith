@@ -87,6 +87,7 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Scripts\Abilities.cs" />
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Scripts\In Game\LogisticsHUD.cs" />
     <Compile Include="Scripts\In Game\Player Types\PlayerLocal.cs" />
     <Compile Include="Scripts\In Game\Player Types\PlayerRemote.cs" />
+    <Compile Include="Scripts\In Game\TilePiece.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
     <Compile Include="Scripts\Menus\SettingsMenu.cs" />
@@ -123,7 +125,7 @@
     <Compile Include="Scripts\GUI\GUI.cs" />
     <Compile Include="Scripts\GUI\GUIMembers.cs" />
     <Compile Include="Scripts\GUI\SplitTexture.cs" />
-    <Compile Include="Scripts\In Game\TilePiece.cs" />
+    <Compile Include="Scripts\In Game\InGamePiece.cs" />
     <Compile Include="Scripts\InGameController.cs" />
     <Compile Include="Scripts\MainController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
