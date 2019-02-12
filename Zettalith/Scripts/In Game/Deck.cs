@@ -8,5 +8,13 @@ namespace Zettalith
 {
     class Deck
     {
+        public Piece[] Pieces { get; private set; }
+
+        Stack<int> order;
+
+        public Deck(Piece[] pieces)
+        {
+            order = new Stack<int>();
+        }
     }
 }
