@@ -8,13 +8,22 @@ namespace Zettalith
 {
     class Deck
     {
-        public Piece[] Pieces { get; private set; }
-
-        Stack<int> order;
+        public Stack<InGamePiece> Pieces { get; private set; }
 
         public Deck(Piece[] pieces)
         {
-            order = new Stack<int>();
+            Pieces = new Stack<InGamePiece>();
+
+            foreach (Piece piece in pieces)
+            {
+                InGamePiece newPiece = new InGamePiece(piece);
+                newPiece.Texture = PlayerRendering.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
+            }
+        }
+
+        public void Shuffle()
+        {
+
         }
     }
 }
