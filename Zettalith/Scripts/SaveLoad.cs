@@ -33,6 +33,11 @@ namespace Zettalith
             {
                 PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
 
+                //if (true)
+                //{
+                //    throw new Exception("");
+                //}
+
                 if (PersonalData.UserData.UnlockedPieces.Count < Subpieces.Unlocked.Length)
                 {
                     for (int i = PersonalData.UserData.UnlockedPieces.Count + 1; i <= Subpieces.Unlocked.Length; ++i)
@@ -44,7 +49,7 @@ namespace Zettalith
             catch
             {
                 File.Delete(FullPath);
-                Save();
+                Initialize();
             }
         }
 

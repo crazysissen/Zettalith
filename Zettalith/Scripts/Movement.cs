@@ -199,6 +199,25 @@ namespace Zettalith
             return temp;
         }
 
+        public static List<Point> Teleport(Point origin)
+        {
+            List<Point> temp = new List<Point>();
+
+            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            {
+                for (int j = 0; j < InGameController.Grid.yLength; ++j)
+                {
+                    if (InGameController.Grid.Vacant(i, j))
+                    {
+                        temp.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            temp.Remove(origin);
+            return temp;
+        }
+
         public static List<Point> Teleport(Point origin, Point moveRange)
         {
             List<Point> temp = new List<Point>();
@@ -217,14 +236,9 @@ namespace Zettalith
             return temp;
         }
 
-        // TODO: Across the maperoni
-        //public static List<Point> Teleport(Point origin)
+        //public static List<Point> Swap(Point origin)
         //{
-        //    List<Point> temp = new List<Point>();
 
-        //    for (int i = 0; i < InGameController.Grid.)
-
-        //    return temp;
         //}
     }
 }

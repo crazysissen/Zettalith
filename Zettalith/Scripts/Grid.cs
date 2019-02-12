@@ -13,7 +13,7 @@ namespace Zettalith
         const int
             MAXSIZE = 4096;
 
-        readonly int _xL, _yL;
+        public readonly int xLength, yLength;
 
         Tile[,] _tileArray;
         TileObject[] _objects;
@@ -71,15 +71,67 @@ namespace Zettalith
             if (x < 0 || y < 0)
                 throw new OverflowException("Tried to initialize array with negative dimension(s).");
 
-            _xL = x;
-            _yL = y;
+            xLength = x;
+            yLength = y;
 
             _tileArray = new Tile[x, y];
             _objects = new TileObject[MAXSIZE];
         }
 
-        public bool Vacant(int x, int y)
-            => InBounds(x, y) && _tileArray[x, y] != null && !_tileArray[x, y].TileObject.HasValue;
+        public Point PositionOf(int id)
+        {
+            for (int x = 0; x < xLength; x++)
+            {
+                for (int y = 0; y < yLength; y++)
+                {
+                    if (_tileArray[x, y] != null && _tileArray[x, y].TileObject.HasValue && _tileArray[x, y].TileObject.Value == id)
+                    {
+                        return new Point(x, y);
+                    }
+                }
+            }
+
+            return new Point();
+        }
+
+        public void Remove(int id)
+        {
+            if (_objects[id] == null)
+            {
+                return;
+            }
+
+            _tileArray[_objects[id].Position.X, _objects[id].Position.Y] = null;
+            _objects[id] = null;
+        }
+
+        public void Remove(TileObject tObject)
+        {
+            if (tObject != null)
+            {
+                Remove(tObject.Index);
+            }
+        }
+
+        public void Remove(int x, int y)
+        {
+            if (InBounds(x, y))
+            {
+                _objects[_tileArray[x, y].TileObject.Value] = null;
+                _tileArray[x, y] = null;
+            }
+        }
+
+        public void Place(int x, int y, TileObject tObject)
+        {
+            if (!Vacant(x, y))
+            {
+                return;
+            }
+
+            _tileArray[x, y].TileObject = tObject.Index;
+            tObject.Position = new Point(x, y);
+        }
 
         public TileObject GetObject(int x, int y)
         {
@@ -93,8 +145,32 @@ namespace Zettalith
             return tileObject.HasValue ? _objects[tileObject.Value] : null;
         }
 
+        public void ChangePosition(TileObject tObject, int x, int y)
+        {
+            if (Vacant(x, y))
+            {
+                _tileArray[tObject.Position.X, tObject.Position.Y].TileObject = null;
+                _tileArray[x, y].TileObject = tObject.Index;
+                tObject.Position = new Point(x, y);
+            }
+        }
+
+        public int NewIndex()
+        {
+            int i = 0;
+            while (_objects[i] != null)
+            {
+                ++i;
+            }
+
+            return i;
+        }
+
+        public bool Vacant(int x, int y)
+            => InBounds(x, y) && _tileArray[x, y] != null && !_tileArray[x, y].TileObject.HasValue;
+
         public bool InBounds(int x, int y) 
-            => x > -1 && y > -1 && x < _xL && y < _yL;
+            => x > -1 && y > -1 && x < xLength && y < yLength;
     }
 
     class Tile
