@@ -66,7 +66,7 @@ namespace Zettalith
 
             public enum State { Idle, Hovered, Pressed }
             public enum Type { ColorSwitch, TextureSwitch, AnimatedSwitch }
-            public enum Transition { Custom, Switch, LinearFade, DecelleratingFade, AcceleratingFade, EaseOutBack, EaseOutElastic, EaseOutQuartic }
+            public enum Transition { Custom, Switch, LinearFade, DecelleratingFade, AcceleratingFade, EaseOutBack, EaseOutElastic, EaseOutCubic }
 
             public event Action OnEnter;
             public event Action OnExit;
@@ -375,8 +375,8 @@ namespace Zettalith
                         _transition = Easing.EaseOutElastic;
                         return;
 
-                    case Transition.EaseOutQuartic:
-                        _transition = Easing.EaseOutQuartic;
+                    case Transition.EaseOutCubic:
+                        _transition = Easing.EaseOutCubic;
                         return;
                 }
             }

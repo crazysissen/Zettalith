@@ -8,13 +8,13 @@ namespace Zettalith
 {
     class PlayerLocal : Player
     {
-        PlayerRendering renderer;
+        GameRendering renderer;
 
         public override void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent)
         {
             base.Start(inGameController, mainController, xnaController, opponent);
 
-            renderer = new PlayerRendering(this);
+            renderer = new GameRendering(this);
         }
 
         public override void TurnStart()

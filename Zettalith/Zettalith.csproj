@@ -149,7 +149,7 @@
     <Compile Include="Scripts\Pieces\Middles\TestMiddle1.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop1.cs" />
     <Compile Include="Scripts\In Game\Player Types\Player.cs" />
-    <Compile Include="Scripts\In Game\PlayerRendering.cs" />
+    <Compile Include="Scripts\In Game\GameRendering.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop3.cs" />
     <Compile Include="Scripts\Recovery\Addition.cs" />
     <Compile Include="Scripts\Recovery\Modifier.cs" />
@@ -170,6 +170,7 @@
     <Compile Include="Scripts\Stats.cs" />
     <Compile Include="Scripts\Testing\Test.cs" />
     <Compile Include="Scripts\Testing\TestGUI.cs" />
+    <Compile Include="Scripts\TimerTable.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
   </ItemGroup>

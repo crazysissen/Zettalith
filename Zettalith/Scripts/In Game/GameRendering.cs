@@ -8,14 +8,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
-    class PlayerRendering
+    class GameRendering
     {
         const float
             HEIGHTDISTANCE = 0.6875f;
 
         GUI.Collection battleGUI, logisticsGUI, setupGUI;
 
-        public PlayerRendering(Player player)
+        List<Point> highlightSquares;
+
+        TimerTable table;
+
+        public GameRendering(Player player)
         {
 
 
@@ -26,8 +30,9 @@ namespace Zettalith
 
         public void Render(float deltaTime)
         {
-
+            highlights.Clear();
         }
+
 
         void CreateBattleGUI()
         {
@@ -41,8 +46,22 @@ namespace Zettalith
 
         void CreateSetupGUI()
         {
-
+            
         }
+
+        #region Tile Highlighting
+
+        static List<(Point, Color)> highlights = new List<(Point, Color)>();
+
+        public static void AddHighlight(Point[] points, Color color)
+        {
+            foreach (Point point in points)
+            {
+                highlights.Add((point, color));
+            }
+        }
+
+        #endregion
 
         #region Texture Loading
 

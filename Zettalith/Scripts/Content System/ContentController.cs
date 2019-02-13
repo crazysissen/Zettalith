@@ -37,7 +37,7 @@ namespace Zettalith
 
         public static void ImportAll(ContentManager content)
         {
-            ContentBundle bundle = AllFileNames(ApplicationDirectory + "\\" + content.RootDirectory, "", "");
+            ContentBundle bundle = AllFileNames(ApplicationDirectory + @"\" + content.RootDirectory, "", "");
 
             foreach (ImportObject item in bundle.Objects)
             {
@@ -97,7 +97,7 @@ namespace Zettalith
             List<ImportObject> allFiles = new List<ImportObject>();
             List<ImportCollection> allCollections = new List<ImportCollection>();
 
-            DirectoryInfo directory = new DirectoryInfo(basePath + "\\" + additionalPath);
+            DirectoryInfo directory = new DirectoryInfo(basePath + @"\" + additionalPath);
             DirectoryInfo[] directories = directory.GetDirectories();
             FileInfo[] files = directory.GetFiles();
 
@@ -117,7 +117,7 @@ namespace Zettalith
 
             foreach (DirectoryInfo dir in directories)
             {
-                ContentBundle dirImport = AllFileNames(basePath, dir.Name + "\\", appendableAdditionalPath + dir.Name + "/");
+                ContentBundle dirImport = AllFileNames(basePath, additionalPath + dir.Name + @"\", appendableAdditionalPath + dir.Name + @"\");
 
                 allFiles.AddRange(dirImport.Objects);
                 allCollections.AddRange(dirImport.Collections);

@@ -15,9 +15,11 @@ namespace Zettalith
         const string
             PLAYERDATAHEADER = "GETPLAYERDATA";
 
+        public static PlayerSetupData recievedData, playerData;
+        public static void RecieveData(byte[] data) => recievedData = data.ToObject<PlayerSetupData>();
+
         InGameController controller;
         StartupConfig config;
-        PlayerSetupData playerData;
 
         Thread loadThread;
 
@@ -66,14 +68,20 @@ namespace Zettalith
             int startPlayer = r.Next(2);
 
             // Wait for playerData
-            while (PlayerSetupData.recievedData == null) { Thread.Sleep(5); }
+            while (recievedData == null) { Thread.Sleep(5); }
+
+            Set[] sets = { host ? playerData.set : recievedData.set, host ? recievedData.set : playerData.set };
+
+            Deck[] decks = { new Deck(sets[0]), new Deck(sets[1]) };
 
             // Finalization
 
             loadedConfig = new LoadedConfig()
             {
                 map = map,
-                startPlayer = startPlayer
+                startPlayer = startPlayer,
+                sets = sets,
+                decks = decks
             };
 
             complete = true;
@@ -94,8 +102,5 @@ namespace Zettalith
     class PlayerSetupData
     {
         public Set set;
-
-        public static PlayerSetupData recievedData;
-        public static void RecieveData(byte[] data) => recievedData = data.ToObject<PlayerSetupData>();
     }
 }
