@@ -13,6 +13,9 @@ namespace Zettalith
         const float
             HEIGHTDISTANCE = 0.6875f;
 
+        static readonly Color
+            defaultHighlightColor = new Color(0, 255, 215, 255);
+
         GUI.Collection battleGUI, logisticsGUI, setupGUI;
 
         List<Point> highlightSquares;
@@ -53,7 +56,12 @@ namespace Zettalith
 
         static List<(Point, Color)> highlights = new List<(Point, Color)>();
 
-        public static void AddHighlight(Point[] points, Color color)
+        public static void AddHighlight(params Point[] points)
+        {
+            AddHighlight(defaultHighlightColor, points);
+        }
+
+        public static void AddHighlight(Color color, params Point[] points)
         {
             foreach (Point point in points)
             {
