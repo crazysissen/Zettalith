@@ -16,19 +16,26 @@ namespace Zettalith
         static readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255);
 
-        GUI.Collection battleGUI, logisticsGUI, setupGUI;
+        GUI.Collection collection, battleGUI, logisticsGUI, setupGUI;
+
+        Renderer.Text splash, essence;
+        Renderer.Text[] mana;
+        Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
 
         List<Point> highlightSquares;
 
         TimerTable table;
 
-        public GameRendering(Player player)
+        public GameRendering(Player player, bool host)
         {
+            dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), new Color(60, 60, 60, 160));
 
 
             CreateBattleGUI();
             CreateLogisticsGUI();
             CreateSetupGUI();
+
+            collection.Add(dim, splash, essencePanel, essence);
         }
 
         public void Render(float deltaTime)
@@ -44,7 +51,7 @@ namespace Zettalith
 
         void CreateLogisticsGUI()
         {
-
+            // TODO Add logistics UI
         }
 
         void CreateSetupGUI()

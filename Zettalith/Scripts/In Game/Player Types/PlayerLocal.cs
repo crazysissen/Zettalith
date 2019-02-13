@@ -14,7 +14,7 @@ namespace Zettalith
         {
             base.Start(inGameController, mainController, xnaController, opponent);
 
-            renderer = new GameRendering(this);
+            //renderer = new GameRendering(this);
         }
 
         public override void TurnStart()
