@@ -9,13 +9,23 @@ namespace Zettalith.Pieces
 {
     abstract class Top : SubPiece
     {
+        public Modifier Modifier { get; protected set; }
+
+        public bool HasAbility { get; protected set; }
+
         // TODO: Make abstract
-        public virtual List<Point> RequestAttack(Point origin)
+        public virtual void Initialize()
         {
+
+        }
+
+        public virtual object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
+        {
+            cancel = true;
             return null;
         }
 
-        public virtual void ActivateAttack(Point tile)
+        public virtual void ActivateAbility(TilePiece piece, object[] data)
         {
 
         }
