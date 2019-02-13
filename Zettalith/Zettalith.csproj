@@ -98,6 +98,7 @@
     <Compile Include="Scripts\In Game\Player Types\PlayerRemote.cs" />
     <Compile Include="Scripts\Menus\GameSetup.cs" />
     <Compile Include="Scripts\Menus\Lobby.cs" />
+    <Compile Include="Scripts\Menus\PauseMenu.cs" />
     <Compile Include="Scripts\Menus\SettingsMenu.cs" />
     <Compile Include="Scripts\Misc\Easings.cs" />
     <Compile Include="Scripts\Misc\ImageProcessing.cs" />

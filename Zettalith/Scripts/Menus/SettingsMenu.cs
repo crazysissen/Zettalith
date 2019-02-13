@@ -36,6 +36,8 @@ namespace Zettalith
         
         int masterToApply, musicToApply, sFXToApply, ambientToApply;
 
+        
+
         public void Initialize(MainController controller, Action goBack)
         {
             GoBack = goBack;
@@ -260,7 +262,7 @@ namespace Zettalith
 
         public void Activate()
         {
-            TargetMethod.Invoke(newVolume);
+            TargetMethod?.Invoke(newVolume);
         }
     }
 }
