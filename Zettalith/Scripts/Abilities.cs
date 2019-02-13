@@ -97,6 +97,155 @@ namespace Zettalith
             return temp;
         }
 
-        public static List<Point> Target;
+        public static List<Point> Target(bool enemy)
+        {
+            List<Point> temp = new List<Point>();
+
+            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            {
+                for (int j = 0; j < InGameController.Grid.yLength; ++j)
+                {
+                    TilePiece tempPiece = InGameController.Grid.GetObject(i, j) as TilePiece;
+
+                    if (tempPiece == null)
+                        continue;
+                    else
+                    {
+                        if (enemy)
+                        {
+                            if (tempPiece.Player != InGameController.PlayerIndex)
+                            {
+                                temp.Add(new Point(i, j));
+                            }
+                        }
+                        if (!enemy)
+                        {
+                            if (tempPiece.Player == InGameController.PlayerIndex)
+                            {
+                                temp.Add(new Point(i, j));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return temp;
+        }
+
+        public static List<Point> Target(bool enemy, Point origin, int range)
+        {
+            List<Point> temp = new List<Point>();
+
+            int xBound = (origin.X - range) < 0 ? 0 : origin.X - range;
+            int yBound = (origin.Y + range) > InGameController.Grid.yLength ? InGameController.Grid.yLength : origin.Y + range;
+
+            for (int i = xBound; i <= origin.X + range && i <= InGameController.Grid.xLength; ++i)
+            {
+                for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
+                {
+                    TilePiece tempPiece = InGameController.Grid.GetObject(i, j) as TilePiece;
+
+                    if (tempPiece == null)
+                        continue;
+
+                    if (enemy)
+                    {
+                        if (tempPiece.Player != InGameController.PlayerIndex)
+                        {
+                            temp.Add(new Point(i, j));
+                        }
+                    }
+                    if (!enemy)
+                    {
+                        if (tempPiece.Player == InGameController.PlayerIndex)
+                        {
+                            temp.Add(new Point(i, j));
+                        }
+                    }
+                }
+            }
+
+            return temp;
+        }
+
+        public static List<Point> TargetAll()
+        {
+            List<Point> temp = new List<Point>();
+
+            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            {
+                for (int j = 0; j < InGameController.Grid.yLength; ++j)
+                {
+                    if (InGameController.Grid.GetObject(i, j) is TilePiece)
+                    {
+                        temp.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            return temp;
+        }
+
+        public static List<Point> TargetAll(Point origin, int range)
+        {
+            List<Point> temp = new List<Point>();
+
+            int xBound = (origin.X - range) < 0 ? 0 : origin.X - range;
+            int yBound = (origin.Y + range) > InGameController.Grid.yLength ? InGameController.Grid.yLength : origin.Y + range;
+
+            for (int i = xBound; i <= origin.X + range && i <= InGameController.Grid.xLength; ++i)
+            {
+                for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
+                {
+                    if (InGameController.Grid.GetObject(i, j) == null || !(InGameController.Grid.GetObject(i, j) is TilePiece))
+                        continue;
+
+                    temp.Add(new Point(i, j));
+                }
+            }
+
+            return temp;
+        }
+
+        public static List<Point> SquareAoE(Point origin, int range)
+        {
+            List<Point> temp = new List<Point>();
+
+            int xBound = (origin.X - range) < 0 ? 0 : origin.X - range;
+            int yBound = (origin.Y + range) > InGameController.Grid.yLength ? InGameController.Grid.yLength : origin.Y + range;
+
+            for (int i = xBound; i <= origin.X + range && i <= InGameController.Grid.xLength; ++i)
+            {
+                for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
+                {
+                    temp.Add(new Point(i, j));
+                }
+            }
+
+            temp.Remove(origin);
+
+            return temp;
+        }
+
+        public static List<Point> CircleAoE(Point origin, int range)
+        {
+            List<Point> temp = new List<Point>();
+
+            int xBound = (origin.X - range) < 0 ? 0 : origin.X - range;
+            int yBound = (origin.Y + range) > InGameController.Grid.yLength ? InGameController.Grid.yLength : origin.Y + range;
+
+            for (int i = xBound; i <= origin.X + range && i <= InGameController.Grid.xLength; ++i)
+            {
+                for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
+                {
+                    if ((new Point(i, j) - origin).ToVector2().Length() < (range + 0.5f))
+                    {
+                        temp.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            return temp;
+        }
     }
 }
