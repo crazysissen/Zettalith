@@ -19,6 +19,7 @@ namespace Zettalith.Scripts.Menus
         GUI.Button bResume, bSettings, bResign, bQuit;
         Renderer.SpriteScreen grey;
         Texture2D greySeeThrough2D;
+        Layer pauseLayer, pauseBackgroundLayer;
 
         public void Initialize(MainController controller)
         {
@@ -30,6 +31,9 @@ namespace Zettalith.Scripts.Menus
             collection = new GUI.Collection();
             main = new GUI.Collection() { Origin = new Point((int)(Settings.GetHalfResolution.X - tempButtonWidth * 0.5), (int)(Settings.GetResolution.Y * 0.36)) };
 
+            pauseLayer = new Layer(MainLayer.GUI, 4);
+            pauseBackgroundLayer = new Layer(MainLayer.GUI, 3);
+
             collection.Add(main);
 
             greySeeThrough2D = Load.Get<Texture2D>("GreySeeThrough");
@@ -38,25 +42,25 @@ namespace Zettalith.Scripts.Menus
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
-            pauseText = new Renderer.Text(new Layer(MainLayer.GUI, 1), Font.Styled, "Paused", 10, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
+            pauseText = new Renderer.Text(pauseLayer, Font.Styled, "Paused", 10, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
 
-            bResume = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bResume = new GUI.Button(pauseLayer, new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bResume.AddText("Resume", 4, false, textColor, Font.Default);
             bResume.OnClick += BResume;
 
-            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonColor);
+            bSettings = new GUI.Button(pauseLayer, new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonColor);
             bSettings.AddText("Settings", 4, false, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bResign = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bResign = new GUI.Button(pauseLayer, new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bResign.AddText("Resign", 4, false, textColor, Font.Default);
             bResign.OnClick += BResign;
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bQuit = new GUI.Button(pauseLayer, new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bQuit.AddText("Quit", 4, false, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
-            grey = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), greySeeThrough2D, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
+            grey = new Renderer.SpriteScreen(pauseBackgroundLayer, greySeeThrough2D, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
             main.Add(pauseText, bResume, bSettings, bResign, bQuit);
         }
@@ -74,7 +78,7 @@ namespace Zettalith.Scripts.Menus
         private void BSettings()
         {
             Action GoBackToPause = null;
-            controller.ToSettings(GoBackToPause, new Layer(MainLayer.GUI, 2));
+            controller.ToSettings(GoBackToPause, new Layer(MainLayer.GUI, 5));
         }
 
         public void BResign()
