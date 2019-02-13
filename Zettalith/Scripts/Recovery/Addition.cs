@@ -10,7 +10,7 @@ namespace Zettalith
     {
         public Stats StatChanges { get; set; } = new Stats();
 
-        public Addition(Piece owner, Stats changes, bool permanent) : base(owner, permanent)
+        public Addition(Stats changes, bool permanent) : base(permanent)
         {
             StatChanges = changes;
         }

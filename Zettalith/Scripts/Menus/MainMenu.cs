@@ -121,7 +121,7 @@ namespace Zettalith
         {
             Action GoBackToMain = controller.ToMenu;
 
-            controller.ToSettings(GoBackToMain);
+            controller.ToSettings(GoBackToMain, new Layer(MainLayer.GUI, 1));
         }
 
         private void BQuit()

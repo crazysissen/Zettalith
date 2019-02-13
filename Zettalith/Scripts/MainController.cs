@@ -173,13 +173,13 @@ namespace Zettalith
             setDesigner.Initialize(this);
         }
 
-        public void ToSettings(Action goBackTO)
+        public void ToSettings(Action goBackTO, Layer settingsLayer)
         {
             SaveLoad.Load();
             mainMenu.CloseMenu();
 
             settingsMenu = new SettingsMenu();
-            settingsMenu.Initialize(this, goBackTO);
+            settingsMenu.Initialize(this, goBackTO, settingsLayer);
         }
 
         public void ToLobby(StartupConfig? config = null)

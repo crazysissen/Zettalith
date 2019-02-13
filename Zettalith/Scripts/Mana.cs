@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Zettalith
 {
     [Serializable]
-    public class Mana
+    struct Mana
     {
         public int Red { get; private set; }
         public int Blue { get; private set; }
