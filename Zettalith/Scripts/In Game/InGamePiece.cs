@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Zettalith.Pieces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
     class InGamePiece
     {
+        public Texture2D Texture { get; set; }
+
         Stats baseStats;
 
         Piece piece;

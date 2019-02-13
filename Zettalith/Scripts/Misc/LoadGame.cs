@@ -87,7 +87,7 @@ namespace Zettalith
         public Map map;
         public int startPlayer;
         public Set[] sets;
-        public Deck deck;
+        public Deck[] decks;
     }
 
     [Serializable]
