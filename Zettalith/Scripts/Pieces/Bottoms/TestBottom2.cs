@@ -13,10 +13,10 @@ namespace Zettalith.Pieces
     {
         public TestBottom2()
         {
-            Name = "TestBottom2";
+            Name = "Jhin";
             Health = 20;
             AttackDamage = 3;
-            ManaCost = new Mana(0, 4, 0);
+            ManaCost = new Mana(0, 1, 0);
             MoveRange = 4;
             Description = "Moves 4 tiles in any given direction.";
             Texture = Load.Get<Texture2D>("TestSubpiece2");

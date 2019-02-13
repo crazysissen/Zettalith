@@ -109,8 +109,6 @@
     <Compile Include="Scripts\Misc\MapGen.cs" />
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
     <Compile Include="Scripts\Movement.cs" />
-    <Compile Include="Scripts\Pieces\Bottoms\Diagonal.cs" />
-    <Compile Include="Scripts\Pieces\Bottoms\Straight.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\TestBottom2.cs" />
     <Compile Include="Scripts\Pieces\Middles\TestMiddle2.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
