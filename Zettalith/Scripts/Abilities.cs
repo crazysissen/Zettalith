@@ -97,6 +97,6 @@ namespace Zettalith
             return temp;
         }
 
-        public static List<Point> Target
+        public static List<Point> Target;
     }
 }

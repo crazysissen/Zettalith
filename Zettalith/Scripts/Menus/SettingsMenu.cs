@@ -36,13 +36,19 @@ namespace Zettalith
         
         int masterToApply, musicToApply, sFXToApply, ambientToApply;
 
-        
+        RendererFocus focusSettings;
 
-        public void Initialize(MainController controller, Action goBack)
+        Layer settingsLayer;
+
+        public void Initialize(MainController controller, Action goBack, Layer useThisLayer)
         {
+            settingsLayer = useThisLayer;
+
             GoBack = goBack;
 
             this.controller = controller;
+
+            focusSettings = new RendererFocus(settingsLayer);
 
             collection = new GUI.Collection();
             mainCollection = new GUI.Collection() { Origin = new Point((int)(Settings.GetHalfResolution.X - Settings.GetResolution.X * 0.143), (int)(Settings.GetResolution.Y * 0.18)) };
@@ -90,11 +96,11 @@ namespace Zettalith
             sFXToApply = (int)(PersonalData.Settings.VolumeSFXForMenu * 10);
             ambientToApply = (int)(PersonalData.Settings.VolumeAmbientForMenu * 10);
 
-            Header = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
+            Header = new Renderer.Text(settingsLayer, Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
 
             #region //Fullscreen
-            fullscreenText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Fullscreen", 4, 0, new Vector2(0, 0), buttonColor);
-            bFullscreen = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.085), (int)(Settings.GetResolution.Y * 0.0126), (int)(Settings.GetResolution.X * 0.18 / 16), (int)(Settings.GetResolution.Y * 0.02)), PersonalData.Settings.FullScreen ? checked2D : unchecked2D);
+            fullscreenText = new Renderer.Text(settingsLayer, Font.Default, "Fullscreen", 4, 0, new Vector2(0, 0), buttonColor);
+            bFullscreen = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.085), (int)(Settings.GetResolution.Y * 0.0126), (int)(Settings.GetResolution.X * 0.18 / 16), (int)(Settings.GetResolution.Y * 0.02)), PersonalData.Settings.FullScreen ? checked2D : unchecked2D);
             bFullscreen.OnClick += BFullscreen;
             #endregion
 
@@ -120,10 +126,10 @@ namespace Zettalith
                 }
             }
 
-            resolutionText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Resolution: " + displays[currentDisplay].Y + "p", 4, 0, new Vector2(0, 0), textColor);
-            bResolution = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.152f), 0, (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), arrow2D, arrowHover2D, arrowPressed2D) { SpriteEffects = SpriteEffects.FlipHorizontally };
+            resolutionText = new Renderer.Text(settingsLayer, Font.Default, "Resolution: " + displays[currentDisplay].Y + "p", 4, 0, new Vector2(0, 0), textColor);
+            bResolution = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.152f), 0, (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), arrow2D, arrowHover2D, arrowPressed2D) { SpriteEffects = SpriteEffects.FlipHorizontally };
             bResolution.OnClick += BResolution;
-            appliedAtRestartText = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, "Settings applied at restart", 4, 0, new Vector2((float)(Settings.GetResolution.X * 0.195f), 0), textColor) { Active = false };
+            appliedAtRestartText = new Renderer.Text(settingsLayer, Font.Default, "Settings applied at restart", 4, 0, new Vector2((float)(Settings.GetResolution.X * 0.195f), 0), textColor) { Active = false };
             #endregion
 
             #region //Volume
@@ -133,7 +139,7 @@ namespace Zettalith
             CreateAudioBar(ref ambientVolumeText, "Ambient Volume", ref bAmbient, ambientToApply, ref ambientVolCollection, ref bAmbientSpeaker, ambientVolumeCalls, CallBAmbientAudioMute);
             #endregion
 
-            bBack = new GUI.Button(new Layer(MainLayer.GUI, 10), new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.68f), (int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.05f)));
+            bBack = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.68f), (int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.05f)));
             bBack.AddText("Back", 4, true, textColor, Font.Default);
             bBack.OnClick += BGoBack;
 
@@ -227,22 +233,24 @@ namespace Zettalith
         {
             SaveLoad.Save();
 
+            focusSettings.Remove();
+
             collection.Active = false;
             GoBack.Invoke();
         }
 
         private void CreateAudioBar(ref Renderer.Text textVar, string printedText, ref GUI.Button[] buttonArray, float currentVolume, ref GUI.Collection relevantCollection, ref GUI.Button bSpeaker, CustomVolumeCall[] calls, Action muteMethod)
         {
-            textVar = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Default, printedText, 4, 0, new Vector2((int)(Settings.GetResolution.X * 0.055), 0), textColor);
+            textVar = new Renderer.Text(settingsLayer, Font.Default, printedText, 4, 0, new Vector2((int)(Settings.GetResolution.X * 0.055), 0), textColor);
 
             for (int i = 0; i < buttonArray.Length; i++)
             {
-                buttonArray[i] = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle((int)(Settings.GetResolution.X * 0.02 * (i + 1)), (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume >= i + 1 ? checkedAudio2D : uncheckedAudio2D);
+                buttonArray[i] = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.02 * (i + 1)), (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume >= i + 1 ? checkedAudio2D : uncheckedAudio2D);
                 buttonArray[i].OnClick += calls[i].Activate;
                 relevantCollection.Add(buttonArray[i]);
             }
 
-            bSpeaker = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume > 0 ? audioSpeaker2D : mutedAudioSpeaker2D);
+            bSpeaker = new GUI.Button(settingsLayer, new Rectangle(0, (int)(Settings.GetResolution.Y * 0.04), (int)(Settings.GetResolution.X * 0.02), (int)(Settings.GetResolution.Y * 0.02 * 112 / 39)), currentVolume > 0 ? audioSpeaker2D : mutedAudioSpeaker2D);
             bSpeaker.OnClick += muteMethod;
         }
 

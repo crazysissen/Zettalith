@@ -74,7 +74,7 @@ namespace Zettalith.Scripts.Menus
         private void BSettings()
         {
             Action GoBackToPause = null;
-            controller.ToSettings(GoBackToPause);
+            controller.ToSettings(GoBackToPause, new Layer(MainLayer.GUI, 2));
         }
 
         public void BResign()
