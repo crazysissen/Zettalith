@@ -16,7 +16,7 @@ namespace Zettalith.Pieces
             return null;
         }
 
-        public virtual void ActivateMove(Point tile)
+        public virtual void ActivateMove(TilePiece piece, Point target)
         {
 
         }

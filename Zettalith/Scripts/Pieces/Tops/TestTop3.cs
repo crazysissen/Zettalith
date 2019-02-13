@@ -23,32 +23,34 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            if (!mouseDown)
-            {
-                cancel = false;
-                return null;
-            }
-
             List<SPoint> spoints = Abilities.Beam(piece.Position, mousePos).Cast<SPoint>().ToList();
 
             if (spoints.Count == 0)
             {
-                cancel = true;
+                if (mouseDown)
+                {
+                    cancel = true;
+                    return null;
+                }
+
+                cancel = false;
                 return null;
             }
 
             // TODO: Highlight spoints list
 
-            object[] temp = new object[3];
-
-            temp[0] = spoints;
-            temp[1] = Modifier;
+            if (mouseDown)
+            {
+                object[] temp = { spoints, Modifier };
+                cancel = false;
+                return temp;
+            }
 
             cancel = false;
-            return temp;
+            return null;
         }
 
-        public override void ActivateAbility(TilePiece piece, object[] data)
+        public override void ActivateAbility(object[] data)
         {
             for (int i = 0; i < (data[0] as List<SPoint>).Count; ++i)
             {

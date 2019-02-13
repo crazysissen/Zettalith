@@ -25,7 +25,7 @@ namespace Zettalith.Pieces
             return null;
         }
 
-        public virtual void ActivateAbility(TilePiece piece, object[] data)
+        public virtual void ActivateAbility(object[] data)
         {
 
         }

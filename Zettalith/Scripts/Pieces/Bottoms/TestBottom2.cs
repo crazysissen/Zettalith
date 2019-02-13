@@ -17,8 +17,19 @@ namespace Zettalith.Pieces
             Health = 20;
             AttackDamage = 3;
             ManaCost = new Mana(0, 4, 0);
-            Description = "Sturdy but not very powerful legs.";
+            MoveRange = 4;
+            Description = "Moves 4 tiles in any given direction.";
             Texture = Load.Get<Texture2D>("TestSubpiece2");
+        }
+
+        public override List<Point> RequestMove(Point origin)
+        {
+            return Movement.Straight(origin, MoveRange);
+        }
+
+        public override void ActivateMove(TilePiece piece, Point target)
+        {
+            InGameController.Grid.ChangePosition(piece, target.X, target.Y);
         }
     }
 }
