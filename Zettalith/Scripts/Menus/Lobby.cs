@@ -74,7 +74,7 @@ namespace Zettalith
             NetworkManager.OnDisconnected += Disconnected;
 
             NetworkManager.Listen(STARTHEADER, Ready);
-            NetworkManager.Listen(RECIEVEDATAHEADER, PlayerSetupData.RecieveData);
+            NetworkManager.Listen(RECIEVEDATAHEADER, LoadGame.RecieveData);
         }
 
         public void Update(float deltaTime)
@@ -177,6 +177,8 @@ namespace Zettalith
             };
 
             NetworkManager.Send(RECIEVEDATAHEADER, playerData);
+
+            LoadGame.playerData = playerData;
 
             MainController.Main.ToGame(config, host);
         }

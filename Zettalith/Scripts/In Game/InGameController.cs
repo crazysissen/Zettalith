@@ -45,6 +45,10 @@ namespace Zettalith
 
         InGameState gameState;
 
+        Player[] players;
+
+        LoadedConfig loadedConfig;
+
         /// <summary>
         /// Can move, piece, origin, target
         /// </summary>
@@ -87,10 +91,6 @@ namespace Zettalith
 
         public event Action<Piece> Death;
 
-        Player[] players;
-
-        LoadedConfig loadedConfig;
-
         public InGameController(bool isHost)
         {
             Main = this;
@@ -114,6 +114,12 @@ namespace Zettalith
 
             NetworkManager.Listen("GAMEACTION", RecieveAction);
 
+            players = new Player[]
+            {
+                isHost ? CreateLocalPlayer() : CreateRemotePlayer(),
+                isHost ? CreateRemotePlayer() : CreateLocalPlayer()
+            };
+
             loading = false;
             gameState = InGameState.Setup;
         }
@@ -135,19 +141,19 @@ namespace Zettalith
             switch (gameState)
             {
                 case InGameState.Setup:
-
+                    UpdateSetup();
                     break;
 
                 case InGameState.Logistics:
-
+                    UpdateLogistics();
                     break;
 
                 case InGameState.Battle:
-
+                    UpdateBattle();
                     break;
 
                 case InGameState.End:
-
+                    UpdateEnd();
                     break;
             }
         }
@@ -216,6 +222,36 @@ namespace Zettalith
                 default:
                     break;
             }
+        }
+
+        private Player CreateLocalPlayer()
+        {
+            return new PlayerLocal();
+        }
+
+        private Player CreateRemotePlayer()
+        {
+            return new PlayerRemote();
+        }
+
+        private void UpdateSetup()
+        {
+
+        }
+
+        private void UpdateBattle()
+        {
+
+        }
+
+        private void UpdateLogistics()
+        {
+
+        }
+
+        private void UpdateEnd()
+        {
+
         }
     }
 
