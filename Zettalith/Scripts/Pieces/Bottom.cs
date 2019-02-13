@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace Zettalith.Pieces
+namespace Zettalith
 {
     abstract class Bottom : SubPiece
     {
@@ -16,7 +16,7 @@ namespace Zettalith.Pieces
             return null;
         }
 
-        public virtual void ActivateMove(Point tile)
+        public virtual void ActivateMove(TilePiece piece, Point target)
         {
 
         }

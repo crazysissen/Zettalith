@@ -13,17 +13,23 @@ namespace Zettalith.Pieces
     {
         public TestBottom1()
         {
-            Name = "TestBottom1";
+            Name = "Diagonal Man";
             Health = 10;
             AttackDamage = 7;
-            ManaCost = new Mana(5, 0, 0);
-            Description = "Frail but powerful legs.";
+            ManaCost = new Mana(2, 0, 0);
+            MoveRange = 2;
+            Description = "Moves 2 tiles diagonally";
             Texture = Load.Get<Texture2D>("TestSubpiece");
         }
 
-        //public override List<Point> RequestMove()
-        //{
+        public override List<Point> RequestMove(Point origin)
+        {
+            return Movement.Diagonal(origin, MoveRange);
+        }
 
-        //}
+        public override void ActivateMove(TilePiece piece, Point target)
+        {
+            InGameController.Grid.ChangePosition(piece, target.X, target.Y);
+        }
     }
 }

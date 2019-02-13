@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Zettalith.Pieces
+namespace Zettalith
 {
     [Serializable]
     abstract class SubPiece

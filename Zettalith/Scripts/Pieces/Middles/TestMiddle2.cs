@@ -16,7 +16,7 @@ namespace Zettalith.Pieces
             Name = "TestMiddle2";
             Health = 20;
             AttackDamage = 3;
-            ManaCost = new Mana(0, 4, 0);
+            ManaCost = new Mana(0, 3, 0);
             Description = "Sturdy but not very powerful body.";
             Texture = Load.Get<Texture2D>("TestSubpiece2");
         }
