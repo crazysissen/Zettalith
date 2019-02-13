@@ -31,11 +31,15 @@ namespace Zettalith
 
         public static Grid Grid { get; private set; }
 
-        Player Local => players?[0];
-        Player Remote => players?[1];
+        public bool IsHost => Main.isHost;
+
+        public static int PlayerIndex { get; private set; }
+        public static Player Host => Main.players?[0];
+        public static Player Client => Main.players?[1];
+        public static Player Local => Main.players?[PlayerIndex];
+        public static Player Remote => Main.players?[(PlayerIndex + 1) % 2];
 
         bool isHost;
-
         bool loading;
         LoadGame loadGame;
 

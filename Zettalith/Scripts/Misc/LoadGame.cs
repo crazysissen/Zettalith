@@ -35,7 +35,7 @@ namespace Zettalith
 
             loadedConfig = new LoadedConfig();
 
-            NetworkManager.Listen(PLAYERDATAHEADER, GetPlayerData);
+            //NetworkManager.Listen(PLAYERDATAHEADER, GetPlayerData);
 
             loadThread = new Thread(Setup);
             loadThread.Start();
@@ -53,11 +53,6 @@ namespace Zettalith
 
                 controller.Initialize(loadedConfig);
             }
-        }
-
-        void GetPlayerData(byte[] data)
-        {
-
         }
 
         private void Setup()
@@ -92,6 +87,7 @@ namespace Zettalith
         public Map map;
         public int startPlayer;
         public Set[] sets;
+        public Deck[] decks;
     }
 
     [Serializable]
