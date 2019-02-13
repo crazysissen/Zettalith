@@ -18,7 +18,7 @@ namespace Zettalith.Scripts.Menus
         Renderer.Text pauseText;
         GUI.Button bResume, bSettings, bResign, bQuit;
         Renderer.SpriteScreen grey;
-        Texture2D greySeeThrough;
+        Texture2D greySeeThrough2D;
 
         public void Initialize(MainController controller)
         {
@@ -32,7 +32,7 @@ namespace Zettalith.Scripts.Menus
 
             collection.Add(main);
 
-            greySeeThrough = Load.Get<Texture2D>("GreySeeThrough");
+            greySeeThrough2D = Load.Get<Texture2D>("GreySeeThrough");
 
             RendererController.GUI.Add(collection);
 
@@ -56,7 +56,7 @@ namespace Zettalith.Scripts.Menus
             bQuit.AddText("Quit", 4, false, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
-            grey = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), greySeeThrough, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
+            grey = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 0), greySeeThrough2D, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
             main.Add(pauseText, bResume, bSettings, bResign, bQuit);
         }

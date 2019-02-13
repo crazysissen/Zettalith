@@ -19,7 +19,7 @@ namespace Zettalith
 
         GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, bNext, bDone;
 
-        Renderer.SpriteScreen collectionInspectorLines, setDesignerLines, topSubPiece, middleSubPiece, bottomSubPiece;
+        Renderer.SpriteScreen collectionInspectorLines, setDesignerLines, topSubPiece, middleSubPiece, bottomSubPiece, highlight;
 
         Renderer.Text topName, topHealth, topAttack, topMana, topDesc, middleName, middleHealth, middleAttack, middleMana, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc;
 
@@ -29,7 +29,7 @@ namespace Zettalith
         List<Middle> unlockedMiddleList;
         List<Bottom> unlockedBottomList;
 
-        Texture2D miniLith2D, arrow2D, arrowHover2D, arrowPressed2D;
+        Texture2D miniLith2D, arrow2D, arrowHover2D, arrowPressed2D, highlight2D;
 
         int currentlyShowingTop = 0, currentlyShowingMiddle = 0, currentlyShowingBottom = 0, selectedPiece = 0;
 
@@ -52,6 +52,7 @@ namespace Zettalith
             arrow2D = Load.Get<Texture2D>("Arrow");
             arrowHover2D = Load.Get<Texture2D>("ArrowHover");
             arrowPressed2D = Load.Get<Texture2D>("ArrowPressed");
+            highlight2D = Load.Get<Texture2D>("Highlighted");
 
             RendererController.GUI.Add(collections);
 
@@ -98,12 +99,17 @@ namespace Zettalith
             bCancelSet.AddText("Cancel", 4, true, textColor, Font.Default);
             bCancelSet.OnClick += BCancelSet;
 
+            Texture2D tempMini = ImageProcessing.CombinePiece(unlockedTopList[0].Texture, unlockedMiddleList[0].Texture, unlockedBottomList[0].Texture);
+
             for (int i = 0; i < miniliths.Length; ++i)
             {
-                miniliths[i] = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 1/(Set.MaxSize + 1) * (i + 1) - Settings.GetResolution.X * 0.015), (int)(Settings.GetResolution.Y * 0.02f), (int)(Settings.GetResolution.X * 0.03), (int)(Settings.GetResolution.Y * 0.06f)), miniLith2D);
+                miniliths[i] = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 1/(Set.MaxSize + 1) * (i + 1) - Settings.GetResolution.X * 0.015), (int)(Settings.GetResolution.Y * 0.02f), (int)(Settings.GetResolution.X * 0.00055 * tempMini.Width), (int)(Settings.GetResolution.Y * tempMini.Height * 0.00055 * 16f / 9f)), miniLith2D);
                 miniliths[i].ScaleEffect = true;
                 miniliths[i].OnClick += selectPieceCalls[i].Activate;
             }
+
+            highlight = new Renderer.SpriteScreen(designerLayer, highlight2D, new Rectangle());
+            UpdateHighlight();
 
             #region //ArrowButtons
             bArrowHead1 = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.21f), (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), arrow2D, arrowHover2D, arrowPressed2D, GUI.Button.Transition.Switch, 0f);
@@ -167,7 +173,7 @@ namespace Zettalith
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleMana, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc);
             collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone);
+            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight);
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 setDesigner.Add(miniliths[i]);
@@ -202,10 +208,15 @@ namespace Zettalith
             {
                 newSet[i] = new Piece(0, 0, 0);
             }
-            currentlyShowingTop = 0;
-            currentlyShowingMiddle = 0;
-            currentlyShowingBottom = 0;
             selectedPiece = 0;
+            currentlyShowingTop = newSet[selectedPiece].TopIndex;
+            currentlyShowingMiddle = newSet[selectedPiece].MiddleIndex;
+            currentlyShowingBottom = newSet[selectedPiece].BottomIndex;
+
+            for (int i = 0; i < Set.MaxSize; i++)
+            {
+                miniliths[i].Texture = ImageProcessing.CombinePiece(unlockedTopList[newSet[i].TopIndex].Texture, unlockedMiddleList[newSet[i].MiddleIndex].Texture, unlockedBottomList[newSet[i].BottomIndex].Texture);
+            }
         }
 
         private void BNextPiece()
@@ -230,6 +241,8 @@ namespace Zettalith
             currentlyShowingTop = newSet[selectedPiece].TopIndex;
             currentlyShowingMiddle = newSet[selectedPiece].MiddleIndex;
             currentlyShowingBottom = newSet[selectedPiece].BottomIndex;
+
+            UpdateHighlight();
 
             UpdateShownTop();
             UpdateShownMiddle();
@@ -315,6 +328,8 @@ namespace Zettalith
             topMana.String = new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green");
             topDesc.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Description);
             newSet[selectedPiece].TopIndex = (byte)currentlyShowingTop;
+
+            UpdateMinilith();
         }
 
         private void UpdateShownMiddle()
@@ -326,6 +341,8 @@ namespace Zettalith
             middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green");
             middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
             newSet[selectedPiece].MiddleIndex = (byte)currentlyShowingMiddle;
+
+            UpdateMinilith();
         }
 
         private void UpdateShownBottom()
@@ -337,6 +354,18 @@ namespace Zettalith
             bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green");
             bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
             newSet[selectedPiece].BottomIndex = (byte)currentlyShowingBottom;
+
+            UpdateMinilith();
+        }
+
+        private void UpdateMinilith()
+        {
+            miniliths[selectedPiece].Texture = ImageProcessing.CombinePiece(unlockedTopList[newSet[selectedPiece].TopIndex].Texture, unlockedMiddleList[newSet[selectedPiece].MiddleIndex].Texture, unlockedBottomList[newSet[selectedPiece].BottomIndex].Texture);
+        }
+
+        private void UpdateHighlight()
+        {
+            highlight.Transform = new Rectangle((int)(miniliths[selectedPiece].Transform.X - Settings.GetResolution.X * 0.022), (int)(miniliths[selectedPiece].Transform.Y - Settings.GetResolution.Y * 0.01), (int)(Settings.GetResolution.X * 0.06), (int)(Settings.GetResolution.Y * 0.09));
         }
     }
 
