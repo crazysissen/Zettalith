@@ -11,10 +11,14 @@ namespace Zettalith
     class GameRendering
     {
         const float
-            HEIGHTDISTANCE = 0.6875f;
+            HEIGHTDISTANCE = 0.6875f,
+            SPLASHSIZE = 6;
 
         static readonly Color
-            defaultHighlightColor = new Color(0, 255, 215, 255);
+            defaultHighlightColor = new Color(0, 255, 215, 255),
+            dimColor = new Color (0, 0, 0, 160);
+
+        public bool SetupComplete { get; private set; }
 
         GUI.Collection collection, battleGUI, logisticsGUI, setupGUI;
 
@@ -26,37 +30,82 @@ namespace Zettalith
 
         TimerTable table;
 
-        public GameRendering(Player player, bool host)
+        public GameRendering(Player player, bool host, bool start)
         {
-            dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), new Color(60, 60, 60, 160));
+            dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
+            string splashText = start ? "You Start" : "Opponent Starts";
+            splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
             CreateBattleGUI();
             CreateLogisticsGUI();
             CreateSetupGUI();
 
+            collection = new GUI.Collection();
             collection.Add(dim, splash, essencePanel, essence);
+
+            RendererController.GUI.Add(collection);
+            collection.Add(battleGUI, logisticsGUI, setupGUI);
+
+            table = new TimerTable(new float[] { 1, 2 });
         }
 
         public void Render(float deltaTime)
         {
+            if (!SetupComplete)
+            {
+                int state = table.Update(deltaTime);
+                float currentProgress = table.CurrentStepProgress;
+
+                if (table.Complete)
+                {
+                    splash.Scale = Vector2.Zero;
+                    dim.Color = Color.Transparent;
+                }
+                else
+                {
+                    if (state == 1)
+                    {
+                        splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                        dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
+                    }
+                }
+            }
+
             highlights.Clear();
         }
 
 
         void CreateBattleGUI()
         {
-
+            battleGUI = new GUI.Collection();
         }
 
         void CreateLogisticsGUI()
         {
+            logisticsGUI = new GUI.Collection();
+
             // TODO Add logistics UI
         }
 
         void CreateSetupGUI()
         {
-            
+            setupGUI = new GUI.Collection();
+        }
+
+        public void CloseSetup()
+        {
+
+        }
+
+        public void OpenBattle()
+        {
+
+        }
+
+        public void OpenLogistics()
+        {
+
         }
 
         #region Tile Highlighting
