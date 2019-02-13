@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Zettalith.Scripts.Menus
+namespace Zettalith
 {
     class Management
     {
@@ -37,21 +37,21 @@ namespace Zettalith.Scripts.Menus
             collection.Add(main);
 
             greySeeThrough2D = Load.Get<Texture2D>("GreySeeThrough");
-            bMana2D = Load.Get<Texture2D>("ManagementButton"); 
+            bMana2D = Load.Get<Texture2D>("ManagementButton");
 
             RendererController.GUI.Add(collection);
 
             Color red = new Color(226, 28, 28, 255), blue = new Color(28, 28, 226, 255), green = new Color(28, 226, 28, 255), textColor = new Color(0, 160, 255, 255);
 
-            managementText = new Renderer.Text(managementLayer, Font.Styled, "Management", 10, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
+            managementText = new Renderer.Text(managementLayer, Font.Styled, "Management", 7, 0, new Vector2((float)(Settings.GetResolution.X * -0.1), (float)(Settings.GetResolution.Y * -0.18)));
 
-            bRed = new GUI.Button(managementLayer, new Rectangle(tempButtonWidth * -2, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), bMana2D, red) { ScaleEffect = true };
+            bRed = new GUI.Button(managementLayer, new Rectangle(-tempButtonWidth, 2 * (buttonHeight + buttonSpace), tempButtonWidth, tempButtonWidth), bMana2D, red) { ScaleEffect = true };
             bRed.OnClick += BRed;
 
-            bBlue = new GUI.Button(managementLayer, new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), bMana2D, blue);
+            bBlue = new GUI.Button(managementLayer, new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, tempButtonWidth), bMana2D, blue) { ScaleEffect = true };
             bBlue.OnClick += BBlue;
 
-            bGreen = new GUI.Button(managementLayer, new Rectangle(tempButtonWidth * 2, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), bMana2D, green) { ScaleEffect = true };
+            bGreen = new GUI.Button(managementLayer, new Rectangle(tempButtonWidth, 2 * (buttonHeight + buttonSpace), tempButtonWidth, tempButtonWidth), bMana2D, green) { ScaleEffect = true };
             bGreen.OnClick += BGreen;
 
             grey = new Renderer.SpriteScreen(managementBackgroundLayer, greySeeThrough2D, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
