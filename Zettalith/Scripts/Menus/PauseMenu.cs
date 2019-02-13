@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Zettalith.Scripts.Menus
+namespace Zettalith
 {
     class PauseMenu
     {
         MainController controller;
 
-        GameSetup setup;
-
         GUI.Collection collection, main;
         Renderer.Text pauseText;
-        GUI.Button bResume, bSettings, bResign, bQuit;
+        GUI.Button bResume, bSettings, bResign;
         Renderer.SpriteScreen grey;
         Texture2D greySeeThrough2D;
         Layer pauseLayer, pauseBackgroundLayer;
@@ -56,13 +54,9 @@ namespace Zettalith.Scripts.Menus
             bResign.AddText("Resign", 4, false, textColor, Font.Default);
             bResign.OnClick += BResign;
 
-            bQuit = new GUI.Button(pauseLayer, new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
-            bQuit.AddText("Quit", 4, false, textColor, Font.Default);
-            bQuit.OnClick += BQuit;
-
             grey = new Renderer.SpriteScreen(pauseBackgroundLayer, greySeeThrough2D, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
-            main.Add(pauseText, bResume, bSettings, bResign, bQuit);
+            main.Add(pauseText, bResume, bSettings, bResign);
         }
 
         public void Update()
@@ -84,11 +78,6 @@ namespace Zettalith.Scripts.Menus
         public void BResign()
         {
             //TODO Resign
-        }
-
-        private void BQuit()
-        {
-            //TODO Quit
         }
     }
 }

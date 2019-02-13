@@ -18,7 +18,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(2, 1, 0);
             Texture = Load.Get<Texture2D>("TestSubpiece");
             Description = "Deals 3 damage to all units in a straight line.";
-            Modifier = new Addition(new Stats(-3), false);
+            Modifier = new Addition(new Stats(-3), true);
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

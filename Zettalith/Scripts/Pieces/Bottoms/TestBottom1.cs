@@ -13,12 +13,12 @@ namespace Zettalith.Pieces
     {
         public TestBottom1()
         {
-            Name = "TestBottom1";
+            Name = "Diagonal Man";
             Health = 10;
             AttackDamage = 7;
             ManaCost = new Mana(2, 0, 0);
             MoveRange = 2;
-            Description = "Frail but powerful legs.";
+            Description = "Moves 2 tiles diagonally";
             Texture = Load.Get<Texture2D>("TestSubpiece");
         }
 
