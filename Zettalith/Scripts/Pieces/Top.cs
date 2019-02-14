@@ -10,8 +10,11 @@ namespace Zettalith
     abstract class Top : SubPiece
     {
         public Modifier Modifier { get; protected set; }
+        public Mana AbilityCost { get; protected set; } = new Mana(0, 0, 0);
 
         public bool HasAbility { get; protected set; }
+
+        public int AbilityRange { get; protected set; }
 
         // TODO: Make abstract
         public virtual void Initialize()

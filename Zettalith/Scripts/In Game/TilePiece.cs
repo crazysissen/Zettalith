@@ -12,10 +12,10 @@ namespace Zettalith
 
         public int Player { get; set; }
 
-        public TilePiece(InGamePiece inGamePiece, int players)
+        public TilePiece(InGamePiece inGamePiece, int player)
         {
             Piece = inGamePiece;
-            Player = Player;
+            Player = player;
         }
     }
 }
