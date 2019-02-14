@@ -206,7 +206,7 @@ namespace Zettalith
             newSet = new Piece[Set.MaxSize];
             for (int i = 0; i < newSet.Length; ++i)
             {
-                newSet[i] = new Piece(0, 0, 0);
+                newSet[i] = new Piece((byte)Subpieces.SubPieces.IndexOf(Subpieces.GetSubpieces<Top>()[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(Subpieces.GetSubpieces<Middle>()[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(Subpieces.GetSubpieces<Bottom>()[0].GetType()));
             }
             selectedPiece = 0;
             currentlyShowingTop = newSet[selectedPiece].TopIndex;
@@ -340,7 +340,7 @@ namespace Zettalith
             middleAttack.String = new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString());
             middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green");
             middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
-            newSet[selectedPiece].MiddleIndex = (byte)currentlyShowingMiddle;
+            newSet[selectedPiece].MiddleIndex = (byte)(currentlyShowingMiddle + unlockedTopList.Count());
 
             UpdateMinilith();
         }
@@ -353,7 +353,7 @@ namespace Zettalith
             bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
             bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green");
             bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
-            newSet[selectedPiece].BottomIndex = (byte)currentlyShowingBottom;
+            newSet[selectedPiece].BottomIndex = (byte)(currentlyShowingBottom + unlockedMiddleList.Count() + unlockedTopList.Count());
 
             UpdateMinilith();
         }
