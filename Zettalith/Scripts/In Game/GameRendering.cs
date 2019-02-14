@@ -71,7 +71,7 @@ namespace Zettalith
             {
                 for (int y = 0; y < grid.yLength; ++y)
                 {
-                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, Vector2.Zero, SpriteEffects.None);
+                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
 
                     if (InGameController.PlayerIndex == 0)
                     {
