@@ -188,6 +188,11 @@ namespace Zettalith
 
         private void BDone()
         {
+            for (int i = 0; i < newSet.Count(); i++)
+            {
+                newSet[i] = new Piece((byte)(Subpieces.SubPieces.IndexOf(unlockedTopList[newSet[i].TopIndex].GetType())), (byte)(Subpieces.SubPieces.IndexOf(unlockedMiddleList[newSet[i].MiddleIndex].GetType())), (byte)(Subpieces.SubPieces.IndexOf(unlockedBottomList[newSet[i].BottomIndex].GetType())));
+            }
+
             PersonalData.UserData.SavedSets.Add(new Set() { Pieces = newSet.ToList(), Name = "Set " + PersonalData.UserData.SavedSets.Count + 1});
             SaveLoad.Save();
 
@@ -206,7 +211,7 @@ namespace Zettalith
             newSet = new Piece[Set.MaxSize];
             for (int i = 0; i < newSet.Length; ++i)
             {
-                newSet[i] = new Piece(0, 0, 0);
+                newSet[i] = new Piece(0,0,0);
             }
             selectedPiece = 0;
             currentlyShowingTop = newSet[selectedPiece].TopIndex;
@@ -327,6 +332,7 @@ namespace Zettalith
             topAttack.String = new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString());
             topMana.String = new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green");
             topDesc.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Description);
+
             newSet[selectedPiece].TopIndex = (byte)currentlyShowingTop;
 
             UpdateMinilith();
@@ -340,7 +346,7 @@ namespace Zettalith
             middleAttack.String = new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString());
             middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green");
             middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
-            newSet[selectedPiece].MiddleIndex = (byte)currentlyShowingMiddle;
+            newSet[selectedPiece].MiddleIndex = (byte)(currentlyShowingMiddle);
 
             UpdateMinilith();
         }
@@ -353,9 +359,10 @@ namespace Zettalith
             bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
             bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green");
             bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
-            newSet[selectedPiece].BottomIndex = (byte)currentlyShowingBottom;
+            newSet[selectedPiece].BottomIndex = (byte)(currentlyShowingBottom);
 
             UpdateMinilith();
+            //Subpieces.SubPieces.IndexOf(unlockedTopList[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(unlockedMiddleList[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(unlockedBottomList[0].GetType()
         }
 
         private void UpdateMinilith()
