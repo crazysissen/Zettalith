@@ -11,6 +11,10 @@ namespace Zettalith
 {
     class InGamePiece
     {
+        public static InGamePiece[] Pieces { get; private set; } = new InGamePiece[4096];
+
+
+        public int Index { get; set; }
         public Texture2D Texture { get; set; }
 
         Stats baseStats;
@@ -28,6 +32,9 @@ namespace Zettalith
 
         public InGamePiece(Piece piece)
         {
+            Index = GetNewIndex();
+            Pieces[Index] = this;
+
             //this.piece = piece;
             top = Subpieces.FromIndex(piece.TopIndex) as Top;
             middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
@@ -66,7 +73,7 @@ namespace Zettalith
                     else if (modifier is Direct)
                     {
                         ClearMods();
-                        modified = (modifier as Direct).StatChanges; 
+                        modified = (modifier as Direct).StatChanges;
                     }
                 }
 
@@ -102,6 +109,24 @@ namespace Zettalith
         public void ResetMods()
         {
             modifiers.Clear();
+        }
+
+        public void DestroyIndex()
+        {
+            Pieces[Index] = null;
+        }
+
+        public static int GetNewIndex()
+        {
+            for (int i = 0; i < Pieces.Length; ++i)
+            {
+                if (Pieces[i] == null)
+                {
+                    return i;
+                }
+            }
+
+            throw new Exception("Piece total exceeded " + Pieces.Length + ", you fucking moron.");
         }
     }
 }

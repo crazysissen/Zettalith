@@ -25,6 +25,8 @@ namespace Zettalith
         private Renderer.SpriteScreen localBackground, globalBackground;
         private Renderer.Text title, localIP, globalIP, statusHeader, status;
 
+        private Pieces.Set testSet;
+
         private StartupConfig? config;
 
         public void Initialize(string playerName, StartupConfig? config = null)
@@ -32,6 +34,19 @@ namespace Zettalith
             singleton = this;
             host = config != null;
             this.config = config;
+
+            testSet = new Pieces.Set()
+            {
+                Pieces = new List<Piece>()
+                {
+                    new Piece(0, 2, 4),
+                    new Piece(0, 2, 4),
+                    new Piece(0, 2, 4),
+                    new Piece(0, 2, 4),
+                    new Piece(0, 2, 4),
+                    new Piece(0, 2, 4)
+                }
+            };
 
             collection = new GUI.Collection()
             {
@@ -173,7 +188,7 @@ namespace Zettalith
 
             PlayerSetupData playerData = new PlayerSetupData()
             {
-                set = new Pieces.Set()
+                set = /*PersonalData.UserData.SavedSets.Last()*/testSet
             };
 
             NetworkManager.Send(RECIEVEDATAHEADER, playerData);

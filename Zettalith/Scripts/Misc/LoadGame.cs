@@ -53,6 +53,9 @@ namespace Zettalith
                 loading.Destroy();
                 loading = null;
 
+                Deck[] decks = { new Deck(loadedConfig.sets[0]), new Deck(loadedConfig.sets[1]) };
+                loadedConfig.decks = decks;
+
                 controller.Initialize(loadedConfig);
             }
         }
@@ -72,7 +75,6 @@ namespace Zettalith
 
             Set[] sets = { host ? playerData.set : recievedData.set, host ? recievedData.set : playerData.set };
 
-            Deck[] decks = { new Deck(sets[0]), new Deck(sets[1]) };
 
             // Finalization
 
@@ -80,8 +82,7 @@ namespace Zettalith
             {
                 map = map,
                 startPlayer = startPlayer,
-                sets = sets,
-                decks = decks
+                sets = sets
             };
 
             complete = true;

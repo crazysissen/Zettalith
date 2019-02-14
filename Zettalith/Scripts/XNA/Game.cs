@@ -52,6 +52,8 @@ namespace Zettalith
                 PreferredBackBufferWidth = 1280
             };
 
+            Font.Multiplier = Graphics.PreferredBackBufferWidth / 1080f;
+
             Content.RootDirectory = "Content";
         }
 

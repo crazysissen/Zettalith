@@ -21,6 +21,7 @@ namespace Zettalith
                 {
                     InGamePiece newPiece = new InGamePiece(piece);
                     newPiece.Texture = GameRendering.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
+                    Pieces.Add(newPiece);
                 }
             }
         }

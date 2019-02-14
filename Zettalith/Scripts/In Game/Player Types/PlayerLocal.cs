@@ -8,13 +8,25 @@ namespace Zettalith
 {
     class PlayerLocal : Player
     {
-        GameRendering renderer;
+        public GameRendering Renderer { get; private set; }
 
         public override void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent)
         {
             base.Start(inGameController, mainController, xnaController, opponent);
 
-            renderer = new GameRendering(this, inGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
+            Renderer = new GameRendering(this, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
+        }
+
+        public void SwitchTurns(InGameState newState)
+        {
+            if (newState == InGameState.Battle)
+            {
+                Renderer.OpenBattle();
+
+                return;
+            }
+
+            Renderer.OpenLogistics();
         }
 
         public override void TurnStart()
@@ -26,8 +38,9 @@ namespace Zettalith
         {
             base.Update(deltaTime);
 
-            renderer.Render(deltaTime);
-            if (renderer.SetupComplete)
+            Renderer.Render(deltaTime);
+
+            if (Renderer.SetupComplete)
             {
 
             }

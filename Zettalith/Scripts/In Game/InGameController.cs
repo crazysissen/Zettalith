@@ -17,7 +17,7 @@ namespace Zettalith
     // Jag har en idé, vi skapar en enum -Sixten
     enum GameAction
     {
-        Movement, Ability, Attack, Placement
+        Movement, Ability, Attack, Placement, EndTurn
     }
 
     enum InGameState
@@ -31,14 +31,13 @@ namespace Zettalith
 
         public static Grid Grid { get; private set; }
 
-        public bool IsHost => Main.isHost;
-
+        public static bool IsHost => Main.isHost;
         public static int PlayerIndex { get; private set; }
         public static int StartPlayer { get; private set; }
         public static Player Host => Main.players?[0];
         public static Player Client => Main.players?[1];
-        public static Player Local => Main.players?[PlayerIndex];
-        public static Player Remote => Main.players?[(PlayerIndex + 1) % 2];
+        public static PlayerLocal Local => Main.players?[PlayerIndex] as PlayerLocal;
+        public static PlayerRemote Remote => Main.players?[(PlayerIndex + 1) % 2] as PlayerRemote;
 
         XNAController xnaController;
         MainController mainController;
@@ -50,8 +49,11 @@ namespace Zettalith
         InGameState gameState;
 
         Player[] players;
+        Deck[] decks;
 
         LoadedConfig loadedConfig;
+
+        InGamePiece piece;
 
         /// <summary>
         /// Can move, piece, origin, target
@@ -123,6 +125,8 @@ namespace Zettalith
 
             NetworkManager.Listen("GAMEACTION", RecieveAction);
 
+            decks = loadedConfig.decks;
+
             players = new Player[]
             {
                 isHost ? CreateLocalPlayer() : CreateRemotePlayer(),
@@ -136,6 +140,11 @@ namespace Zettalith
 
             loading = false;
             gameState = InGameState.Setup;
+
+            if (IsHost)
+            {
+                //Local.PlacePiece(decks[0].Draw(), 3, 3);
+            }
         }
 
         public void NewTurnStart()
@@ -192,6 +201,9 @@ namespace Zettalith
                 case GameAction.Placement:
                     break;
 
+                case GameAction.EndTurn:
+                    break;
+
                 default:
                     Test.Log("Unimplemented GameAction request: " + actionType.ToString());
                     break;
@@ -201,6 +213,9 @@ namespace Zettalith
         public void Execute(GameAction actionType, bool host, params object[] arg)
         {
             Test.Log("GameAction: " + actionType + ". Requested locally: " + host + ".");
+
+            if (host)
+                NetworkManager.Send("GAMEACTION", Bytestreamer.ToBytes(new GameActionType("EXECUTE", actionType, arg)));
 
             switch (actionType)
             {
@@ -214,14 +229,17 @@ namespace Zettalith
                     break;
 
                 case GameAction.Placement:
+                    PlacePiece((InGamePiece)arg[0], (int)arg[1], (int)arg[2], (int)arg[3]);
+                    break;
+
+                case GameAction.EndTurn:
+                    TurnSwitch();
                     break;
 
                 default:
                     Test.Log("Unimplemented GameAction request: " + actionType.ToString());
                     break;
             }
-
-            NetworkManager.Send("GAMEACTION", Bytestreamer.ToBytes(new GameActionType("EXECUTE", actionType, arg)));
         }
 
         public void RecieveAction(byte[] data)
@@ -239,6 +257,36 @@ namespace Zettalith
                 default:
                     break;
             }
+        }
+
+        public void PlacePiece(InGamePiece piece, int x, int y, int player)
+        {
+            TileObject obj = Grid.Place(x, y, new TilePiece(piece, player));
+
+            obj.Renderer = new Renderer.Sprite(Layer.Default, piece.Texture, new Vector2(x, y * GameRendering.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
+            obj.UpdateRenderer();
+        }
+
+        public void SetupEnd()
+        {
+            gameState = StartPlayer == PlayerIndex ? InGameState.Battle : InGameState.Logistics;
+        }
+
+        public void EndTurn()
+        {
+            if (gameState == InGameState.Battle)
+            {
+                Execute(GameAction.EndTurn, true);
+            }
+        }
+
+        void TurnSwitch()
+        {
+            InGameState newState = gameState == InGameState.Battle ? InGameState.Logistics : InGameState.Battle;
+
+            gameState = newState;
+
+            Local.SwitchTurns(newState);
         }
 
         private Player CreateLocalPlayer()

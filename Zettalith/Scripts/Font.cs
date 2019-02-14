@@ -9,6 +9,8 @@ namespace Zettalith
 {
     static class Font
     {
+        public static float Multiplier { get; set; }
+
         public static SpriteFont Default { get; private set; }
         public static SpriteFont Bold { get; private set; }
         public static SpriteFont Italic { get; private set; }

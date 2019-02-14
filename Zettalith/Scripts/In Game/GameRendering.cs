@@ -10,7 +10,7 @@ namespace Zettalith
 {
     class GameRendering
     {
-        const float
+        public const float
             HEIGHTDISTANCE = 0.6875f,
             SPLASHSIZE = 6;
 
@@ -19,9 +19,10 @@ namespace Zettalith
             dimColor = new Color(0, 0, 0, 160);
 
         public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2());
-        public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y * HEIGHTDISTANCE);
+        public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
         public static Point MousePoint => MousePosition.RoundToPoint();
 
+        public bool MoveableCamera { get; set; } = true;
         public bool SetupComplete { get; private set; }
 
         public Renderer.Sprite[,] tiles, highlights;
@@ -31,12 +32,16 @@ namespace Zettalith
         Renderer.Text splash, essence;
         Renderer.Text[] mana;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
+        List<(Renderer.SpriteScreen renderer, InGamePiece piece)> handPieces;
         GUI.Button bEndTurn;
 
         List<Point> highlightSquares;
+        Vector2 previousPosition;
 
         TimerTable table;
         Player player;
+
+        Point handStart, handEnd;
 
         public GameRendering(Player player, bool host, bool start)
         {
@@ -73,7 +78,7 @@ namespace Zettalith
                 {
                     tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
 
-                    if (InGameController.PlayerIndex == 0)
+                    if (!InGameController.IsHost)
                     {
                         tiles[x, y].Position *= -1;
                     }
@@ -83,8 +88,6 @@ namespace Zettalith
 
         public void Render(float deltaTime)
         {
-            Test.Log(MousePoint);
-
             if (!SetupComplete)
             {
                 int state = table.Update(deltaTime);
@@ -92,21 +95,7 @@ namespace Zettalith
 
                 if (table.Complete)
                 {
-                    splash.Scale = Vector2.Zero;
-                    dim.Color = Color.Transparent;
-
-                    if (InGameController.PlayerIndex == 0)
-                    {
-                        OpenBattle();
-                    }
-                    else
-                    {
-                        OpenLogistics();
-                    }
-
-                    CreateMap(InGameController.Grid);
-
-                    SetupComplete = true;
+                    EndSetup();
                 }
                 else
                 {
@@ -130,11 +119,13 @@ namespace Zettalith
                     splash.Scale = Vector2.One * (Easing.EaseOutCubic(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
                     dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (currentProgress)));
                 }
+
                 if (state == 1)
                 {
                     splash.Scale = Vector2.One * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
                     dim.Color = dimColor;
                 }
+
                 if (state == 2)
                 {
                     splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
@@ -147,9 +138,43 @@ namespace Zettalith
                 dim.Color = Color.Transparent;
             }
 
+
+
+            if (MoveableCamera)
+            {
+                Vector2 currentPosition = MousePositionAbsolute;
+
+                if (In.MouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                {
+                    RendererController.Camera.Position += new Vector2(previousPosition.X - currentPosition.X, previousPosition.Y - currentPosition.Y);
+                }
+
+                previousPosition = MousePositionAbsolute;
+            }
+
             queuedHighlights.Clear();
         }
 
+        void EndSetup()
+        {
+            splash.Scale = Vector2.Zero;
+            dim.Color = Color.Transparent;
+
+            if (InGameController.PlayerIndex == InGameController.StartPlayer)
+            {
+                OpenBattle();
+            }
+            else
+            {
+                OpenLogistics();
+            }
+
+            CreateMap(InGameController.Grid);
+
+            SetupComplete = true;
+
+            InGameController.Main.SetupEnd();
+        }
 
         void CreateBattleGUI()
         {
@@ -162,6 +187,9 @@ namespace Zettalith
 
             bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
             bEndTurn.OnClick += player.EndTurn;
+
+            handStart = new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height / 2);
+            handStart = new Point((int)(Settings.GetResolution.X * 0.40f), Settings.GetResolution.Y - height / 2);
 
             battleGUI.Add(bottomPanel, bEndTurn);
             battleGUI.Active = false;
@@ -190,18 +218,28 @@ namespace Zettalith
             battleGUI.Active = true;
             logisticsGUI.Active = false;
 
-            splash.String = new StringBuilder("Battle Turn");
+            splash.String = new StringBuilder("Your Turn");
             table = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
         }
 
         public void OpenLogistics()
         {
             battleGUI.Active = false;
-
             logisticsGUI.Active = true;
-            splash.String = new StringBuilder("Logistics Turn");
+
+            splash.String = new StringBuilder("Opponent's Turn");
             table = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
         }
+
+        public void DrawPiece(InGamePiece piece)
+        {
+            //handPieces.Add((new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 1), piece.Texture, ec), piece));
+        }
+
+        //private Rectangle GetTargetRectangle(int index, int count)
+        //{
+        //    //return new Rectangle(handStart.ToVector2().)
+        //}
 
         #region Tile Highlighting
 

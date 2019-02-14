@@ -122,15 +122,17 @@ namespace Zettalith
             }
         }
 
-        public void Place(int x, int y, TileObject tObject)
+        public TileObject Place(int x, int y, TileObject tObject)
         {
             if (!Vacant(x, y))
             {
-                return;
+                return null;
             }
 
             _tileArray[x, y].TileObject = tObject.Index;
             tObject.Position = new Point(x, y);
+
+            return tObject;
         }
 
         public TileObject GetObject(int x, int y)

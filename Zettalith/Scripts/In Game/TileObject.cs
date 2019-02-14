@@ -12,6 +12,8 @@ namespace Zettalith
         public int Index { get; set; }
         public Point Position { get; set; }
 
+        public Renderer.Sprite Renderer { get; set; }
+
         public TileObject()
         {
             
@@ -20,6 +22,11 @@ namespace Zettalith
         public void Destroy()
         {
             InGameController.Grid.Remove(this);
+        }
+
+        public void UpdateRenderer()
+        {
+            Renderer.Position = new Vector2(Position.X, Position.Y * GameRendering.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
         }
     }
 }
