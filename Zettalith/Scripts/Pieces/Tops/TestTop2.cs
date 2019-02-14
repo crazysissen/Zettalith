@@ -16,7 +16,7 @@ namespace Zettalith.Pieces
             Health = 20;
             AttackDamage = 3;
             ManaCost = new Mana(0, 2, 0);
-            Description = "Deals 1 damage to all Zettaliths";
+            Description = "Deals 1 damage to all Zettaliths.";
             Texture = Load.Get<Texture2D>("TestSubpiece2");
             Modifier = new Addition(new Stats(-1), true);
         }

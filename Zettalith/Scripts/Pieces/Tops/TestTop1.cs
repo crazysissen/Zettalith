@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
@@ -17,8 +16,9 @@ namespace Zettalith.Pieces
             Health = 5;
             AttackDamage = 1;
             ManaCost = new Mana(3, 0, 0);
-            Description = "Explodes and deals 10 damage to all Zettaliths within 2 tiles";
-            Modifier = new Addition(new Stats(-10), true);
+            AbilityCost = new Mana(2, 0, 0);
+            Description = "Explodes and deals 7 damage to all Zettaliths within 2 tiles";
+            Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("TestSubpiece");
             AbilityRange = 2;
         }

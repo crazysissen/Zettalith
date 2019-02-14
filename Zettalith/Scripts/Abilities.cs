@@ -222,8 +222,6 @@ namespace Zettalith
                 }
             }
 
-            temp.Remove(origin);
-
             return temp;
         }
 
