@@ -34,10 +34,14 @@ namespace Zettalith
         public bool IsHost => Main.isHost;
 
         public static int PlayerIndex { get; private set; }
+        public static int StartPlayer { get; private set; }
         public static Player Host => Main.players?[0];
         public static Player Client => Main.players?[1];
         public static Player Local => Main.players?[PlayerIndex];
         public static Player Remote => Main.players?[(PlayerIndex + 1) % 2];
+
+        XNAController xnaController;
+        MainController mainController;
 
         bool isHost;
         bool loading;
@@ -91,12 +95,14 @@ namespace Zettalith
 
         public event Action<Piece> Death;
 
-        public InGameController(bool isHost)
+        public InGameController(bool isHost, MainController mainController, XNAController xnaController)
         {
             Main = this;
             Test.Log("InGameController created.");
 
             this.isHost = isHost;
+            this.mainController = mainController;
+            this.xnaController = xnaController;
         }
 
         public void Setup(StartupConfig config)
@@ -112,6 +118,9 @@ namespace Zettalith
         {
             this.loadedConfig = loadedConfig;
 
+            PlayerIndex = isHost ? 0 : 1;
+            StartPlayer = loadedConfig.startPlayer;
+
             NetworkManager.Listen("GAMEACTION", RecieveAction);
 
             players = new Player[]
@@ -119,6 +128,9 @@ namespace Zettalith
                 isHost ? CreateLocalPlayer() : CreateRemotePlayer(),
                 isHost ? CreateRemotePlayer() : CreateLocalPlayer()
             };
+
+            players[0].Start(this, mainController, xnaController, players[1]);
+            players[1].Start(this, mainController, xnaController, players[0]);
 
             loading = false;
             gameState = InGameState.Setup;
@@ -137,6 +149,9 @@ namespace Zettalith
 
                 return;
             }
+
+            Local.Update(deltaTime);
+            Remote.Update(deltaTime);
 
             switch (gameState)
             {

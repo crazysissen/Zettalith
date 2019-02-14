@@ -11,7 +11,7 @@ namespace Zettalith
 {
     abstract class Renderer
     {
-        const float
+        public const float
             DEGTORAD = (2 * (float)Math.PI) / 360,
             FONTSIZEMULTIPLIER = 1.0f / 4;
 

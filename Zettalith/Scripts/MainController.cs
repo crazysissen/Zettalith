@@ -27,6 +27,7 @@ namespace Zettalith
         public static GameState CurrentState => Main.stateManager.GameState;
         public static int CurrentSubState => Main.stateManager.Peek;
 
+        private XNAController xnaController;
         private Random r;
         private StateManager stateManager;
 
@@ -70,6 +71,7 @@ namespace Zettalith
 
             SaveLoad.Initialize();
 
+            this.xnaController = game;
             stateManager = new StateManager(GameState.MainMenu, 0);
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1, backgroundColor);
@@ -210,7 +212,7 @@ namespace Zettalith
         {
             stateManager.SetGameState(GameState.InGame, 0);
 
-            inGameController = new InGameController(host);
+            inGameController = new InGameController(host, this, xnaController);
             inGameController.Setup(config);            
         }
 

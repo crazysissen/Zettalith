@@ -48,8 +48,8 @@ namespace Zettalith
             Graphics = new GraphicsDeviceManager(this)
             {
                 PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8,
-                PreferredBackBufferHeight = 1080,
-                PreferredBackBufferWidth = 1920
+                PreferredBackBufferHeight = 720,
+                PreferredBackBufferWidth = 1280
             };
 
             Content.RootDirectory = "Content";
