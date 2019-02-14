@@ -8,14 +8,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
-    class GameRendering
+    class ClientSideController
     {
         public const float
             HEIGHTDISTANCE = 0.6875f,
-            SPLASHSIZE = 6;
+            SPLASHSIZE = 6.0f,
+            DRAGDISTANCE = 4.0f;
 
         static readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255),
+            movementHighlightColor = new Color(255, 200, 0, 155),
+            movementSelectedHighlightColor = new Color(255, 200, 0, 255),
+            pieceHighlightColor = new Color(172, 255, 242, 255),
+            pieceCoveredColor = new Color(172, 255, 242, 80),
+            pieceGhostColor = new Color(255, 255, 255, 120),
             dimColor = new Color(0, 0, 0, 160);
 
         public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2());
@@ -31,19 +37,24 @@ namespace Zettalith
 
         Renderer.Text splash, essence;
         Renderer.Text[] mana;
+        Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
         List<(Renderer.SpriteScreen renderer, InGamePiece piece)> handPieces;
         GUI.Button bEndTurn;
 
+        Point[] movementHighlight;
         List<Point> highlightSquares;
-        Vector2 previousPosition;
-
-        TimerTable table;
+        Vector2 previousGamePosition;
+        Point previousScreenPosition = new Point();
+        TilePiece interactionPiece;
+        TimerTable splashTable;
         Player player;
 
-        Point handStart, handEnd;
+        Point handStart, handEnd, mouseDownPosition;
 
-        public GameRendering(Player player, bool host, bool start)
+        List<(int index, TimerTable table)> animatingPieces;
+
+        public ClientSideController(Player player, bool host, bool start)
         {
             this.player = player;
 
@@ -62,7 +73,9 @@ namespace Zettalith
             RendererController.GUI.Add(collection);
             collection.Add(battleGUI, logisticsGUI, setupGUI);
 
-            table = new TimerTable(new float[] { 1, 2 });
+            splashTable = new TimerTable(new float[] { 1, 2 });
+
+            CreateMap(InGameController.Grid);
         }
 
         public void CreateMap(Grid grid)
@@ -76,7 +89,8 @@ namespace Zettalith
             {
                 for (int y = 0; y < grid.yLength; ++y)
                 {
-                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    highlights[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
 
                     if (!InGameController.IsHost)
                     {
@@ -86,59 +100,11 @@ namespace Zettalith
             }
         }
 
-        public void Render(float deltaTime)
+        public void Update(float deltaTime)
         {
-            if (!SetupComplete)
-            {
-                int state = table.Update(deltaTime);
-                float currentProgress = table.CurrentStepProgress;
+            Pieces();
 
-                if (table.Complete)
-                {
-                    EndSetup();
-                }
-                else
-                {
-                    if (state == 1)
-                    {
-                        splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
-                        dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
-                    }
-                }
-
-                return;
-            }
-
-            if (!table.Complete)
-            {
-                int state = table.Update(deltaTime);
-                float currentProgress = table.CurrentStepProgress;
-
-                if (state == 0)
-                {
-                    splash.Scale = Vector2.One * (Easing.EaseOutCubic(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
-                    dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (currentProgress)));
-                }
-
-                if (state == 1)
-                {
-                    splash.Scale = Vector2.One * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
-                    dim.Color = dimColor;
-                }
-
-                if (state == 2)
-                {
-                    splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
-                    dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
-                }
-            }
-            else if (dim.Color.A != 0)
-            {
-                splash.Scale = Vector2.Zero;
-                dim.Color = Color.Transparent;
-            }
-
-
+            SplashUpdate(deltaTime);
 
             if (MoveableCamera)
             {
@@ -146,13 +112,14 @@ namespace Zettalith
 
                 if (In.MouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
-                    RendererController.Camera.Position += new Vector2(previousPosition.X - currentPosition.X, previousPosition.Y - currentPosition.Y);
+                    RendererController.Camera.Position += new Vector2(previousGamePosition.X - currentPosition.X, previousGamePosition.Y - currentPosition.Y);
                 }
 
-                previousPosition = MousePositionAbsolute;
+                previousGamePosition = MousePositionAbsolute;
             }
 
-            queuedHighlights.Clear();
+            previousScreenPosition = In.MousePosition;
+            UpdateHighlights();
         }
 
         void EndSetup()
@@ -168,8 +135,6 @@ namespace Zettalith
             {
                 OpenLogistics();
             }
-
-            CreateMap(InGameController.Grid);
 
             SetupComplete = true;
 
@@ -219,7 +184,8 @@ namespace Zettalith
             logisticsGUI.Active = false;
 
             splash.String = new StringBuilder("Your Turn");
-            table = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+            splash.Origin = splash.Font.MeasureString("Your Turn") * 0.5f;
+            splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
         }
 
         public void OpenLogistics()
@@ -228,12 +194,173 @@ namespace Zettalith
             logisticsGUI.Active = true;
 
             splash.String = new StringBuilder("Opponent's Turn");
-            table = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+            splash.Origin = splash.Font.MeasureString("Opponent's Turn") * 0.5f;
+            splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
         }
 
         public void DrawPiece(InGamePiece piece)
         {
             //handPieces.Add((new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 1), piece.Texture, ec), piece));
+        }
+
+        public void PlacePieceAnimation(InGamePiece piece)
+        {
+
+        }
+
+        void Pieces()
+        {
+            bool leftMouse = In.LeftMouse, leftMouseDown = In.LeftMouseDown;
+            List<TilePiece> highlightedPieces = new List<TilePiece>();
+            TilePiece highlightedPiece = null;
+
+            for (int i = 0; i < InGameController.Grid.Objects.Length; i++)
+            {
+                TileObject piece = InGameController.Grid.Objects[i];
+
+                if (piece is TilePiece)
+                {
+                    TilePiece tPiece = piece as TilePiece;
+
+                    if (RendererFocus.OnArea(tPiece.Renderer.GetArea(), tPiece.Renderer.Layer))
+                    {
+                        highlightedPieces.Add(tPiece);
+                    }
+                    else
+                    {
+                        tPiece.Renderer.Color = Color.White;
+                    }
+                }
+            }
+
+            highlightedPieces = highlightedPieces.OrderBy(o => o.Renderer.Layer.LayerDepth).ToList();
+
+            for (int i = 0; i < highlightedPieces.Count; i++)
+            {
+                if (i == 0)
+                {
+                    highlightedPieces[i].Renderer.Color = pieceHighlightColor;
+                    highlightedPiece = highlightedPieces[i];
+
+                    continue;
+                }
+
+                highlightedPieces[i].Renderer.Color = pieceCoveredColor;
+            }
+            
+            if (highlightedPiece != null)
+            {
+                if (leftMouseDown)
+                {
+                    interactionPiece = highlightedPiece;
+                    mouseDownPosition = In.MousePosition;
+                }
+            }
+
+            if (leftMouse && interactionPiece != null)
+            {
+                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+
+                if (movementHighlight != null && movementHighlight.Length > 0)
+                {
+                    foreach (Point point in movementHighlight)
+                    {
+                        AddHighlight(point == MousePoint ? movementSelectedHighlightColor : movementHighlightColor, point);
+                    }
+                }
+
+                if (distance > DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
+                {
+                    if (ghost == null)
+                    {
+                        ghost = new Renderer.Sprite(Layer.Default, interactionPiece.Renderer.Texture, MousePosition, Vector2.One, pieceGhostColor, 0, interactionPiece.Renderer.Origin, SpriteEffects.None);
+                    }
+
+                    if (movementHighlight == null)
+                    {
+                        movementHighlight = player.RequestMovement(highlightedPiece);
+                    }
+
+                    ghost.Position = MousePositionAbsolute;
+                    ghost.Layer = new Layer(MainLayer.Main, TileObject.DefaultLayer((int)(MousePosition.Y)).layer + 1);
+                }
+            }
+
+            if (!leftMouse && interactionPiece != null)
+            {
+                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+
+                if (movementHighlight != null)
+                {
+                    if (movementHighlight.Contains(MousePoint))
+                    {
+                        player.ExecuteMovement(interactionPiece, MousePoint);
+                    }
+                }
+
+                if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
+                {
+                    player.RequestAction(interactionPiece);
+                }
+
+                ghost?.Destroy();
+                ghost = null;
+                movementHighlight = null;
+                interactionPiece = null;
+            }
+        }
+
+        void SplashUpdate(float deltaTime)
+        {
+            if (!SetupComplete)
+            {
+                int state = splashTable.Update(deltaTime);
+                float currentProgress = splashTable.CurrentStepProgress;
+
+                if (splashTable.Complete)
+                {
+                    EndSetup();
+                }
+                else
+                {
+                    if (state == 1)
+                    {
+                        splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                        dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
+                    }
+                }
+
+                return;
+            }
+
+            if (!splashTable.Complete)
+            {
+                int state = splashTable.Update(deltaTime);
+                float currentProgress = splashTable.CurrentStepProgress;
+
+                if (state == 0)
+                {
+                    splash.Scale = Vector2.One * (Easing.EaseOutCubic(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                    dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (currentProgress)));
+                }
+
+                if (state == 1)
+                {
+                    splash.Scale = Vector2.One * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                    dim.Color = dimColor;
+                }
+
+                if (state == 2)
+                {
+                    splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                    dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
+                }
+            }
+            else if (dim.Color.A != 0)
+            {
+                splash.Scale = Vector2.Zero;
+                dim.Color = Color.Transparent;
+            }
         }
 
         //private Rectangle GetTargetRectangle(int index, int count)
@@ -256,6 +383,36 @@ namespace Zettalith
             {
                 queuedHighlights.Add((point, color));
             }
+        }
+
+        void UpdateHighlights()
+        {
+            int xL = highlights.GetLength(0), yL = highlights.GetLength(1);
+
+            Color[,] highlightColors = new Color[xL, yL];
+            Color d = default(Color);
+
+            foreach ((Point p, Color c) item in queuedHighlights)
+            {
+                highlightColors[item.p.X, item.p.Y] = item.c;
+            }
+
+            for (int x = 0; x < xL; x++)
+            {
+                for (int y = 0; y < yL; y++)
+                {
+                    if (highlightColors[x, y] == d)
+                    {
+                        highlights[x, y].Color = Color.Transparent;
+
+                        continue;
+                    }
+
+                    highlights[x, y].Color = highlightColors[x, y];
+                }
+            }
+
+            queuedHighlights.Clear();
         }
 
         #endregion

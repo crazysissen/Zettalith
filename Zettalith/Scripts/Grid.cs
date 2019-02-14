@@ -8,25 +8,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
-    class Grid
+    sealed class Grid
     {
         const int
             MAXSIZE = 4096;
 
         public readonly int xLength, yLength;
 
-        Tile[,] _tileArray;
-        TileObject[] _objects;
+        public Tile[,] TileArray { get; private set; }
+        public TileObject[] Objects { get; private set; }
 
         public TileObject this[int id]
         {
-            get => id >= 0 && id < _objects.Length ? _objects[id] : null;
+            get => id >= 0 && id < Objects.Length ? Objects[id] : null;
 
             set
             {
-                if (id >= 0 && id < _objects.Length)
+                if (id >= 0 && id < Objects.Length)
                 {
-                    _objects[id] = value;
+                    Objects[id] = value;
                 }
             }
         }
@@ -40,12 +40,12 @@ namespace Zettalith
                     return null;
                 }
 
-                if (_tileArray[x, y] == null)
+                if (TileArray[x, y] == null)
                 {
                     return null;
                 }
 
-                return _tileArray[x, y];
+                return TileArray[x, y];
             }
 
             set
@@ -55,7 +55,7 @@ namespace Zettalith
                     return;
                 }
 
-                _tileArray[x, y] = value;
+                TileArray[x, y] = value;
             }
         }
 
@@ -74,8 +74,8 @@ namespace Zettalith
             xLength = x;
             yLength = y;
 
-            _tileArray = new Tile[x, y];
-            _objects = new TileObject[MAXSIZE];
+            TileArray = new Tile[x, y];
+            Objects = new TileObject[MAXSIZE];
         }
 
         public Point PositionOf(int id)
@@ -84,7 +84,7 @@ namespace Zettalith
             {
                 for (int y = 0; y < yLength; y++)
                 {
-                    if (_tileArray[x, y] != null && _tileArray[x, y].TileObject.HasValue && _tileArray[x, y].TileObject.Value == id)
+                    if (TileArray[x, y] != null && TileArray[x, y].TileObject.HasValue && TileArray[x, y].TileObject.Value == id)
                     {
                         return new Point(x, y);
                     }
@@ -96,20 +96,20 @@ namespace Zettalith
 
         public void Remove(int id)
         {
-            if (_objects[id] == null)
+            if (Objects[id] == null)
             {
                 return;
             }
 
-            _tileArray[_objects[id].Position.X, _objects[id].Position.Y] = null;
-            _objects[id] = null;
+            TileArray[Objects[id].Position.X, Objects[id].Position.Y] = null;
+            Objects[id] = null;
         }
 
         public void Remove(TileObject tObject)
         {
             if (tObject != null)
             {
-                Remove(tObject.Index);
+                Remove(tObject.GridIndex);
             }
         }
 
@@ -117,8 +117,8 @@ namespace Zettalith
         {
             if (InBounds(x, y))
             {
-                _objects[_tileArray[x, y].TileObject.Value] = null;
-                _tileArray[x, y] = null;
+                Objects[TileArray[x, y].TileObject.Value] = null;
+                TileArray[x, y] = null;
             }
         }
 
@@ -129,7 +129,10 @@ namespace Zettalith
                 return null;
             }
 
-            _tileArray[x, y].TileObject = tObject.Index;
+            tObject.GridIndex = NewIndex();
+
+            TileArray[x, y].TileObject = tObject.GridIndex;
+            Objects[tObject.GridIndex] = tObject;
             tObject.Position = new Point(x, y);
 
             return tObject;
@@ -142,34 +145,37 @@ namespace Zettalith
                 return null;
             }
 
-            int? tileObject = _tileArray[x, y].TileObject;
+            int? tileObject = TileArray[x, y].TileObject;
 
-            return tileObject.HasValue ? _objects[tileObject.Value] : null;
+            return tileObject.HasValue ? Objects[tileObject.Value] : null;
         }
 
         public void ChangePosition(TileObject tObject, int x, int y)
         {
             if (Vacant(x, y))
             {
-                _tileArray[tObject.Position.X, tObject.Position.Y].TileObject = null;
-                _tileArray[x, y].TileObject = tObject.Index;
+                TileArray[tObject.Position.X, tObject.Position.Y].TileObject = null;
+                TileArray[x, y].TileObject = tObject.GridIndex;
                 tObject.Position = new Point(x, y);
+                tObject.UpdateRenderer();
             }
         }
 
         public int NewIndex()
         {
-            int i = 0;
-            while (_objects[i] != null)
+            for (int i = 0; i < Objects.Length; i++)
             {
-                ++i;
+                if (Objects[i] == null)
+                {
+                    return i;
+                }
             }
 
-            return i;
+            throw new Exception("You surpassed the limit of on-board objects, dumbass.");
         }
 
         public bool Vacant(int x, int y)
-            => InBounds(x, y) && _tileArray[x, y] != null && !_tileArray[x, y].TileObject.HasValue;
+            => InBounds(x, y) && TileArray[x, y] != null && !TileArray[x, y].TileObject.HasValue;
 
         public bool InBounds(int x, int y) 
             => x > -1 && y > -1 && x < xLength && y < yLength;

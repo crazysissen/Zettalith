@@ -25,7 +25,7 @@ namespace Zettalith
         private Renderer.SpriteScreen localBackground, globalBackground;
         private Renderer.Text title, localIP, globalIP, statusHeader, status;
 
-        private Pieces.Set testSet;
+        private Set testSet;
 
         private StartupConfig? config;
 
@@ -35,15 +35,10 @@ namespace Zettalith
             host = config != null;
             this.config = config;
 
-            testSet = new Pieces.Set()
+            testSet = new Set()
             {
                 Pieces = new List<Piece>()
                 {
-                    new Piece(0, 2, 4),
-                    new Piece(0, 2, 4),
-                    new Piece(0, 2, 4),
-                    new Piece(0, 2, 4),
-                    new Piece(0, 2, 4),
                     new Piece(0, 2, 4)
                 }
             };
