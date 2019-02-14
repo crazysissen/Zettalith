@@ -71,10 +71,10 @@ namespace Zettalith
 
             SaveLoad.Initialize();
 
-            this.xnaController = xnaController;
+            xnaController = game;
             stateManager = new StateManager(GameState.MainMenu, 0);
 
-            RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1, backgroundColor);
+            RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 0.2f, backgroundColor);
             NetworkManager.Initialize(game);
 
             if (type == StartType.LocalHost)

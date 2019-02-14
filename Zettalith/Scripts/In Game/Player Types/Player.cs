@@ -22,6 +22,11 @@ namespace Zettalith
 
         }
 
+        public void EndTurn()
+        {
+
+        }
+
         public virtual void TurnStart()
         {
 

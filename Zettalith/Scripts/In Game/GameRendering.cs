@@ -16,22 +16,32 @@ namespace Zettalith
 
         static readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255),
-            dimColor = new Color (0, 0, 0, 160);
+            dimColor = new Color(0, 0, 0, 160);
+
+        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2());
+        public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y * HEIGHTDISTANCE);
+        public static Point MousePoint => MousePosition.RoundToPoint();
 
         public bool SetupComplete { get; private set; }
+
+        public Renderer.Sprite[,] tiles, highlights;
 
         GUI.Collection collection, battleGUI, logisticsGUI, setupGUI;
 
         Renderer.Text splash, essence;
         Renderer.Text[] mana;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
+        GUI.Button bEndTurn;
 
         List<Point> highlightSquares;
 
         TimerTable table;
+        Player player;
 
         public GameRendering(Player player, bool host, bool start)
         {
+            this.player = player;
+
             dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
             string splashText = start ? "You Start" : "Opponent Starts";
@@ -50,8 +60,31 @@ namespace Zettalith
             table = new TimerTable(new float[] { 1, 2 });
         }
 
+        public void CreateMap(Grid grid)
+        {
+            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlight");
+
+            tiles = new Renderer.Sprite[grid.xLength, grid.yLength];
+            highlights = new Renderer.Sprite[grid.xLength, grid.yLength];
+
+            for (int x = 0; x < grid.xLength; ++x)
+            {
+                for (int y = 0; y < grid.yLength; ++y)
+                {
+                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, Vector2.Zero, SpriteEffects.None);
+
+                    if (InGameController.PlayerIndex == 0)
+                    {
+                        tiles[x, y].Position *= -1;
+                    }
+                }
+            }
+        }
+
         public void Render(float deltaTime)
         {
+            Test.Log(MousePoint);
+
             if (!SetupComplete)
             {
                 int state = table.Update(deltaTime);
@@ -61,6 +94,19 @@ namespace Zettalith
                 {
                     splash.Scale = Vector2.Zero;
                     dim.Color = Color.Transparent;
+
+                    if (InGameController.PlayerIndex == 0)
+                    {
+                        OpenBattle();
+                    }
+                    else
+                    {
+                        OpenLogistics();
+                    }
+
+                    CreateMap(InGameController.Grid);
+
+                    SetupComplete = true;
                 }
                 else
                 {
@@ -70,20 +116,61 @@ namespace Zettalith
                         dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
                     }
                 }
+
+                return;
             }
 
-            highlights.Clear();
+            if (!table.Complete)
+            {
+                int state = table.Update(deltaTime);
+                float currentProgress = table.CurrentStepProgress;
+
+                if (state == 0)
+                {
+                    splash.Scale = Vector2.One * (Easing.EaseOutCubic(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                    dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (currentProgress)));
+                }
+                if (state == 1)
+                {
+                    splash.Scale = Vector2.One * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                    dim.Color = dimColor;
+                }
+                if (state == 2)
+                {
+                    splash.Scale = Vector2.One * (1 - Easing.EaseInBack(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
+                    dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
+                }
+            }
+            else if (dim.Color.A != 0)
+            {
+                splash.Scale = Vector2.Zero;
+                dim.Color = Color.Transparent;
+            }
+
+            queuedHighlights.Clear();
         }
 
 
         void CreateBattleGUI()
         {
             battleGUI = new GUI.Collection();
+
+            int width = (int)(Settings.GetResolution.X * (401f / 480f)), height = (int)(Settings.GetResolution.Y * (24f / 270f)),
+                buttonWidth = (int)(Settings.GetResolution.X * (51f / 480f)), buttonHeight = (int)(Settings.GetResolution.Y * (25f / 270f));
+
+            bottomPanel = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("BottomPanel"), new Rectangle(Settings.GetHalfResolution.X - width / 2, Settings.GetResolution.Y - height, width, height));
+
+            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
+            bEndTurn.OnClick += player.EndTurn;
+
+            battleGUI.Add(bottomPanel, bEndTurn);
+            battleGUI.Active = false;
         }
 
         void CreateLogisticsGUI()
         {
             logisticsGUI = new GUI.Collection();
+            battleGUI.Active = false;
 
             // TODO Add logistics UI
         }
@@ -100,17 +187,25 @@ namespace Zettalith
 
         public void OpenBattle()
         {
+            battleGUI.Active = true;
+            logisticsGUI.Active = false;
 
+            splash.String = new StringBuilder("Battle Turn");
+            table = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
         }
 
         public void OpenLogistics()
         {
+            battleGUI.Active = false;
 
+            logisticsGUI.Active = true;
+            splash.String = new StringBuilder("Logistics Turn");
+            table = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
         }
 
         #region Tile Highlighting
 
-        static List<(Point, Color)> highlights = new List<(Point, Color)>();
+        static List<(Point, Color)> queuedHighlights = new List<(Point, Color)>();
 
         public static void AddHighlight(params Point[] points)
         {
@@ -121,7 +216,7 @@ namespace Zettalith
         {
             foreach (Point point in points)
             {
-                highlights.Add((point, color));
+                queuedHighlights.Add((point, color));
             }
         }
 

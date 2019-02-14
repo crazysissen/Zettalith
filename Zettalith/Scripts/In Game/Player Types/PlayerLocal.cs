@@ -27,6 +27,10 @@ namespace Zettalith
             base.Update(deltaTime);
 
             renderer.Render(deltaTime);
+            if (renderer.SetupComplete)
+            {
+
+            }
         }
     }
 }

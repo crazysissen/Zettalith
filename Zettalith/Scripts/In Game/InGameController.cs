@@ -132,6 +132,8 @@ namespace Zettalith
             players[0].Start(this, mainController, xnaController, players[1]);
             players[1].Start(this, mainController, xnaController, players[0]);
 
+            Grid = loadedConfig.map.grid;
+
             loading = false;
             gameState = InGameState.Setup;
         }

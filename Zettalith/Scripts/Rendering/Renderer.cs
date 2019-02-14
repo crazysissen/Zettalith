@@ -72,7 +72,8 @@ namespace Zettalith
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, camera.WorldToScreenPosition(Position), null, Color, Rotation * DEGTORAD, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
+                Vector2 position = camera.WorldToScreenPosition(Position);
+                spriteBatch.Draw(Texture, position, null, Color, Rotation * DEGTORAD, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
             }
         }
 
