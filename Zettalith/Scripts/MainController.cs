@@ -71,7 +71,7 @@ namespace Zettalith
 
             SaveLoad.Initialize();
 
-            this.xnaController = xnaController;
+            this.xnaController = game;
             stateManager = new StateManager(GameState.MainMenu, 0);
 
             RendererController.Initialize(XNAController.Graphics, new Vector2(0, 0), 1, backgroundColor);
