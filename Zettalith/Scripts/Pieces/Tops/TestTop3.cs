@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             AttackDamage = 2;
             ManaCost = new Mana(2, 1, 0);
             Texture = Load.Get<Texture2D>("TestSubpiece");
-            Description = "Deals 3 damage to all units in a straight line.";
+            Description = "Deals 3 damage to all Zettaliths in a straight line.";
             Modifier = new Addition(new Stats(-3), true);
         }
 

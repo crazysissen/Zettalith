@@ -13,10 +13,13 @@ namespace Zettalith
         public float Current { get; set; }
         public float MaxTime { get; private set; }
 
+        public float CurrentStepProgress { get; private set; }
+        public float TotalProgress => Current / MaxTime;
+
         public TimerTable(float[] times, float startTime = 0.0f)
         {
             Current = startTime;
-            Complete = startTime < times.Sum();
+            Complete = startTime > times.Sum();
 
             SetTimes(times);
         }
@@ -29,8 +32,9 @@ namespace Zettalith
 
             for (int i = 0; i < Times.Length; ++i)
             {
-                if (Times[i] + accumulative < Current)
+                if (Times[i] + accumulative > Current)
                 {
+                    CurrentStepProgress = (Current - accumulative) / Times[i];
                     return i;
                 }
 

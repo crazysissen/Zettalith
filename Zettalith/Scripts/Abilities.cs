@@ -105,9 +105,7 @@ namespace Zettalith
             {
                 for (int j = 0; j < InGameController.Grid.yLength; ++j)
                 {
-                    TilePiece tempPiece = InGameController.Grid.GetObject(i, j) as TilePiece;
-
-                    if (tempPiece == null)
+                    if (!(InGameController.Grid.GetObject(i, j) is TilePiece tempPiece))
                         continue;
                     else
                     {
@@ -143,9 +141,7 @@ namespace Zettalith
             {
                 for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
                 {
-                    TilePiece tempPiece = InGameController.Grid.GetObject(i, j) as TilePiece;
-
-                    if (tempPiece == null)
+                    if (!(InGameController.Grid.GetObject(i, j) is TilePiece tempPiece))
                         continue;
 
                     if (enemy)
@@ -221,8 +217,6 @@ namespace Zettalith
                     temp.Add(new Point(i, j));
                 }
             }
-
-            temp.Remove(origin);
 
             return temp;
         }

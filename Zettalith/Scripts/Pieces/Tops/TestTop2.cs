@@ -12,58 +12,45 @@ namespace Zettalith.Pieces
     {
         public TestTop2()
         {
-            Name = "TestTop2";
+            Name = "Pyro";
             Health = 20;
             AttackDamage = 3;
             ManaCost = new Mana(0, 2, 0);
-            Description = "Deals 5 damage to target enemy unit";
+            Description = "Deals 1 damage to all Zettaliths.";
             Texture = Load.Get<Texture2D>("TestSubpiece2");
-            Modifier = new Addition(new Stats(-5), true);
+            Modifier = new Addition(new Stats(-1), true);
         }
 
-        //public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
-        //{
-        //    List<SPoint> spoints = Abilities.Target(true).Cast<SPoint>().ToList();
+        public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
+        {
+            List<SPoint> spoints = Abilities.TargetAll().Cast<SPoint>().ToList();
 
-        //    if (spoints.Count == 0)
-        //    {
-        //        if (mouseDown)
-        //        {
-        //            cancel = true;
-        //            return null;
-        //        }
+            GameRendering.AddHighlight(spoints.Cast<Point>().ToArray());
 
-        //        cancel = false;
-        //        return null;
-        //    }
+            if (mouseDown)
+            {
+                object[] temp = { spoints, Modifier };
+                cancel = false;
+                return temp;
+            }
 
-        //    GameRendering.AddHighlight(spoints.Cast<Point>().ToArray());
+            cancel = false;
+            return null;
+        }
 
-        //    if (mouseDown)
-        //    {
-        //        object[] temp = { spoints, Modifier };
-        //        cancel = false;
-        //        return temp;
-        //    }
+        public override void ActivateAbility(object[] data)
+        {
+            List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
 
-        //    cancel = false;
-        //    return null;
-        //}
+            for (int i = 0; i < temp.Count; ++i)
+            {
+                TileObject piece = InGameController.Grid.GetObject(temp[i].X, temp[i].Y);
 
-        //public override void ActivateAbility(object[] data)
-        //{
-        //    List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
+                if (piece == null || !(piece is TilePiece))
+                    continue;
 
-        //    for (int i = 0; i < temp.Count; ++i)
-        //    {
-        //        TileObject piece = InGameController.Grid.GetObject(temp[i].X, temp[i].Y);
-
-        //        if (piece == null || !(piece is TilePiece))
-        //            continue;
-
-        //        (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
-        //        //(InGameController.Grid.GetObject((data[0] as List<SPoint>)[i].X, (data[0] as List<SPoint>)[i].Y) as TilePiece).Piece.ModThis(data[1] as Modifier);
-        //    }
-        //}
+                (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
+            }
+        }
     }
 }

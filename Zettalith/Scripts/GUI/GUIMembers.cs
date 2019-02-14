@@ -206,7 +206,7 @@ namespace Zettalith
                             break;
 
                         case Type.TextureSwitch:
-                            textures.Add(new TAS(_startTexture, scaledValue));
+                            textures.Add(new TAS(_startTexture, 1));
                             textures.Add(new TAS(_targetTexture, 1 - scaledValue));
                             color = Color.White;
                             break;
@@ -242,9 +242,9 @@ namespace Zettalith
 
                 Rectangle targetRectangle = new Rectangle(_origin + (middlePosition - halfSize * _currentScale).RoundToPoint(), (Transform.Size.ToVector2() * _currentScale).RoundToPoint());
 
-                foreach (TAS textureAlpha in textures)
+                for (int i = 0; i < textures.Count; ++i)
                 {
-                    spriteBatch.Draw(textureAlpha.texture, targetRectangle, null, new Color(color, textureAlpha.alpha), 0, new Vector2(0.5f, 0.5f), SpriteEffects, Layer.LayerDepth);
+                    spriteBatch.Draw(textures[i].texture, targetRectangle, null, new Color(color, textures[i].alpha), 0, new Vector2(0.5f, 0.5f), SpriteEffects, Layer.LayerDepth);
                 }
 
                 if (!pressed)
@@ -381,7 +381,7 @@ namespace Zettalith
                 }
             }
 
-            public void AddText(string text, int fontSize, bool centered, Color baseColor, SpriteFont font)
+            public void AddText(string text, float fontSize, bool centered, Color baseColor, SpriteFont font)
             {
                 Vector2 measure = font.MeasureString(text);
 
