@@ -16,5 +16,10 @@ namespace Zettalith
         {
             
         }
+
+        public void Destroy()
+        {
+            InGameController.Grid.Remove(this);
+        }
     }
 }

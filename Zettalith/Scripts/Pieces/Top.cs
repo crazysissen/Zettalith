@@ -13,6 +13,8 @@ namespace Zettalith
 
         public bool HasAbility { get; protected set; }
 
+        public int AbilityRange { get; protected set; }
+
         // TODO: Make abstract
         public virtual void Initialize()
         {
