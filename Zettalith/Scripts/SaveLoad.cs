@@ -67,6 +67,8 @@ namespace Zettalith
                 Load();
             }
 
+            PersonalData.Settings.Intitialize();
+
             PersonalData.Settings.ApplySettings();
         }
 
