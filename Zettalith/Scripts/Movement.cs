@@ -164,7 +164,7 @@ namespace Zettalith
         {
             List<Point> temp = new List<Point>();
 
-            for (int i = 1; i < moveRanges[0]; ++i)
+            for (int i = 1; i < moveRanges[0] + 1; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X + i, origin.Y + i))
                     temp.Add(new Point(origin.X + i, origin.Y + i));
