@@ -172,7 +172,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i < moveRanges[1]; ++i)
+            for (int i = 1; i < moveRanges[1] + 1; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X + i, origin.Y - i))
                     temp.Add(new Point(origin.X + i, origin.Y - i));
@@ -180,7 +180,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i < moveRanges[2]; ++i)
+            for (int i = 1; i < moveRanges[2] + 1; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X - i, origin.Y - i))
                     temp.Add(new Point(origin.X - i, origin.Y - i));
@@ -188,7 +188,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i < moveRanges[3]; ++i)
+            for (int i = 1; i < moveRanges[3] + 1; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X - i, origin.Y + i))
                     temp.Add(new Point(origin.X - i, origin.Y + i));
