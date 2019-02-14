@@ -278,6 +278,11 @@ namespace Zettalith
             }
         }
 
+        public void ActivateMovement(int pieceIndex, int x, int y)
+        {
+
+        }
+
         public void SetupEnd()
         {
             gameState = StartPlayer == PlayerIndex ? InGameState.Battle : InGameState.Logistics;
