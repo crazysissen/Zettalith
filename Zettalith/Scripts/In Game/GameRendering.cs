@@ -48,13 +48,13 @@ namespace Zettalith
         Point previousScreenPosition = new Point();
         TilePiece interactionPiece;
         TimerTable splashTable;
-        Player player;
+        PlayerLocal player;
 
         Point handStart, handEnd, mouseDownPosition;
 
         List<(int index, TimerTable table)> animatingPieces;
 
-        public ClientSideController(Player player, bool host, bool start)
+        public ClientSideController(PlayerLocal player, bool host, bool start)
         {
             this.player = player;
 
