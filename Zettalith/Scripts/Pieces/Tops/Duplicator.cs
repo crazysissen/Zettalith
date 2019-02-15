@@ -30,7 +30,7 @@ namespace Zettalith.Pieces
                 if (InGameController.Grid.GetObject(spoints[i].X, spoints[i].Y) != null)
                     spoints.Remove(spoints[i]);
 
-            GameRendering.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
 
             if (mouseDown)
             {

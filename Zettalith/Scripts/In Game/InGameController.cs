@@ -50,6 +50,7 @@ namespace Zettalith
 
         Player[] players;
         Deck[] decks;
+        Set[] sets;
 
         LoadedConfig loadedConfig;
 
@@ -126,6 +127,7 @@ namespace Zettalith
             NetworkManager.Listen("GAMEACTION", RecieveAction);
 
             decks = loadedConfig.decks;
+            sets = loadedConfig.sets;
 
             players = new Player[]
             {
@@ -133,17 +135,17 @@ namespace Zettalith
                 isHost ? CreateRemotePlayer() : CreateLocalPlayer()
             };
 
-            players[0].Start(this, mainController, xnaController, players[1]);
-            players[1].Start(this, mainController, xnaController, players[0]);
-
             Grid = loadedConfig.map.grid;
+
+            players[0].Start(this, mainController, xnaController, players[1], decks[0], sets[0]);
+            players[1].Start(this, mainController, xnaController, players[0], decks[1], sets[1]);
 
             loading = false;
             gameState = InGameState.Setup;
 
             if (IsHost)
             {
-                //Local.PlacePiece(decks[0].Draw(), 3, 3);
+                Local.PlacePiece(decks[0].Draw(), 3, 3);
             }
         }
 
@@ -229,7 +231,7 @@ namespace Zettalith
                     break;
 
                 case GameAction.Placement:
-                    PlacePiece((InGamePiece)arg[0], (int)arg[1], (int)arg[2], (int)arg[3]);
+                    PlacePiece((int)arg[0], (int)arg[1], (int)arg[2], (int)arg[3]);
                     break;
 
                 case GameAction.EndTurn:
@@ -259,12 +261,26 @@ namespace Zettalith
             }
         }
 
-        public void PlacePiece(InGamePiece piece, int x, int y, int player)
+        public void PlacePiece(int pieceIndex, int x, int y, int player)
         {
+            InGamePiece piece = InGamePiece.Pieces[pieceIndex];
+
             TileObject obj = Grid.Place(x, y, new TilePiece(piece, player));
 
-            obj.Renderer = new Renderer.Sprite(Layer.Default, piece.Texture, new Vector2(x, y * GameRendering.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
+            obj.Renderer = new Renderer.Sprite(TileObject.DefaultLayer(y), piece.Texture, new Vector2(x, y * ClientSideController.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
             obj.UpdateRenderer();
+
+            Local.Renderer.PlacePieceAnimation(piece);
+
+            foreach (Deck deck in decks)
+            {
+                deck.Remove(piece);
+            }
+        }
+
+        public void ActivateMovement(int pieceIndex, int x, int y)
+        {
+
         }
 
         public void SetupEnd()

@@ -13,7 +13,6 @@ namespace Zettalith
     {
         public static InGamePiece[] Pieces { get; private set; } = new InGamePiece[4096];
 
-
         public int Index { get; set; }
         public Texture2D Texture { get; set; }
 
@@ -21,9 +20,9 @@ namespace Zettalith
 
         Piece piece;
 
-        Top top/* => tops[piece.TopIndex]*/;
-        Middle middle/* => middles[piece.MiddleIndex]*/;
-        Bottom bottom/* => bottoms[piece.BottomIndex]*/;
+        public Top Top { get; private set; } /* => tops[piece.TopIndex]*/
+        public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
+        public Bottom Bottom { get; private set; } /* => bottoms[piece.BottomIndex]*/
 
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
@@ -36,21 +35,21 @@ namespace Zettalith
             Pieces[Index] = this;
 
             //this.piece = piece;
-            top = Subpieces.FromIndex(piece.TopIndex) as Top;
-            middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
-            bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
+            Top = Subpieces.FromIndex(piece.TopIndex) as Top;
+            Middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
+            Bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
             baseStats = BaseStats;
         }
 
         // Returns just the units base stats
         public Stats BaseStats => new Stats()
         {
-            AttackDamage = top.AttackDamage + middle.AttackDamage + bottom.AttackDamage,
-            MaxHealth = top.Health + middle.Health + bottom.Health,
-            Health = top.Health + middle.Health + bottom.Health,
-            Mana = top.ManaCost + middle.ManaCost + bottom.ManaCost,
+            AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
+            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
+            Health = Top.Health + Middle.Health + Bottom.Health,
+            Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
             //AbilityCost = Top.AbilityCost,
-            MoveCost = bottom.MoveCost
+            MoveCost = Bottom.MoveCost
         };
 
         // Returns a units base stats with all modifications applied

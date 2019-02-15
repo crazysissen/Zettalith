@@ -17,7 +17,7 @@ namespace Zettalith
         public int AbilityRange { get; protected set; }
 
         // TODO: Make abstract
-        public virtual void Initialize()
+        public virtual void InitializeAbility()
         {
 
         }

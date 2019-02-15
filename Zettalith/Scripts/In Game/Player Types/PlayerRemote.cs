@@ -8,9 +8,9 @@ namespace Zettalith
 {
     class PlayerRemote : Player
     {
-        public override void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent)
+        public override void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent, Deck deck, Set set)
         {
-            base.Start(inGameController, mainController, xnaController, opponent);
+            base.Start(inGameController, mainController, xnaController, opponent, deck, set);
         }
 
         public override void TurnStart()

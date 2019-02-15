@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zettalith.Pieces
+namespace Zettalith
 {
     [Serializable]
     class Set

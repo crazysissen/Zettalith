@@ -38,7 +38,7 @@ namespace Zettalith.Pieces
             }
 
             // TODO: Highlight spoints list
-            GameRendering.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
 
             if (mouseDown)
             {

@@ -75,6 +75,18 @@ namespace Zettalith
                 Vector2 position = camera.WorldToScreenPosition(Position);
                 spriteBatch.Draw(Texture, position, null, Color, Rotation * DEGTORAD, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
             }
+
+            public Rectangle GetArea()
+            {
+                Vector2 
+                    position = RendererController.Camera.WorldToScreenPosition(Position), 
+                    texture = new Vector2(Texture.Width, Texture.Height), 
+                    scale = RendererController.Camera.WorldToScreenSize(Size) * texture;
+
+                Point topLeft = (position - (Origin / texture) * scale).RoundToPoint();
+
+                return new Rectangle(topLeft, scale.RoundToPoint());
+            }
         }
 
         public class SpriteScreen : RendererIGUI

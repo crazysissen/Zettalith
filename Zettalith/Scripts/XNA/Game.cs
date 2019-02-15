@@ -170,7 +170,7 @@ namespace Zettalith
                 else
                 {
                     LocalGameHost = true;
-                    Test.Category = "HOST";
+                    Test.Category = "HOST  ";
                     Window.Title = "ZETTALITH: Local-Game Host";
                 }
             }

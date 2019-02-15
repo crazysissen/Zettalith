@@ -20,7 +20,7 @@ namespace Zettalith
                 foreach (Piece piece in set.Pieces)
                 {
                     InGamePiece newPiece = new InGamePiece(piece);
-                    newPiece.Texture = GameRendering.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
+                    newPiece.Texture = ClientSideController.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
                     Pieces.Add(newPiece);
                 }
             }
@@ -46,6 +46,37 @@ namespace Zettalith
             Pieces.Remove(foundPieces[0]);
             successful = true;
             return foundPieces[0];
+        }
+
+        /// <summary>
+        /// Tries to remove a member, returns null if failed.
+        /// </summary>
+        public InGamePiece Remove(InGamePiece piece)
+        {
+            if (Pieces.Contains(piece))
+            {
+                Pieces.Remove(piece);
+                return piece;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Tries to remove a member, returns null if failed.
+        /// </summary>
+        public InGamePiece Remove(int piece)
+        {
+            foreach (InGamePiece currentPiece in Pieces)
+            {
+                if (currentPiece.Index == piece)
+                {
+                    Pieces.Remove(currentPiece);
+                    return currentPiece;
+                }
+            }
+
+            return null;
         }
 
         public void Shuffle(int shuffleSeed)

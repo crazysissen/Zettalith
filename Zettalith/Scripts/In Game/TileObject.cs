@@ -9,7 +9,7 @@ namespace Zettalith
 {
     abstract class TileObject
     {
-        public int Index { get; set; }
+        public int GridIndex { get; set; }
         public Point Position { get; set; }
 
         public Renderer.Sprite Renderer { get; set; }
@@ -26,7 +26,12 @@ namespace Zettalith
 
         public void UpdateRenderer()
         {
-            Renderer.Position = new Vector2(Position.X, Position.Y * GameRendering.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
+            Renderer.Position = new Vector2(Position.X, Position.Y * ClientSideController.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
+            Renderer.Layer = DefaultLayer(Position.Y);
         }
+
+        public static Layer DefaultLayer(int y) => InGameController.IsHost ?
+            new Layer(MainLayer.Main, (y - InGameController.Grid.yLength) * 2 - 1) :
+            new Layer(MainLayer.Main, (-y) * 2 - 1);
     }
 }
