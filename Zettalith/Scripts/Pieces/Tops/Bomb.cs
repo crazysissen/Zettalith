@@ -8,17 +8,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestTop1 : Top
+    class Bomb : Top
     {
-        public TestTop1()
+        public Bomb()
         {
             Name = "Bomb";
-            Health = 5;
+            Health = 4;
             AttackDamage = 1;
-            ManaCost = new Mana(3, 0, 0);
+            ManaCost = new Mana(4, 0, 0);
             AbilityCost = new Mana(2, 0, 0);
             Modifier = new Addition(new Stats(-7), true);
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Texture = Load.Get<Texture2D>("BombTop1");
             AbilityRange = 2;
 
             Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths within " + AbilityRange + " tiles";
