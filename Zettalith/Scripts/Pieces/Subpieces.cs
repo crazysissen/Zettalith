@@ -23,7 +23,7 @@ namespace Zettalith
         {
             true, true, /*Tops*/
             true, true, /*Middles*/
-            true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
+            true, true, true, true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
         };
 
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
