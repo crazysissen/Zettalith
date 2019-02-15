@@ -8,16 +8,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class StraightMan : Bottom
+    class Straight : Bottom
     {
-        public StraightMan()
+        public Straight()
         {
-            Name = "Jhin";
-            Health = 20;
-            AttackDamage = 3;
-            ManaCost = new Mana(0, 1, 0);
+            Name = "Straight";
+            Health = 6;
+            AttackDamage = 1;
+            ManaCost = new Mana(0, 0, 1);
             MoveRange = 4;
-            Texture = Load.Get<Texture2D>("TestSubpiece2");
+            Texture = Load.Get<Texture2D>("1TileBottom");
 
             Description = "Moves " + MoveRange + " tiles in a straight line.";
         }

@@ -13,17 +13,18 @@ namespace Zettalith.Pieces
         public Teleporter2()
         {
             Name = "Teleporter 2";
-            Health = 3;
-            ManaCost = new Mana(0, 0, 6);
-            MoveCost = new Mana(0, 0, 4);
+            Health = 5;
+            ManaCost = new Mana(0, 0, 4);
+            MoveCost = new Mana(0, 0, 2);
+            MoveRange = 8;
             Texture = Load.Get<Texture2D>("TestSubpiece");
 
-            Description = "Teleports to anywhere on the map.";
+            Description = "Teleports to an empty tile within " + MoveRange + " tiles.";
         }
 
         public override List<Point> RequestMove(Point origin)
         {
-            return Movement.Teleport(origin);
+            return Movement.Teleport(origin, new Point(MoveRange, MoveRange));
         }
 
         public override void ActivateMove(TilePiece piece, Point target)

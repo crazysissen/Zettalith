@@ -8,18 +8,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class DiagonalMan : Bottom
+    class Diagonal2 : Bottom
     {
-        public DiagonalMan()
+        public Diagonal2()
         {
-            Name = "Diagonal Man";
-            Health = 10;
-            AttackDamage = 7;
-            ManaCost = new Mana(2, 0, 0);
-            MoveRange = 2;
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Name = "Diagonal 2";
+            Health = 8;
+            AttackDamage = 2;
+            ManaCost = new Mana(0, 0, 2);
+            MoveRange = 3;
+            Texture = Load.Get<Texture2D>("DiagonalBottom");
 
-            Description = "Moves " + MoveRange + " tiles diagonally";
+            Description = "Moves only " + MoveRange + " tiles diagonally, but is very strong.";
         }
 
         public override List<Point> RequestMove(Point origin)
