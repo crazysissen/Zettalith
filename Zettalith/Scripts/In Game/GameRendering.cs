@@ -222,6 +222,11 @@ namespace Zettalith
                 {
                     TilePiece tPiece = piece as TilePiece;
 
+                    if (tPiece.Renderer == null)
+                    {
+                        continue;
+                    }
+
                     if (RendererFocus.OnArea(tPiece.Renderer.GetArea(), tPiece.Renderer.Layer))
                     {
                         highlightedPieces.Add(tPiece);
