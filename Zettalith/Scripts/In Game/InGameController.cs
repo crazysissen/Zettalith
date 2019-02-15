@@ -147,6 +147,8 @@ namespace Zettalith
             {
                 Local.PlacePiece(decks[0].Draw(), 3, 3);
                 Local.PlacePiece(decks[0].Draw(), 5, 5);
+                Local.PlacePiece(decks[0].Draw(), 7, 7);
+                Local.PlacePiece(decks[0].Draw(), 1, 1);
             }
         }
 
