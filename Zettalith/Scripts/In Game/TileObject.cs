@@ -24,7 +24,8 @@ namespace Zettalith
 
         public TileObject()
         {
-            
+            GridIndex = InGameController.Grid.NewIndex();
+            InGameController.Grid.Objects[GridIndex] = this;
         }
 
         public void Destroy()

@@ -129,10 +129,7 @@ namespace Zettalith
                 return null;
             }
 
-            tObject.GridIndex = NewIndex();
-
             TileArray[x, y].TileObject = tObject.GridIndex;
-            Objects[tObject.GridIndex] = tObject;
             tObject.Position = new Point(x, y);
 
             return tObject;

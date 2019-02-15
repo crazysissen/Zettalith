@@ -44,6 +44,9 @@ namespace Zettalith.Pieces
                         return temp;
                     }
                 }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;
@@ -55,7 +58,7 @@ namespace Zettalith.Pieces
             Point point = (SPoint)data[0];
             TilePiece piece = (TilePiece)InGameController.Grid[(int)data[1]];
             TilePiece temp = new TilePiece(new InGamePiece(piece.Piece.Piece), piece.Player);
-            InGameController.Main.PlacePiece(temp.GridIndex, point.X, point.Y, piece.Player);
+            InGameController.Main.PlacePiece((int)data[1], point.X, point.Y, piece.Player);
         }
     }
 }

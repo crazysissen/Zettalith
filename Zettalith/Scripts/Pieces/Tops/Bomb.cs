@@ -33,9 +33,18 @@ namespace Zettalith.Pieces
 
             if (mouseDown)
             {
-                object[] temp = { sPoints, Modifier, piece.GridIndex };
-                cancel = false;
-                return temp;
+                for (int i = 0; i < sPoints.Count; ++i)
+                {
+                    if (mousePos == sPoints[i])
+                    {
+                        object[] temp = { sPoints, Modifier, piece.GridIndex };
+                        cancel = false;
+                        return temp;
+                    }
+                }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;
