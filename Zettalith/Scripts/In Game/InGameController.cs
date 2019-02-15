@@ -143,11 +143,11 @@ namespace Zettalith
             loading = false;
             gameState = InGameState.Setup;
 
-            if (IsHost)
-            {
+            //if (IsHost)
+            //{
                 for (int i = 0; i < Set.MaxSize; ++i)
                 {
-                    Local.PlacePiece(decks[PlayerIndex].Draw(), i, 0);
+                    Local.PlacePiece(decks[PlayerIndex].Draw(), i, isHost ? 0 : 4);
                 }
 
                 //Local.PlacePiece(decks[0].Draw(), 3, 3);
@@ -156,7 +156,7 @@ namespace Zettalith
                 //Local.PlacePiece(decks[0].Draw(), 1, 1);
                 //Local.PlacePiece(decks[0].Draw(), 4, 4);
                 //Local.PlacePiece(decks[0].Draw(), 2, 2);
-            }
+            //}
         }
 
         public void NewTurnStart()
@@ -203,7 +203,13 @@ namespace Zettalith
                     continue;
 
                 if ((temp as TilePiece).Piece.ModifiedStats.Health <= 0)
+                {
                     temp.Destroy();
+                    if ((temp as TilePiece).Piece.IsKing)
+                    {
+                        // TODO: WIN THE FUCKING GAME ARIGHT
+                    }
+                }
             }
         }
 

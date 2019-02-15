@@ -23,6 +23,7 @@ namespace Zettalith
         public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
         public Bottom Bottom { get; private set; } /* => bottoms[piece.BottomIndex]*/
 
+        public bool IsKing => Top is KingHead;
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
@@ -81,14 +82,12 @@ namespace Zettalith
             }
         }
 
-        // TODO: GameAction?
         // Adds a modifier to this unit
         public void ModThis(Modifier mod)
         {
             modifiers.Add(mod);
         }
 
-        // TODO: GameAction?
         // Clears modifications that are not permanent
         public void ClearMods()
         {

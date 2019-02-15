@@ -111,6 +111,7 @@
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
     <Compile Include="Scripts\Movement.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal2.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\KingFeet.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen2.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Straight2.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Duplicator.cs" />
     <Compile Include="Scripts\Pieces\Tops\Healer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\KingHead.cs" />
     <Compile Include="Scripts\Pieces\Tops\Lob.cs" />
     <Compile Include="Scripts\Pieces\Tops\Pyro.cs" />
     <Compile Include="Scripts\Menus\SetDesigner.cs" />
