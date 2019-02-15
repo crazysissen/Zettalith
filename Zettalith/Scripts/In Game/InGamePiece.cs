@@ -13,12 +13,11 @@ namespace Zettalith
     {
         public static InGamePiece[] Pieces { get; private set; } = new InGamePiece[4096];
 
+        public Piece Piece { get; private set; }
         public int Index { get; set; }
         public Texture2D Texture { get; set; }
 
         Stats baseStats;
-
-        Piece piece;
 
         public Top Top { get; private set; } /* => tops[piece.TopIndex]*/
         public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
@@ -31,6 +30,8 @@ namespace Zettalith
 
         public InGamePiece(Piece piece)
         {
+            Piece = piece;
+
             Index = GetNewIndex();
             Pieces[Index] = this;
 

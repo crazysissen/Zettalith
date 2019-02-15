@@ -17,10 +17,11 @@ namespace Zettalith.Pieces
             AttackDamage = 1;
             ManaCost = new Mana(3, 0, 0);
             AbilityCost = new Mana(2, 0, 0);
-            Description = "Explodes and deals 7 damage to all Zettaliths within 2 tiles";
             Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("TestSubpiece");
             AbilityRange = 2;
+
+            Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths within " + AbilityRange + " tiles";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
