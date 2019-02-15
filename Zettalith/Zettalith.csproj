@@ -157,7 +157,7 @@
     <Compile Include="Scripts\In Game\TileObject.cs" />
     <Compile Include="Scripts\PersonalData.cs" />
     <Compile Include="Scripts\Pieces\Middles\LowHealthLowAtk.cs" />
-    <Compile Include="Scripts\Pieces\Tops\TestTop1.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Bomb.cs" />
     <Compile Include="Scripts\In Game\Player Types\Player.cs" />
     <Compile Include="Scripts\In Game\GameRendering.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop3.cs" />
