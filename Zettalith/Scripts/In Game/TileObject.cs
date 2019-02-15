@@ -37,9 +37,11 @@ namespace Zettalith
 
         public void UpdateRenderer()
         {
-            Renderer.Position = new Vector2(Position.X, Position.Y * ClientSideController.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
+            Renderer.Position = SupposedPosition;
             Renderer.Layer = DefaultLayer(Position.Y);
         }
+
+        public Vector2 SupposedPosition => new Vector2(Position.X, Position.Y * ClientSideController.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
 
         public static Layer DefaultLayer(int y) => InGameController.IsHost ?
             new Layer(MainLayer.Main, (y - InGameController.Grid.yLength) * 2 - 1) :

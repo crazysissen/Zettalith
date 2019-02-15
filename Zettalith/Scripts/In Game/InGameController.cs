@@ -275,7 +275,7 @@ namespace Zettalith
             obj.Renderer = new Renderer.Sprite(TileObject.DefaultLayer(y), piece.Texture, new Vector2(x, y * ClientSideController.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
             obj.UpdateRenderer();
 
-            Local.Renderer.PlacePieceAnimation(piece);
+            Local.Renderer.PlacePieceAnimation(obj as TilePiece);
 
             foreach (Deck deck in decks)
             {
@@ -295,6 +295,8 @@ namespace Zettalith
             TilePiece piece = Grid[pieceIndex] as TilePiece;
 
             piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
+
+            Local.Renderer.PlacePieceAnimation(piece);
         }
 
         public void SetupEnd()

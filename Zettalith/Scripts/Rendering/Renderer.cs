@@ -162,6 +162,7 @@ namespace Zettalith
             public bool Repeat { get; set; }
             public int CurrentFrame => (int)(Time / TimeInterval);
             public int FrameCount { get; private set; }
+            public bool Complete { get; private set; }
 
             public Animator(Layer layer, Texture2D sheet, Point frameDimensions, Vector2 position, Vector2 size, Vector2 origin, float rotation, Color color, float interval, float startTime, bool repeat, SpriteEffects spriteEffects)
             {
@@ -193,7 +194,15 @@ namespace Zettalith
                 Time += deltaTime;
                 if (Time > FrameCount * TimeInterval)
                 {
-                    Time %= (FrameCount * TimeInterval);
+                    if (Repeat)
+                    {
+                        Time %= (FrameCount * TimeInterval);
+                    }
+                    else
+                    {
+                        Complete = true;
+                        return;
+                    }
                 }
 
                 int currentFrame = CurrentFrame;
