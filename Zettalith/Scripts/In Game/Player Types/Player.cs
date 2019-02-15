@@ -10,6 +10,10 @@ namespace Zettalith
 {
     abstract class Player
     {
+        public const string
+            MOVEMENTHEADER = "MOVEMENT",
+            ABILITYHEADER = "ABILITY";
+
         protected InGameController inGameController;
         protected MainController mainController;
         protected XNAController xnaController;
@@ -20,7 +24,6 @@ namespace Zettalith
         public Deck Deck { get; private set; }
         public List<InGamePiece> Hand { get; private set; }
 
-        public TilePiece ActionPiece { get; private set; }
 
         public virtual void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent, Deck deck, Set set)
         {
@@ -43,12 +46,6 @@ namespace Zettalith
             inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
         }
 
-        public void RequestAction(TilePiece piece)
-        {
-            ActionPiece = piece;
-
-            piece.Piece.Top.InitializeAbility();
-        }
 
         public Point[] RequestMovement(TilePiece piece)
         {
@@ -59,7 +56,12 @@ namespace Zettalith
 
         public void ExecuteMovement(TilePiece piece, Point point)
         {
-            piece.Piece.Bottom.ActivateMove(piece, point);
+            inGameController.Execute(GameAction.Movement, true, piece.GridIndex, point.X, point.Y);
+        }
+
+        public void ExecuteAction(TilePiece piece, object[] data)
+        {
+            inGameController.Execute(GameAction.Ability, true, data);
         }
 
         public InGamePiece TryRemoveFromHand(InGamePiece piece)
@@ -94,7 +96,9 @@ namespace Zettalith
 
         public virtual void Update(float deltaTime)
         {
-
+           
         }
+
+
     }
 }
