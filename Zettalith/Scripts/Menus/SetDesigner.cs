@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Zettalith.Pieces;
 
 namespace Zettalith
@@ -13,7 +12,7 @@ namespace Zettalith
     {
         MainController controller;
 
-        Piece[] newSet;
+        JankPiece[] newSet;
 
         GUI.Collection collections, collectionInspector, setDesigner, topFullDesc, middleFullDesc, bottomFullDesc;
 
@@ -24,14 +23,17 @@ namespace Zettalith
         Renderer.Text topName, topHealth, topAttack, topMana, topDesc, middleName, middleHealth, middleAttack, middleMana, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc;
 
         GUI.Button[] miniliths;
+        List<GUI.Button> setsButtons, deleteButtons;
 
         List<Top> unlockedTopList;
         List<Middle> unlockedMiddleList;
         List<Bottom> unlockedBottomList;
 
-        Texture2D miniLith2D, arrow2D, arrowHover2D, arrowPressed2D, highlight2D;
+        Texture2D miniLith2D, arrow2D, arrowHover2D, arrowPressed2D, highlight2D, bDelete2D, setNamePlate2D;
 
-        int currentlyShowingTop = 0, currentlyShowingMiddle = 0, currentlyShowingBottom = 0, selectedPiece = 0;
+        int currentlyShowingTop = 0, currentlyShowingMiddle = 0, currentlyShowingBottom = 0, selectedPiece = 0, setBeingModifiedIndex;
+
+        bool moddingASet = false;
 
         Layer collectionLayer, designerLayer;
 
@@ -39,6 +41,8 @@ namespace Zettalith
 
         public void Initialize(MainController controller)
         {
+            SaveLoad.Load();
+
             this.controller = controller;
 
             collections = new GUI.Collection();
@@ -53,13 +57,15 @@ namespace Zettalith
             arrowHover2D = Load.Get<Texture2D>("ArrowHover");
             arrowPressed2D = Load.Get<Texture2D>("ArrowPressed");
             highlight2D = Load.Get<Texture2D>("Highlighted");
+            bDelete2D = Load.Get<Texture2D>("DeleteButton");
+            setNamePlate2D = Load.Get<Texture2D>("SetNamePlate");
 
             RendererController.GUI.Add(collections);
 
             focusCollection = new RendererFocus(collectionLayer);
             focusDesigner = new RendererFocus(designerLayer) { Active = false };
 
-            Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
+            Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255), black = new Color(0, 0, 0, 255);
 
             unlockedTopList = Subpieces.GetSubpieces<Top>();
             unlockedMiddleList = Subpieces.GetSubpieces<Middle>();
@@ -69,6 +75,9 @@ namespace Zettalith
             designerLayer = new Layer(MainLayer.GUI, 10);
 
             miniliths = new GUI.Button[Set.MaxSize];
+
+            setsButtons = new List<GUI.Button>();
+            deleteButtons = new List<GUI.Button>();
 
             CustomArrowCall[] arrowCalls = new CustomArrowCall[7];
             for (int i = 0; i < arrowCalls.Length; i++)
@@ -82,6 +91,18 @@ namespace Zettalith
                 selectPieceCalls[i] = new CustomSelectPieceCall() { TargetMethod = BSelectPiece, PieceToSelect = i };
             }
 
+            CustomModSetCall[] modSetCalls = new CustomModSetCall[PersonalData.UserData.SavedSets.Count()];
+            for (int i = 0; i < modSetCalls.Length; i++)
+            {
+                modSetCalls[i] = new CustomModSetCall() { TargetMethod = BModSet, SetIndex = i, TheSet = PersonalData.UserData.SavedSets[i] };
+            }
+
+            CustomDeleteSetCall[] deleteCalls = new CustomDeleteSetCall[PersonalData.UserData.SavedSets.Count()];
+            for (int i = 0; i < deleteCalls.Length; i++)
+            {
+                deleteCalls[i] = new CustomDeleteSetCall() { TargetMethod = BDeleteSet, Set = PersonalData.UserData.SavedSets[i] };
+            }
+
             #region //CollectionInspector
             bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bCreate.AddText("Create Deck", 4, true, textColor, Font.Default);
@@ -92,12 +113,29 @@ namespace Zettalith
             bBack.OnClick += BBackToMain;
 
             collectionInspectorLines = new Renderer.SpriteScreen(collectionLayer, Load.Get<Texture2D>("CollectionInspectorLines"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
+
+            int numOfSavedSets = PersonalData.UserData.SavedSets.Count(), curPosInRow = 0, curPosVert = 0;
+
+            for (int i = 0; i < numOfSavedSets; i++)
+            {
+                if (curPosInRow == 6) { curPosInRow = 0; curPosVert++; }
+
+                setsButtons.Add(new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.16 * (0.17 + curPosInRow)), (int)(Settings.GetResolution.Y * 0.1 * (0.15 + curPosVert)), (int)(Settings.GetResolution.X * 0.06 * 9 / 4), (int)(Settings.GetResolution.Y * 0.06)), setNamePlate2D));
+                setsButtons[i].AddText(PersonalData.UserData.SavedSets[i].Name, 3, true, black, Font.Default);
+                setsButtons[i].OnClick += modSetCalls[i].Activate;
+                deleteButtons.Add(new GUI.Button(new Layer(MainLayer.GUI, collectionLayer.layer + 1), new Rectangle(setsButtons[i].Transform.Location.X + setsButtons[i].Transform.Width, setsButtons[i].Transform.Location.Y, (int)(Settings.GetResolution.X * 0.02 * 9 / 16), (int)(Settings.GetResolution.Y * 0.02)), bDelete2D));
+                deleteButtons[i].OnClick += deleteCalls[i].Activate;
+                collectionInspector.Add(setsButtons[i], deleteButtons[i]);
+
+                curPosInRow++;
+            }
+
             #endregion
 
             #region //SetDesigner
             bCancelSet = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.023f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
             bCancelSet.AddText("Cancel", 4, true, textColor, Font.Default);
-            bCancelSet.OnClick += BCancelSet;
+            bCancelSet.OnClick += BBackToMain;
 
             Texture2D tempMini = ImageProcessing.CombinePiece(unlockedTopList[0].Texture, unlockedMiddleList[0].Texture, unlockedBottomList[0].Texture);
 
@@ -188,31 +226,95 @@ namespace Zettalith
 
         private void BDone()
         {
+            Piece[] tempSet = new Piece[newSet.Length];
+
             for (int i = 0; i < newSet.Count(); i++)
             {
-                newSet[i] = new Piece((byte)(Subpieces.SubPieces.IndexOf(unlockedTopList[newSet[i].TopIndex].GetType())), (byte)(Subpieces.SubPieces.IndexOf(unlockedMiddleList[newSet[i].MiddleIndex].GetType())), (byte)(Subpieces.SubPieces.IndexOf(unlockedBottomList[newSet[i].BottomIndex].GetType())));
+                tempSet[i] = new Piece((byte)(Subpieces.SubPieces.IndexOf(unlockedTopList[newSet[i].TopIndex].GetType())), (byte)(Subpieces.SubPieces.IndexOf(unlockedMiddleList[newSet[i].MiddleIndex].GetType())), (byte)(Subpieces.SubPieces.IndexOf(unlockedBottomList[newSet[i].BottomIndex].GetType())));
             }
 
-            PersonalData.UserData.SavedSets.Add(new Set() { Pieces = newSet.ToList(), Name = "Set " + PersonalData.UserData.SavedSets.Count + 1});
+            if (moddingASet)
+            {
+                PersonalData.UserData.SavedSets[setBeingModifiedIndex].Pieces = tempSet.ToList();
+            }
+            else
+            {
+                PersonalData.UserData.SavedSets.Add(new Set() { Pieces = tempSet.ToList(), Name = "Set " + (PersonalData.UserData.SavedSets.Count + 1) });
+            }
+
             SaveLoad.Save();
 
-            setDesigner.Active = false;
-            collectionInspector.Active = true;
-            focusDesigner.Active = false;
-            focusCollection.Active = true;
+            BBackToMain();
         }
 
         private void BCreateSet()
         {
+            if (PersonalData.UserData.SavedSets.Count() < 54)
+            {
+                collectionInspector.Active = false;
+                setDesigner.Active = true;
+                focusCollection.Active = false;
+                focusDesigner.Active = true;
+                newSet = new JankPiece[Set.MaxSize];
+                for (int i = 0; i < newSet.Length; ++i)
+                {
+                    newSet[i] = new JankPiece(0, 0, 0);
+                }
+                selectedPiece = 0;
+                currentlyShowingTop = newSet[selectedPiece].TopIndex;
+                currentlyShowingMiddle = newSet[selectedPiece].MiddleIndex;
+                currentlyShowingBottom = newSet[selectedPiece].BottomIndex;
+
+                for (int i = 0; i < Set.MaxSize; i++)
+                {
+                    miniliths[i].Texture = ImageProcessing.CombinePiece(unlockedTopList[newSet[i].TopIndex].Texture, unlockedMiddleList[newSet[i].MiddleIndex].Texture, unlockedBottomList[newSet[i].BottomIndex].Texture);
+                }
+
+                UpdateShownTop();
+                UpdateShownMiddle();
+                UpdateShownBottom();
+            }
+        }
+
+        private void BModSet(Set set, int setIndex)
+        {
+            moddingASet = true;
+            setBeingModifiedIndex = setIndex;
+
             collectionInspector.Active = false;
             setDesigner.Active = true;
             focusCollection.Active = false;
             focusDesigner.Active = true;
-            newSet = new Piece[Set.MaxSize];
+
+            newSet = new JankPiece[Set.MaxSize];
+
             for (int i = 0; i < newSet.Length; ++i)
             {
-                newSet[i] = new Piece(0,0,0);
+                for (int j = 0; j < unlockedTopList.Count(); j++)
+                {
+                    if (unlockedTopList[j].GetType().ToString() == Subpieces.SubPieces[set.Pieces[i].TopIndex].FullName)
+                    {
+                        newSet[i].TopIndex = j;
+                    }
+                }
+
+                for (int j = 0; j < unlockedMiddleList.Count(); j++)
+                {
+                    if (unlockedMiddleList[j].GetType().ToString() == Subpieces.SubPieces[set.Pieces[i].MiddleIndex].FullName)
+                    {
+                        newSet[i].MiddleIndex = j;
+                    }
+                }
+
+                for (int j = 0; j < unlockedBottomList.Count(); j++)
+                {
+                    if (unlockedBottomList[j].GetType().ToString() == Subpieces.SubPieces[set.Pieces[i].BottomIndex].FullName)
+                    {
+                        newSet[i].BottomIndex = j;
+                    }
+                }
             }
+
             selectedPiece = 0;
             currentlyShowingTop = newSet[selectedPiece].TopIndex;
             currentlyShowingMiddle = newSet[selectedPiece].MiddleIndex;
@@ -222,6 +324,17 @@ namespace Zettalith
             {
                 miniliths[i].Texture = ImageProcessing.CombinePiece(unlockedTopList[newSet[i].TopIndex].Texture, unlockedMiddleList[newSet[i].MiddleIndex].Texture, unlockedBottomList[newSet[i].BottomIndex].Texture);
             }
+
+            UpdateShownTop();
+            UpdateShownMiddle();
+            UpdateShownBottom();
+        }
+
+        private void BDeleteSet(Set set)
+        {
+            PersonalData.UserData.SavedSets.Remove(set);
+            SaveLoad.Save();
+            BBackToMain();
         }
 
         private void BNextPiece()
@@ -260,29 +373,23 @@ namespace Zettalith
             controller.ToMenu();
         }
 
-        private void BCancelSet()
-        {
-            setDesigner.Active = false;
-            collectionInspector.Active = true;
-        }
-
         public void BArrow(int subPiece, bool b1)
         {
             if(subPiece == 1)
             {
                 if (!b1)
                 {
-                    if(currentlyShowingTop == unlockedTopList.Count - 1)
-                        currentlyShowingTop = 0;
-                    else
-                        currentlyShowingTop++;
-                }
-                if (b1)
-                {
-                    if (currentlyShowingTop == 0)
+                    if(currentlyShowingTop == 0)
                         currentlyShowingTop = unlockedTopList.Count - 1;
                     else
                         currentlyShowingTop--;
+                }
+                if (b1)
+                {
+                    if (currentlyShowingTop == unlockedTopList.Count - 1)
+                        currentlyShowingTop = 0;
+                    else
+                        currentlyShowingTop++;
                 }
                 UpdateShownTop();
             }
@@ -290,17 +397,17 @@ namespace Zettalith
             {
                 if (!b1)
                 {
-                    if (currentlyShowingMiddle == unlockedMiddleList.Count - 1)
-                        currentlyShowingMiddle = 0;
-                    else
-                        currentlyShowingMiddle++;
-                }
-                if (b1)
-                {
                     if (currentlyShowingMiddle == 0)
                         currentlyShowingMiddle = unlockedMiddleList.Count - 1;
                     else
                         currentlyShowingMiddle--;
+                }
+                if (b1)
+                {
+                    if (currentlyShowingMiddle == unlockedMiddleList.Count - 1)
+                        currentlyShowingMiddle = 0;
+                    else
+                        currentlyShowingMiddle++;
                 }
                 UpdateShownMiddle();
             }
@@ -308,17 +415,17 @@ namespace Zettalith
             {
                 if (!b1)
                 {
-                    if (currentlyShowingBottom == unlockedBottomList.Count - 1)
-                        currentlyShowingBottom = 0;
-                    else
-                        currentlyShowingBottom++;
-                }
-                if (b1)
-                {
                     if (currentlyShowingBottom == 0)
                         currentlyShowingBottom = unlockedBottomList.Count - 1;
                     else
                         currentlyShowingBottom--;
+                }
+                if (b1)
+                {
+                    if (currentlyShowingBottom == unlockedBottomList.Count - 1)
+                        currentlyShowingBottom = 0;
+                    else
+                        currentlyShowingBottom++;
                 }
                 UpdateShownBottom();
             }
@@ -362,7 +469,6 @@ namespace Zettalith
             newSet[selectedPiece].BottomIndex = (byte)(currentlyShowingBottom);
 
             UpdateMinilith();
-            //Subpieces.SubPieces.IndexOf(unlockedTopList[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(unlockedMiddleList[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(unlockedBottomList[0].GetType()
         }
 
         private void UpdateMinilith()
@@ -396,6 +502,43 @@ namespace Zettalith
         public void Activate()
         {
             TargetMethod.Invoke(PieceToSelect);
+        }
+    }
+
+    struct CustomModSetCall
+    {
+        public Action<Set, int> TargetMethod;
+        public Set TheSet;
+        public int SetIndex;
+
+        public void Activate()
+        {
+            TargetMethod.Invoke(TheSet, SetIndex);
+        }
+    }
+
+    struct CustomDeleteSetCall
+    {
+        public Action<Set> TargetMethod;
+        public Set Set;
+
+        public void Activate()
+        {
+            TargetMethod.Invoke(Set);
+        }
+    }
+
+    struct JankPiece
+    {
+        public int TopIndex;
+        public int MiddleIndex;
+        public int BottomIndex;
+
+        public JankPiece (int topIndex, int middleIndex, int bottomIndex)
+        {
+            TopIndex = topIndex;
+            MiddleIndex = middleIndex;
+            BottomIndex = bottomIndex;
         }
     }
 }

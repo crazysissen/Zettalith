@@ -18,10 +18,7 @@ namespace Zettalith
             CurrentSettings = new Settings(),
             UnlockedPieces = Subpieces.Unlocked.ToList(),
             SavedPieces = new List<Piece>(),
-            SavedSets = new List<Set>()
-            {
-                new Set(),
-            },
+            SavedSets = new List<Set>(),
             Locked = Achievements.DefaultLocked,
             Unlocked = Achievements.DefaultUnlocked,
         };
