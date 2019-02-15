@@ -248,15 +248,15 @@ namespace Zettalith
                 highlightedPieces[i].Renderer.Color = pieceCoveredColor;
             }
 
-            if (highlightedPiece != null && interactionPiece == null)
-            {
-                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
-            }
-
             // No further activation or interaction is allowed when an ability is active
             if (player.ActionPiece != null)
             {
                 return;
+            }
+
+            if (highlightedPiece != null && interactionPiece == null)
+            {
+                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
             }
 
             if (!leftMouse && interactionPiece != null)
