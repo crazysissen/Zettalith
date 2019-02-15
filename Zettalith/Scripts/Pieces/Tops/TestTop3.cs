@@ -17,15 +17,16 @@ namespace Zettalith.Pieces
             AttackDamage = 2;
             ManaCost = new Mana(2, 1, 0);
             Texture = Load.Get<Texture2D>("TestSubpiece");
-            Description = "Deals 3 damage to all Zettaliths in a straight line.";
             Modifier = new Addition(new Stats(-3), true);
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<SPoint> spoints = Abilities.Beam(piece.Position, mousePos).Cast<SPoint>().ToList();
+            List<Point> points = Abilities.Beam(piece.Position, mousePos);
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
-            if (spoints.Count == 0)
+            if (sPoints.Count == 0)
             {
                 if (mouseDown)
                 {
@@ -38,11 +39,11 @@ namespace Zettalith.Pieces
             }
 
             // TODO: Highlight spoints list
-            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { spoints, Modifier };
+                object[] temp = { sPoints, Modifier };
                 cancel = false;
                 return temp;
             }
@@ -53,7 +54,7 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
+            List<SPoint> temp = data[0] as List<SPoint>;
 
             for (int i = 0; i < temp.Count; ++i)
             {
