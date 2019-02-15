@@ -35,7 +35,7 @@ namespace Zettalith
             host = config != null;
             this.config = config;
 
-            testSet = PersonalData.UserData.SavedSets.Last();
+            testSet = host ? PersonalData.UserData.SavedSets.Last() : PersonalData.UserData.SavedSets[0];
 
             //testSet = new Set()
             //{

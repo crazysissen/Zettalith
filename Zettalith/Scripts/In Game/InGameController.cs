@@ -147,8 +147,11 @@ namespace Zettalith
             //{
                 for (int i = 0; i < Set.MaxSize; ++i)
                 {
-                    Local.PlacePiece(decks[PlayerIndex].Draw(), i, isHost ? 0 : 4);
+                    Local.PlacePiece(decks[PlayerIndex].Draw(), i, isHost ? 1 : 3);
                 }
+
+                // TODO: SPAWNA IN EN KUNG FUNKAR INTE
+                //Local.PlacePiece(new InGamePiece(new Piece(19, 7, 20)), 1, isHost ? 2 : 4);
 
                 //Local.PlacePiece(decks[0].Draw(), 3, 3);
                 //Local.PlacePiece(decks[0].Draw(), 5, 5);
