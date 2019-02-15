@@ -54,32 +54,32 @@ namespace Zettalith
             }
         }
 
-        public class TextField : IGUIMember
-        {
-            public enum TextType : byte { Letters = 0b1, Numbers = 0b01, Periods = 0b001, Symbols = 0b0001 }
+        //public class TextField : IGUIMember
+        //{
+        //    public enum TextType : byte { Letters = 0b1, Numbers = 0b01, Periods = 0b001, Symbols = 0b0001 }
 
-            Point IGUIMember.Origin { get => _origin; set => _origin = value; }
-            Layer IGUIMember.Layer => Layer;
-            Point _origin = new Point();
+        //    Point IGUIMember.Origin { get => _origin; set => _origin = value; }
+        //    Layer IGUIMember.Layer => Layer;
+        //    Point _origin = new Point();
 
-            public string Content { get; set; }
-            public int MaxLetters { get; set; }
-            public bool Active { get; private set; }
-            public TextType AllowedText { get; set; }
+        //    public string Content { get; set; }
+        //    public int MaxLetters { get; set; }
+        //    public bool Active { get; private set; }
+        //    public TextType AllowedText { get; set; }
 
-            public Layer Layer { get; set; }
-            public Renderer.SpriteScreen 
+        //    public Layer Layer { get; set; }
+        //    public Renderer.SpriteScreen 
 
-            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-            {
-                if (keyboard)
-            }
+        //    void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+        //    {
+        //        if (keyboard)
+        //    }
 
-            public void ChangeState(bool active)
-            {
-                Active = active;
-            }
-        }
+        //    public void ChangeState(bool active)
+        //    {
+        //        Active = active;
+        //    }
+        //}
 
         public class Button : IGUIMember
         {

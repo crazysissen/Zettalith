@@ -11,6 +11,14 @@ namespace Zettalith
     {
         public int GridIndex { get; set; }
         public Point Position { get; set; }
+        public Point RenderPosition
+        {
+            get
+            {
+                int multiplier = InGameController.IsHost ? 1 : -1;
+                return new Point(Position.X * multiplier, Position.Y * multiplier);
+            }
+        }
 
         public Renderer.Sprite Renderer { get; set; }
 

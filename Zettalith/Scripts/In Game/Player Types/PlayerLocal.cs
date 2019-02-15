@@ -41,9 +41,9 @@ namespace Zettalith
         {
             base.Update(deltaTime);
 
-            UpdateAbility();
-
             Renderer.Update(deltaTime);
+
+            UpdateAbility();
 
             if (Renderer.SetupComplete)
             {
