@@ -17,8 +17,9 @@ namespace Zettalith.Pieces
             AttackDamage = 2;
             ManaCost = new Mana(0, 3, 0);
             MoveRange = 3;
-            Description = "Moves " + MoveRange + " tiles in any given direction.";
             Texture = Load.Get<Texture2D>("TestSubpiece");
+
+            Description = "Moves " + MoveRange + " tiles in any given direction.";
         }
 
         public override List<Point> RequestMove(Point origin)

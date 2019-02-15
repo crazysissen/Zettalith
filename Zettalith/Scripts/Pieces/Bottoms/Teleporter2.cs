@@ -16,8 +16,9 @@ namespace Zettalith.Pieces
             Health = 3;
             ManaCost = new Mana(0, 0, 6);
             MoveCost = new Mana(0, 0, 4);
-            Description = "Teleports to anywhere on the map.";
             Texture = Load.Get<Texture2D>("TestSubpiece");
+
+            Description = "Teleports to anywhere on the map.";
         }
 
         public override List<Point> RequestMove(Point origin)
