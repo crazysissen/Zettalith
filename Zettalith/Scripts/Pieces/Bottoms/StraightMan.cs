@@ -5,20 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
-    class TestBottom2 : Bottom
+    class StraightMan : Bottom
     {
-        public TestBottom2()
+        public StraightMan()
         {
             Name = "Jhin";
             Health = 20;
             AttackDamage = 3;
             ManaCost = new Mana(0, 1, 0);
             MoveRange = 4;
-            Description = "Moves 4 tiles in any given direction.";
+            Description = "Moves " + MoveRange + " tiles in a straight line.";
             Texture = Load.Get<Texture2D>("TestSubpiece2");
         }
 
