@@ -9,16 +9,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
-    class TestMiddle2 : Middle
+    class HighHealthHighAtk : Middle
     {
-        public TestMiddle2()
+        public HighHealthHighAtk()
         {
-            Name = "TestMiddle2";
-            Health = 20;
+            Name = "High Health, High Atk";
+            Health = 7;
             AttackDamage = 3;
-            ManaCost = new Mana(0, 3, 0);
-            Description = "Sturdy but not very powerful body.";
-            Texture = Load.Get<Texture2D>("TestSubpiece2");
+            ManaCost = new Mana(2, 1, 2);
+            Description = "This body is better than the others.";
+            Texture = Load.Get<Texture2D>("HighATKHighHPMiddle");
         }
     }
 }

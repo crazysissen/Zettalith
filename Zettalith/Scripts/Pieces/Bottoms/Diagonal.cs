@@ -8,16 +8,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class DiagonalMan2 : Bottom
+    class Diagonal : Bottom
     {
-        public DiagonalMan2()
+        public Diagonal()
         {
-            Name = "Diagonal Man 2";
-            Health = 10;
-            AttackDamage = 7;
-            ManaCost = new Mana(2, 0, 0);
-            MoveRange = 2;
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Name = "Diagonal";
+            Health = 4;
+            AttackDamage = 1;
+            ManaCost = new Mana(0, 1, 0);
+            MoveRange = 4;
+            Texture = Load.Get<Texture2D>("SixtenBottom2");
 
             Description = "Moves " + MoveRange + " tiles diagonally";
         }
