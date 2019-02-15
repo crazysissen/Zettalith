@@ -240,6 +240,17 @@ namespace Zettalith
 
             highlightedPieces = highlightedPieces.OrderBy(o => o.Renderer.Layer.LayerDepth).ToList();
 
+            // No further activation or interaction is allowed when an ability is active
+            if (player.ActionPiece != null)
+            {
+                return;
+            }
+
+            if (highlightedPiece != null && interactionPiece == null)
+            {
+                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
+            }
+
             for (int i = 0; i < highlightedPieces.Count; i++)
             {
                 if (i == 0)
@@ -251,17 +262,6 @@ namespace Zettalith
                 }
 
                 highlightedPieces[i].Renderer.Color = pieceCoveredColor;
-            }
-
-            // No further activation or interaction is allowed when an ability is active
-            if (player.ActionPiece != null)
-            {
-                return;
-            }
-
-            if (highlightedPiece != null && interactionPiece == null)
-            {
-                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
             }
 
             if (!leftMouse && interactionPiece != null)
