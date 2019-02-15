@@ -14,11 +14,11 @@ namespace Zettalith.Pieces
         {
             Name = "Duplicator";
             Health = 1;
-            AttackDamage = 2;
-            ManaCost = new Mana(0, 0, 2);
-            AbilityCost = new Mana(0, 0, 2);
+            AttackDamage = 1;
+            ManaCost = new Mana(0, 1, 4);
+            AbilityCost = new Mana(0, 1, 1);
             Description = "Duplicates itself.";
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Texture = Load.Get<Texture2D>("DuplicateHead");
             AbilityRange = 1;
         }
 
