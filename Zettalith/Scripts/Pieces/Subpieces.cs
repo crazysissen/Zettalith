@@ -12,7 +12,7 @@ namespace Zettalith
         // TODO: Add all SubPieces to exist in the game to this list with the format below
         public static List<Type> SubPieces = new List<Type>
         {
-            typeof(Bomb), typeof(TestTop2), typeof(TestTop3), typeof(Duplicator), //typeof(Top2),
+            typeof(Bomb), typeof(TestTop2), typeof(TestTop3), /*typeof(Duplicator),*/ //typeof(Top2),
             typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk), typeof(MediumBody), //typeof(Middle2),
             typeof(Diagonal), typeof(Straight), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2),//typeof(Bottom2)
         };
@@ -23,7 +23,7 @@ namespace Zettalith
         {
             true, true, /*Tops*/
             true, true, /*Middles*/
-            true, true, true, true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
+            true, true, true, true, true, true, true, true, true, true, true, true, /*true,*/ /*Bottoms*/
         };
 
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)

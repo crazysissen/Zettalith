@@ -39,10 +39,10 @@ namespace Zettalith
             {
                 Pieces = new List<Piece>()
                 {
-                    new Piece(0, 4, 9),
-                    new Piece(1, 5, 10),
+                    new Piece(0, 3, 8),
+                    new Piece(1, 4, 9),
+                    new Piece(2, 5, 10),
                     new Piece(2, 6, 11),
-                    new Piece(2, 7, 12),
                 }
             };
 
