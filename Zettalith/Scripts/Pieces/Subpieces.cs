@@ -12,18 +12,18 @@ namespace Zettalith
         // TODO: Add all SubPieces to exist in the game to this list with the format below
         public static List<Type> SubPieces = new List<Type>
         {
-            typeof(Bomb), typeof(TestTop2), typeof(TestTop3), typeof(Duplicator), //typeof(Top2),
+            typeof(Bomb), typeof(Pyro), typeof(Cyclops), /*typeof(Duplicator),*/ //typeof(Top2),
             typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk), typeof(MediumBody), //typeof(Middle2),
-            typeof(Diagonal), typeof(Straight), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2),//typeof(Bottom2)
+            typeof(Diagonal), typeof(Straight), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(SingleTarget), typeof(Healer), typeof(Lob), //typeof(Bottom2)
         };
 
         // Bool values here decides if a subpiece is unlocked or not
         // NOTE! Order corresponds to the above subpieces list
         public static bool[] Unlocked = new bool[]
         {
-            true, true, /*Tops*/
-            true, true, /*Middles*/
-            true, true, true, true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
+            true, true, true, /*Tops*/
+            true, true, true, true, true, /*Middles*/
+            true, true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
         };
 
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
