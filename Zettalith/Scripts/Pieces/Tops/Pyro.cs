@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestTop2 : Top
+    class Pyro : Top
     {
-        public TestTop2()
+        public Pyro()
         {
             Name = "Pyro";
-            Health = 20;
+            Health = 7;
             AttackDamage = 3;
             ManaCost = new Mana(0, 2, 0);
             Description = "Deals 1 damage to all Zettaliths.";

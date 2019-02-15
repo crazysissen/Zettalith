@@ -42,7 +42,9 @@ namespace Zettalith
                     new Piece(0, 3, 8),
                     new Piece(1, 4, 9),
                     new Piece(2, 5, 10),
-                    new Piece(2, 6, 11),
+                    new Piece(16, 6, 11),
+                    new Piece(17, 6, 11),
+                    new Piece(18, 4, 9),
                 }
             };
 

@@ -126,7 +126,9 @@
     <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Duplicator.cs" />
-    <Compile Include="Scripts\Pieces\Tops\TestTop2.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Healer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Lob.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Pyro.cs" />
     <Compile Include="Scripts\Menus\SetDesigner.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
@@ -160,11 +162,12 @@
     <Compile Include="Scripts\Pieces\Tops\Bomb.cs" />
     <Compile Include="Scripts\In Game\Player Types\Player.cs" />
     <Compile Include="Scripts\In Game\GameRendering.cs" />
-    <Compile Include="Scripts\Pieces\Tops\TestTop3.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Cyclops.cs" />
     <Compile Include="Scripts\Modifier\Addition.cs" />
     <Compile Include="Scripts\Modifier\Modifier.cs" />
     <Compile Include="Scripts\Modifier\Multiplication.cs" />
     <Compile Include="Scripts\Pieces\Piece.cs" />
+    <Compile Include="Scripts\Pieces\Tops\SingleTarget.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />
