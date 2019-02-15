@@ -13,8 +13,8 @@ namespace Zettalith
         public static List<Type> SubPieces = new List<Type>
         {
             typeof(TestTop1), typeof(TestTop2), //typeof(Top2),
-            typeof(TestMiddle1), typeof(TestMiddle2), //typeof(Middle2),
-            typeof(DiagonalMan), typeof(StraightMan),  typeof(TestTop3), typeof(Duplicator), typeof(Teleporter), typeof(Queen), typeof(DiagonalMan2), typeof(StraightMan2), typeof(Teleporter2), typeof(Queen2),//typeof(Bottom2)
+            typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk), typeof(MediumBody), //typeof(Middle2),
+            typeof(Diagonal), typeof(Straight),  typeof(TestTop3), typeof(Duplicator), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2),//typeof(Bottom2)
         };
 
         // Bool values here decides if a subpiece is unlocked or not
@@ -23,7 +23,7 @@ namespace Zettalith
         {
             true, true, /*Tops*/
             true, true, /*Middles*/
-            true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
+            true, true, true, true, true, true, true, true, true, true, true, true, true, /*Bottoms*/
         };
 
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
