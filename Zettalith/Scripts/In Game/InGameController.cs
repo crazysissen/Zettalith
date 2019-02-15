@@ -222,9 +222,11 @@ namespace Zettalith
             switch (actionType)
             {
                 case GameAction.Movement:
+                    ActivateMovement((int)arg[0], (int)arg[1], (int)arg[2]);
                     break;
 
                 case GameAction.Ability:
+                    ActivateAbility((int)arg[0], (object[])arg[1]);
                     break;
 
                 case GameAction.Attack:
@@ -278,9 +280,18 @@ namespace Zettalith
             }
         }
 
+        public void ActivateAbility(int pieceIndex, object[] data)
+        {
+            TilePiece piece = Grid[pieceIndex] as TilePiece;
+
+            piece.Piece.Top.ActivateAbility(data);
+        }
+
         public void ActivateMovement(int pieceIndex, int x, int y)
         {
+            TilePiece piece = Grid[pieceIndex] as TilePiece;
 
+            piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
         }
 
         public void SetupEnd()

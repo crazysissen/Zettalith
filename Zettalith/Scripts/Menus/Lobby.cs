@@ -39,7 +39,7 @@ namespace Zettalith
             {
                 Pieces = new List<Piece>()
                 {
-                    new Piece(0, 2, 5)
+                    new Piece(0, 2, 9)
                 }
             };
 
