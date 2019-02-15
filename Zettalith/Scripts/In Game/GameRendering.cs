@@ -90,7 +90,7 @@ namespace Zettalith
                 for (int y = 0; y < grid.yLength; ++y)
                 {
                     tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
-                    highlights[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    highlights[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
 
                     if (!InGameController.IsHost)
                     {
@@ -299,6 +299,8 @@ namespace Zettalith
             if (leftMouse && interactionPiece != null)
             {
                 float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+
+                AddHighlight(Color.White, interactionPiece.Position);
 
                 if (movementHighlight != null && movementHighlight.Length > 0)
                 {

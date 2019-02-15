@@ -155,5 +155,17 @@ namespace Zettalith
 
             return newArray;
         }
+
+        public static Point ToRender(this Point point)
+        {
+            int multiplier = InGameController.IsHost ? 1 : -1;
+            return new Point(point.X * multiplier, point.Y * multiplier);
+        }
+
+        public static Vector2 ToRender(this Vector2 vector)
+        {
+            int multiplier = InGameController.IsHost ? 1 : -1;
+            return new Vector2(vector.X * multiplier, vector.Y * multiplier);
+        }
     }
 }
