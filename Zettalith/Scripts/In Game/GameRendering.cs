@@ -246,11 +246,6 @@ namespace Zettalith
                 return;
             }
 
-            if (highlightedPiece != null && interactionPiece == null)
-            {
-                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
-            }
-
             for (int i = 0; i < highlightedPieces.Count; i++)
             {
                 if (i == 0)
@@ -262,6 +257,11 @@ namespace Zettalith
                 }
 
                 highlightedPieces[i].Renderer.Color = pieceCoveredColor;
+            }
+
+            if (highlightedPiece != null && interactionPiece == null)
+            {
+                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
             }
 
             if (!leftMouse && interactionPiece != null)
