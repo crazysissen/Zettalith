@@ -221,7 +221,7 @@ namespace Zettalith
             return temp;
         }
 
-        public static List<Point> CircleAoE(Point origin, int range)
+        public static List<Point> CircleAoE(Point origin, int range, bool includeCenter)
         {
             List<Point> temp = new List<Point>();
 
@@ -237,6 +237,11 @@ namespace Zettalith
                         temp.Add(new Point(i, j));
                     }
                 }
+            }
+            
+            if (!includeCenter)
+            {
+                temp.Remove(origin);
             }
 
             return temp;

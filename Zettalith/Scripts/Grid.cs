@@ -101,7 +101,7 @@ namespace Zettalith
                 return;
             }
 
-            TileArray[Objects[id].Position.X, Objects[id].Position.Y] = null;
+            TileArray[Objects[id].Position.X, Objects[id].Position.Y].TileObject = null;
             Objects[id] = null;
         }
 
