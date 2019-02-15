@@ -44,6 +44,9 @@ namespace Zettalith.Pieces
                         return temp;
                     }
                 }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;
