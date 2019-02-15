@@ -280,6 +280,8 @@ namespace Zettalith
                 ghost = null;
                 movementHighlight = null;
                 interactionPiece = null;
+
+                return;
             }
 
             if (highlightedPiece != null)
