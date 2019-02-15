@@ -25,7 +25,9 @@ namespace Zettalith
             pieceGhostColor = new Color(255, 255, 255, 120),
             dimColor = new Color(0, 0, 0, 160);
 
-        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2());
+        int handPieceHeight, handPieceWidth;
+
+        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
         public static Point MousePoint => MousePosition.RoundToPoint();
 
@@ -40,7 +42,7 @@ namespace Zettalith
         Renderer.Text[] mana;
         Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
-        List<(Renderer.SpriteScreen renderer, InGamePiece piece)> handPieces;
+        List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)> handPieces;
         GUI.Button bEndTurn;
 
         Point[] movementHighlight;
@@ -50,7 +52,7 @@ namespace Zettalith
         TilePiece interactionPiece;
         TimerTable splashTable;
         PlayerLocal player;
-
+        InGamePiece dragOutPiece;
         Point handStart, handEnd, mouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
@@ -58,6 +60,9 @@ namespace Zettalith
         public ClientSideController(PlayerLocal player, bool host, bool start)
         {
             this.player = player;
+
+            handPieces = new List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)>();
+            handPieceHeight = Settings.GetResolution.Y / 5;
 
             dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
@@ -106,6 +111,8 @@ namespace Zettalith
         {
             Pieces(deltaTime);
 
+            UpdateHandPieces();
+
             SplashUpdate(deltaTime);
 
             if (MoveableCamera)
@@ -152,11 +159,11 @@ namespace Zettalith
 
             bottomPanel = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("BottomPanel"), new Rectangle(Settings.GetHalfResolution.X - width / 2, Settings.GetResolution.Y - height, width, height));
 
-            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 1), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
+            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
             bEndTurn.OnClick += player.EndTurn;
 
-            handStart = new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height / 2);
-            handStart = new Point((int)(Settings.GetResolution.X * 0.40f), Settings.GetResolution.Y - height / 2);
+            handStart = new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
+            handEnd = new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
 
             battleGUI.Add(bottomPanel, bEndTurn);
             battleGUI.Active = false;
@@ -324,9 +331,17 @@ namespace Zettalith
 
                 if (movementHighlight != null)
                 {
-                    if (movementHighlight.Contains(MousePoint))
+                    if (movementHighlight.Contains(MousePoint.ToRender()))
                     {
-                        player.ExecuteMovement(interactionPiece, MousePoint);
+                        if (InGameController.Main.Mana > interactionPiece.Piece.Bottom.MoveCost)
+                        {
+                            InGameController.Main.ChangeMana(new Mana() - interactionPiece.Piece.Bottom.MoveCost);
+                            player.ExecuteMovement(interactionPiece, MousePoint.ToRender());
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
 
@@ -354,13 +369,13 @@ namespace Zettalith
             {
                 float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
 
-                AddHighlight(Color.White, interactionPiece.Position);
+                AddHighlight(Color.White, interactionPiece.Position.ToRender());
 
                 if (movementHighlight != null && movementHighlight.Length > 0)
                 {
                     foreach (Point point in movementHighlight)
                     {
-                        AddHighlight(point == MousePoint ? movementSelectedHighlightColor : movementHighlightColor, point);
+                        AddHighlight(point == MousePoint.ToRender() ? movementSelectedHighlightColor : movementHighlightColor, point);
                     }
                 }
 
@@ -379,6 +394,77 @@ namespace Zettalith
                     ghost.Position = MousePositionAbsolute;
                     ghost.Layer = new Layer(MainLayer.Main, TileObject.DefaultLayer((int)(MousePosition.Y)).layer + 1);
                 }
+            }
+        }
+
+        void WarnMana()
+        {
+
+        }
+
+        public void DrawPieceFromDeck()
+        {
+            InGamePiece newPiece = player.Deck.Draw();
+            Renderer.SpriteScreen sc = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 1), newPiece.Texture, new Rectangle());
+
+            handPieces.Add((sc, newPiece, new RendererFocus(new Layer(MainLayer.GUI, 1), new Rectangle(), false)));
+
+            UpdateHandPieces();
+
+            battleGUI.Add(sc);
+        }
+
+        void UpdateHandPieces()
+        {
+            InGamePiece removePiece = null;
+
+            if (dragOutPiece != null)
+            {
+                if (In.LeftMouse)
+                {
+                    AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+                }
+                else
+                {
+                    if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
+                    {
+                        removePiece = dragOutPiece;
+                        player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);
+                        dragOutPiece = null;
+                    }
+                }
+            }
+
+            for (int i = handPieces.Count - 1; i >= 0; --i)
+            {
+                (Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus) item = handPieces[i];
+
+                if (item.piece == removePiece)
+                {
+                    handPieces.RemoveAt(i);
+                    item.renderer.Destroy();
+                    item.focus.Remove();
+                    battleGUI.Remove(item.renderer);
+                    continue;
+                }
+
+                Rectangle rectangle = GetTargetRectangle(i, handPieces.Count);
+
+                bool color = false;
+
+                if (dragOutPiece == null && rectangle.Contains(In.MousePosition) && !(i < handPieces.Count - 1 && GetTargetRectangle(i + 1, handPieces.Count).Contains(In.MousePosition)))
+                {
+                    color = true;
+                    if (In.LeftMouseDown)
+                    {
+                        dragOutPiece = item.piece;
+                    }
+                }
+
+                item.renderer.Color = color ? pieceHighlightColor : Color.White;
+                item.renderer.Layer = new Layer(MainLayer.GUI, 1 + i);
+                item.renderer.Transform = rectangle;
+                item.focus.Rectangle = rectangle;
             }
         }
 
@@ -435,10 +521,9 @@ namespace Zettalith
             }
         }
 
-        //private Rectangle GetTargetRectangle(int index, int count)
-        //{
-        //    //return new Rectangle(handStart.ToVector2().)
-        //}
+        private Rectangle GetTargetRectangle(int index, int count) 
+            => new Rectangle(handStart.ToVector2().Lerp(handEnd.ToVector2(), count == 1 ? 0 : index / (count - 1.0f)).RoundToPoint(), 
+                new Point((int)(handPieceHeight * ((float)handPieces[index].piece.Texture.Width / handPieces[index].piece.Texture.Height)), handPieceHeight));
 
         #region Tile Highlighting
 

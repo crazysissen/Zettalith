@@ -118,6 +118,8 @@ namespace Zettalith
             return returnVector;
         }
 
+        public static Vector2 Lerp(this Vector2 vector, Vector2 target, float value) => vector + (target - vector) * value;
+
         public static SPoint[] ToSPointArray(this Point[] array)
         {
             SPoint[] newArray = new SPoint[array.Length];

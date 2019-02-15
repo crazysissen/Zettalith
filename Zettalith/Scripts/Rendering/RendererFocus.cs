@@ -15,9 +15,9 @@ namespace Zettalith
 
         public bool Active { get; set; } = true;
 
-        public Layer? Layer { get; private set; }
-        public Rectangle? Rectangle { get; private set; }
-        public bool? OutsideArea { get; private set; }
+        public Layer? Layer { get; set; }
+        public Rectangle? Rectangle { get; set; }
+        public bool? OutsideArea { get; set; }
 
         private readonly FocusType type;
 
@@ -96,7 +96,7 @@ namespace Zettalith
                     case FocusType.BlockUnderArea:
                         initial = layer.LayerDepth >= 
                             focus.Layer.Value.LayerDepth &&
-                            focus.OutsideArea.Value ? !focus.Rectangle.Value.Contains(state.Position) : focus.Rectangle.Value.Contains(state.Position);
+                            focus.OutsideArea.Value ? focus.Rectangle.Value.Contains(state.Position) : !focus.Rectangle.Value.Contains(state.Position);
                         break;
                 }
 

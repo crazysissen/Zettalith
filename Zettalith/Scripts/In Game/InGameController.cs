@@ -27,6 +27,9 @@ namespace Zettalith
 
     class InGameController
     {
+        const int
+            STARTHAND = 3;
+
         public static InGameController Main { get; private set; }
 
         public static Grid Grid { get; private set; }
@@ -38,6 +41,8 @@ namespace Zettalith
         public static Player Client => Main.players?[1];
         public static PlayerLocal Local => Main.players?[PlayerIndex] as PlayerLocal;
         public static PlayerRemote Remote => Main.players?[(PlayerIndex + 1) % 2] as PlayerRemote;
+
+        public Mana Mana { get; private set; } = new Mana(50, 50, 50);
 
         XNAController xnaController;
         MainController mainController;
@@ -146,12 +151,16 @@ namespace Zettalith
             if (IsHost)
             {
                 Local.PlacePiece(decks[0].Draw(), 3, 3);
-                Local.PlacePiece(decks[0].Draw(), 5, 5);
-                Local.PlacePiece(decks[0].Draw(), 7, 7);
-                Local.PlacePiece(decks[0].Draw(), 1, 1);
-                Local.PlacePiece(decks[0].Draw(), 4, 4);
-                Local.PlacePiece(decks[0].Draw(), 2, 2);
+                //Local.PlacePiece(decks[0].Draw(), 5, 5);
+                //Local.PlacePiece(decks[0].Draw(), 7, 7);
+                //Local.PlacePiece(decks[0].Draw(), 1, 1);
+                //Local.PlacePiece(decks[0].Draw(), 4, 4);
+                //Local.PlacePiece(decks[0].Draw(), 2, 2);
             }
+
+            Local.Renderer.DrawPieceFromDeck();
+            Local.Renderer.DrawPieceFromDeck();
+            Local.Renderer.DrawPieceFromDeck();
         }
 
         public void NewTurnStart()
@@ -331,6 +340,11 @@ namespace Zettalith
         private Player CreateRemotePlayer()
         {
             return new PlayerRemote();
+        }
+
+        public void ChangeMana(Mana change)
+        {
+            Mana += change;
         }
 
         private void UpdateSetup()

@@ -161,7 +161,7 @@
     <Compile Include="Scripts\Pieces\Middles\LowHealthLowAtk.cs" />
     <Compile Include="Scripts\Pieces\Tops\Bomb.cs" />
     <Compile Include="Scripts\In Game\Player Types\Player.cs" />
-    <Compile Include="Scripts\In Game\GameRendering.cs" />
+    <Compile Include="Scripts\In Game\ClientSideController.cs" />
     <Compile Include="Scripts\Pieces\Tops\Cyclops.cs" />
     <Compile Include="Scripts\Modifier\Addition.cs" />
     <Compile Include="Scripts\Modifier\Modifier.cs" />

@@ -24,7 +24,6 @@ namespace Zettalith
         public Deck Deck { get; private set; }
         public List<InGamePiece> Hand { get; private set; }
 
-
         public virtual void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent, Deck deck, Set set)
         {
             this.inGameController = inGameController;
