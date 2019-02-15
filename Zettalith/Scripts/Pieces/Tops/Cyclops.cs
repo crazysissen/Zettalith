@@ -38,7 +38,6 @@ namespace Zettalith.Pieces
                 return null;
             }
 
-            // TODO: Highlight spoints list
             ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)

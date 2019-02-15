@@ -198,6 +198,23 @@ namespace Zettalith
                     UpdateEnd();
                     break;
             }
+
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TileObject temp = Grid[i];
+
+                if (temp == null || !(temp is TilePiece))
+                    continue;
+
+                if ((temp as TilePiece).Piece.ModifiedStats.Health <= 0)
+                {
+                    temp.Destroy();
+                    if ((temp as TilePiece).Piece.IsKing)
+                    {
+                        // TODO: WIN THE FUCKING GAME ARIGHT
+                    }
+                }
+            }
         }
 
         public void Request(GameAction actionType, params object[] arg)
