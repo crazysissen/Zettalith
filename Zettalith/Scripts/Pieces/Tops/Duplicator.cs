@@ -24,21 +24,22 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<SPoint> spoints = Abilities.SquareAoE(piece.Position, AbilityRange).Cast<SPoint>().ToList();
+            List<Point> points = Abilities.SquareAoE(piece.Position, AbilityRange, true);
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
-            for (int i = 0; i < spoints.Count; ++i)
-                if (InGameController.Grid.GetObject(spoints[i].X, spoints[i].Y) != null)
-                    spoints.Remove(spoints[i]);
+            for (int i = 0; i < sPoints.Count; ++i)
+                if (InGameController.Grid.GetObject(sPoints[i].X, sPoints[i].Y) != null)
+                    sPoints.Remove(sPoints[i]);
 
-            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(sPoints.ToArray().ToPointArray());
 
             if (mouseDown)
             {
-                for (int i = 0; i < spoints.Count; ++i)
+                for (int i = 0; i < sPoints.Count; ++i)
                 {
-                    if (mousePos == spoints[i])
+                    if (mousePos == sPoints[i])
                     {
-                        object[] temp = { mousePos, piece };
+                        object[] temp = { (SPoint)mousePos, piece.GridIndex };
                         cancel = false;
                         return temp;
                     }
@@ -51,8 +52,10 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            Point point = data[0] as SPoint;
-            InGameController.Grid.Place(point.X, point.Y, data[1] as TilePiece);
+            Point point = (SPoint)data[0];
+            TilePiece piece = (TilePiece)InGameController.Grid[(int)data[1]];
+            TilePiece temp = new TilePiece(new InGamePiece(piece.Piece.Piece), piece.Player);
+            InGameController.Main.PlacePiece(temp.GridIndex, point.X, point.Y, piece.Player);
         }
     }
 }

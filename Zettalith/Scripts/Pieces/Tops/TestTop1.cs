@@ -17,21 +17,23 @@ namespace Zettalith.Pieces
             AttackDamage = 1;
             ManaCost = new Mana(3, 0, 0);
             AbilityCost = new Mana(2, 0, 0);
-            Description = "Explodes and deals 7 damage to all Zettaliths within 2 tiles";
             Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("TestSubpiece");
             AbilityRange = 2;
+
+            Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths within " + AbilityRange + " tiles";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<SPoint> spoints = Abilities.CircleAoE(piece.Position, AbilityRange).Cast<SPoint>().ToList();
+            List<Point> points = Abilities.CircleAoE(piece.Position, AbilityRange, false);
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
-            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { spoints, Modifier, piece };
+                object[] temp = { sPoints, Modifier, piece.GridIndex };
                 cancel = false;
                 return temp;
             }
@@ -42,7 +44,7 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
+            List<SPoint> temp = data[0] as List<SPoint>;
 
             for (int i = 0; i < temp.Count; ++i)
             {
@@ -52,9 +54,10 @@ namespace Zettalith.Pieces
                     continue;
 
                 (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
-
-                (data[2] as TileObject).Destroy();
             }
+
+            InGameController.Grid[(int)data[2]].Destroy();
+
         }
     }
 }

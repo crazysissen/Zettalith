@@ -43,7 +43,7 @@ namespace Zettalith
     }
 
     [Serializable]
-    class SPoint
+    struct SPoint
     {
         public int X, Y;
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
+    [Serializable]
     class Addition : Modifier
     {
         public Stats StatChanges { get; set; } = new Stats();

@@ -203,7 +203,7 @@ namespace Zettalith
             return temp;
         }
 
-        public static List<Point> SquareAoE(Point origin, int range)
+        public static List<Point> SquareAoE(Point origin, int range, bool excludeObjects)
         {
             List<Point> temp = new List<Point>();
 
@@ -214,14 +214,20 @@ namespace Zettalith
             {
                 for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
                 {
-                    temp.Add(new Point(i, j));
+                    if (excludeObjects)
+                    {
+                        if (InGameController.Grid.Vacant(i, j))
+                            temp.Add(new Point(i, j));
+                    }
+                    else
+                        temp.Add(new Point(i, j));
                 }
             }
 
             return temp;
         }
 
-        public static List<Point> CircleAoE(Point origin, int range)
+        public static List<Point> CircleAoE(Point origin, int range, bool includeCenter)
         {
             List<Point> temp = new List<Point>();
 
@@ -237,6 +243,11 @@ namespace Zettalith
                         temp.Add(new Point(i, j));
                     }
                 }
+            }
+            
+            if (!includeCenter)
+            {
+                temp.Remove(origin);
             }
 
             return temp;

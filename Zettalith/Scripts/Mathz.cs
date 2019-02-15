@@ -117,5 +117,43 @@ namespace Zettalith
             returnVector.Normalize();
             return returnVector;
         }
+
+        public static SPoint[] ToSPointArray(this Point[] array)
+        {
+            SPoint[] newArray = new SPoint[array.Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                try
+                {
+                    newArray[i] = array[i];
+                }
+                catch
+                {
+                    newArray[i] = new SPoint();
+                }
+            }
+
+            return newArray;
+        }
+
+        public static Point[] ToPointArray(this SPoint[] array)
+        {
+            Point[] newArray = new Point[array.Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                try
+                {
+                    newArray[i] = array[i];
+                }
+                catch
+                {
+                    newArray[i] = new Point();
+                }
+            }
+
+            return newArray;
+        }
     }
 }
