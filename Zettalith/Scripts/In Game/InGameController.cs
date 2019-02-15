@@ -146,6 +146,7 @@ namespace Zettalith
             if (IsHost)
             {
                 Local.PlacePiece(decks[0].Draw(), 3, 3);
+                Local.PlacePiece(decks[0].Draw(), 5, 5);
             }
         }
 
@@ -226,7 +227,7 @@ namespace Zettalith
                     break;
 
                 case GameAction.Ability:
-                    ActivateAbility((int)arg[0], (object[])arg[1]);
+                    ActivateAbility((int)arg[0], ((OArray)arg[1]).o);
                     break;
 
                 case GameAction.Attack:

@@ -51,7 +51,7 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            Point point = data[0] as SPoint;
+            Point point = (SPoint)data[0];
             InGameController.Grid.Place(point.X, point.Y, data[1] as TilePiece);
         }
     }

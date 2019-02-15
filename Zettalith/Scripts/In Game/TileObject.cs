@@ -21,6 +21,8 @@ namespace Zettalith
 
         public void Destroy()
         {
+            Renderer.Destroy();
+            Renderer = null;
             InGameController.Grid.Remove(this);
         }
 

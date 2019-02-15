@@ -247,7 +247,41 @@ namespace Zettalith
 
                 highlightedPieces[i].Renderer.Color = pieceCoveredColor;
             }
-            
+
+            if (highlightedPiece != null && interactionPiece == null)
+            {
+                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
+            }
+
+            // No further activation or interaction is allowed when an ability is active
+            if (player.ActionPiece != null)
+            {
+                return;
+            }
+
+            if (!leftMouse && interactionPiece != null)
+            {
+                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+
+                if (movementHighlight != null)
+                {
+                    if (movementHighlight.Contains(MousePoint))
+                    {
+                        player.ExecuteMovement(interactionPiece, MousePoint);
+                    }
+                }
+
+                if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
+                {
+                    player.RequestAction(interactionPiece);
+                }
+
+                ghost?.Destroy();
+                ghost = null;
+                movementHighlight = null;
+                interactionPiece = null;
+            }
+
             if (highlightedPiece != null)
             {
                 if (leftMouseDown)
@@ -278,35 +312,12 @@ namespace Zettalith
 
                     if (movementHighlight == null)
                     {
-                        movementHighlight = player.RequestMovement(highlightedPiece);
+                        movementHighlight = player.RequestMovement(interactionPiece);
                     }
 
                     ghost.Position = MousePositionAbsolute;
                     ghost.Layer = new Layer(MainLayer.Main, TileObject.DefaultLayer((int)(MousePosition.Y)).layer + 1);
                 }
-            }
-
-            if (!leftMouse && interactionPiece != null)
-            {
-                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
-
-                if (movementHighlight != null)
-                {
-                    if (movementHighlight.Contains(MousePoint))
-                    {
-                        player.ExecuteMovement(interactionPiece, MousePoint);
-                    }
-                }
-
-                if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
-                {
-                    player.RequestAction(interactionPiece);
-                }
-
-                ghost?.Destroy();
-                ghost = null;
-                movementHighlight = null;
-                interactionPiece = null;
             }
         }
 
@@ -394,7 +405,10 @@ namespace Zettalith
 
             foreach ((Point p, Color c) item in queuedHighlights)
             {
-                highlightColors[item.p.X, item.p.Y] = item.c;
+                if (InGameController.Grid.InBounds(item.p.X, item.p.Y))
+                {
+                    highlightColors[item.p.X, item.p.Y] = item.c;
+                }
             }
 
             for (int x = 0; x < xL; x++)

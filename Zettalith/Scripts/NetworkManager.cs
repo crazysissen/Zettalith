@@ -44,7 +44,7 @@ namespace Zettalith
                     outMessage.Write(message.Length);
                     outMessage.Write(message);
 
-                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableUnordered);
+                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableOrdered);
                 }
             }
         }
