@@ -91,7 +91,7 @@
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
-    <Compile Include="Scripts\Direct.cs" />
+    <Compile Include="Scripts\Modifier\Direct.cs" />
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\In Game\BattleHUD.cs" />
     <Compile Include="Scripts\In Game\Deck.cs" />
@@ -158,10 +158,10 @@
     <Compile Include="Scripts\In Game\Player Types\Player.cs" />
     <Compile Include="Scripts\In Game\GameRendering.cs" />
     <Compile Include="Scripts\Pieces\Tops\TestTop3.cs" />
-    <Compile Include="Scripts\Recovery\Addition.cs" />
-    <Compile Include="Scripts\Recovery\Modifier.cs" />
-    <Compile Include="Scripts\Recovery\Multiplication.cs" />
-    <Compile Include="Scripts\Recovery\Piece.cs" />
+    <Compile Include="Scripts\Modifier\Addition.cs" />
+    <Compile Include="Scripts\Modifier\Modifier.cs" />
+    <Compile Include="Scripts\Modifier\Multiplication.cs" />
+    <Compile Include="Scripts\Pieces\Piece.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />

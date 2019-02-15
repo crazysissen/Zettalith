@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
+    [Serializable]
     struct Stats
     {
         public int AttackDamage { get; set; }

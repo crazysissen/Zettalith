@@ -15,7 +15,7 @@ namespace Zettalith
         GameSetup setup;
 
         GUI.Collection collection, mainCollection, fullscreenCollection, resolutionCollection, volumeCollection, masterVolCollection, musicVolCollection, sFXVolCollection, ambientVolCollection;
-        Renderer.Text Header, fullscreenText, resolutionText, appliedAtRestartText, masterVolumeText, musicVolumeText, sFXVolumeText, ambientVolumeText;
+        Renderer.Text header, fullscreenText, resolutionText, appliedAtRestartText, masterVolumeText, musicVolumeText, sFXVolumeText, ambientVolumeText;
         GUI.Button bFullscreen, bResolution, bMasterSpeaker, bMusicSpeaker, bSFXSpeaker, bAmbientSpeaker, bBack;
         GUI.Button[] bMaster, bMusic, bSFX, bAmbient;
 
@@ -25,7 +25,8 @@ namespace Zettalith
 
         Point[] displays;
 
-        int currentDisplay;
+        int currentDisplay, masterToApply, musicToApply, sFXToApply, ambientToApply;
+        float defaultFontSize;
 
         Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
@@ -33,8 +34,6 @@ namespace Zettalith
         CustomVolumeCall[] musicVolumeCalls = new CustomVolumeCall[10];
         CustomVolumeCall[] sFXVolumeCalls = new CustomVolumeCall[10];
         CustomVolumeCall[] ambientVolumeCalls = new CustomVolumeCall[10];
-        
-        int masterToApply, musicToApply, sFXToApply, ambientToApply;
 
         RendererFocus focusSettings;
 
@@ -61,6 +60,8 @@ namespace Zettalith
             ambientVolCollection = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.3)) };
 
             volumeCollection.Add(masterVolCollection, musicVolCollection, sFXVolCollection, ambientVolCollection);
+
+            defaultFontSize = 4 * (Settings.GetResolution.Y / 1080f);
 
             bMaster = new GUI.Button[10];
             bMusic = new GUI.Button[10];
@@ -96,10 +97,10 @@ namespace Zettalith
             sFXToApply = (int)(PersonalData.Settings.VolumeSFXForMenu * 10);
             ambientToApply = (int)(PersonalData.Settings.VolumeAmbientForMenu * 10);
 
-            Header = new Renderer.Text(settingsLayer, Font.Styled, "Settings", 10, 0, new Vector2(0, 0));
+            header = new Renderer.Text(settingsLayer, Font.Styled, "Settings", 10f * (Settings.GetResolution.Y / 1080f), 0, new Vector2(0, 0));
 
             #region //Fullscreen
-            fullscreenText = new Renderer.Text(settingsLayer, Font.Default, "Fullscreen", 4, 0, new Vector2(0, 0), buttonColor);
+            fullscreenText = new Renderer.Text(settingsLayer, Font.Default, "Fullscreen", defaultFontSize, 0, new Vector2(0, 0), buttonColor);
             bFullscreen = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.085), (int)(Settings.GetResolution.Y * 0.0126), (int)(Settings.GetResolution.X * 0.18 / 16), (int)(Settings.GetResolution.Y * 0.02)), PersonalData.Settings.FullScreen ? checked2D : unchecked2D);
             bFullscreen.OnClick += BFullscreen;
             #endregion
@@ -126,10 +127,10 @@ namespace Zettalith
                 }
             }
 
-            resolutionText = new Renderer.Text(settingsLayer, Font.Default, "Resolution: " + displays[currentDisplay].Y + "p", 4, 0, new Vector2(0, 0), textColor);
+            resolutionText = new Renderer.Text(settingsLayer, Font.Default, "Resolution: " + displays[currentDisplay].Y + "p", defaultFontSize, 0, new Vector2(0, 0), textColor);
             bResolution = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.152f), 0, (int)(Settings.GetResolution.X * 0.03f), (int)(Settings.GetResolution.Y * 0.04f)), arrow2D, arrowHover2D, arrowPressed2D) { SpriteEffects = SpriteEffects.FlipHorizontally };
             bResolution.OnClick += BResolution;
-            appliedAtRestartText = new Renderer.Text(settingsLayer, Font.Default, "Settings applied at restart", 4, 0, new Vector2((float)(Settings.GetResolution.X * 0.195f), 0), textColor) { Active = false };
+            appliedAtRestartText = new Renderer.Text(settingsLayer, Font.Default, "Settings applied at restart", defaultFontSize, 0, new Vector2((float)(Settings.GetResolution.X * 0.195f), 0), textColor) { Active = false };
             #endregion
 
             #region //Volume
@@ -140,7 +141,7 @@ namespace Zettalith
             #endregion
 
             bBack = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.68f), (int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.05f)));
-            bBack.AddText("Back", 4, true, textColor, Font.Default);
+            bBack.AddText("Back", defaultFontSize, true, textColor, Font.Default);
             bBack.OnClick += BGoBack;
 
             masterVolCollection.Add(bMasterSpeaker, masterVolumeText);
@@ -149,7 +150,7 @@ namespace Zettalith
             ambientVolCollection.Add(bAmbientSpeaker, ambientVolumeText);
             resolutionCollection.Add(resolutionText, bResolution, appliedAtRestartText);
             fullscreenCollection.Add(fullscreenText, bFullscreen);
-            mainCollection.Add(Header, fullscreenCollection, resolutionCollection, volumeCollection, bBack);
+            mainCollection.Add(header, fullscreenCollection, resolutionCollection, volumeCollection, bBack);
         }
 
         public void Update()
@@ -241,7 +242,7 @@ namespace Zettalith
 
         private void CreateAudioBar(ref Renderer.Text textVar, string printedText, ref GUI.Button[] buttonArray, float currentVolume, ref GUI.Collection relevantCollection, ref GUI.Button bSpeaker, CustomVolumeCall[] calls, Action muteMethod)
         {
-            textVar = new Renderer.Text(settingsLayer, Font.Default, printedText, 4, 0, new Vector2((int)(Settings.GetResolution.X * 0.055), 0), textColor);
+            textVar = new Renderer.Text(settingsLayer, Font.Default, printedText, defaultFontSize, 0, new Vector2((int)(Settings.GetResolution.X * 0.055), 0), textColor);
 
             for (int i = 0; i < buttonArray.Length; i++)
             {

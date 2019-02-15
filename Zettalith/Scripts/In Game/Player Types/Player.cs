@@ -61,7 +61,7 @@ namespace Zettalith
 
         public void ExecuteAction(TilePiece piece, object[] data)
         {
-            inGameController.Execute(GameAction.Ability, true, data);
+            inGameController.Execute(GameAction.Ability, true, piece.GridIndex, new OArray() { o = data });
         }
 
         public InGamePiece TryRemoveFromHand(InGamePiece piece)
@@ -100,5 +100,11 @@ namespace Zettalith
         }
 
 
+    }
+
+    [Serializable]
+    struct OArray
+    {
+        public object[] o;
     }
 }

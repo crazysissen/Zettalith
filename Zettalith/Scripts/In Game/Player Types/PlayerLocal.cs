@@ -41,6 +41,8 @@ namespace Zettalith
         {
             base.Update(deltaTime);
 
+            UpdateAbility();
+
             Renderer.Update(deltaTime);
 
             if (Renderer.SetupComplete)
@@ -67,7 +69,7 @@ namespace Zettalith
                     return;
                 }
 
-                object[] returnArray = ActionPiece.Piece.Top.UpdateAbility(ActionPiece, ClientSideController.MousePoint, RendererFocus.OnArea(new Rectangle(In.MousePosition, new Point(1, 1)), Layer.Default), out bool cancel);
+                object[] returnArray = ActionPiece.Piece.Top.UpdateAbility(ActionPiece, ClientSideController.MousePoint, RendererFocus.OnArea(new Rectangle(In.MousePosition, new Point(1, 1)), Layer.Default) && In.LeftMouseDown, out bool cancel);
 
                 // Cancel
                 if (cancel)

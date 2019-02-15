@@ -25,13 +25,14 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<SPoint> spoints = Abilities.CircleAoE(piece.Position, AbilityRange).Cast<SPoint>().ToList();
+            List<Point> points = Abilities.CircleAoE(piece.Position, AbilityRange);
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
-            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { spoints, Modifier, piece };
+                object[] temp = { sPoints, Modifier, piece.GridIndex };
                 cancel = false;
                 return temp;
             }
@@ -42,7 +43,7 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
+            List<SPoint> temp = data[0] as List<SPoint>;
 
             for (int i = 0; i < temp.Count; ++i)
             {
@@ -53,7 +54,7 @@ namespace Zettalith.Pieces
 
                 (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
 
-                (data[2] as TileObject).Destroy();
+                InGameController.Grid[(int)data[2]].Destroy();
             }
         }
     }
