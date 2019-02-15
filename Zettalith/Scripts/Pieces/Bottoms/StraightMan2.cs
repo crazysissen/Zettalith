@@ -8,23 +8,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class Teleporter : Bottom
+    class StraightMan2 : Bottom
     {
-        public Teleporter()
+        public StraightMan2()
         {
-            Name = "Teleporter";
-            Health = 3;
-            ManaCost = new Mana(0, 0, 4);
-            MoveCost = new Mana(0, 0, 3);
-            MoveRange = 5;
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            Name = "Straight Man 2";
+            Health = 20;
+            AttackDamage = 3;
+            ManaCost = new Mana(0, 1, 0);
+            MoveRange = 4;
+            Texture = Load.Get<Texture2D>("TestSubpiece2");
 
-            Description = "Teleports to an empty tile within " + MoveRange + " tiles.";
+            Description = "Moves " + MoveRange + " tiles in a straight line.";
         }
 
         public override List<Point> RequestMove(Point origin)
         {
-            return Movement.Teleport(origin, new Point(MoveRange, MoveRange));
+            return Movement.Straight(origin, MoveRange);
         }
 
         public override void ActivateMove(TilePiece piece, Point target)
