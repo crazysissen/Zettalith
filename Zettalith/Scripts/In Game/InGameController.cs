@@ -145,12 +145,17 @@ namespace Zettalith
 
             if (IsHost)
             {
-                Local.PlacePiece(decks[0].Draw(), 3, 3);
-                Local.PlacePiece(decks[0].Draw(), 5, 5);
-                Local.PlacePiece(decks[0].Draw(), 7, 7);
-                Local.PlacePiece(decks[0].Draw(), 1, 1);
-                Local.PlacePiece(decks[0].Draw(), 4, 4);
-                Local.PlacePiece(decks[0].Draw(), 2, 2);
+                for (int i = 0; i < Set.MaxSize; ++i)
+                {
+                    Local.PlacePiece(decks[PlayerIndex].Draw(), i, 0);
+                }
+
+                //Local.PlacePiece(decks[0].Draw(), 3, 3);
+                //Local.PlacePiece(decks[0].Draw(), 5, 5);
+                //Local.PlacePiece(decks[0].Draw(), 7, 7);
+                //Local.PlacePiece(decks[0].Draw(), 1, 1);
+                //Local.PlacePiece(decks[0].Draw(), 4, 4);
+                //Local.PlacePiece(decks[0].Draw(), 2, 2);
             }
         }
 
@@ -188,6 +193,17 @@ namespace Zettalith
                 case InGameState.End:
                     UpdateEnd();
                     break;
+            }
+
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TileObject temp = Grid[i];
+
+                if (temp == null || !(temp is TilePiece))
+                    continue;
+
+                if ((temp as TilePiece).Piece.ModifiedStats.Health <= 0)
+                    temp.Destroy();
             }
         }
 
