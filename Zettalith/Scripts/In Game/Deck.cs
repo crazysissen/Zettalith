@@ -13,6 +13,8 @@ namespace Zettalith
 
         public Deck(Set set)
         {
+
+
             Pieces = new List<InGamePiece>();
 
             if (set.Pieces != null)

@@ -165,7 +165,11 @@ namespace Zettalith
             handStart = new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
             handEnd = new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
 
-            battleGUI.Add(bottomPanel, bEndTurn);
+            GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
+            button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
+            button.OnClick += DrawPieceFromDeck;
+
+            battleGUI.Add(bottomPanel, bEndTurn, button);
             battleGUI.Active = false;
         }
 
@@ -404,6 +408,11 @@ namespace Zettalith
 
         public void DrawPieceFromDeck()
         {
+            if (player.Deck.Pieces.Count <= 0)
+            {
+                return;
+            }
+
             InGamePiece newPiece = player.Deck.Draw();
             Renderer.SpriteScreen sc = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 1), newPiece.Texture, new Rectangle());
 
