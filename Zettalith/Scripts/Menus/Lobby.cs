@@ -88,6 +88,19 @@ namespace Zettalith
                 NetworkManager.StartPeerSearch("localhost");
             }
 
+            if (!XNAController.localGame)
+            {
+                if (config == null)
+                {
+                    NetworkManager.CreateClient();
+                    NetworkManager.StartPeerSearch(NetworkManager.tempIP);
+                }
+                else
+                {
+                    NetworkManager.CreateHost("Good Server");
+                }
+            }
+
             NetworkManager.OnConnected += Connected;
             NetworkManager.OnDisconnected += Disconnected;
 
