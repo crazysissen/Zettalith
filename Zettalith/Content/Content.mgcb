@@ -459,18 +459,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/1TileBottom.png
 
-#begin Subpieces/1TileBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/1TileBottom.png
-
 #begin Subpieces/AOELOBtop.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -482,30 +470,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/AOELOBtop.png
-
-#begin Subpieces/AOELOBtop.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/AOELOBtop.png
-
-#begin Subpieces/BombTop1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/BombTop1.png
 
 #begin Subpieces/BombTop1.png
 /importer:TextureImporter
@@ -531,18 +495,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/BombTop2.png
 
-#begin Subpieces/BombTop2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/BombTop2.png
-
 #begin Subpieces/BombTop3.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -554,30 +506,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/BombTop3.png
-
-#begin Subpieces/BombTop3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/BombTop3.png
-
-#begin Subpieces/BombTop4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/BombTop4.png
 
 #begin Subpieces/BombTop4.png
 /importer:TextureImporter
@@ -603,18 +531,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/BombTop5.png
 
-#begin Subpieces/BombTop5.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/BombTop5.png
-
 #begin Subpieces/BombTop6.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -626,30 +542,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/BombTop6.png
-
-#begin Subpieces/BombTop6.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/BombTop6.png
-
-#begin Subpieces/Bottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/Bottom.png
 
 #begin Subpieces/Bottom.png
 /importer:TextureImporter
@@ -783,18 +675,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/DiagonalBottom.png
 
-#begin Subpieces/DiagonalBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/DiagonalBottom.png
-
 #begin Subpieces/DuplicateHead.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -806,30 +686,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/DuplicateHead.png
-
-#begin Subpieces/DuplicateHead.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/DuplicateHead.png
-
-#begin Subpieces/HealerTop.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/HealerTop.png
 
 #begin Subpieces/HealerTop.png
 /importer:TextureImporter
@@ -855,18 +711,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/HighATKHighHPMiddle.png
 
-#begin Subpieces/HighATKHighHPMiddle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/HighATKHighHPMiddle.png
-
 #begin Subpieces/HighATKLowHPMiddle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -878,30 +722,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/HighATKLowHPMiddle.png
-
-#begin Subpieces/HighATKLowHPMiddle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/HighATKLowHPMiddle.png
-
-#begin Subpieces/HorseBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/HorseBottom.png
 
 #begin Subpieces/HorseBottom.png
 /importer:TextureImporter
@@ -927,18 +747,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/LowATKHighHPMiddle.png
 
-#begin Subpieces/LowATKHighHPMiddle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/LowATKHighHPMiddle.png
-
 #begin Subpieces/LowATKLowHPMiddle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -950,30 +758,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/LowATKLowHPMiddle.png
-
-#begin Subpieces/LowATKLowHPMiddle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/LowATKLowHPMiddle.png
-
-#begin Subpieces/MediumMiddle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/MediumMiddle.png
 
 #begin Subpieces/MediumMiddle.png
 /importer:TextureImporter
@@ -999,18 +783,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/Middle.png
 
-#begin Subpieces/Middle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/Middle.png
-
 #begin Subpieces/QueenBottom.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1022,30 +794,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/QueenBottom.png
-
-#begin Subpieces/QueenBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/QueenBottom.png
-
-#begin Subpieces/SixtenBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SixtenBottom.png
 
 #begin Subpieces/SixtenBottom.png
 /importer:TextureImporter
@@ -1071,18 +819,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/SixtenBottom1.png
 
-#begin Subpieces/SixtenBottom1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SixtenBottom1.png
-
 #begin Subpieces/SixtenBottom2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1094,30 +830,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/SixtenBottom2.png
-
-#begin Subpieces/SixtenBottom2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SixtenBottom2.png
-
-#begin Subpieces/SixtenBottom3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SixtenBottom3.png
 
 #begin Subpieces/SixtenBottom3.png
 /importer:TextureImporter
@@ -1143,18 +855,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/SixtenMiddle.png
 
-#begin Subpieces/SixtenMiddle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SixtenMiddle.png
-
 #begin Subpieces/SixtenTop.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1166,30 +866,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/SixtenTop.png
-
-#begin Subpieces/SixtenTop.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SixtenTop.png
-
-#begin Subpieces/StraightBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/StraightBottom.png
 
 #begin Subpieces/StraightBottom.png
 /importer:TextureImporter
@@ -1215,30 +891,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/SwapBottom.png
 
-#begin Subpieces/SwapBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/SwapBottom.png
-
-#begin Subpieces/TestSubpiece.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/TestSubpiece.png
-
 #begin Subpieces/TestSubpiece.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1263,18 +915,6 @@
 /processorParam:TextureFormat=Color
 /build:Subpieces/TestSubpiece2.png
 
-#begin Subpieces/TestSubpiece2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/TestSubpiece2.png
-
 #begin Subpieces/Top.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1286,30 +926,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Subpieces/Top.png
-
-#begin Subpieces/Top.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/Top.png
-
-#begin Subpieces/TPBottom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Subpieces/TPBottom.png
 
 #begin Subpieces/TPBottom.png
 /importer:TextureImporter
