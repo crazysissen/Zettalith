@@ -112,6 +112,8 @@ namespace Zettalith
 
                 return;
             }
+
+            controller.ToLobby(null);
         }
 
         private void BArmies()

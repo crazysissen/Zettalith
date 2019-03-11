@@ -132,6 +132,10 @@ namespace Zettalith
             {
                 NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Local Server", callback);
             }
+            else if (singleton.config == null)
+            {
+                NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Trying to join from: AA", callback);
+            }
 
             singleton.endPoint = ipEndPoint;
         }
