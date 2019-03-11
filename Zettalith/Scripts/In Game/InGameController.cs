@@ -208,11 +208,11 @@ namespace Zettalith
 
                 if ((temp as TilePiece).Piece.ModifiedStats.Health <= 0)
                 {
-                    temp.Destroy();
                     if ((temp as TilePiece).Piece.IsKing)
                     {
                         // TODO: WIN THE FUCKING GAME ARIGHT
                     }
+                    temp.Destroy();
                 }
             }
         }
