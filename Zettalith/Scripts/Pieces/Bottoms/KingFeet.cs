@@ -20,7 +20,7 @@ namespace Zettalith.Pieces
 
         public override List<Point> RequestMove(Point origin)
         {
-            return Movement.Straight(origin, MoveRange);
+            return Movement.Teleport(origin, new Point(1, 1));
         }
 
         public override void ActivateMove(TilePiece piece, Point target)
