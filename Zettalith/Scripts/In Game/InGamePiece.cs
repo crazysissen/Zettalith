@@ -40,6 +40,9 @@ namespace Zettalith
             Top = Subpieces.FromIndex(piece.TopIndex) as Top;
             Middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
             Bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
+
+            Texture = ClientSideController.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
+
             baseStats = BaseStats;
         }
 

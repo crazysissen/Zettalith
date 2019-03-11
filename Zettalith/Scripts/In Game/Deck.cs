@@ -22,7 +22,6 @@ namespace Zettalith
                 foreach (Piece piece in set.Pieces)
                 {
                     InGamePiece newPiece = new InGamePiece(piece);
-                    newPiece.Texture = ClientSideController.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
                     Pieces.Add(newPiece);
                 }
             }
