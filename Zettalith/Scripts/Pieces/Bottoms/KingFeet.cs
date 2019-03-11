@@ -15,7 +15,7 @@ namespace Zettalith.Pieces
             Name = "King Feet";
             Health = 20;
             MoveRange = 1;
-            Texture = Load.Get<Texture2D>("Cleo_Bottom_Wood_flat");
+            Texture = Load.Get<Texture2D>("SixtenBottom3");
         }
 
         public override List<Point> RequestMove(Point origin)
