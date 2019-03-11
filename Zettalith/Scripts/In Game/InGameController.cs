@@ -147,8 +147,8 @@ namespace Zettalith
             players[0].Start(this, mainController, xnaController, players[1], decks[0], sets[0]);
             players[1].Start(this, mainController, xnaController, players[0], decks[1], sets[1]);
 
-            PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 0);
-            PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 1);
+            PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 0);
+            PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 1);
 
             loading = false;
             gameState = InGameState.Setup;
