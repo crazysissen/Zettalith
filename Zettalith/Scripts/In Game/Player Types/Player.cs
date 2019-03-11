@@ -23,6 +23,7 @@ namespace Zettalith
         public Set Set { get; private set; }
         public Deck Deck { get; private set; }
         public List<InGamePiece> Hand { get; private set; }
+        public TilePiece King { get; private set; }
 
         public virtual void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent, Deck deck, Set set)
         {
@@ -33,6 +34,11 @@ namespace Zettalith
 
             Deck = deck;
             Set = set;
+        }
+
+        public void SetKing(TilePiece king)
+        {
+            King = king;
         }
 
         public void EndTurn()

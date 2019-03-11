@@ -36,6 +36,7 @@ namespace Zettalith
 
         public static bool IsHost => Main.isHost;
         public static int PlayerIndex { get; private set; }
+        public static int OpponentIndex { get; private set; }
         public static int StartPlayer { get; private set; }
         public static Player Host => Main.players?[0];
         public static Player Client => Main.players?[1];
@@ -127,6 +128,7 @@ namespace Zettalith
             this.loadedConfig = loadedConfig;
 
             PlayerIndex = isHost ? 0 : 1;
+            OpponentIndex = (PlayerIndex + 1) % 2;
             StartPlayer = loadedConfig.startPlayer;
 
             NetworkManager.Listen("GAMEACTION", RecieveAction);
@@ -144,6 +146,9 @@ namespace Zettalith
 
             players[0].Start(this, mainController, xnaController, players[1], decks[0], sets[0]);
             players[1].Start(this, mainController, xnaController, players[0], decks[1], sets[1]);
+
+            PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 0);
+            PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 1);
 
             loading = false;
             gameState = InGameState.Setup;
