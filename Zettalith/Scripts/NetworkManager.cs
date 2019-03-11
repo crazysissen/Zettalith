@@ -22,7 +22,7 @@ namespace Zettalith
 
     static class NetworkManager
     {
-        public const string tempIP = "10.156.46.56";
+        public const string tempIP = "10.156.46.57";
 
         public static string PublicIP { get; private set; }
         public static string LocalIP { get; private set; }
