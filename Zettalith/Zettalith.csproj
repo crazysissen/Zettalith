@@ -120,6 +120,7 @@
     <Compile Include="Scripts\Pieces\Bottoms\Teleporter2.cs" />
     <Compile Include="Scripts\Pieces\Middles\HighHealthLowAttack.cs" />
     <Compile Include="Scripts\Pieces\Middles\HighHealthHighAtk.cs" />
+    <Compile Include="Scripts\Pieces\Middles\KingMiddle.cs" />
     <Compile Include="Scripts\Pieces\Middles\MediumBody.cs" />
     <Compile Include="Scripts\Pieces\Middles\LowHealthHighAtk.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
