@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
         public KingMiddle()
         {
             Name = "King Middle";
-            Health = 20;
+            Health = 1;
             Texture = Load.Get<Texture2D>("SixtenBottom3");
         }
     }
