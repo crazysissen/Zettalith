@@ -107,11 +107,14 @@ namespace Zettalith
             }
         }
 
-        public void Update(float deltaTime)
+        public void Update(float deltaTime, InGameState gameState)
         {
-            Pieces(deltaTime);
+            Pieces(deltaTime, gameState == InGameState.Battle);
 
-            UpdateHandPieces();
+            if (gameState == InGameState.Battle)
+            {
+                UpdateHandPieces();
+            }
 
             SplashUpdate(deltaTime);
 
@@ -237,7 +240,7 @@ namespace Zettalith
             animatingPieces.Add((piece, newTable, null));
         }
 
-        void Pieces(float deltaTime)
+        void Pieces(float deltaTime, bool moveable)
         {
             for (int i = animatingPieces.Count - 1; i >= 0; --i)
             {
@@ -343,6 +346,14 @@ namespace Zettalith
                 AddHighlight(defaultHighlightColor, highlightedPiece.Position);
             }
 
+            if (moveable)
+            {
+                BoardMove(leftMouseDown, leftMouse, highlightedPiece);
+            }
+        }
+
+        void BoardMove(bool leftMouseDown, bool leftMouse, TilePiece highlightedPiece)
+        {
             if (!leftMouse && interactionPiece != null)
             {
                 float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();

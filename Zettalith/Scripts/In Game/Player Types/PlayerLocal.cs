@@ -9,7 +9,7 @@ namespace Zettalith
 {
     class PlayerLocal : Player
     {
-        public ClientSideController Renderer { get; private set; }
+        public ClientSideController ClientController { get; private set; }
 
         public TilePiece ActionPiece { get; private set; }
 
@@ -17,19 +17,19 @@ namespace Zettalith
         {
             base.Start(inGameController, mainController, xnaController, opponent, deck, set);
 
-            Renderer = new ClientSideController(this, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
+            ClientController = new ClientSideController(this, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
         }
 
         public void SwitchTurns(InGameState newState)
         {
             if (newState == InGameState.Battle)
             {
-                Renderer.OpenBattle();
+                ClientController.OpenBattle();
 
                 return;
             }
 
-            Renderer.OpenLogistics();
+            ClientController.OpenLogistics();
         }
 
         public override void TurnStart()
@@ -37,15 +37,13 @@ namespace Zettalith
             base.TurnStart();
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(float deltaTime, InGameState gameState)
         {
-            base.Update(deltaTime);
-
-            Renderer.Update(deltaTime);
+            ClientController.Update(deltaTime, gameState);
 
             UpdateAbility();
 
-            if (Renderer.SetupComplete)
+            if (ClientController.SetupComplete)
             {
 
             }

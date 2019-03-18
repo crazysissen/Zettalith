@@ -99,7 +99,7 @@ namespace Zettalith
 
         }
 
-        public virtual void Update(float deltaTime)
+        public virtual void Update(float deltaTime, InGameState gameState)
         {
            
         }

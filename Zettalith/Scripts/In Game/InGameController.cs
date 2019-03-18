@@ -164,9 +164,9 @@ namespace Zettalith
                 //Local.PlacePiece(decks[0].Draw(), 2, 2);
             }
 
-            Local.Renderer.DrawPieceFromDeck();
-            Local.Renderer.DrawPieceFromDeck();
-            Local.Renderer.DrawPieceFromDeck();
+            Local.ClientController.DrawPieceFromDeck();
+            Local.ClientController.DrawPieceFromDeck();
+            Local.ClientController.DrawPieceFromDeck();
         }
 
         public void NewTurnStart()
@@ -183,8 +183,8 @@ namespace Zettalith
                 return;
             }
 
-            Local.Update(deltaTime);
-            Remote.Update(deltaTime);
+            Local.Update(deltaTime, gameState);
+            Remote.Update(deltaTime, gameState);
 
             switch (gameState)
             {
@@ -314,7 +314,7 @@ namespace Zettalith
             obj.Renderer = new Renderer.Sprite(TileObject.DefaultLayer(y), piece.Texture, new Vector2(x, y * ClientSideController.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
             obj.UpdateRenderer();
 
-            Local.Renderer.PlacePieceAnimation(obj as TilePiece);
+            Local.ClientController.PlacePieceAnimation(obj as TilePiece);
 
             foreach (Deck deck in decks)
             {
@@ -335,14 +335,14 @@ namespace Zettalith
 
             piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
-            Local.Renderer.PlacePieceAnimation(piece);
+            Local.ClientController.PlacePieceAnimation(piece);
         }
 
         public void EndGame(int winnerIndex)
         {
             gameState = InGameState.End;
 
-            Local.Renderer.OpenEnd(winnerIndex == PlayerIndex);
+            Local.ClientController.OpenEnd(winnerIndex == PlayerIndex);
         }
 
         public void SetupEnd()
