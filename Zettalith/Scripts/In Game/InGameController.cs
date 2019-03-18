@@ -147,6 +147,7 @@ namespace Zettalith
             players[0].Start(this, mainController, xnaController, players[1], decks[0], sets[0]);
             players[1].Start(this, mainController, xnaController, players[0], decks[1], sets[1]);
 
+            // Place kings
             PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 0);
             PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 1);
 
@@ -211,12 +212,17 @@ namespace Zettalith
                 if (temp == null || !(temp is TilePiece))
                     continue;
 
-                if ((temp as TilePiece).Piece.ModifiedStats.Health <= 0)
+                TilePiece piece = temp as TilePiece;
+
+                if (piece.Piece.ModifiedStats.Health <= 0)
                 {
-                    if ((temp as TilePiece).Piece.IsKing)
+                    if (piece.Piece.IsKing)
                     {
                         // TODO: WIN THE FUCKING GAME ARIGHT
+
+                        EndGame((piece.Player + 1) % 2);
                     }
+
                     temp.Destroy();
                 }
             }
@@ -330,6 +336,13 @@ namespace Zettalith
             piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
             Local.Renderer.PlacePieceAnimation(piece);
+        }
+
+        public void EndGame(int winnerIndex)
+        {
+            gameState = InGameState.End;
+
+            Local.Renderer.OpenEnd(winnerIndex == PlayerIndex);
         }
 
         public void SetupEnd()

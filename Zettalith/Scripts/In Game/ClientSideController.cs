@@ -36,7 +36,7 @@ namespace Zettalith
 
         public Renderer.Sprite[,] tiles, highlights;
 
-        GUI.Collection collection, battleGUI, logisticsGUI, setupGUI;
+        GUI.Collection collection, battleGUI, logisticsGUI, setupGUI, endGUI;
 
         Renderer.Text splash, essence;
         Renderer.Text[] mana;
@@ -209,6 +209,20 @@ namespace Zettalith
             splash.String = new StringBuilder("Opponent's Turn");
             splash.Origin = splash.Font.MeasureString("Opponent's Turn") * 0.5f;
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+        }
+
+        public void OpenEnd(bool winner)
+        {
+            battleGUI.Active = false;
+            logisticsGUI.Active = false;
+
+            string endString = "Game End: " + (winner ? "You Won!" : "You Lose!");
+
+            splash.String = new StringBuilder(endString);
+            splash.Origin = splash.Font.MeasureString(endString) * 0.5f;
+            splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+
+            endGUI = new GUI.Collection();
         }
 
         public void DrawPiece(InGamePiece piece)
