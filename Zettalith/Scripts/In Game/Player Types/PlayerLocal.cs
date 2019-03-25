@@ -17,7 +17,7 @@ namespace Zettalith
         {
             base.Start(inGameController, mainController, xnaController, opponent, deck, set);
 
-            ClientController = new ClientSideController(this, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
+            ClientController = new ClientSideController(this, inGameController, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
         }
 
         public void SwitchTurns(InGameState newState)

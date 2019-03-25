@@ -52,14 +52,16 @@ namespace Zettalith
         TilePiece interactionPiece;
         TimerTable splashTable;
         PlayerLocal player;
+        InGameController controller;
         InGamePiece dragOutPiece;
         Point handStart, handEnd, mouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
 
-        public ClientSideController(PlayerLocal player, bool host, bool start)
+        public ClientSideController(PlayerLocal player, InGameController controller, bool host, bool start)
         {
             this.player = player;
+            this.controller = controller;
 
             handPieces = new List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)>();
             handPieceHeight = Settings.GetResolution.Y / 5;
@@ -68,6 +70,11 @@ namespace Zettalith
 
             string splashText = start ? "You Start" : "Opponent Starts";
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
+
+            for (int i = 0; i < 3; i++)
+            {
+
+            }
 
             CreateBattleGUI();
             CreateLogisticsGUI();
@@ -116,7 +123,7 @@ namespace Zettalith
                 UpdateHandPieces();
             }
 
-            SplashUpdate(deltaTime);
+            SplashUpdate(deltaTime, gameState);
 
             if (MoveableCamera)
             {
@@ -223,9 +230,19 @@ namespace Zettalith
 
             splash.String = new StringBuilder(endString);
             splash.Origin = splash.Font.MeasureString(endString) * 0.5f;
+            splash.Position = new Vector2(Settings.GetHalfResolution.X, Settings.GetResolution.Y / 4);
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
 
-            endGUI = new GUI.Collection();
+            float screenWidth = 0.35f, screenHeight = 0.4f;
+
+            Vector2 res = Settings.GetResolution.ToVector2();
+
+            endGUI = new GUI.Collection()
+            {
+                Origin = (res * 0.5f).RoundToPoint()
+            };
+
+            GUI.Button bReturn = new GUI.Button(Layer.GUI, new Rectangle((int)(-res.X * 0.15f), (int)(-res.Y * 0.05f), (int)(res.X * 0.3f), (int)(res.Y * 0.1f)));
         }
 
         public void DrawPiece(InGamePiece piece)
@@ -502,7 +519,7 @@ namespace Zettalith
             }
         }
 
-        void SplashUpdate(float deltaTime)
+        void SplashUpdate(float deltaTime, InGameState gameState)
         {
             if (!SetupComplete)
             {
@@ -530,6 +547,8 @@ namespace Zettalith
                 int state = splashTable.Update(deltaTime);
                 float currentProgress = splashTable.CurrentStepProgress;
 
+                bool endScreen = gameState == InGameState.End;
+
                 if (state == 0)
                 {
                     splash.Scale = Vector2.One * (Easing.EaseOutCubic(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
@@ -540,6 +559,11 @@ namespace Zettalith
                 {
                     splash.Scale = Vector2.One * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
                     dim.Color = dimColor;
+
+                    if (endScreen)
+                    {
+                        splashTable.End();
+                    }
                 }
 
                 if (state == 2)

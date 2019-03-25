@@ -46,6 +46,11 @@ namespace Zettalith
             inGameController.EndTurn();
         }
 
+        public void BackToMenu()
+        {
+
+        }
+
         public void PlacePiece(InGamePiece piece, int x, int y)
         {
             inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
