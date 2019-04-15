@@ -8,22 +8,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestBottom1 : Bottom
+    class Straight2 : Bottom
     {
-        public TestBottom1()
+        public Straight2()
         {
-            Name = "Diagonal Man";
-            Health = 10;
-            AttackDamage = 7;
+            Name = "Straight 2";
+            Health = 4;
+            AttackDamage = 1;
             ManaCost = new Mana(2, 0, 0);
-            MoveRange = 2;
-            Description = "Moves 2 tiles diagonally";
-            Texture = Load.Get<Texture2D>("TestSubpiece");
+            MoveCost = new Mana(4, 3, 0);
+            MoveRange = 7;
+            Texture = Load.Get<Texture2D>("StraightBottom");
+
+            Description = "Moves " + MoveRange + " tiles in a straight line. Faster.";
         }
 
         public override List<Point> RequestMove(Point origin)
         {
-            return Movement.Diagonal(origin, MoveRange);
+            return Movement.Straight(origin, MoveRange);
         }
 
         public override void ActivateMove(TilePiece piece, Point target)

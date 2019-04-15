@@ -53,6 +53,10 @@ namespace Zettalith
                 loading.Destroy();
                 loading = null;
 
+                Piece kingPiece = new Piece(19, 21, 20);
+                InGamePiece[] kings = { new InGamePiece(kingPiece), new InGamePiece(kingPiece) };
+                loadedConfig.kings = kings;
+
                 Deck[] decks = { new Deck(loadedConfig.sets[0]), new Deck(loadedConfig.sets[1]) };
                 loadedConfig.decks = decks;
 
@@ -97,6 +101,7 @@ namespace Zettalith
         public int startPlayer;
         public Set[] sets;
         public Deck[] decks;
+        public InGamePiece[] kings;
     }
 
     [Serializable]

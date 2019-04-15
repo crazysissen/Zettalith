@@ -45,6 +45,13 @@ namespace Zettalith
             return Times.Length - 1;
         }
 
+        public void End()
+        {
+            Current = MaxTime;
+            Complete = true;
+            CurrentStepProgress = 0;
+        }
+
         public void SetTimes(float[] times)
         {
             Times = times;

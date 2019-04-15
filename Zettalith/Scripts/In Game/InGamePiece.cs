@@ -13,17 +13,19 @@ namespace Zettalith
     {
         public static InGamePiece[] Pieces { get; private set; } = new InGamePiece[4096];
 
+        public Mana GetCost => Top.ManaCost + Middle.ManaCost + Bottom.ManaCost;
+
+        public Piece Piece { get; private set; }
         public int Index { get; set; }
         public Texture2D Texture { get; set; }
 
         Stats baseStats;
 
-        Piece piece;
-
         public Top Top { get; private set; } /* => tops[piece.TopIndex]*/
         public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
         public Bottom Bottom { get; private set; } /* => bottoms[piece.BottomIndex]*/
 
+        public bool IsKing => Top is KingHead;
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
@@ -31,6 +33,8 @@ namespace Zettalith
 
         public InGamePiece(Piece piece)
         {
+            Piece = piece;
+
             Index = GetNewIndex();
             Pieces[Index] = this;
 
@@ -38,6 +42,9 @@ namespace Zettalith
             Top = Subpieces.FromIndex(piece.TopIndex) as Top;
             Middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
             Bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
+
+            Texture = ClientSideController.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
+
             baseStats = BaseStats;
         }
 
@@ -80,14 +87,12 @@ namespace Zettalith
             }
         }
 
-        // TODO: GameAction?
         // Adds a modifier to this unit
         public void ModThis(Modifier mod)
         {
             modifiers.Add(mod);
         }
 
-        // TODO: GameAction?
         // Clears modifications that are not permanent
         public void ClearMods()
         {

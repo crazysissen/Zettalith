@@ -18,9 +18,9 @@ namespace Zettalith
             base.TurnStart();
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(float deltaTime, InGameState gameState)
         {
-            base.Update(deltaTime);
+            
         }
     }
 }

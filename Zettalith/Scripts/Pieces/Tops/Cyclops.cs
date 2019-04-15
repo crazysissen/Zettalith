@@ -8,24 +8,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestTop3 : Top
+    class Cyclops : Top
     {
-        public TestTop3()
+        public Cyclops()
         {
-            Name = "Woop";
-            Health = 10;
+            Name = "Cycloptic Horror";
+            Health = 6;
             AttackDamage = 2;
             ManaCost = new Mana(2, 1, 0);
-            Texture = Load.Get<Texture2D>("TestSubpiece");
-            Description = "Deals 3 damage to all Zettaliths in a straight line.";
+            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
             Modifier = new Addition(new Stats(-3), true);
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<SPoint> spoints = Abilities.Beam(piece.Position, mousePos).Cast<SPoint>().ToList();
+            List<Point> points = Abilities.Beam(piece.Position, mousePos);
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
-            if (spoints.Count == 0)
+            if (sPoints.Count == 0)
             {
                 if (mouseDown)
                 {
@@ -37,14 +38,22 @@ namespace Zettalith.Pieces
                 return null;
             }
 
-            // TODO: Highlight spoints list
-            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { spoints, Modifier };
-                cancel = false;
-                return temp;
+                for (int i = 0; i < sPoints.Count; ++i)
+                {
+                    if (mousePos == sPoints[i])
+                    {
+                        object[] temp = { sPoints, Modifier };
+                        cancel = false;
+                        return temp;
+                    }
+                }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;
@@ -53,7 +62,7 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
+            List<SPoint> temp = data[0] as List<SPoint>;
 
             for (int i = 0; i < temp.Count; ++i)
             {

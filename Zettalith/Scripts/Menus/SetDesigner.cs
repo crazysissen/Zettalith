@@ -296,7 +296,7 @@ namespace Zettalith
             {
                 for (int j = 0; j < unlockedTopList.Count(); j++)
                 {
-                    if (unlockedTopList[j].GetType().ToString() == Subpieces.SubPieces[set.Pieces[i].TopIndex].FullName)
+                    if (unlockedTopList[j].GetType() == Subpieces.SubPieces[set.Pieces[i].TopIndex])
                     {
                         newSet[i].TopIndex = j;
                     }
@@ -304,7 +304,7 @@ namespace Zettalith
 
                 for (int j = 0; j < unlockedMiddleList.Count(); j++)
                 {
-                    if (unlockedMiddleList[j].GetType().ToString() == Subpieces.SubPieces[set.Pieces[i].MiddleIndex].FullName)
+                    if (unlockedMiddleList[j].GetType() == Subpieces.SubPieces[set.Pieces[i].MiddleIndex])
                     {
                         newSet[i].MiddleIndex = j;
                     }
@@ -312,7 +312,7 @@ namespace Zettalith
 
                 for (int j = 0; j < unlockedBottomList.Count(); j++)
                 {
-                    if (unlockedBottomList[j].GetType().ToString() == Subpieces.SubPieces[set.Pieces[i].BottomIndex].FullName)
+                    if (unlockedBottomList[j].GetType() == Subpieces.SubPieces[set.Pieces[i].BottomIndex])
                     {
                         newSet[i].BottomIndex = j;
                     }

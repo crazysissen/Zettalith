@@ -10,17 +10,22 @@ namespace Zettalith
 {
     abstract class Player
     {
+        public const string
+            MOVEMENTHEADER = "MOVEMENT",
+            ABILITYHEADER = "ABILITY";
+
         protected InGameController inGameController;
         protected MainController mainController;
         protected XNAController xnaController;
         protected Player opponent;
 
+        public Mana Mana { get; set; } = new Mana(12, 18, 18);
+
         public List<TilePiece> TilePieces { get; private set; }
         public Set Set { get; private set; }
         public Deck Deck { get; private set; }
         public List<InGamePiece> Hand { get; private set; }
-
-        public TilePiece ActionPiece { get; private set; }
+        public TilePiece King { get; private set; }
 
         public virtual void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent, Deck deck, Set set)
         {
@@ -33,22 +38,29 @@ namespace Zettalith
             Set = set;
         }
 
+        public void SetKing(TilePiece king)
+        {
+            King = king;
+        }
+
         public void EndTurn()
         {
             inGameController.EndTurn();
         }
 
+        public void BackToMenu()
+        {
+
+        }
+
         public void PlacePiece(InGamePiece piece, int x, int y)
         {
-            inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
+            if (inGameController.LocalMana > piece.GetCost)
+            {
+                inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
+            }
         }
 
-        public void RequestAction(TilePiece piece)
-        {
-            ActionPiece = piece;
-
-            piece.Piece.Top.InitializeAbility();
-        }
 
         public Point[] RequestMovement(TilePiece piece)
         {
@@ -59,7 +71,12 @@ namespace Zettalith
 
         public void ExecuteMovement(TilePiece piece, Point point)
         {
-            piece.Piece.Bottom.ActivateMove(piece, point);
+            inGameController.Execute(GameAction.Movement, true, piece.GridIndex, point.X, point.Y);
+        }
+
+        public void ExecuteAction(TilePiece piece, object[] data)
+        {
+            inGameController.Execute(GameAction.Ability, true, piece.GridIndex, new OArray() { o = data });
         }
 
         public InGamePiece TryRemoveFromHand(InGamePiece piece)
@@ -92,9 +109,17 @@ namespace Zettalith
 
         }
 
-        public virtual void Update(float deltaTime)
+        public virtual void Update(float deltaTime, InGameState gameState)
         {
-
+           
         }
+
+
+    }
+
+    [Serializable]
+    struct OArray
+    {
+        public object[] o;
     }
 }

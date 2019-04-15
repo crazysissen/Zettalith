@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestTop2 : Top
+    class Pyro : Top
     {
-        public TestTop2()
+        public Pyro()
         {
             Name = "Pyro";
-            Health = 20;
+            Health = 7;
             AttackDamage = 3;
             ManaCost = new Mana(0, 2, 0);
             Description = "Deals 1 damage to all Zettaliths.";
@@ -23,15 +23,25 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<SPoint> spoints = Abilities.TargetAll().Cast<SPoint>().ToList();
+            List<Point> points = Abilities.TargetAll();
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
-            ClientSideController.AddHighlight(spoints.Cast<Point>().ToArray());
+            ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { spoints, Modifier };
-                cancel = false;
-                return temp;
+                for (int i = 0; i < sPoints.Count; ++i)
+                {
+                    if (mousePos == sPoints[i])
+                    {
+                        object[] temp = { sPoints, Modifier };
+                        cancel = false;
+                        return temp;
+                    }
+                }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;
@@ -40,7 +50,7 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<Point> temp = (data[0] as List<SPoint>).Cast<Point>().ToList();
+            List<SPoint> temp = data[0] as List<SPoint>;
 
             for (int i = 0; i < temp.Count; ++i)
             {

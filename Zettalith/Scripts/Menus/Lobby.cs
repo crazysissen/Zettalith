@@ -35,13 +35,21 @@ namespace Zettalith
             host = config != null;
             this.config = config;
 
-            testSet = new Set()
-            {
-                Pieces = new List<Piece>()
-                {
-                    new Piece(0, 2, 5)
-                }
-            };
+            //testSet = host ? PersonalData.UserData.SavedSets.Last() : PersonalData.UserData.SavedSets[0];
+            testSet = PersonalData.UserData.SavedSets.Last();
+
+            //testSet = new Set()
+            //{
+            //    Pieces = new List<Piece>()
+            //    {
+            //        new Piece(0, 3, 8),
+            //        new Piece(1, 4, 9),
+            //        new Piece(2, 5, 10),
+            //        new Piece(16, 6, 11),
+            //        new Piece(17, 6, 11),
+            //        new Piece(18, 4, 9),
+            //    }
+            //};
 
             collection = new GUI.Collection()
             {
@@ -80,6 +88,19 @@ namespace Zettalith
                 NetworkManager.StartPeerSearch("localhost");
             }
 
+            if (!XNAController.localGame)
+            {
+                if (config == null)
+                {
+                    NetworkManager.CreateClient();
+                    NetworkManager.StartPeerSearch(NetworkManager.tempIP);
+                }
+                else
+                {
+                    NetworkManager.CreateHost("Good Server");
+                }
+            }
+
             NetworkManager.OnConnected += Connected;
             NetworkManager.OnDisconnected += Disconnected;
 
@@ -110,6 +131,10 @@ namespace Zettalith
             if (XNAController.LocalGameClient)
             {
                 NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Local Server", callback);
+            }
+            else if (singleton.config == null)
+            {
+                NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Trying to join from: AA", callback);
             }
 
             singleton.endPoint = ipEndPoint;

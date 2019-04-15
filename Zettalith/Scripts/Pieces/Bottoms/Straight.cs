@@ -5,21 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
-    class TestBottom2 : Bottom
+    class Straight : Bottom
     {
-        public TestBottom2()
+        public Straight()
         {
-            Name = "Jhin";
-            Health = 20;
-            AttackDamage = 3;
-            ManaCost = new Mana(0, 1, 0);
+            Name = "Straight";
+            Health = 6;
+            AttackDamage = 1;
+            ManaCost = new Mana(0, 0, 1);
+            MoveCost = new Mana(2, 1, 0);
             MoveRange = 4;
-            Description = "Moves 4 tiles in any given direction.";
-            Texture = Load.Get<Texture2D>("TestSubpiece2");
+            Texture = Load.Get<Texture2D>("1TileBottom");
+
+            Description = "Moves " + MoveRange + " tiles in a straight line.";
         }
 
         public override List<Point> RequestMove(Point origin)

@@ -27,17 +27,24 @@ namespace Zettalith
 
     class InGameController
     {
+        const int
+            STARTHAND = 3;
+
         public static InGameController Main { get; private set; }
 
         public static Grid Grid { get; private set; }
 
         public static bool IsHost => Main.isHost;
         public static int PlayerIndex { get; private set; }
+        public static int OpponentIndex { get; private set; }
         public static int StartPlayer { get; private set; }
         public static Player Host => Main.players?[0];
         public static Player Client => Main.players?[1];
         public static PlayerLocal Local => Main.players?[PlayerIndex] as PlayerLocal;
         public static PlayerRemote Remote => Main.players?[(PlayerIndex + 1) % 2] as PlayerRemote;
+
+        public Mana LocalMana { get => Local.Mana; set => Local.Mana = value; }
+        public Mana RemoteMana { get => Remote.Mana; set => Remote.Mana = value; }
 
         XNAController xnaController;
         MainController mainController;
@@ -122,6 +129,7 @@ namespace Zettalith
             this.loadedConfig = loadedConfig;
 
             PlayerIndex = isHost ? 0 : 1;
+            OpponentIndex = (PlayerIndex + 1) % 2;
             StartPlayer = loadedConfig.startPlayer;
 
             NetworkManager.Listen("GAMEACTION", RecieveAction);
@@ -140,13 +148,26 @@ namespace Zettalith
             players[0].Start(this, mainController, xnaController, players[1], decks[0], sets[0]);
             players[1].Start(this, mainController, xnaController, players[0], decks[1], sets[1]);
 
+            // Place kings
+            PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 0);
+            PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 1);
+
             loading = false;
             gameState = InGameState.Setup;
 
             if (IsHost)
             {
-                Local.PlacePiece(decks[0].Draw(), 3, 3);
+                //Local.PlacePiece(decks[0].Draw(), 3, 3);
+                //Local.PlacePiece(decks[0].Draw(), 5, 5);
+                //Local.PlacePiece(decks[0].Draw(), 7, 7);
+                //Local.PlacePiece(decks[0].Draw(), 1, 1);
+                //Local.PlacePiece(decks[0].Draw(), 4, 4);
+                //Local.PlacePiece(decks[0].Draw(), 2, 2);
             }
+
+            Local.ClientController.DrawPieceFromDeck();
+            Local.ClientController.DrawPieceFromDeck();
+            Local.ClientController.DrawPieceFromDeck();
         }
 
         public void NewTurnStart()
@@ -163,8 +184,8 @@ namespace Zettalith
                 return;
             }
 
-            Local.Update(deltaTime);
-            Remote.Update(deltaTime);
+            Local.Update(deltaTime, gameState);
+            Remote.Update(deltaTime, gameState);
 
             switch (gameState)
             {
@@ -183,6 +204,28 @@ namespace Zettalith
                 case InGameState.End:
                     UpdateEnd();
                     break;
+            }
+
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TileObject temp = Grid[i];
+
+                if (temp == null || !(temp is TilePiece))
+                    continue;
+
+                TilePiece piece = temp as TilePiece;
+
+                if (piece.Piece.ModifiedStats.Health <= 0)
+                {
+                    if (piece.Piece.IsKing)
+                    {
+                        // TODO: WIN THE FUCKING GAME ARIGHT
+
+                        EndGame((piece.Player + 1) % 2);
+                    }
+
+                    temp.Destroy();
+                }
             }
         }
 
@@ -222,9 +265,11 @@ namespace Zettalith
             switch (actionType)
             {
                 case GameAction.Movement:
+                    ActivateMovement((int)arg[0], (int)arg[1], (int)arg[2]);
                     break;
 
                 case GameAction.Ability:
+                    ActivateAbility((int)arg[0], ((OArray)arg[1]).o);
                     break;
 
                 case GameAction.Attack:
@@ -270,7 +315,7 @@ namespace Zettalith
             obj.Renderer = new Renderer.Sprite(TileObject.DefaultLayer(y), piece.Texture, new Vector2(x, y * ClientSideController.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
             obj.UpdateRenderer();
 
-            Local.Renderer.PlacePieceAnimation(piece);
+            Local.ClientController.PlacePieceAnimation(obj as TilePiece);
 
             foreach (Deck deck in decks)
             {
@@ -278,9 +323,29 @@ namespace Zettalith
             }
         }
 
+        public void ActivateAbility(int pieceIndex, object[] data)
+        {
+            TilePiece piece = Grid[pieceIndex] as TilePiece;
+
+            piece.Piece.Top.ActivateAbility(data);
+        }
+
         public void ActivateMovement(int pieceIndex, int x, int y)
         {
+            TilePiece piece = Grid[pieceIndex] as TilePiece;
 
+            piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
+
+            Local.ClientController.PlacePieceAnimation(piece);
+
+            players[piece.Player].Mana -= piece.Piece.Bottom.MoveCost;
+        }
+
+        public void EndGame(int winnerIndex)
+        {
+            gameState = InGameState.End;
+
+            Local.ClientController.OpenEnd(winnerIndex == PlayerIndex);
         }
 
         public void SetupEnd()
@@ -303,6 +368,9 @@ namespace Zettalith
             gameState = newState;
 
             Local.SwitchTurns(newState);
+
+            LocalMana = new Mana(10, 16, 12);
+            RemoteMana = new Mana(10, 16, 12);
         }
 
         private Player CreateLocalPlayer()
@@ -313,6 +381,11 @@ namespace Zettalith
         private Player CreateRemotePlayer()
         {
             return new PlayerRemote();
+        }
+
+        public void ChangeMana(Mana change)
+        {
+            LocalMana += change;
         }
 
         private void UpdateSetup()

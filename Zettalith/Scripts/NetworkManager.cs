@@ -22,6 +22,8 @@ namespace Zettalith
 
     static class NetworkManager
     {
+        public const string tempIP = "10.156.46.100";
+
         public static string PublicIP { get; private set; }
         public static string LocalIP { get; private set; }
         public static string ServerName { get; private set; }
@@ -44,7 +46,7 @@ namespace Zettalith
                     outMessage.Write(message.Length);
                     outMessage.Write(message);
 
-                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableUnordered);
+                    localPeer.SendMessage(outMessage, localPeer.Connections[0], NetDeliveryMethod.ReliableOrdered);
                 }
             }
         }
