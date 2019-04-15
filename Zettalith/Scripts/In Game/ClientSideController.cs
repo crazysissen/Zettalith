@@ -49,11 +49,12 @@ namespace Zettalith
         List<Point> highlightSquares;
         Vector2 previousGamePosition;
         Point previousScreenPosition = new Point();
-        TilePiece interactionPiece;
+        TilePiece interactionPiece, highlightedPiece;
         TimerTable splashTable;
         PlayerLocal player;
         InGameController controller;
         InGamePiece dragOutPiece;
+        CameraMovement cameraMovement;
         Point handStart, handEnd, mouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
@@ -62,6 +63,8 @@ namespace Zettalith
         {
             this.player = player;
             this.controller = controller;
+
+            cameraMovement = new CameraMovement();
 
             handPieces = new List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)>();
             handPieceHeight = Settings.GetResolution.Y / 5;
@@ -130,14 +133,7 @@ namespace Zettalith
 
             if (MoveableCamera)
             {
-                Vector2 currentPosition = MousePositionAbsolute;
-
-                if (In.MouseState.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
-                {
-                    RendererController.Camera.Position += new Vector2(previousGamePosition.X - currentPosition.X, previousGamePosition.Y - currentPosition.Y);
-                }
-
-                previousGamePosition = MousePositionAbsolute;
+                cameraMovement.Update(RendererController.Camera, In.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default));
             }
 
             previousScreenPosition = In.MousePosition;
@@ -269,59 +265,11 @@ namespace Zettalith
 
         void Pieces(float deltaTime, bool moveable)
         {
-            for (int i = animatingPieces.Count - 1; i >= 0; --i)
-            {
-                (TilePiece piece, TimerTable table, Renderer.Animator[] animators) item = animatingPieces[i];
-
-                if (item.animators != null)
-                {
-                    if (item.animators[0].Complete)
-                    {
-                        animatingPieces[i].animators[0].Destroy();
-                        animatingPieces[i].animators[1].Destroy();
-
-                        animatingPieces.RemoveAt(i);
-                        return;
-                    }
-
-                    continue;
-                }
-
-                int state = item.table.Update(deltaTime);
-                float currentProgress = item.table.CurrentStepProgress;
-
-                if (item.table.Complete)
-                {
-                    animatingPieces[i].piece.Renderer.Position = item.piece.SupposedPosition;
-
-                    animatingPieces[i] = (item.piece, item.table, new Renderer.Animator[]
-                    {
-                        new Renderer.Animator(new Layer(MainLayer.Main, item.piece.Renderer.Layer.layer - 1), Load.Get<Texture2D>("DustAnimationBack"), new Point(96, 66), item.piece.Renderer.Position, Vector2.One, new Vector2(48f, 33f), 0, Color.White, 0.08f, 0, false, SpriteEffects.None),
-                        new Renderer.Animator(new Layer(MainLayer.Main, item.piece.Renderer.Layer.layer + 1), Load.Get<Texture2D>("DustAnimationFront"), new Point(96, 66), item.piece.Renderer.Position, Vector2.One, new Vector2(48f, 33f), 0, Color.White, 0.08f, 0, false, SpriteEffects.None)
-                    });
-
-                    continue;
-                }
-
-                if (state == 0)
-                {
-                    item.piece.Renderer.Position = new Vector2(item.piece.SupposedPosition.X, item.piece.SupposedPosition.Y - LIFTDISTANCE * Easing.EaseOutCubic(currentProgress));
-                }
-
-                if (state == 1)
-                {
-                    item.piece.Renderer.Position = new Vector2(item.piece.SupposedPosition.X, item.piece.SupposedPosition.Y - LIFTDISTANCE);
-                }
-
-                if (state == 2)
-                {
-                    item.piece.Renderer.Position = new Vector2(item.piece.SupposedPosition.X, item.piece.SupposedPosition.Y - LIFTDISTANCE * (1 - currentProgress));
-                }
-            }
+            AnimatePieces(deltaTime);
 
             bool leftMouse = In.LeftMouse, leftMouseDown = In.LeftMouseDown;
             List<TilePiece> highlightedPieces = new List<TilePiece>();
-            TilePiece highlightedPiece = null;
+            highlightedPiece = null;
 
             for (int i = 0; i < InGameController.Grid.Objects.Length; i++)
             {
@@ -448,6 +396,59 @@ namespace Zettalith
 
                     ghost.Position = MousePositionAbsolute;
                     ghost.Layer = new Layer(MainLayer.Main, TileObject.DefaultLayer((int)(MousePosition.Y)).layer + 1);
+                }
+            }
+        }
+
+        void AnimatePieces(float deltaTime)
+        {
+            for (int i = animatingPieces.Count - 1; i >= 0; --i)
+            {
+                (TilePiece piece, TimerTable table, Renderer.Animator[] animators) item = animatingPieces[i];
+
+                if (item.animators != null)
+                {
+                    if (item.animators[0].Complete)
+                    {
+                        animatingPieces[i].animators[0].Destroy();
+                        animatingPieces[i].animators[1].Destroy();
+
+                        animatingPieces.RemoveAt(i);
+                        return;
+                    }
+
+                    continue;
+                }
+
+                int state = item.table.Update(deltaTime);
+                float currentProgress = item.table.CurrentStepProgress;
+
+                if (item.table.Complete)
+                {
+                    animatingPieces[i].piece.Renderer.Position = item.piece.SupposedPosition;
+
+                    animatingPieces[i] = (item.piece, item.table, new Renderer.Animator[]
+                    {
+                        new Renderer.Animator(new Layer(MainLayer.Main, item.piece.Renderer.Layer.layer - 1), Load.Get<Texture2D>("DustAnimationBack"), new Point(96, 66), item.piece.Renderer.Position, Vector2.One, new Vector2(48f, 33f), 0, Color.White, 0.08f, 0, false, SpriteEffects.None),
+                        new Renderer.Animator(new Layer(MainLayer.Main, item.piece.Renderer.Layer.layer + 1), Load.Get<Texture2D>("DustAnimationFront"), new Point(96, 66), item.piece.Renderer.Position, Vector2.One, new Vector2(48f, 33f), 0, Color.White, 0.08f, 0, false, SpriteEffects.None)
+                    });
+
+                    continue;
+                }
+
+                if (state == 0)
+                {
+                    item.piece.Renderer.Position = new Vector2(item.piece.SupposedPosition.X, item.piece.SupposedPosition.Y - LIFTDISTANCE * Easing.EaseOutCubic(currentProgress));
+                }
+
+                if (state == 1)
+                {
+                    item.piece.Renderer.Position = new Vector2(item.piece.SupposedPosition.X, item.piece.SupposedPosition.Y - LIFTDISTANCE);
+                }
+
+                if (state == 2)
+                {
+                    item.piece.Renderer.Position = new Vector2(item.piece.SupposedPosition.X, item.piece.SupposedPosition.Y - LIFTDISTANCE * (1 - currentProgress));
                 }
             }
         }

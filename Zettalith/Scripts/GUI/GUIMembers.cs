@@ -54,32 +54,43 @@ namespace Zettalith
             }
         }
 
-        //public class TextField : IGUIMember
-        //{
-        //    public enum TextType : byte { Letters = 0b1, Numbers = 0b01, Periods = 0b001, Symbols = 0b0001 }
+        public class TextField : IGUIMember
+        {
+            public enum TextType : byte { Letters = 0b1, Numbers = 0b01, Periods = 0b001, Symbols = 0b0001 }
 
-        //    Point IGUIMember.Origin { get => _origin; set => _origin = value; }
-        //    Layer IGUIMember.Layer => Layer;
-        //    Point _origin = new Point();
+            Point IGUIMember.Origin { get => _origin; set => _origin = value; }
+            Layer IGUIMember.Layer => Layer;
+            Point _origin = new Point();
 
-        //    public string Content { get; set; }
-        //    public int MaxLetters { get; set; }
-        //    public bool Active { get; private set; }
-        //    public TextType AllowedText { get; set; }
+            public string Content { get; set; }
+            public int MaxLetters { get; set; }
+            public bool Active { get; private set; }
+            public TextType AllowedText { get; set; }
 
-        //    public Layer Layer { get; set; }
-        //    public Renderer.SpriteScreen 
+            public Layer Layer { get; set; }
+            public Rectangle Rectangle { get; set; }
+            public MaskedCollection Mask { get; set; }
+            public Renderer.SpriteScreen Renderer { get; set; }
+            public Renderer.Text TextRenderer { get; set; }
 
-        //    void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
-        //    {
-        //        if (keyboard)
-        //    }
+            public TextField(Layer backgroundLayer, Layer textLayer, SpriteFont font, float fontSize, Rectangle transform, Vector2 position, string text = null, Color? color = null)
+            {
+                TextRenderer = new Renderer.Text(textLayer, font, text ?? "", fontSize, 0, position);
+            }
 
-        //    public void ChangeState(bool active)
-        //    {
-        //        Active = active;
-        //    }
-        //}
+            void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
+            {
+                if (RendererFocus.OnArea(Rectangle, Layer))
+                {
+
+                }
+            }
+
+            public void ChangeState(bool active)
+            {
+                Active = active;
+            }
+        }
 
         public class Button : IGUIMember
         {
