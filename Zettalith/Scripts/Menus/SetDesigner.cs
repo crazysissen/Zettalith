@@ -16,7 +16,7 @@ namespace Zettalith
 
         GUI.Collection collections, collectionInspector, setDesigner, topFullDesc, middleFullDesc, bottomFullDesc;
 
-        GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, bNext, bDone;
+        GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, bNext, bDone, bCopy;
 
         Renderer.SpriteScreen collectionInspectorLines, setDesignerLines, topSubPiece, middleSubPiece, bottomSubPiece, highlight;
 
@@ -180,6 +180,10 @@ namespace Zettalith
             bNext.AddText("Next", 4, true, textColor, Font.Default);
             bNext.OnClick += BNextPiece;
 
+            bCopy = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.4), (int)(Settings.GetResolution.Y * 0.4), (int)(Settings.GetResolution.X * 0.05), (int)(Settings.GetResolution.Y * 0.05)), buttonColor);
+            bCopy.AddText("Copy", 4, true, textColor, Font.Default);
+            bCopy.OnClick += BCopyPiece;
+
             bDone = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)), buttonColor);
             bDone.AddText("Done", 4, true, textColor, Font.Default);
             bDone.OnClick += BDone;
@@ -211,7 +215,7 @@ namespace Zettalith
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleMana, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc);
             collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight);
+            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy);
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 setDesigner.Add(miniliths[i]);
@@ -343,6 +347,26 @@ namespace Zettalith
                 selectedPiece = 0;
             else
                 selectedPiece++;
+
+            ChangeShownPiece();
+        }
+
+        private void BCopyPiece()
+        {
+            if (selectedPiece == Set.MaxSize - 1)
+            {
+                newSet[0].TopIndex = newSet[selectedPiece].TopIndex;
+                newSet[0].MiddleIndex = newSet[selectedPiece].MiddleIndex;
+                newSet[0].BottomIndex = newSet[selectedPiece].BottomIndex;
+                selectedPiece = 0;
+            }
+            else
+            {
+                selectedPiece++;
+                newSet[selectedPiece + 1].TopIndex = newSet[selectedPiece].TopIndex;
+                newSet[selectedPiece + 1].MiddleIndex = newSet[selectedPiece].MiddleIndex;
+                newSet[selectedPiece + 1].BottomIndex = newSet[selectedPiece].BottomIndex;
+            }
 
             ChangeShownPiece();
         }
