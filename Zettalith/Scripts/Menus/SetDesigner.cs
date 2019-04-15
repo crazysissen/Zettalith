@@ -362,10 +362,10 @@ namespace Zettalith
             }
             else
             {
-                selectedPiece++;
                 newSet[selectedPiece + 1].TopIndex = newSet[selectedPiece].TopIndex;
                 newSet[selectedPiece + 1].MiddleIndex = newSet[selectedPiece].MiddleIndex;
                 newSet[selectedPiece + 1].BottomIndex = newSet[selectedPiece].BottomIndex;
+                selectedPiece++;
             }
 
             ChangeShownPiece();
