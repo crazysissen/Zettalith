@@ -99,7 +99,7 @@ namespace Zettalith
             {
                 bool onArea = RendererFocus.OnArea(new Rectangle(_origin + Rectangle.Location, Rectangle.Size), Layer);
 
-                TextRenderer.String = Content;
+                TextRenderer.String = new StringBuilder(Content);
 
                 Mouse.SetCursor(onArea ? MouseCursor.IBeam : MouseCursor.Arrow);
 
