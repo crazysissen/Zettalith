@@ -11,6 +11,7 @@ namespace Zettalith
     class CameraMovement
     {
         Vector2 previousWorldPosition;
+        Vector2 cameraSpeed = new Vector2();
 
         public void Update(Camera camera, Point mousePosition, bool mouseOnEmpty)
         {
@@ -18,7 +19,13 @@ namespace Zettalith
 
             if (In.MouseState.MiddleButton == ButtonState.Pressed)
             {
-                camera.Position += new Vector2(previousWorldPosition.X - initialWorldPosition.X, previousWorldPosition.Y - initialWorldPosition.Y);
+                Vector2 tempCameraMove = new Vector2(previousWorldPosition.X - initialWorldPosition.X, previousWorldPosition.Y - initialWorldPosition.Y);
+                camera.Position += tempCameraMove;
+                cameraSpeed = tempCameraMove;
+            }
+            else
+            {
+                camera.Position += cameraSpeed * 0.6f;
             }
 
             previousWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
