@@ -12,7 +12,7 @@ namespace Zettalith
     {
         Vector2 previousWorldPosition;
 
-        public void Update(Camera camera, Point mousePosition, bool mouseOnEmpty)
+        public void Update(Camera camera, Point mousePosition, bool mouseOnEmpty, float deltaTime)
         {
             Vector2 initialWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
 
