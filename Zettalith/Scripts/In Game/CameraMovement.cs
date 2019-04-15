@@ -12,7 +12,7 @@ namespace Zettalith
     {
         Vector2 previousWorldPosition;
         Vector2 cameraSpeed = new Vector2();
-        const float cameraScaleZoom = 0.15f, cameraKeyboardMove = 0.5f;
+        const float cameraScaleZoom = 0.15f, cameraKeyboardMoveDivider = 10f;
         int previousScrollWheelValue;
 
         public void Update(Camera camera, Point mousePosition, bool mouseOnEmpty, float deltaTime)
@@ -58,13 +58,13 @@ namespace Zettalith
             }
 
             if (In.Key(Keys.W))
-                camera.Position = new Vector2(camera.Position.X, camera.Position.Y - cameraKeyboardMove);
+                camera.Position = new Vector2(camera.Position.X, camera.Position.Y - deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider));
             if (In.Key(Keys.A))
-                camera.Position = new Vector2(camera.Position.X - cameraKeyboardMove, camera.Position.Y);
+                camera.Position = new Vector2(camera.Position.X - deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider), camera.Position.Y);
             if (In.Key(Keys.S))
-                camera.Position = new Vector2(camera.Position.X, camera.Position.Y + cameraKeyboardMove);
+                camera.Position = new Vector2(camera.Position.X, camera.Position.Y + deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider));
             if (In.Key(Keys.D))
-                camera.Position = new Vector2(camera.Position.X + cameraKeyboardMove, camera.Position.Y);
+                camera.Position = new Vector2(camera.Position.X + deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider), camera.Position.Y);
 
 
             previousWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
