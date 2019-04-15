@@ -66,7 +66,6 @@ namespace Zettalith.Pieces
             }
 
             InGameController.Grid[(int)data[2]].Destroy();
-
         }
     }
 }

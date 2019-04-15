@@ -116,6 +116,7 @@
     <Compile Include="Scripts\Pieces\Bottoms\Queen.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen2.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Straight2.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\Swap.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Teleporter.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Straight.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Teleporter2.cs" />

@@ -149,13 +149,21 @@ namespace Zettalith
 
         public void ChangePosition(TileObject tObject, int x, int y)
         {
-            if (Vacant(x, y))
-            {
-                TileArray[tObject.Position.X, tObject.Position.Y].TileObject = null;
-                TileArray[x, y].TileObject = tObject.GridIndex;
-                tObject.Position = new Point(x, y);
-                tObject.UpdateRenderer();
-            }
+            TileArray[tObject.Position.X, tObject.Position.Y].TileObject = null;
+            TileArray[x, y].TileObject = tObject.GridIndex;
+            tObject.Position = new Point(x, y);
+            tObject.UpdateRenderer();
+        }
+
+        public void SwapPosition(TileObject tObject, Point target)
+        {
+            TileArray[tObject.Position.X, tObject.Position.Y].TileObject = GetObject(target.X, target.Y).GridIndex;
+            GetObject(target.X, target.Y).Position = tObject.Position;
+            GetObject(target.X, target.Y).UpdateRenderer();
+
+            TileArray[target.X, target.Y].TileObject = tObject.GridIndex;
+            tObject.Position = target;
+            tObject.UpdateRenderer();
         }
 
         public int NewIndex()
