@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
@@ -22,6 +23,7 @@ namespace Zettalith
 
         private GUI.Collection collection;
         private GUI.Button bStart, bBack;
+        private GUI.TextField tIpField;
         private Renderer.SpriteScreen localBackground, globalBackground;
         private Renderer.Text title, localIP, globalIP, statusHeader, status;
 
@@ -77,6 +79,10 @@ namespace Zettalith
             RendererController.GUI.Add(collection);
             collection.Add(title, localIP, globalIP, statusHeader, status, bStart, bBack);
 
+            // TODO
+            tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 300, 40), new Vector2(345, 420), Vector2.Zero, "Hello", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
+            collection.Add(tIpField);
+
             if (XNAController.LocalGameHost)
             {
                 NetworkManager.CreateLocalGame();
@@ -84,6 +90,8 @@ namespace Zettalith
 
             if (XNAController.LocalGameClient)
             {
+                
+
                 NetworkManager.CreateClient();
                 NetworkManager.StartPeerSearch("localhost");
             }
