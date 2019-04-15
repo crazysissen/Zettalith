@@ -25,8 +25,10 @@ namespace Zettalith
             }
             else
             {
-                camera.Position += cameraSpeed * 0.6f;
+                cameraSpeed *= 0.9f * (1f - deltaTime);
+                camera.Position += cameraSpeed * 2;
             }
+
 
             previousWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
         }
