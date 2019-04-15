@@ -71,10 +71,11 @@ namespace Zettalith
             string splashText = start ? "You Start" : "Opponent Starts";
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
-            for (int i = 0; i < 3; i++)
-            {
-
-            }
+            mana = new Renderer.Text[3];
+            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + controller.LocalMana.Blue, 3.5f, 0, new Vector2(10, 70));
+            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + controller.LocalMana.Green, 3.5f, 0, new Vector2(10, 100));
+            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
+            UpdateManaGUI();
 
             CreateBattleGUI();
             CreateLogisticsGUI();
@@ -84,7 +85,7 @@ namespace Zettalith
             collection.Add(dim, splash, essencePanel, essence);
 
             RendererController.GUI.Add(collection);
-            collection.Add(battleGUI, logisticsGUI, setupGUI);
+            collection.Add(battleGUI, logisticsGUI, setupGUI, mana[0], mana[1], mana[2]);
 
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
@@ -124,6 +125,8 @@ namespace Zettalith
             }
 
             SplashUpdate(deltaTime, gameState);
+
+            UpdateManaGUI();
 
             if (MoveableCamera)
             {
@@ -194,6 +197,13 @@ namespace Zettalith
         void CreateSetupGUI()
         {
             setupGUI = new GUI.Collection();
+        }
+
+        void UpdateManaGUI()
+        {
+            mana[0].String = new StringBuilder("Blue: " + controller.LocalMana.Blue);
+            mana[1].String = new StringBuilder("Green: " + controller.LocalMana.Green);
+            mana[2].String = new StringBuilder("Red: " + controller.LocalMana.Red);
         }
 
         public void CloseSetup()
@@ -379,9 +389,8 @@ namespace Zettalith
                 {
                     if (movementHighlight.Contains(MousePoint.ToRender()))
                     {
-                        if (InGameController.Main.Mana > interactionPiece.Piece.Bottom.MoveCost)
+                        if (InGameController.Main.LocalMana >= interactionPiece.Piece.Bottom.MoveCost)
                         {
-                            InGameController.Main.ChangeMana(new Mana() - interactionPiece.Piece.Bottom.MoveCost);
                             player.ExecuteMovement(interactionPiece, MousePoint.ToRender());
                         }
                         else
@@ -479,8 +488,14 @@ namespace Zettalith
                 {
                     if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
                     {
-                        removePiece = dragOutPiece;
-                        player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);
+                        if (controller.LocalMana > dragOutPiece.GetCost)
+                        {
+                            removePiece = dragOutPiece;
+                            player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);
+
+                            controller.LocalMana -= dragOutPiece.GetCost;
+                        }
+                            
                         dragOutPiece = null;
                     }
                 }

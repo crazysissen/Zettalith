@@ -13,6 +13,8 @@ namespace Zettalith
     {
         public static InGamePiece[] Pieces { get; private set; } = new InGamePiece[4096];
 
+        public Mana GetCost => Top.ManaCost + Middle.ManaCost + Bottom.ManaCost;
+
         public Piece Piece { get; private set; }
         public int Index { get; set; }
         public Texture2D Texture { get; set; }

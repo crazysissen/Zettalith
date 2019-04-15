@@ -43,7 +43,8 @@ namespace Zettalith
         public static PlayerLocal Local => Main.players?[PlayerIndex] as PlayerLocal;
         public static PlayerRemote Remote => Main.players?[(PlayerIndex + 1) % 2] as PlayerRemote;
 
-        public Mana Mana { get; private set; } = new Mana(50, 50, 50);
+        public Mana LocalMana { get => Local.Mana; set => Local.Mana = value; }
+        public Mana RemoteMana { get => Remote.Mana; set => Remote.Mana = value; }
 
         XNAController xnaController;
         MainController mainController;
@@ -336,6 +337,8 @@ namespace Zettalith
             piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
             Local.ClientController.PlacePieceAnimation(piece);
+
+            players[piece.Player].Mana -= piece.Piece.Bottom.MoveCost;
         }
 
         public void EndGame(int winnerIndex)
@@ -365,6 +368,9 @@ namespace Zettalith
             gameState = newState;
 
             Local.SwitchTurns(newState);
+
+            LocalMana = new Mana(10, 16, 12);
+            RemoteMana = new Mana(10, 16, 12);
         }
 
         private Player CreateLocalPlayer()
@@ -379,7 +385,7 @@ namespace Zettalith
 
         public void ChangeMana(Mana change)
         {
-            Mana += change;
+            LocalMana += change;
         }
 
         private void UpdateSetup()
