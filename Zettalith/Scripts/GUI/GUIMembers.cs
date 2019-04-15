@@ -54,9 +54,12 @@ namespace Zettalith
             }
         }
 
-        public class TextField : IGUIMember
+        public class TextField : GUIContainer, IGUIMember
         {
-            public enum TextType : byte { Letters = 0b1, Numbers = 0b01, Periods = 0b001, Symbols = 0b0001 }
+            const float
+                FLASHTIME = 0.5f;
+
+            public enum TextType : byte { Letters = 0b0, Numbers = 0b1, Periods = 0b01, Symbols = 0b001 }
 
             Point IGUIMember.Origin { get => _origin; set => _origin = value; }
             Layer IGUIMember.Layer => Layer;
@@ -64,30 +67,63 @@ namespace Zettalith
 
             public string Content { get; set; }
             public int MaxLetters { get; set; }
-            public bool Active { get; private set; }
+            public bool Highlighted { get; private set; }
             public TextType AllowedText { get; set; }
 
             public Layer Layer { get; set; }
             public Rectangle Rectangle { get; set; }
             public MaskedCollection Mask { get; set; }
             public Renderer.SpriteScreen Renderer { get; set; }
+            public Renderer.SpriteScreen IBeam { get; set; }
             public Renderer.Text TextRenderer { get; set; }
 
-            public TextField(Layer backgroundLayer, Layer textLayer, SpriteFont font, float fontSize, Rectangle transform, Vector2 position, string text = null, Color? color = null)
+            private float iBeamFlash;
+
+            public TextField(Layer backgroundLayer, Layer textLayer, SpriteFont font, float fontSize, Rectangle transform, Vector2 position, Vector2 origin,  string text = null, Color? textColor = null, Color? textureColor = null, Texture2D backgroundTexture = null)
             {
-                TextRenderer = new Renderer.Text(textLayer, font, text ?? "", fontSize, 0, position);
+                Layer = backgroundLayer;
+                Rectangle = transform;
+                Content = text;
+
+                TextRenderer = new Renderer.Text(textLayer, font, text ?? "", fontSize, 0, position, origin, textColor ?? Color.Black);
+                Add(TextRenderer);
+
+                if (backgroundTexture != null)
+                {
+                    Renderer = new Renderer.SpriteScreen(backgroundLayer, backgroundTexture, transform);
+                    Add(Renderer);
+                }
             }
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-                bool onArea = RendererFocus.OnArea(Rectangle, Layer);
+                bool onArea = RendererFocus.OnArea(new Rectangle(_origin + Rectangle.Location, Rectangle.Size), Layer);
+
+                TextRenderer.String = Content;
 
                 Mouse.SetCursor(onArea ? MouseCursor.IBeam : MouseCursor.Arrow);
+
+                if (In.LeftMouse)
+                {
+                    if (onArea)
+                    {
+                        Active = true;
+
+                        float position = In.MousePosition.ToVector2().X - Origin.X - TextRenderer.Position.X;
+                        
+
+                    }
+                    else
+                    {
+                        Active = false;
+                    }
+                }
             }
 
             public void ChangeState(bool active)
             {
-                Active = active;
+                Highlighted = active;
+                IBeam.Active = active;
             }
         }
 
