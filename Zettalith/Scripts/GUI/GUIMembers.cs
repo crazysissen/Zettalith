@@ -80,10 +80,9 @@ namespace Zettalith
 
             void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
             {
-                if (RendererFocus.OnArea(Rectangle, Layer))
-                {
+                bool onArea = RendererFocus.OnArea(Rectangle, Layer);
 
-                }
+                Mouse.SetCursor(onArea ? MouseCursor.IBeam : MouseCursor.Arrow);
             }
 
             public void ChangeState(bool active)

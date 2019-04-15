@@ -133,7 +133,7 @@ namespace Zettalith
 
             if (MoveableCamera)
             {
-                cameraMovement.Update(RendererController.Camera, In.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default));
+                cameraMovement.Update(RendererController.Camera, In.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default), deltaTime);
             }
 
             previousScreenPosition = In.MousePosition;
