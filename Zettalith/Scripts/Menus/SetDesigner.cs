@@ -337,6 +337,12 @@ namespace Zettalith
         private void BDeleteSet(Set set)
         {
             PersonalData.UserData.SavedSets.Remove(set);
+
+            if (PersonalData.UserData.SavedSets.Count == 0)
+            {
+                PersonalData.CreateDefaultSet();
+            }
+
             SaveLoad.Save();
             BBackToMain();
         }

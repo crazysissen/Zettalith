@@ -60,6 +60,7 @@ namespace Zettalith
             if (!File.Exists(FullPath))
             {
                 PersonalData.UserData = PersonalData.Default;
+                PersonalData.CreateDefaultSet();
                 Save();
             }
             else
