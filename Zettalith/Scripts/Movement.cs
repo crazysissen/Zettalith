@@ -40,38 +40,6 @@ namespace Zettalith
                     check[3] = false;
             }
 
-            //for (int i = 1; i <= MoveRange; ++i)
-            //{
-            //    if (InGameController.Grid.Vacant(origin.X + i, origin.Y))
-            //        temp.Add(new Point(origin.X + i, origin.Y));
-            //    else
-            //        break;
-            //}
-
-            //for (int i = 1; i <= MoveRange; ++i)
-            //{
-            //    if (InGameController.Grid.Vacant(origin.X - i, origin.Y))
-            //        temp.Add(new Point(origin.X - i, origin.Y));
-            //    else
-            //        break;
-            //}
-
-            //for (int i = 1; i <= MoveRange; ++i)
-            //{
-            //    if (InGameController.Grid.Vacant(origin.X, origin.Y + i))
-            //        temp.Add(new Point(origin.X, origin.Y + i));
-            //    else
-            //        break;
-            //}
-
-            //for (int i = 1; i <= MoveRange; ++i)
-            //{
-            //    if (InGameController.Grid.Vacant(origin.X, origin.Y - i))
-            //        temp.Add(new Point(origin.X, origin.Y - i));
-            //    else
-            //        break;
-            //}
-
             return temp;
         }
 
@@ -236,9 +204,23 @@ namespace Zettalith
             return temp;
         }
 
-        //public static List<Point> Swap(Point origin)
-        //{
+        public static List<Point> Target(Point origin)
+        {
+            List<Point> temp = new List<Point>();
 
-        //}
+            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            {
+                for (int j = 0; j < InGameController.Grid.yLength; ++j)
+                {
+                    if (!InGameController.Grid.Vacant(i, j))
+                    {
+                        temp.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            temp.Remove(origin);
+            return temp;
+        }
     }
 }
