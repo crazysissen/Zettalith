@@ -107,21 +107,29 @@ namespace Zettalith
                 {
                     if (onArea)
                     {
-                        Highlighted = true;
+                        Highlighted = true; 
 
                         float tempPosition = In.MousePosition.ToVector2().X - Origin.X - TextRenderer.Position.X, lastLength = float.MinValue;
 
-                        for (int i = 1; i < Content.Length; i++)
+                        List<float> lengths = new List<float>();
+
+                        int? position = null;
+
+                        for (int i = 1; i < Content.Length && position == null; i++)
                         {
-                            float currentLength = TextRenderer.Font.MeasureString(Content.Substring(0, i)).X;
+                            float currentLength = TextRenderer.Font.MeasureString(Content.Substring(0, i)).X * TextRenderer.Scale.X;
+                            lengths.Add(currentLength);
 
                             if (currentLength > tempPosition)
                             {
-
+                                position = (currentLength - tempPosition > tempPosition - lastLength) ? i - 1 : i;
                             }
 
                             lastLength = currentLength;
                         }
+
+                        Test.Log("Position in text field: " + position);
+                        Test.Log(lengths.ToArray().ToString());
                     }
                     else
                     {

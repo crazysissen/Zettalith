@@ -113,6 +113,7 @@ namespace Zettalith
 
             NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
+                EnableUPnP = true,
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 10,
                 Port = PORT
@@ -333,17 +334,24 @@ namespace Zettalith
 
         private static void GetPublicIP()
         {
-            System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
-            System.Net.WebResponse webResponse = request.GetResponse();
-            System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
+            try
+            {
+                System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
+                System.Net.WebResponse webResponse = request.GetResponse();
+                System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
 
-            string response = reader.ReadToEnd().Trim();
-            string[] a = response.Split(':');
-            string[] a2 = a[1].Substring(1).Split('<');
+                string response = reader.ReadToEnd().Trim();
+                string[] a = response.Split(':');
+                string[] a2 = a[1].Substring(1).Split('<');
 
-            PublicIP = a2[0];
+                PublicIP = a2[0];
 
-            Test.Log("Public IP retrieved: " + PublicIP);
+                Test.Log("Public IP retrieved: " + PublicIP);
+            }
+            catch
+            {
+                PublicIP = "Failed";
+            }
         }
 
         class SerializedEvent

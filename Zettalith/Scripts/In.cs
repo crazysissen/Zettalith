@@ -34,9 +34,9 @@ namespace Zettalith
 
         public static bool RightMouse => MouseState.RightButton == ButtonState.Pressed;
 
-        public static bool LeftMouseDown => MouseState.LeftButton == ButtonState.Pressed && !previousLeftMouse;
+        public static bool LeftMouseDown => LeftMouse && !previousLeftMouse;
 
-        public static bool RightMouseDown => MouseState.RightButton == ButtonState.Pressed && !previousRightMouse;
+        public static bool RightMouseDown => RightMouse && !previousRightMouse;
 
         public static bool Key(Keys key) => KeyboardState.IsKeyDown(key);
 

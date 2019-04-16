@@ -15,7 +15,8 @@ namespace Zettalith
         GameSetup setup;
 
         GUI.Collection collection, main;
-        Renderer.Text title;
+        //Renderer.Text title;
+        Renderer.AnimatorScreen background;
         GUI.Button bHost, bJoin, bArmies, bSettings, bQuit;
 
         public void Initialize(MainController controller)
@@ -31,16 +32,17 @@ namespace Zettalith
                 Origin = new Point((int)(Settings.GetHalfResolution.X - tempButtonWidth * 0.5 ), (int)(Settings.GetResolution.Y * 0.36))
             };
 
-            collection.Add(main);
+            background = new Renderer.AnimatorScreen(new Layer(MainLayer.GUI, -1), Load.Get<Texture2D>("Menu"), new Point(480, 270), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+
+            collection.Add(background, main);
 
             RendererController.GUI.Add(collection);
-
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
 
             float textSize = 4 * (Settings.GetResolution.Y / 1080f);
 
-            title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Zettalith", textSize * 2.5f, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
+            //title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Zettalith", textSize * 2.5f, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
 
             bHost = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
             bHost.AddText("Host", textSize, false, textColor, Font.Default);
@@ -62,7 +64,7 @@ namespace Zettalith
             bQuit.AddText("Quit", textSize, false, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
-            main.Add(title, bHost, bJoin, bSettings, bArmies, bQuit);
+            main.Add(/*title, */bHost, bJoin, bSettings, bArmies, bQuit);
         }
 
         public void Update()
