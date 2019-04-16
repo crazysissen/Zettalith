@@ -18,7 +18,7 @@ namespace Zettalith
             CurrentSettings = new Settings(),
             UnlockedPieces = Subpieces.Unlocked.ToList(),
             SavedPieces = new List<Piece>(),
-            SavedSets = new List<Set>(),
+            SavedSets = new List<Set>() /*{ CreateDefaultSet() }*/,
             Locked = Achievements.DefaultLocked,
             Unlocked = Achievements.DefaultUnlocked,
         };
@@ -32,5 +32,21 @@ namespace Zettalith
 
         public Dictionary<string, Achievement> Locked { get; set; }
         public Dictionary<string, Achievement> Unlocked { get; set; }
+
+        //public static Set CreateDefaultSet()
+        //{
+        //    Set set = new Set();
+
+        //    List<Top> tops = Subpieces.GetSubpieces<Top>();
+        //    List<Middle> middles = Subpieces.GetSubpieces<Middle>();
+        //    List<Bottom> bottoms = Subpieces.GetSubpieces<Bottom>();
+
+        //    for (int i = 0; i < Set.MaxSize; ++i)
+        //    {
+        //        set.AddUnit(new Piece((byte)Subpieces.SubPieces.IndexOf(tops[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(middles[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(bottoms[0].GetType())));
+        //    }
+
+        //    return set;
+        //}
     }
 }

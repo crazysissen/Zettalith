@@ -96,7 +96,7 @@ namespace Zettalith
             xnaController.Exiting += DestroyPeerEvent;
 
             Thread threadG = new Thread(GetPublicIP), threadL = new Thread(GetLocalIP);
-            threadG.Start();
+            //threadG.Start();
             threadL.Start();
         }
 

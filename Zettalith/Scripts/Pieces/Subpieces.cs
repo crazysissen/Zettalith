@@ -15,7 +15,7 @@ namespace Zettalith
             typeof(Bomb), typeof(Pyro), typeof(Cyclops), /*typeof(Duplicator),*/ //typeof(Top2),
             typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk), typeof(MediumBody), //typeof(Middle2),
             typeof(Diagonal), typeof(Straight), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(SingleTarget), typeof(Healer), typeof(Lob), typeof(KingHead), typeof(KingFeet), typeof(KingMiddle), //typeof(Bottom2)
-            typeof(Swap),
+            typeof(Swap), typeof(Cone), typeof(BlastHealer), typeof(CyclopsNightmare),
         };
 
         // Bool values here decides if a subpiece is unlocked or not
@@ -25,7 +25,7 @@ namespace Zettalith
             true, true, true, /*Tops*/
             true, true, true, true, true, /*Middles*/
             true, true, true, true, true, true, true, true, true, true, true, false, false, false, /*Bottoms*/
-            true,
+            true, true, true, true,
         };
 
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)

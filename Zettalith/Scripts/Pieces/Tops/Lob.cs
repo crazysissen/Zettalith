@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             AttackDamage = 1;
             AbilityRange = 2;
             ManaCost = new Mana(0, 0, 4);
-            Modifier = new Addition(new Stats(-4), true);
+            Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("AOELOBtop");
 
             Description = "Bombs target area and deals " + (Modifier as Addition).StatChanges.Health * -1 + " area damage within " + AbilityRange + " tiles";
