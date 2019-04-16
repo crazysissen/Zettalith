@@ -115,10 +115,12 @@ namespace Zettalith
                         {
                             float currentLength = TextRenderer.Font.MeasureString(Content.Substring(0, i)).X;
 
-                            if (currentLength < tempPosition)
+                            if (currentLength > tempPosition)
                             {
 
                             }
+
+                            lastLength = currentLength;
                         }
                     }
                     else

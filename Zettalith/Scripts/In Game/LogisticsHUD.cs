@@ -6,7 +6,22 @@ using System.Threading.Tasks;
 
 namespace Zettalith
 {
-    class LogisticsHUD
+    class LogisticsHUD : HUD
     {
+
+
+        GUI.Collection collection;
+
+        public LogisticsHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
+        {
+            this.collection = collection;
+
+
+        }
+
+        public void Update(float deltaTime)
+        {
+
+        }
     }
 }
