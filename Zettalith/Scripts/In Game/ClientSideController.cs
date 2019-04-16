@@ -16,7 +16,7 @@ namespace Zettalith
             DRAGDISTANCE = 4.0f,
             LIFTDISTANCE = 0.4f;
 
-        static readonly Color
+        static public readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255),
             movementHighlightColor = new Color(255, 200, 0, 155),
             movementSelectedHighlightColor = new Color(255, 200, 0, 255),
@@ -25,7 +25,6 @@ namespace Zettalith
             pieceGhostColor = new Color(255, 255, 255, 120),
             dimColor = new Color(0, 0, 0, 160);
 
-        int handPieceHeight, handPieceWidth;
 
         public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
@@ -36,14 +35,13 @@ namespace Zettalith
 
         public Renderer.Sprite[,] tiles, highlights;
 
-        GUI.Collection collection, battleGUI, logisticsGUI, setupGUI, endGUI;
+        InGameHUD hud;
+        GUI.Collection collection, battleGUI, logisticsGUI, endGUI;
 
         Renderer.Text splash, essence;
         Renderer.Text[] mana;
         Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
-        List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)> handPieces;
-        GUI.Button bEndTurn;
 
         Point[] movementHighlight;
         List<Point> highlightSquares;
@@ -55,7 +53,7 @@ namespace Zettalith
         InGameController controller;
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
-        Point handStart, handEnd, mouseDownPosition;
+        Point mouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
 
@@ -65,9 +63,6 @@ namespace Zettalith
             this.controller = controller;
 
             cameraMovement = new CameraMovement();
-
-            handPieces = new List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)>();
-            handPieceHeight = Settings.GetResolution.Y / 5;
 
             dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
@@ -80,15 +75,19 @@ namespace Zettalith
             mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
             UpdateManaGUI();
 
-            CreateBattleGUI();
-            CreateLogisticsGUI();
-            CreateSetupGUI();
-
             collection = new GUI.Collection();
-            collection.Add(dim, splash, essencePanel, essence);
+
+            Vector2 res = Settings.GetResolution.ToVector2();
+
+            battleGUI = new GUI.Collection();
+            logisticsGUI = new GUI.Collection();
+            endGUI = new GUI.Collection() { Origin = (res * 0.5f).ToPoint() };
 
             RendererController.GUI.Add(collection);
-            collection.Add(battleGUI, logisticsGUI, setupGUI, mana[0], mana[1], mana[2]);
+            collection.Add(battleGUI, logisticsGUI, endGUI, mana[0], mana[1], mana[2]);
+
+            hud = new InGameHUD(collection, battleGUI, logisticsGUI, endGUI, controller, this, player);
+
 
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
@@ -127,6 +126,8 @@ namespace Zettalith
                 UpdateHandPieces();
             }
 
+            hud.Update(deltaTime);
+
             SplashUpdate(deltaTime, gameState);
 
             UpdateManaGUI();
@@ -163,23 +164,7 @@ namespace Zettalith
         {
             battleGUI = new GUI.Collection();
 
-            int width = (int)(Settings.GetResolution.X * (401f / 480f)), height = (int)(Settings.GetResolution.Y * (24f / 270f)),
-                buttonWidth = (int)(Settings.GetResolution.X * (51f / 480f)), buttonHeight = (int)(Settings.GetResolution.Y * (25f / 270f));
-
-            bottomPanel = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("BottomPanel"), new Rectangle(Settings.GetHalfResolution.X - width / 2, Settings.GetResolution.Y - height, width, height));
-
-            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
-            bEndTurn.OnClick += player.EndTurn;
-
-            handStart = new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
-            handEnd = new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
-
-            GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
-            button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
-            button.OnClick += DrawPieceFromDeck;
-
-            battleGUI.Add(bottomPanel, bEndTurn, button);
-            battleGUI.Active = false;
+            
         }
 
         void CreateLogisticsGUI()
@@ -188,11 +173,6 @@ namespace Zettalith
             battleGUI.Active = false;
 
             // TODO Add logistics UI
-        }
-
-        void CreateSetupGUI()
-        {
-            setupGUI = new GUI.Collection();
         }
 
         void UpdateManaGUI()
@@ -239,16 +219,7 @@ namespace Zettalith
             splash.Position = new Vector2(Settings.GetHalfResolution.X, Settings.GetResolution.Y / 4);
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
 
-            float screenWidth = 0.35f, screenHeight = 0.4f;
-
-            Vector2 res = Settings.GetResolution.ToVector2();
-
-            endGUI = new GUI.Collection()
-            {
-                Origin = (res * 0.5f).RoundToPoint()
-            };
-
-            GUI.Button bReturn = new GUI.Button(Layer.GUI, new Rectangle((int)(-res.X * 0.15f), (int)(-res.Y * 0.05f), (int)(res.X * 0.3f), (int)(res.Y * 0.1f)));
+            hud.EndHUD.Open();
         }
 
         public void DrawPiece(InGamePiece piece)
@@ -340,10 +311,6 @@ namespace Zettalith
                         if (InGameController.Main.LocalMana >= interactionPiece.Piece.Bottom.MoveCost)
                         {
                             player.ExecuteMovement(interactionPiece, MousePoint.ToRender());
-                        }
-                        else
-                        {
-
                         }
                     }
                 }
@@ -466,13 +433,9 @@ namespace Zettalith
             }
 
             InGamePiece newPiece = player.Deck.Draw();
-            Renderer.SpriteScreen sc = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 1), newPiece.Texture, new Rectangle());
-
-            handPieces.Add((sc, newPiece, new RendererFocus(new Layer(MainLayer.GUI, 1), new Rectangle(), false)));
+            hud.BattleHUD.AddPiece(newPiece);
 
             UpdateHandPieces();
-
-            battleGUI.Add(sc);
         }
 
         void UpdateHandPieces()
@@ -502,37 +465,7 @@ namespace Zettalith
                 }
             }
 
-            for (int i = handPieces.Count - 1; i >= 0; --i)
-            {
-                (Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus) item = handPieces[i];
-
-                if (item.piece == removePiece)
-                {
-                    handPieces.RemoveAt(i);
-                    item.renderer.Destroy();
-                    item.focus.Remove();
-                    battleGUI.Remove(item.renderer);
-                    continue;
-                }
-
-                Rectangle rectangle = GetTargetRectangle(i, handPieces.Count);
-
-                bool color = false;
-
-                if (dragOutPiece == null && rectangle.Contains(In.MousePosition) && !(i < handPieces.Count - 1 && GetTargetRectangle(i + 1, handPieces.Count).Contains(In.MousePosition)))
-                {
-                    color = true;
-                    if (In.LeftMouseDown)
-                    {
-                        dragOutPiece = item.piece;
-                    }
-                }
-
-                item.renderer.Color = color ? pieceHighlightColor : Color.White;
-                item.renderer.Layer = new Layer(MainLayer.GUI, 1 + i);
-                item.renderer.Transform = rectangle;
-                item.focus.Rectangle = rectangle;
-            }
+            hud.BattleHUD.UpdateHand(removePiece, ref dragOutPiece);
         }
 
         void SplashUpdate(float deltaTime, InGameState gameState)
@@ -558,17 +491,22 @@ namespace Zettalith
                 return;
             }
 
+            bool endScreen = gameState == InGameState.End;
+
             if (!splashTable.Complete)
             {
                 int state = splashTable.Update(deltaTime);
                 float currentProgress = splashTable.CurrentStepProgress;
-
-                bool endScreen = gameState == InGameState.End;
-
+                
                 if (state == 0)
                 {
                     splash.Scale = Vector2.One * (Easing.EaseOutCubic(currentProgress)) * SPLASHSIZE * Renderer.FONTSIZEMULTIPLIER;
                     dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (currentProgress)));
+
+                    if (endScreen)
+                    {
+                        //bReturn.SetPseudoDefaultColors(new Color(1.0f, 1.0f, 1.0f, currentProgress));
+                    }
                 }
 
                 if (state == 1)
@@ -579,6 +517,7 @@ namespace Zettalith
                     if (endScreen)
                     {
                         splashTable.End();
+                        //bReturn.SetPseudoDefaultColors(Color.White);
                     }
                 }
 
@@ -588,16 +527,12 @@ namespace Zettalith
                     dim.Color = new Color(dimColor.R, dimColor.G, dimColor.B, (byte)(dimColor.A * (1 - currentProgress)));
                 }
             }
-            else if (dim.Color.A != 0)
+            else if (dim.Color.A != 0 && !endScreen)
             {
                 splash.Scale = Vector2.Zero;
                 dim.Color = Color.Transparent;
             }
         }
-
-        private Rectangle GetTargetRectangle(int index, int count) 
-            => new Rectangle(handStart.ToVector2().Lerp(handEnd.ToVector2(), count == 1 ? 0 : index / (count - 1.0f)).RoundToPoint(), 
-                new Point((int)(handPieceHeight * ((float)handPieces[index].piece.Texture.Width / handPieces[index].piece.Texture.Height)), handPieceHeight));
 
         #region Tile Highlighting
 

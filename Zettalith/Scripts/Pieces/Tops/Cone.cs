@@ -1,30 +1,31 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class Healer : Top
+    class Cone : Top
     {
-        public Healer()
+        public Cone()
         {
-            Name = "Healer";
-            Health = 8;
+            Name = "Fire Conjurer";
+            Health = 5;
             AttackDamage = 1;
-            ManaCost = new Mana(0, 2, 2);
-            Modifier = new Addition(new Stats(5), true);
-            Texture = Load.Get<Texture2D>("HealerTop");
+            AbilityRange = 3;
+            ManaCost = new Mana(0, 3, 0);
+            Modifier = new Addition(new Stats(-4), true);
+            Texture = Load.Get<Texture2D>("King_Head");
 
-            Description = "Heals a Zettalith by " + (Modifier as Addition).StatChanges.Health;
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage in a " + AbilityRange + " units long cone";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.TargetAll();
+            List<Point> points = Abilities.Cone(piece.Position, mousePos, AbilityRange);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());

@@ -23,7 +23,7 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.Beam(piece.Position, mousePos);
+            List<Point> points = Abilities.Beam(piece.Position, mousePos, 1);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             if (sPoints.Count == 0)

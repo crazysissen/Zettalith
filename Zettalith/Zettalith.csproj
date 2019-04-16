@@ -92,6 +92,9 @@
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
     <Compile Include="Scripts\In Game\CameraMovement.cs" />
+    <Compile Include="Scripts\In Game\EndHUD.cs" />
+    <Compile Include="Scripts\In Game\HUD.cs" />
+    <Compile Include="Scripts\In Game\InGameHUD.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\In Game\BattleHUD.cs" />
@@ -129,10 +132,15 @@
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal.cs" />
     <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\ConeHealer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Cone.cs" />
+    <Compile Include="Scripts\Pieces\Tops\CyclopsAbomination.cs" />
+    <Compile Include="Scripts\Pieces\Tops\CyclopsNightmare.cs" />
     <Compile Include="Scripts\Pieces\Tops\Duplicator.cs" />
     <Compile Include="Scripts\Pieces\Tops\Healer.cs" />
     <Compile Include="Scripts\Pieces\Tops\KingHead.cs" />
     <Compile Include="Scripts\Pieces\Tops\Lob.cs" />
+    <Compile Include="Scripts\Pieces\Tops\LobHealer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Pyro.cs" />
     <Compile Include="Scripts\Menus\SetDesigner.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
