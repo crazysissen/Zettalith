@@ -351,6 +351,30 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/End turn button.png 
 
+#begin GUI/InGameGUI/End turn button Pressed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/End turn button Pressed.png 
+
+#begin GUI/InGameGUI/End turn button Hover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/End turn button Hover.png 
+
 #begin GUI/ManagementButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
