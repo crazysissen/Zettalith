@@ -9,7 +9,7 @@ namespace Zettalith
 {
     public static class Abilities
     {
-        public static List<Point> Beam(Point origin, Point mousePos)
+        public static List<Point> Beam(Point origin, Point mousePos, int width)
         {
             List<Point> points = new List<Point>();
 
@@ -21,14 +21,20 @@ namespace Zettalith
                 {
                     for (int i = origin.Y + 1; i <= mousePos.Y; ++i)
                     {
-                        points.Add(new Point(origin.X, i));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(origin.X + j, i));
+                        }
                     }
                 }
                 else if (mousePos.Y < origin.Y)
                 {
                     for (int i = origin.Y - 1; i >= mousePos.Y; --i)
                     {
-                        points.Add(new Point(origin.X, i));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(origin.X + j, i));
+                        }
                     }
                 }
             }
@@ -38,22 +44,28 @@ namespace Zettalith
                 {
                     for (int i = origin.X + 1; i <= mousePos.X; ++i)
                     {
-                        points.Add(new Point(i, origin.Y));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(i, origin.Y + j));
+                        }
                     }
                 }
                 else if (mousePos.X < origin.X)
                 {
                     for (int i = origin.X - 1; i >= mousePos.X; --i)
                     {
-                        points.Add(new Point(i, origin.Y));
+                        for(int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                        points.Add(new Point(i, origin.Y + j));
                     }
+                }
                 }
             }
 
             return points;
         }
 
-        public static List<Point> Beam(Point origin, Point mousePos, int range)
+        public static List<Point> Beam(Point origin, Point mousePos, int range, int width)
         {
             List<Point> points = new List<Point>();
 
@@ -65,14 +77,20 @@ namespace Zettalith
                 {
                     for (int i = origin.Y + 1; i <= mousePos.Y && i <= range; ++i)
                     {
-                        points.Add(new Point(origin.X, i));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(origin.X + j, i));
+                        }
                     }
                 }
                 else if (mousePos.Y < origin.Y)
                 {
                     for (int i = origin.Y - 1; i >= mousePos.Y && i >= range; --i)
                     {
-                        points.Add(new Point(origin.X, i));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(origin.X + j, i));
+                        }
                     }
                 }
             }
@@ -82,14 +100,20 @@ namespace Zettalith
                 {
                     for (int i = origin.X + 1; i <= mousePos.X && i <= range; ++i)
                     {
-                        points.Add(new Point(i, origin.Y));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(i, origin.Y + j));
+                        }
                     }
                 }
                 else if (mousePos.X < origin.X)
                 {
                     for (int i = origin.X - 1; i >= mousePos.X && i >= range; --i)
                     {
-                        points.Add(new Point(i, origin.Y));
+                        for (int j = -(width / 2); j <= width / 2; ++j)
+                        {
+                            points.Add(new Point(i, origin.Y + j));
+                        }
                     }
                 }
             }

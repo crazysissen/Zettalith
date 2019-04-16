@@ -134,6 +134,7 @@
     <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\Pieces\Tops\BlastHealer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Cone.cs" />
+    <Compile Include="Scripts\Pieces\Tops\CyclopsNightmare.cs" />
     <Compile Include="Scripts\Pieces\Tops\Duplicator.cs" />
     <Compile Include="Scripts\Pieces\Tops\Healer.cs" />
     <Compile Include="Scripts\Pieces\Tops\KingHead.cs" />

@@ -1,29 +1,29 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class Cyclops : Top
+    class CyclopsNightmare : Top
     {
-        public Cyclops()
+        public CyclopsNightmare()
         {
-            Name = "Cycloptic Horror";
-            Health = 6;
-            AttackDamage = 2;
-            ManaCost = new Mana(2, 1, 0);
+            Name = "Cycloptic Nightmare";
+            Health = 5;
+            AttackDamage = 3;
+            ManaCost = new Mana(4, 3, 2);
             Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
             Modifier = new Addition(new Stats(-3), true);
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a 3 units wide beam.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.Beam(piece.Position, mousePos, 1);
+            List<Point> points = Abilities.Beam(piece.Position, mousePos, 3);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             if (sPoints.Count == 0)
