@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
-    class LogisticsHUD : HUD
+    class BonusHUD : HUD
     {
         GUI.Collection collection;
 
@@ -20,7 +20,7 @@ namespace Zettalith
 
         Point handStart, handEnd;
 
-        public LogisticsHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
+        public BonusHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
         {
             this.collection = collection;
 
@@ -31,7 +31,6 @@ namespace Zettalith
 
             Texture2D PerkButtonTexture = Load.Get<Texture2D>("Perk Tree Button");
             bPerks = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), PerkButtonTexture) { ScaleEffect = true };
-            bPerks.OnClick += csc.OpenPerks;
 
             bBuffs = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Buff Shop Button")) { ScaleEffect = true };
 

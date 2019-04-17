@@ -9,7 +9,7 @@ namespace Zettalith
     [Serializable]
     class Addition : Modifier
     {
-        public Stats StatChanges { get; set; } = new Stats();
+        //public Stats StatChanges { get; set; } = new Stats();
 
         public Addition(Stats changes, bool permanent) : base(permanent)
         {

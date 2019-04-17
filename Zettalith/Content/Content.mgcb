@@ -375,6 +375,30 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/End turn button Hover.png 
 
+#begin GUI/InGameGUI/White.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/White.png 
+
+#begin GUI/InGameGUI/Shop Background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/Shop Background.png 
+
 #begin GUI/ManagementButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
