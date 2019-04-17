@@ -84,10 +84,12 @@ namespace Zettalith
             RendererController.GUI.Add(collection);
             collection.Add(title, localIP, globalIP, statusHeader, status, bStart, bBack);
 
-            ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
-
-            tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 300, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
-            collection.Add(tIpField, ipFieldTitle);
+            if (!host)
+            {
+                ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
+                tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 300, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
+                collection.Add(tIpField, ipFieldTitle);
+            }
 
             if (XNAController.LocalGameHost)
             {
@@ -174,8 +176,11 @@ namespace Zettalith
         {
             connected = true;
 
-            ipFieldTitle.String = new StringBuilder("Connected!");
-            connecting = false;
+            if (!host)
+            {
+                ipFieldTitle.String = new StringBuilder("Connected!");
+                connecting = false;
+            }
         }
 
         void Disconnected()
