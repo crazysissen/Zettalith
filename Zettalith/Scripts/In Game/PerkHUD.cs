@@ -45,10 +45,10 @@ namespace Zettalith
                 {
                     for (int j = 0; j < allPerks[i].Connections.Length; ++j)
                     {
-                        difX = allPerks[i].Connections[j].myPerk.AccessButton.Transform.X - allPerks[i].AccessButton.Transform.X;
-                        difY = allPerks[i].Connections[j].myPerk.AccessButton.Transform.Y - allPerks[i].AccessButton.Transform.Y;
-                        allPerks[i].Connections[j].myLine = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 6), White, new Rectangle((int)(allPerks[i].AccessButton.Transform.X + difX * 0.5f), (int)(allPerks[i].AccessButton.Transform.Y + difY * 0.5f), (int)(Settings.GetResolution.Y * 0.01), (int)Math.Sqrt(Math.Pow(difX, 2) + Math.Pow(difY, 2))), Color.White, (float)Math.Atan(difY / difX), new Vector2(difX * 0.5f, difY * 0.5f), SpriteEffects.None);
-                        collection.Add(allPerks[i].Connections[j].myLine);
+                        difX = allPerks[i].Connections[j].Perk.AccessButton.Transform.X - allPerks[i].AccessButton.Transform.X;
+                        difY = allPerks[i].Connections[j].Perk.AccessButton.Transform.Y - allPerks[i].AccessButton.Transform.Y;
+                        allPerks[i].Connections[j].Line = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 6), White, new Rectangle((int)(allPerks[i].AccessButton.Transform.X + difX * 0.5f), (int)(allPerks[i].AccessButton.Transform.Y + difY * 0.5f), (int)(Settings.GetResolution.Y * 0.01), (int)Math.Sqrt(Math.Pow(difX, 2) + Math.Pow(difY, 2))), Color.White, (float)Math.Atan(difY / difX), new Vector2(difX * 0.5f, difY * 0.5f), SpriteEffects.None);
+                        collection.Add(allPerks[i].Connections[j].Line);
                     }
                 }
                 collection.Add(allPerks[i].AccessButton);
@@ -71,9 +71,9 @@ namespace Zettalith
 
                         for (int j = 0; j < allPerks[i].Connections.Length; ++j)
                         {
-                            if (allPerks[i].Connections[j].myPerk.Achieved)
+                            if (allPerks[i].Connections[j].Perk.Achieved)
                             {
-                                allPerks[i].Connections[j].myLine.Color = Color.Gold;
+                                allPerks[i].Connections[j].Line.Color = Color.Gold;
                             }
                         }
                     }
@@ -109,7 +109,7 @@ namespace Zettalith
             for (int i = 0; i < somePerks.Length; ++i)
             {
                 Connections[i] = new Connection();
-                Connections[i].myPerk = somePerks[i];
+                Connections[i].Perk = somePerks[i];
             }
         }
 
@@ -121,12 +121,12 @@ namespace Zettalith
 
     class Connection
     {
-        public Perk myPerk { get; set; }
-        public Renderer.SpriteScreen myLine { get; set; }
+        public Perk Perk { get; set; }
+        public Renderer.SpriteScreen Line { get; set; }
 
         public Connection()
         {
-            myPerk = new Perk();
+            Perk = new Perk();
         }
     }
 }
