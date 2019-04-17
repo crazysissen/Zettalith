@@ -38,7 +38,7 @@ namespace Zettalith
             bEndTurn.OnClick += InGameController.Local.EndTurn;*/
 
             Texture2D EndButtonTexture = Load.Get<Texture2D>("End turn button");
-            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(0/*Settings.GetHalfResolution.X - buttonWidth / 2*/, (int)(Settings.GetResolution.Y * 0.6f/*0.885f*/), (int)ButtonSizeResFactor.X * EndButtonTexture.Bounds.Width, (int)ButtonSizeResFactor.Y * EndButtonTexture.Bounds.Height), Load.Get<Texture2D>("End turn button"), Load.Get<Texture2D>("End turn button Hover"), Load.Get<Texture2D>("End turn button Pressed")) { ScaleEffect = false };
+            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(0/*Settings.GetHalfResolution.X - buttonWidth / 2*/, (int)(Settings.GetResolution.Y * 0.6f/*0.885f*/), (int)(ButtonSizeResFactor.X * EndButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * EndButtonTexture.Bounds.Height)), Load.Get<Texture2D>("End turn button"), Load.Get<Texture2D>("End turn button Hover"), Load.Get<Texture2D>("End turn button Pressed")) { ScaleEffect = false };
             bEndTurn.OnClick += InGameController.Local.EndTurn;
 
             handStart = new Point((int)(Settings.GetResolution.X * 0.13f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
