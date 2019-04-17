@@ -22,6 +22,8 @@ namespace Zettalith
 
         Renderer.Text topName, topHealth, topAttack, topMana, topDesc, middleName, middleHealth, middleAttack, middleMana, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc;
 
+        
+
         GUI.Button[] miniliths;
         List<GUI.Button> setsButtons, deleteButtons;
 

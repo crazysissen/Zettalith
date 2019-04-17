@@ -36,7 +36,7 @@ namespace Zettalith
         public Renderer.Sprite[,] tiles, highlights;
 
         InGameHUD hud;
-        GUI.Collection collection, battleGUI, logisticsGUI, endGUI;
+        GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
 
         Renderer.Text splash, essence;
         Renderer.Text[] mana;
@@ -81,12 +81,15 @@ namespace Zettalith
 
             battleGUI = new GUI.Collection();
             logisticsGUI = new GUI.Collection();
+            perkGUI = new GUI.Collection();
+            buffGUI = new GUI.Collection();
+            bonusGUI = new GUI.Collection();
             endGUI = new GUI.Collection() { Origin = (res * 0.5f).ToPoint() };
 
             RendererController.GUI.Add(collection);
-            collection.Add(battleGUI, logisticsGUI, endGUI, mana[0], mana[1], mana[2]);
+            collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, mana[0], mana[1], mana[2]);
 
-            hud = new InGameHUD(collection, battleGUI, logisticsGUI, endGUI, controller, this, player);
+            hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, controller, this, player);
 
 
             splashTable = new TimerTable(new float[] { 1, 2 });
@@ -205,6 +208,18 @@ namespace Zettalith
             splash.String = new StringBuilder("Opponent's Turn");
             splash.Origin = splash.Font.MeasureString("Opponent's Turn") * 0.5f;
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+        }
+
+        public void OpenPerks()
+        {
+            logisticsGUI.Active = false;
+            perkGUI.Active = true;
+        }
+
+        public void ClosePerks()
+        {
+            perkGUI.Active = false;
+            logisticsGUI.Active = true;
         }
 
         public void OpenEnd(bool winner)
