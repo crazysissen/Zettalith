@@ -32,11 +32,11 @@ namespace Zettalith
             panels = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("HUD Logistics"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
             Texture2D PerkButtonTexture = Load.Get<Texture2D>("Perk Tree Button");
-            bPerks = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.4f), (int)(Settings.GetResolution.Y * 0.008f), (int)(ButtonSizeResFactor.X * PerkButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * PerkButtonTexture.Bounds.Height)), PerkButtonTexture) { ScaleEffect = true };
+            bPerks = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.005f), (int)(ButtonSizeResFactor.X * PerkButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * PerkButtonTexture.Bounds.Height)), PerkButtonTexture) { ScaleEffect = true };
 
-            bBuffs = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.5f), (int)(Settings.GetResolution.Y * 0.008f), (int)(ButtonSizeResFactor.X * PerkButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Buff Shop Button")) { ScaleEffect = true };
+            bBuffs = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.005f), (int)(ButtonSizeResFactor.X * PerkButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Buff Shop Button")) { ScaleEffect = true };
 
-            bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.6f), (int)(Settings.GetResolution.Y * 0.008f), (int)(ButtonSizeResFactor.X * PerkButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
+            bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.65f), (int)(Settings.GetResolution.Y * 0.005f), (int)(ButtonSizeResFactor.X * PerkButtonTexture.Bounds.Width), (int)(ButtonSizeResFactor.Y * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
 
 
 
