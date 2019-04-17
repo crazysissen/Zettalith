@@ -63,7 +63,7 @@ namespace Zettalith
                 FLASHTIME = 0.85f,
                 HEIGHTPROPORTION = 0.05f;
 
-            public enum TextType : byte { Letters = 0b0, Numbers = 0b1, Periods = 0b01, Symbols = 0b001 }
+            public enum TextType : byte { Letters = 0b1, Numbers = 0b10, Periods = 0b100, Space = 0b1000 }
 
             Point IGUIMember.Origin { get => _origin; set => _origin = value; }
             Layer IGUIMember.Layer => Layer;
@@ -73,7 +73,7 @@ namespace Zettalith
             public int? MaxLetters { get; set; }
             public int CursorPosition { get; set; }
             public bool Highlighted { get; private set; }
-            public TextType AllowedText { get; set; } = TextType.Letters | TextType.Numbers | TextType.Periods | TextType.Symbols;
+            public TextType AllowedText { get; set; } = TextType.Letters | TextType.Numbers | TextType.Periods | TextType.Space;
 
             public Layer Layer { get; set; }
             public Rectangle Rectangle { get; set; }
@@ -141,9 +141,9 @@ namespace Zettalith
                 iBeamFlash = 0;
             }
 
-            void Click(bool anOnAreaBool)
+            void Click(bool onArea)
             {
-                if (anOnAreaBool)
+                if (onArea)
                 {
                     ChangeState(true);
 
@@ -256,7 +256,15 @@ namespace Zettalith
                     }
                 }
 
-                if (In.KeyDown(Keys.Back) && Content.Length > 0)
+                if (AllowedText.HasFlag(TextType.Space))
+                {
+                    if (In.KeyDown(Keys.Space))
+                    {
+                        Write(' ');
+                    }
+                }
+
+                if (In.KeyDown(Keys.Back) && Content.Length > 0 && CursorPosition > 0)
                 {
                     Back();
                 }

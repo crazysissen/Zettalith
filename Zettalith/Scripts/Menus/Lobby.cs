@@ -84,13 +84,6 @@ namespace Zettalith
             RendererController.GUI.Add(collection);
             collection.Add(title, localIP, globalIP, statusHeader, status, bStart, bBack);
 
-            if (!host)
-            {
-                ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
-                tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 300, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
-                collection.Add(tIpField, ipFieldTitle);
-            }
-
             if (XNAController.LocalGameHost)
             {
                 NetworkManager.CreateLocalGame();
@@ -107,6 +100,12 @@ namespace Zettalith
                 if (config == null)
                 {
                     bStart.ChangeText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"));
+
+                    ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
+                    tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 420, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
+                    tIpField.AllowedText = GUI.TextField.TextType.Numbers | GUI.TextField.TextType.Periods;
+                    tIpField.MaxLetters = 24;
+                    collection.Add(tIpField, ipFieldTitle);
 
                     NetworkManager.CreateClient();
                 }
@@ -176,9 +175,10 @@ namespace Zettalith
         {
             connected = true;
 
-            if (!host)
+            if (!host && !XNAController.localGame)
             {
                 ipFieldTitle.String = new StringBuilder("Connected!");
+                bStart.ChangeText("Ready");
                 connecting = false;
             }
         }
@@ -215,6 +215,12 @@ namespace Zettalith
             }
             else if (!host && !XNAController.localGame && !connecting)
             {
+                if (tIpField.Content == NetworkManager.LocalIP || tIpField.Content == NetworkManager.PublicIP)
+                {
+                    ipFieldTitle.String = new StringBuilder("Very funny..");
+                    return;
+                }
+
                 connecting = true;
                 timeOut = 0;
 
