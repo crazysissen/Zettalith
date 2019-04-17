@@ -37,6 +37,7 @@ namespace Zettalith
 
         public Renderer.Sprite[,] tiles, tileFronts;
         public Renderer.Animator[,] highlights;
+        public CloudManager cloudManager;
 
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI;
@@ -110,13 +111,21 @@ namespace Zettalith
             {
                 for (int y = 0; y < grid.yLength; ++y)
                 {
-                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
-                    tileFronts[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), frontTexture, new Vector2(x, (y + 0.5f) * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 0), SpriteEffects.None);
-                    highlights[x, y] = new Renderer.Animator(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Point(32, 22), new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, new Vector2(16, 11), 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+                    bool host = InGameController.IsHost;
+
+                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    tileFronts[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), frontTexture, new Vector2(x, (y + (host ? 0.5f : -0.5f)) * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 0), SpriteEffects.None);
+                    highlights[x, y] = new Renderer.Animator(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y))), highlightTexture, new Point(32, 22), new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, new Vector2(16, 11), 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+
+                    tiles[x, y].Active = grid[x, y] != null;
+                    tileFronts[x, y].Active = grid[x, y] != null;
+
+
 
                     if (!InGameController.IsHost)
                     {
                         tiles[x, y].Position *= -1;
+                        tileFronts[x, y].Position *= -1;
                     }
                 }
             }
