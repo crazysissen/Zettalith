@@ -10,7 +10,7 @@ namespace Zettalith
     [Serializable]
     abstract class Modifier
     {
-        //public Stats StatChanges { get; set; } = new Stats();
+        public Stats StatChanges { get; set; } = new Stats();
 
         public virtual bool Permanent { get; protected set; }
         //public bool Addition { get; private set; }

@@ -18,8 +18,10 @@ namespace Zettalith
 
         static public readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255),
+            defaultEnemyHighlightColor = new Color(255, 40, 0, 255),
             movementHighlightColor = new Color(255, 200, 0, 155),
             movementSelectedHighlightColor = new Color(255, 200, 0, 255),
+            pieceEnemyHighlightColor = new Color(255, 172, 180, 255),
             pieceHighlightColor = new Color(172, 255, 242, 255),
             pieceCoveredColor = new Color(172, 255, 242, 80),
             pieceGhostColor = new Color(255, 255, 255, 120),
@@ -33,7 +35,8 @@ namespace Zettalith
         public bool MoveableCamera { get; set; } = true;
         public bool SetupComplete { get; private set; }
 
-        public Renderer.Sprite[,] tiles, highlights;
+        public Renderer.Sprite[,] tiles, tileFronts;
+        public Renderer.Animator[,] highlights;
 
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
@@ -100,17 +103,19 @@ namespace Zettalith
 
         public void CreateMap(Grid grid)
         {
-            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlight");
+            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront");
 
             tiles = new Renderer.Sprite[grid.xLength, grid.yLength];
-            highlights = new Renderer.Sprite[grid.xLength, grid.yLength];
+            tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
+            highlights = new Renderer.Animator[grid.xLength, grid.yLength];
 
             for (int x = 0; x < grid.xLength; ++x)
             {
                 for (int y = 0; y < grid.yLength; ++y)
                 {
                     tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
-                    highlights[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    tileFronts[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), frontTexture, new Vector2(x, (y + 0.5f) * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 0), SpriteEffects.None);
+                    highlights[x, y] = new Renderer.Animator(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Point(32, 22), new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, new Vector2(16, 11), 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
 
                     if (!InGameController.IsHost)
                     {
@@ -293,7 +298,7 @@ namespace Zettalith
             {
                 if (i == 0)
                 {
-                    highlightedPieces[i].Renderer.Color = pieceHighlightColor;
+                    highlightedPieces[i].Renderer.Color = highlightedPieces[i].Player == InGameController.PlayerIndex ? pieceHighlightColor : pieceEnemyHighlightColor;
                     highlightedPiece = highlightedPieces[i];
 
                     continue;
@@ -304,7 +309,7 @@ namespace Zettalith
 
             if (highlightedPiece != null && interactionPiece == null)
             {
-                AddHighlight(defaultHighlightColor, highlightedPiece.Position);
+                AddHighlight(highlightedPiece.Player == InGameController.PlayerIndex ? defaultHighlightColor : defaultEnemyHighlightColor, highlightedPiece.Position);
             }
 
             if (moveable)
@@ -467,7 +472,7 @@ namespace Zettalith
                 {
                     if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
                     {
-                        if (controller.LocalMana > dragOutPiece.GetCost)
+                        if (controller.LocalMana >= dragOutPiece.GetCost)
                         {
                             removePiece = dragOutPiece;
                             player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);

@@ -9,7 +9,7 @@ namespace Zettalith
     [Serializable]
     class Direct : Modifier
     {
-        public Stats StatChanges { get; set; } = new Stats();
+        //public Stats StatChanges { get; set; } = new Stats();
 
         public Direct(Stats changes, bool permanent) : base(permanent)
         {
