@@ -54,10 +54,14 @@ namespace Zettalith
             }
         }
 
+        /// <summary>
+        /// CURRENTLY ONLY ACCEPTS NUMBERS, PERIOD AND COLON
+        /// </summary>
         public class TextField : GUIContainer, IGUIMember
         {
             const float
-                FLASHTIME = 0.5f;
+                FLASHTIME = 0.85f,
+                HEIGHTPROPORTION = 0.05f;
 
             public enum TextType : byte { Letters = 0b0, Numbers = 0b1, Periods = 0b01, Symbols = 0b001 }
 
@@ -67,6 +71,7 @@ namespace Zettalith
 
             public string Content { get; set; }
             public int MaxLetters { get; set; }
+            public int CursorPosition { get; set; }
             public bool Highlighted { get; private set; }
             public TextType AllowedText { get; set; }
 
@@ -74,7 +79,7 @@ namespace Zettalith
             public Rectangle Rectangle { get; set; }
             public MaskedCollection Mask { get; set; }
             public Renderer.SpriteScreen Renderer { get; set; }
-            public Renderer.SpriteScreen IBeam { get; set; }
+            public Renderer.SpriteScreenFloating IBeam { get; set; }
             public Renderer.Text TextRenderer { get; set; }
 
             private float iBeamFlash;
@@ -84,9 +89,15 @@ namespace Zettalith
                 Layer = backgroundLayer;
                 Rectangle = transform;
                 Content = text;
+                CursorPosition = 0;
 
                 TextRenderer = new Renderer.Text(textLayer, font, text ?? "", fontSize, 0, position, origin, textColor ?? Color.Black);
-                Add(TextRenderer);
+
+                float height = font.MeasureString("I").Y * 0.65f;
+                IBeam = new Renderer.SpriteScreenFloating(textLayer, Load.Get<Texture2D>("Square"), position + new Vector2(0, height / 5), new Vector2(height * HEIGHTPROPORTION, height) / 16, textColor ?? Color.Black, 0, new Vector2(height * HEIGHTPROPORTION * 18f, 0), /*Vector2.One * 0.5f, */SpriteEffects.None);
+                IBeam.Active = false;
+
+                Add(TextRenderer, IBeam);
 
                 if (backgroundTexture != null)
                 {
@@ -103,38 +114,22 @@ namespace Zettalith
 
                 Mouse.SetCursor(onArea ? MouseCursor.IBeam : MouseCursor.Arrow);
 
-                if (In.LeftMouse)
+                if (In.LeftMouseDown)
                 {
-                    if (onArea)
-                    {
-                        Highlighted = true; 
+                    Click(onArea);
+                }
 
-                        float tempPosition = In.MousePosition.ToVector2().X - Origin.X - TextRenderer.Position.X, lastLength = float.MinValue;
+                if (Highlighted)
+                {
+                    iBeamFlash += unscaledDeltaTime;
 
-                        List<float> lengths = new List<float>();
+                    bool flashOn = iBeamFlash % FLASHTIME < FLASHTIME * 0.5f;
+                    IBeam.Color = flashOn ? TextRenderer.Color : Color.Transparent;
 
-                        int? position = null;
+                    float height = TextRenderer.Font.MeasureString("I").Y * 0.60f;
+                    IBeam.Position = TextRenderer.Position + new Vector2(TextRenderer.Font.MeasureString(Content.Substring(0, CursorPosition)).X, 0) + new Vector2(0, height / 5);
 
-                        for (int i = 1; i < Content.Length && position == null; i++)
-                        {
-                            float currentLength = TextRenderer.Font.MeasureString(Content.Substring(0, i)).X * TextRenderer.Scale.X;
-                            lengths.Add(currentLength);
-
-                            if (currentLength > tempPosition)
-                            {
-                                position = (currentLength - tempPosition > tempPosition - lastLength) ? i - 1 : i;
-                            }
-
-                            lastLength = currentLength;
-                        }
-
-                        Test.Log("Position in text field: " + position);
-                        Test.Log(lengths.ToArray().ToString());
-                    }
-                    else
-                    {
-                        Highlighted = false;
-                    }
+                    KeyboardActions();
                 }
             }
 
@@ -142,6 +137,128 @@ namespace Zettalith
             {
                 Highlighted = active;
                 IBeam.Active = active;
+
+                iBeamFlash = 0;
+            }
+
+            void Click(bool anOnAreaBool)
+            {
+                if (anOnAreaBool)
+                {
+                    ChangeState(true);
+
+                    float tempPosition = In.MousePosition.ToVector2().X - _origin.X - TextRenderer.Position.X, lastLength = float.MinValue;
+
+                    List<float> lengths = new List<float>();
+
+                    int? position = null;
+
+                    for (int i = 0; i <= Content.Length && position == null; i++)
+                    {
+                        float currentLength = TextRenderer.Font.MeasureString(Content.Substring(0, i)).X * TextRenderer.Scale.X;
+                        lengths.Add(currentLength);
+
+                        if (currentLength > tempPosition)
+                        {
+                            position = (currentLength - tempPosition > tempPosition - lastLength) ? i - 1 : i;
+                        }
+
+                        lastLength = currentLength;
+                    }
+
+                    if (position == null)
+                    {
+                        position = Content.Length;
+                    }
+
+                    Test.Log("Position in text field: " + position);
+
+                    CursorPosition = position.Value;
+                }
+                else
+                {
+                    ChangeState(false);
+                }
+            }
+
+            void Write(object value)
+            {
+                Content = Content.Insert(CursorPosition, value.ToString());
+                ++CursorPosition;
+            }
+
+            void Back()
+            {
+                Content = Content.Remove(CursorPosition - 1, 1);
+                --CursorPosition;
+            }
+
+            void KeyboardActions()
+            {
+                KeyboardState kState = Keyboard.GetState();
+                Keys[] numbers = { Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9 };
+                Keys[] numPad = { Keys.NumPad0, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9 };
+
+                for (int i = 0; i < numbers.Length; ++i)
+                {
+                    Keys key = numbers[i];
+
+                    if (In.KeyDown(key))
+                    {
+                        Write(i);
+                    }
+                }
+
+                if (kState.NumLock)
+                {
+                    for (int i = 0; i < numPad.Length; ++i)
+                    {
+                        Keys key = numPad[i];
+
+                        if (In.KeyDown(key))
+                        {
+                            Write(i);
+                        }
+                    }
+                }
+
+                if (In.KeyDown(Keys.OemPeriod))
+                {
+                    if (kState.IsKeyDown(Keys.LeftShift) || kState.IsKeyDown(Keys.RightShift))
+                    {
+                        Write(':');
+                    }
+                    else
+                    {
+                        Write('.');
+                    }
+                }
+
+                if (In.KeyDown(Keys.Back) && Content.Length > 0)
+                {
+                    Back();
+                }
+
+                if (In.KeyDown(Keys.Delete) && CursorPosition < Content.Length)
+                {
+                    ++CursorPosition;
+                    Back();
+                }
+
+                if (In.KeyDown(Keys.Enter))
+                {
+                    ChangeState(false);
+                }
+
+                if (In.KeyDown(Keys.Left) && CursorPosition > 0)
+                {
+                    --CursorPosition;
+                }
+
+                if (In.KeyDown(Keys.Right) && CursorPosition < Content.Length)
+                {
+                    ++CursorPosition;
+                }
             }
         }
 
@@ -475,6 +592,12 @@ namespace Zettalith
             public void AddText(string text, float fontSize, bool centered, Color baseColor, SpriteFont font)
             {
                 Vector2 measure = font.MeasureString(text);
+
+                if (Text != null)
+                {
+                    Text.Destroy();
+                    Text = null;
+                }
 
                 Text = new Renderer.Text(
                     new Layer(Layer.main, Layer.layer + 1), font, text, fontSize, 0,

@@ -17,7 +17,7 @@ namespace Zettalith
         private static Lobby singleton;
         private static Callback callback;
 
-        private bool host, connected, ready;
+        private bool host, connected, ready, connecting;
 
         private System.Net.IPEndPoint endPoint;
 
@@ -25,7 +25,7 @@ namespace Zettalith
         private GUI.Button bStart, bBack;
         private GUI.TextField tIpField;
         private Renderer.SpriteScreen localBackground, globalBackground;
-        private Renderer.Text title, localIP, globalIP, statusHeader, status;
+        private Renderer.Text title, localIP, globalIP, statusHeader, status, ipFieldTitle;
 
         private Set testSet;
 
@@ -79,9 +79,10 @@ namespace Zettalith
             RendererController.GUI.Add(collection);
             collection.Add(title, localIP, globalIP, statusHeader, status, bStart, bBack);
 
-            // TODO
-            tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 300, 40), new Vector2(345, 420), Vector2.Zero, "Hello", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
-            collection.Add(tIpField);
+            ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
+
+            tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 300, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
+            collection.Add(tIpField, ipFieldTitle);
 
             if (XNAController.LocalGameHost)
             {
@@ -90,8 +91,6 @@ namespace Zettalith
 
             if (XNAController.LocalGameClient)
             {
-                
-
                 NetworkManager.CreateClient();
                 NetworkManager.StartPeerSearch("localhost");
             }
@@ -100,8 +99,9 @@ namespace Zettalith
             {
                 if (config == null)
                 {
+                    bStart.AddText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"), 6, true, Color.Black, Font.Bold);
+
                     NetworkManager.CreateClient();
-                    NetworkManager.StartPeerSearch(NetworkManager.tempIP);
                 }
                 else
                 {
@@ -188,6 +188,11 @@ namespace Zettalith
 
                 ready = !ready;
                 NetworkManager.Send(STARTHEADER, ready);
+            }
+            else if (!host && !XNAController.localGame && !connecting)
+            {
+                connecting = true;
+                NetworkManager.StartPeerSearch(tIpField.Content);
             }
         }
 

@@ -25,7 +25,7 @@ namespace Zettalith
             A_SERVERHANDLE = "-serverhandle";
 
         // Boot config
-        public static readonly bool localGame = true;
+        public static readonly bool localGame = false;
 
         public static bool DebugConsole { get; private set; } = true;
 
@@ -142,6 +142,9 @@ namespace Zettalith
                 gameTime: gameTime, 
                 graphics: Graphics, 
                 spriteBatch: SpriteBatch);
+
+            // Last
+            In.UpdateMethods();
         }
 
         protected override void OnExiting(object sender, EventArgs args)

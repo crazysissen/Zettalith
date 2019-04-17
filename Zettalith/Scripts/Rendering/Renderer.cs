@@ -73,7 +73,7 @@ namespace Zettalith
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
                 Vector2 position = camera.WorldToScreenPosition(Position);
-                spriteBatch.Draw(Texture, position, null, Color, Rotation * DEGTORAD, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, position, null, Color, Rotation, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
             }
 
             public Rectangle GetArea()
@@ -127,7 +127,50 @@ namespace Zettalith
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, new Rectangle(Transform.Location + Offset, Transform.Size), null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, new Rectangle(Transform.Location + Offset, Transform.Size), null, Color, Rotation, Origin, Effects, Layer.LayerDepth);
+            }
+        }
+
+        public class SpriteScreenFloating : RendererIGUI
+        {
+            /// <summary>The texture of the object</summary>
+            public virtual Texture2D Texture { get; set; }
+
+            /// <summary>The x & y coordinates of the object in world space</summary>
+            public virtual Vector2 Position { get; set; }
+
+            /// <summary>The width/height of the object</summary>
+            public virtual Vector2 Size { get; set; }
+
+            /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
+            public virtual float Rotation { get; set; }
+
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the sprite is rotated
+            /// and what point will line up to the Vector2 position</summary>
+            public virtual Vector2 Origin { get; set; }
+
+            /// <summary>The color multiplier of the object</summary>
+            public virtual Color Color { get; set; }
+
+            /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
+            public virtual SpriteEffects Effects { get; set; }
+
+            public SpriteScreenFloating(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            {
+                Layer = layer;
+                Texture = texture;
+                Position = position;
+                Size = size;
+                Rotation = rotation;
+                Origin = rotationOrigin;
+                Color = color;
+                Effects = effects;
+            }
+
+            public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
+            {
+                Vector2 position = Position;
+                spriteBatch.Draw(Texture, position + Offset.ToVector2(), null, Color, Rotation, Origin, Size, Effects, Layer.LayerDepth);
             }
         }
 

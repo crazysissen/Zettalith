@@ -142,9 +142,6 @@ namespace Zettalith
                 default:
                     break;
             }
-
-            // Last
-            In.UpdateMethods();
         }
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
