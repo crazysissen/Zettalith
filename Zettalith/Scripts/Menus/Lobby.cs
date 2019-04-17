@@ -14,10 +14,14 @@ namespace Zettalith
             STARTHEADER = "START",
             RECIEVEDATAHEADER = "RECIEVEPLAYERDATA";
 
+        const float
+            TIMEOUT = 5.0f;
+
         private static Lobby singleton;
         private static Callback callback;
 
         private bool host, connected, ready, connecting;
+        private float timeOut;
 
         private System.Net.IPEndPoint endPoint;
 
@@ -99,7 +103,7 @@ namespace Zettalith
             {
                 if (config == null)
                 {
-                    bStart.AddText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"), 6, true, Color.Black, Font.Bold);
+                    bStart.ChangeText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"));
 
                     NetworkManager.CreateClient();
                 }
@@ -119,6 +123,16 @@ namespace Zettalith
         public void Update(float deltaTime)
         {
             UpdateGUI();
+
+            if (connecting)
+            {
+                timeOut += deltaTime;
+                if (timeOut > TIMEOUT)
+                {
+                    connecting = false;
+                    ipFieldTitle.String = new StringBuilder("Timed out. Try again:");
+                }
+            }
         }
 
         private void UpdateGUI()
@@ -158,12 +172,16 @@ namespace Zettalith
         void Connected()
         {
             connected = true;
+
+            ipFieldTitle.String = new StringBuilder("Connected!");
+            connecting = false;
         }
 
         void Disconnected()
         {
             ready = false;
             connected = false;
+            connecting = false;
         }
 
         void BStart()
@@ -192,7 +210,21 @@ namespace Zettalith
             else if (!host && !XNAController.localGame && !connecting)
             {
                 connecting = true;
+                timeOut = 0;
+
+                ipFieldTitle.String = new StringBuilder("Connecting...");
+
                 NetworkManager.StartPeerSearch(tIpField.Content);
+                NetworkManager.OnError += OnError;
+            }
+        }
+
+        void OnError()
+        {
+            if (connecting)
+            {
+                ipFieldTitle.String = new StringBuilder("Error. Try again:");
+                connecting = false;
             }
         }
 

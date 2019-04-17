@@ -593,12 +593,6 @@ namespace Zettalith
             {
                 Vector2 measure = font.MeasureString(text);
 
-                if (Text != null)
-                {
-                    Text.Destroy();
-                    Text = null;
-                }
-
                 Text = new Renderer.Text(
                     new Layer(Layer.main, Layer.layer + 1), font, text, fontSize, 0,
                     centered ? new Vector2((Transform.Left + Transform.Right) * 0.5f, (Transform.Top + Transform.Bottom) * 0.5f) : new Vector2(Transform.Left + 8, (Transform.Top + Transform.Bottom) * 0.5f),
@@ -606,6 +600,17 @@ namespace Zettalith
                     baseColor);
 
                 _textBaseColor = baseColor;
+            }
+
+            public void ChangeText(string text, float? fontSize = null, Color? color = null, SpriteFont font = null)
+            {
+                Vector2 measure = (font ?? Text.Font).MeasureString(text);
+
+                Text.String = new StringBuilder(text);
+                Text.Font = font ?? Text.Font;
+                Text.Color = color ?? Text.Color;
+                Text.Scale = fontSize == null ? Text.Scale : Vector2.One * fontSize.Value;
+                Text.Origin = Vector2.One * 0.5f * measure;
             }
 
             public void AddEffect(SoundEffect effect) => this._effect = effect;

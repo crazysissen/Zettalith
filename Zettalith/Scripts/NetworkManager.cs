@@ -30,6 +30,8 @@ namespace Zettalith
 
         static Dictionary<string, SerializedEvent> listeners = new Dictionary<string, SerializedEvent>();
 
+        public static event Action OnConnected, OnDisconnected, OnError;
+
         public static void Send(string callsign, object message)
         {
             Send(callsign, message.ToBytes());
@@ -88,8 +90,6 @@ namespace Zettalith
         static string password;
 
         static Callback callback;
-
-        public static event Action OnConnected, OnDisconnected; 
 
         public static void Initialize(XNAController xnaController)
         {
@@ -277,15 +277,11 @@ namespace Zettalith
 
                     // This is the client and a discovery request was returned with response
                     case NetIncomingMessageType.DiscoveryResponse:
-
                         Lobby.PeerFound(message.SenderEndPoint, false, message.ReadString());
-
                         break;
 
                     case NetIncomingMessageType.WarningMessage:
-
                         Test.Log("Warning: " + message.ReadString());
-
                         break;
 
                     //case NetIncomingMessageType.Error:
@@ -303,8 +299,10 @@ namespace Zettalith
                     //case NetIncomingMessageType.DebugMessage:
                     //    break;
 
-                    //case NetIncomingMessageType.ErrorMessage:
-                    //    break;
+                    case NetIncomingMessageType.ErrorMessage:
+                        OnError.Invoke();
+                        Test.Log("Error: " + message.ReadString());
+                        break;
 
                     //case NetIncomingMessageType.NatIntroductionSuccess:
                     //    break;
