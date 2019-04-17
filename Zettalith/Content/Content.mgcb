@@ -327,7 +327,7 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/HUD Battle.png
 
-#begin GUI/InGameGUI/HUD Logistics.png
+#begin GUI/InGameGUI/HUD Logistics.png 
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -339,7 +339,7 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/HUD Logistics.png 
 
-#begin GUI/InGameGUI/End turn button.png
+#begin GUI/InGameGUI/End turn button.png 
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -351,7 +351,7 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/End turn button.png 
 
-#begin GUI/InGameGUI/End turn button Pressed.png
+#begin GUI/InGameGUI/End turn button Pressed.png 
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -363,7 +363,7 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/End turn button Pressed.png 
 
-#begin GUI/InGameGUI/End turn button Hover.png
+#begin GUI/InGameGUI/End turn button Hover.png 
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1106,4 +1106,64 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Misc/Menu2.png
+
+#begin Map/Tile1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/Tile1.png
+
+#begin Map/Tile2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/Tile2.png
+
+#begin Map/Tile3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/Tile3.png
+
+#begin Map/Tile4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/Tile4.png
+
+#begin Map/TileHighlightSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/TileHighlightSheet.png
 

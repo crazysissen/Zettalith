@@ -92,6 +92,7 @@
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
     <Compile Include="Scripts\In Game\CameraMovement.cs" />
+    <Compile Include="Scripts\In Game\CloudManager.cs" />
     <Compile Include="Scripts\In Game\EndHUD.cs" />
     <Compile Include="Scripts\In Game\HUD.cs" />
     <Compile Include="Scripts\In Game\InGameHUD.cs" />
