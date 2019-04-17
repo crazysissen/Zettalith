@@ -11,7 +11,7 @@ namespace Zettalith
     struct PersonalData
     {
         public static Settings Settings => UserData.CurrentSettings;
-        public static PersonalData UserData { get; set; } = new PersonalData();
+        public static PersonalData UserData { get; set; }
 
         public static PersonalData Default = new PersonalData
         {
@@ -22,6 +22,8 @@ namespace Zettalith
             Locked = Achievements.DefaultLocked,
             Unlocked = Achievements.DefaultUnlocked,
         };
+
+        //public static Set DefaultSet = CreateDefaultSet();
 
         public Settings CurrentSettings { get; set; }
 
@@ -48,5 +50,18 @@ namespace Zettalith
 
         //    return set;
         //}
+
+        public static void CreateDefaultSet()
+        {
+            Set set = new Set();
+
+            for (int i = 0; i < Set.MaxSize; ++i)
+            {
+                set.AddUnit(new Piece((byte)Subpieces.SubPieces.IndexOf(Subpieces.DefaultTop), (byte)Subpieces.SubPieces.IndexOf(Subpieces.DefaultMiddle), (byte)Subpieces.SubPieces.IndexOf(Subpieces.DefaultBottom)));
+            }
+
+            if (UserData.SavedSets.Count == 0)
+                UserData.SavedSets.Add(set);
+        }
     }
 }

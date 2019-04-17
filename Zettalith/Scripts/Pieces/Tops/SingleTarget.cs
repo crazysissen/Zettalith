@@ -36,7 +36,7 @@ namespace Zettalith.Pieces
                 {
                     if (mousePos == sPoints[i])
                     {
-                        object[] temp = { sPoints, Modifier };
+                        object[] temp = { sPoints[i], Modifier };
                         cancel = false;
                         return temp;
                     }
@@ -52,17 +52,8 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<SPoint> temp = data[0] as List<SPoint>;
-
-            for (int i = 0; i < temp.Count; ++i)
-            {
-                TileObject piece = InGameController.Grid.GetObject(temp[i].X, temp[i].Y);
-
-                if (piece == null || !(piece is TilePiece))
-                    continue;
-
-                (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
-            }
+            TileObject piece = InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
+            (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
         }
     }
 }

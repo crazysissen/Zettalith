@@ -15,7 +15,7 @@ namespace Zettalith
         int handPieceHeight;
         List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)> handPieces;
 
-        Renderer.SpriteScreen bottomPanel;
+        Renderer.SpriteScreen panels;
         GUI.Button bEndTurn;
 
         Point handStart, handEnd;
@@ -26,23 +26,29 @@ namespace Zettalith
 
             handPieces = new List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)>();
             handPieceHeight = Settings.GetResolution.Y / 5;
+            
+            Vector2 ButtonSizeResFactor = new Vector2(Settings.GetResolution.X / 1920f, Settings.GetResolution.Y / 1080f);
 
-            int width = (int)(Settings.GetResolution.X * (401f / 480f)), height = (int)(Settings.GetResolution.Y * (24f / 270f)),
-                buttonWidth = (int)(Settings.GetResolution.X * (51f / 480f)), buttonHeight = (int)(Settings.GetResolution.Y * (25f / 270f));
+            /*int width = (int)(Settings.GetResolution.X * (401f / 480f)), height = (int)(Settings.GetResolution.Y * (24f / 270f));,
+                buttonWidth = (int)(Settings.GetResolution.X * (51f / 480f)), buttonHeight = (int)Settings.GetResolution.Y * (25f / 270f));*/
 
-            bottomPanel = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("BottomPanel"), new Rectangle(Settings.GetHalfResolution.X - width / 2, Settings.GetResolution.Y - height, width, height));
+            panels = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("HUD Battle"), new Rectangle(0/*Settings.GetHalfResolution.X - width / 2*/, 0/*Settings.GetResolution.Y - height*/, Settings.GetResolution.X, Settings.GetResolution.Y));
 
-            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
+            /*bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(Settings.GetHalfResolution.X - buttonWidth / 2, (int)(Settings.GetResolution.Y * 0.885f), buttonWidth, buttonHeight), Load.Get<Texture2D>("EndTurnButton"), Load.Get<Texture2D>("EndTurnButtonHover"), Load.Get<Texture2D>("EndTurnButtonClick")) { ScaleEffect = true };
+            bEndTurn.OnClick += InGameController.Local.EndTurn;*/
+
+            Texture2D EndButtonTexture = Load.Get<Texture2D>("End turn button");
+            bEndTurn = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle(0/*Settings.GetHalfResolution.X - buttonWidth / 2*/, (int)(Settings.GetResolution.Y * 0.6f/*0.885f*/), (int)ButtonSizeResFactor.X * EndButtonTexture.Bounds.Width, (int)ButtonSizeResFactor.Y * EndButtonTexture.Bounds.Height), Load.Get<Texture2D>("End turn button"), Load.Get<Texture2D>("End turn button Hover"), Load.Get<Texture2D>("End turn button Pressed")) { ScaleEffect = false };
             bEndTurn.OnClick += InGameController.Local.EndTurn;
 
-            handStart = new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
-            handEnd = new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
+            handStart = new Point((int)(Settings.GetResolution.X * 0.13f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
+            handEnd = new Point((int)(Settings.GetResolution.X * 0.6f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
 
             GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
             button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
             button.OnClick += clientSideController.DrawPieceFromDeck;
 
-            collection.Add(bottomPanel, bEndTurn, button);
+            collection.Add(panels, bEndTurn, button);
             collection.Active = false;
         }
 
