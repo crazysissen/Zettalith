@@ -298,25 +298,6 @@ namespace Zettalith
             }
 
             return upCone.Contains(mousePos) ? upCone : rightCone.Contains(mousePos) ? rightCone : downCone.Contains(mousePos) ? downCone : leftCone.Contains(mousePos) ? leftCone : new List<Point>();
-
-            //if (upCone.Contains(mousePos))
-            //{
-            //    return upCone;
-            //}
-            //else if (rightCone.Contains(mousePos))
-            //{
-            //    return rightCone;
-            //}
-            //else if (downCone.Contains(mousePos))
-            //{
-            //    return downCone;
-            //}
-            //else if (leftCone.Contains(mousePos))
-            //{
-            //    return leftCone;
-            //}
-
-            //return new List<Point>();
         }
     }
 }
