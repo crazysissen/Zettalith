@@ -328,6 +328,8 @@ namespace Zettalith
             TilePiece piece = Grid[pieceIndex] as TilePiece;
 
             piece.Piece.Top.ActivateAbility(data);
+
+            players[piece.Player].Mana -= piece.Piece.ModifiedStats.AbilityCost;
         }
 
         public void ActivateMovement(int pieceIndex, int x, int y)
@@ -338,7 +340,7 @@ namespace Zettalith
 
             Local.ClientController.PlacePieceAnimation(piece);
 
-            players[piece.Player].Mana -= piece.Piece.Bottom.MoveCost;
+            players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
         }
 
         public void EndGame(int winnerIndex)

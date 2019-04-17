@@ -452,7 +452,7 @@ namespace Zettalith
                 {
                     if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
                     {
-                        if (controller.LocalMana > dragOutPiece.GetCost)
+                        if (controller.LocalMana >= dragOutPiece.GetCost)
                         {
                             removePiece = dragOutPiece;
                             player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);

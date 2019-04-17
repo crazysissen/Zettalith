@@ -16,6 +16,7 @@ namespace Zettalith.Pieces
             Health = 10;
             AttackDamage = 3;
             ManaCost = new Mana(4, 4, 4);
+            AbilityCost = new Mana(1, 1, 1);
             Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
             Modifier = new Addition(new Stats(-5), true);
             Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a 5 units wide beam.";
