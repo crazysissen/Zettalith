@@ -126,6 +126,8 @@ namespace Zettalith
             localPeer = new NetServer(config);
 
             localPeer.Start();
+
+            localPeer.UPnP.ForwardPort(PORT, "ZettalithPortForward");
         }
 
         public static void CreateClient()
@@ -139,6 +141,7 @@ namespace Zettalith
 
             NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
+                EnableUPnP = true,
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 10,
                 Port = PORT
@@ -150,6 +153,8 @@ namespace Zettalith
             localPeer = new NetClient(config);
 
             localPeer.Start();
+
+            localPeer.UPnP.ForwardPort(PORT, "ZettalithPortForward");
         }
 
         public static void CreateLocalGame()
