@@ -25,7 +25,7 @@ namespace Zettalith
         public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
         public Bottom Bottom { get; private set; } /* => bottoms[piece.BottomIndex]*/
 
-        public bool IsKing => Top is KingHead;
+        public bool IsKing => Top is KingHead && Middle is KingMiddle && Bottom is KingFeet;
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
