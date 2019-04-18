@@ -15,11 +15,13 @@ namespace Zettalith.Pieces
             Name = "Duplicator";
             Health = 1;
             AttackDamage = 1;
+            AbilityRange = 0;
             ManaCost = new Mana(0, 1, 4);
             AbilityCost = new Mana(0, 1, 1);
-            Description = "Duplicates itself.";
+            // Modifier = new Addition();
             Texture = Load.Get<Texture2D>("DuplicateHead");
-            AbilityRange = 1;
+
+            Description = "Duplicates itself.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

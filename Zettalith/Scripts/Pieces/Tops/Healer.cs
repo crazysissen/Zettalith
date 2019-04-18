@@ -15,16 +15,18 @@ namespace Zettalith.Pieces
             Name = "Healer";
             Health = 8;
             AttackDamage = 1;
+            AbilityRange = 3;
             ManaCost = new Mana(0, 2, 2);
+            AbilityCost = new Mana();
             Modifier = new Addition(new Stats(5), true);
             Texture = Load.Get<Texture2D>("HealerTop");
 
-            Description = "Heals a Zettalith by " + (Modifier as Addition).StatChanges.Health;
+            Description = "Heals a Zettalith within " + AbilityRange + " units by " + (Modifier as Addition).StatChanges.Health;
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.TargetAll();
+            List<Point> points = Abilities.TargetAll(piece.Position, AbilityRange);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());

@@ -74,9 +74,11 @@ namespace Zettalith
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
             mana = new Renderer.Text[3];
-            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + controller.LocalMana.Blue, 3.5f, 0, new Vector2(10, 70));
-            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + controller.LocalMana.Green, 3.5f, 0, new Vector2(10, 100));
-            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
+            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 70));
+            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + controller.LocalMana.Blue, 3.5f, 0, new Vector2(10, 100));
+            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + controller.LocalMana.Green, 3.5f, 0, new Vector2(10, 130));
+
+            new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
             UpdateManaGUI();
 
             collection = new GUI.Collection();

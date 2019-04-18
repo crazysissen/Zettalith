@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
@@ -16,8 +17,9 @@ namespace Zettalith.Pieces
             AttackDamage = 0;
             AbilityRange = 2;
             ManaCost = new Mana(0, 2, 2);
+            AbilityCost = new Mana();
             Modifier = new Addition(new Stats(3), true);
-            Texture = Load.Get<Microsoft.Xna.Framework.Graphics.Texture2D>("HealerTop");
+            Texture = Load.Get<Texture2D>("HealerTop");
 
             Description = "Throws a health potion and heals all targets within " + AbilityRange + " tiles by " + (Modifier as Addition).StatChanges.Health;
         }

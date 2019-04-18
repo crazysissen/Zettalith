@@ -14,8 +14,9 @@ namespace Zettalith.Pieces
         {
             Name = "Teleporter 2";
             Health = 5;
-            ManaCost = new Mana(0, 0, 4);
-            MoveCost = new Mana(2, 2, 2);
+            AttackDamage = 0;
+            ManaCost = new Mana(5, 0, 7);
+            MoveCost = new Mana(5, 0, 5);
             MoveRange = 8;
             Texture = Load.Get<Texture2D>("TPBottom");
 

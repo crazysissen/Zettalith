@@ -17,6 +17,7 @@ namespace Zettalith.Pieces
             AttackDamage = 1;
             AbilityRange = 2;
             ManaCost = new Mana(0, 0, 4);
+            AbilityCost = new Mana();
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("AOELOBtop");
 

@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
@@ -15,10 +15,12 @@ namespace Zettalith.Pieces
             Name = "Cycloptic Abomination";
             Health = 10;
             AttackDamage = 3;
+            AbilityRange = 0;
             ManaCost = new Mana(4, 4, 4);
             AbilityCost = new Mana(1, 1, 1);
-            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
             Modifier = new Addition(new Stats(-5), true);
+            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
+
             Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a 5 units wide beam.";
         }
 

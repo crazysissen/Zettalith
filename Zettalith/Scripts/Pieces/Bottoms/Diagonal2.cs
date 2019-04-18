@@ -13,13 +13,14 @@ namespace Zettalith.Pieces
         public Diagonal2()
         {
             Name = "Diagonal 2";
-            Health = 8;
-            AttackDamage = 2;
-            ManaCost = new Mana(0, 0, 2);
-            MoveRange = 3;
+            Health = 4;
+            AttackDamage = 1;
+            ManaCost = new Mana(0, 4, 0);
+            MoveCost = new Mana(0, 2, 0);
+            MoveRange = 5;
             Texture = Load.Get<Texture2D>("DiagonalBottom");
 
-            Description = "Moves only " + MoveRange + " tiles diagonally, but is very strong.";
+            Description = "Moves " + MoveRange + " tiles diagonally.";
         }
 
         public override List<Point> RequestMove(Point origin)

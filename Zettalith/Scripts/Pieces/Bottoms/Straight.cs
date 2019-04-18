@@ -13,11 +13,11 @@ namespace Zettalith.Pieces
         public Straight()
         {
             Name = "Straight";
-            Health = 6;
+            Health = 3;
             AttackDamage = 1;
-            ManaCost = new Mana(0, 0, 2);
-            MoveCost = new Mana(1, 1, 0);
-            MoveRange = 4;
+            ManaCost = new Mana(2, 0, 0);
+            MoveCost = new Mana(1, 0, 0);
+            MoveRange = 3;
             Texture = Load.Get<Texture2D>("1TileBottom");
 
             Description = "Moves " + MoveRange + " tiles in a straight line.";
