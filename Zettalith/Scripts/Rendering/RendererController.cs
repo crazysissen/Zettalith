@@ -140,6 +140,7 @@ namespace Zettalith
 
                     if (renderer.Active)
                     {
+                        renderer.RenderEvent();
                         renderer.Draw(spriteBatch, Camera, deltaTime);
                     }
 
