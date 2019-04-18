@@ -103,7 +103,7 @@ namespace Zettalith
 
             CreateMap(InGameController.Grid);
 
-            Vector2 distance = new Vector2(40, 40 * HEIGHTDISTANCE);
+            Vector2 distance = new Vector2(60, 20 * HEIGHTDISTANCE);
 
             Vector2
                 topLeft = InGameController.IsHost ? Vector2.Zero : new Vector2(-InGameController.Grid.xLength, -InGameController.Grid.yLength * HEIGHTDISTANCE),
@@ -112,7 +112,7 @@ namespace Zettalith
             TopLeftCorner = topLeft;
             BottomRightCorner = bottomRight;
 
-            cloudManager = new CloudManager(50, 3, topLeft - distance, bottomRight + distance, 1.5f, 2, new Vector2(0.02f, 0.04f), 2, topLeft.X + (bottomRight.X - topLeft.X) * 0.5f);
+            cloudManager = new CloudManager(50, 3, topLeft - distance, bottomRight + distance + new Vector2(0, 10), 1.5f, 2, new Vector2(0.02f, 0.04f), 2, topLeft.X + (bottomRight.X - topLeft.X) * 0.5f);
             cloudManager.FastForward(1000, 0.05f);
 
             cameraMovement = new CameraMovement();
