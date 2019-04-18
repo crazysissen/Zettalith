@@ -33,27 +33,33 @@ namespace Zettalith
 
             if (In.MouseState.ScrollWheelValue != previousScrollWheelValue)
             {
-                float tempCameraScaleModifier = 1;
-                Vector2 tempCameraPositionAddend = new Vector2();
-
-                // Zoomat in
-                if (0 < In.MouseState.ScrollWheelValue - previousScrollWheelValue)
+                if (true/*-10 <= In.MouseState.ScrollWheelValue / 120 && In.MouseState.ScrollWheelValue / 120 <= 10*/)
                 {
-                    tempCameraScaleModifier = 1f + cameraScaleZoom;
-                    tempCameraPositionAddend = 0.13f * (camera.ScreenToWorldPosition(mousePosition.ToVector2()) - camera.ScreenToWorldPosition(camera.CenterCoordinate));
-                }
+                    float tempCameraScaleModifier = 1;
+                    Vector2 tempCameraPositionAddend = new Vector2();
 
-                // Zoomat ut
-                if (0 > In.MouseState.ScrollWheelValue - previousScrollWheelValue)
-                {
-                    tempCameraScaleModifier = 1f - cameraScaleZoom;
-                    tempCameraPositionAddend = -1 * 0.175f * (camera.ScreenToWorldPosition(mousePosition.ToVector2()) - camera.ScreenToWorldPosition(camera.CenterCoordinate));
-                }
+                    // Zoomat in
+                    if (0 < In.MouseState.ScrollWheelValue - previousScrollWheelValue)
+                    {
+                        tempCameraScaleModifier = 1f + cameraScaleZoom;
+                        tempCameraPositionAddend = 0.13f * (camera.ScreenToWorldPosition(mousePosition.ToVector2()) - camera.ScreenToWorldPosition(camera.CenterCoordinate));
+                    }
 
-                for (int i = 0; i < Math.Abs((In.MouseState.ScrollWheelValue - previousScrollWheelValue) / 120); ++i)
-                {
-                    camera.Scale *= tempCameraScaleModifier;
-                    camera.Position += tempCameraPositionAddend;
+                    // Zoomat ut
+                    if (0 > In.MouseState.ScrollWheelValue - previousScrollWheelValue)
+                    {
+                        tempCameraScaleModifier = 1 - (cameraScaleZoom / (1f + cameraScaleZoom));
+                        tempCameraPositionAddend = -1 * 0.175f * (camera.ScreenToWorldPosition(mousePosition.ToVector2()) - camera.ScreenToWorldPosition(camera.CenterCoordinate));
+                    }
+
+                    for (int i = 0; i < Math.Abs((In.MouseState.ScrollWheelValue - previousScrollWheelValue) / 120); ++i)
+                    {
+                        camera.Scale *= tempCameraScaleModifier;
+                        if (camera.Scale > 0.05) { camera.Position += tempCameraPositionAddend; }
+                    }
+
+                    if (camera.Scale > 0.8f) { camera.Scale = 0.8f; }
+                    if (camera.Scale < 0.05f) { camera.Scale = 0.05f; }
                 }
             }
 
@@ -66,6 +72,10 @@ namespace Zettalith
             if (In.Key(Keys.D))
                 camera.Position = new Vector2(camera.Position.X + deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider), camera.Position.Y);
 
+            if (camera.Position.Y < ClientSideController.TopLeftCorner.Y) { camera.Position = new Vector2(camera.Position.X, ClientSideController.TopLeftCorner.Y); }
+            if (camera.Position.X < ClientSideController.TopLeftCorner.X) { camera.Position = new Vector2(ClientSideController.TopLeftCorner.X, camera.Position.Y); }
+            if (camera.Position.Y > ClientSideController.BottomRightCorner.Y) { camera.Position = new Vector2(camera.Position.X, ClientSideController.BottomRightCorner.Y); }
+            if (camera.Position.X > ClientSideController.BottomRightCorner.X) { camera.Position = new Vector2(ClientSideController.BottomRightCorner.X, camera.Position.Y); }
 
             previousWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
             previousScrollWheelValue = In.MouseState.ScrollWheelValue;

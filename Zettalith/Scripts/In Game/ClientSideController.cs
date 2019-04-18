@@ -10,6 +10,9 @@ namespace Zettalith
 {
     class ClientSideController
     {
+        const int 
+            DIAMETER = 7;
+
         public const float
             HEIGHTDISTANCE = 0.6875f,
             SPLASHSIZE = 6.0f,
@@ -27,6 +30,8 @@ namespace Zettalith
             pieceGhostColor = new Color(255, 255, 255, 120),
             dimColor = new Color(0, 0, 0, 160);
 
+        public static Vector2 TopLeftCorner { get; private set; }
+        public static Vector2 BottomRightCorner { get; private set; }
 
         public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
@@ -35,7 +40,7 @@ namespace Zettalith
         public bool MoveableCamera { get; set; } = true;
         public bool SetupComplete { get; private set; }
 
-        public Renderer.Sprite[,] tiles, tileFronts;
+        public Renderer.Sprite[,] tiles, tileFronts, backgrounds;
         public Renderer.Animator[,] highlights;
         public CloudManager cloudManager;
 
@@ -66,19 +71,16 @@ namespace Zettalith
             this.player = player;
             this.controller = controller;
 
-            cameraMovement = new CameraMovement();
-
             dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
             string splashText = start ? "You Start" : "Opponent Starts";
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
             mana = new Renderer.Text[3];
-            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 70));
-            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + controller.LocalMana.Blue, 3.5f, 0, new Vector2(10, 100));
-            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + controller.LocalMana.Green, 3.5f, 0, new Vector2(10, 130));
-
-            new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + controller.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
+            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + InGameController.LocalMana.Blue, 3.5f, 0, new Vector2(10, 70));
+            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + InGameController.LocalMana.Green, 3.5f, 0, new Vector2(10, 100));
+            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + InGameController.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
+            essence = new Renderer.Text(Layer.GUI, Font.Bold, "Essence: " + InGameController.LocalEssence, 3.5f, 0, new Vector2(10, 180));
             UpdateManaGUI();
 
             collection = new GUI.Collection();
@@ -97,20 +99,44 @@ namespace Zettalith
 
             hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, controller, this, player);
 
-
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
 
             CreateMap(InGameController.Grid);
+
+            Vector2 distance = new Vector2(60, 20 * HEIGHTDISTANCE);
+
+            Vector2
+                topLeft = InGameController.IsHost ? Vector2.Zero : new Vector2(-InGameController.Grid.xLength, -InGameController.Grid.yLength * HEIGHTDISTANCE),
+                bottomRight = InGameController.IsHost ? new Vector2(InGameController.Grid.xLength, InGameController.Grid.yLength * HEIGHTDISTANCE): Vector2.Zero;
+
+            TopLeftCorner = topLeft;
+            BottomRightCorner = bottomRight;
+
+            cloudManager = new CloudManager(50, 3, topLeft - distance, bottomRight + distance + new Vector2(0, 10), 1.5f, 2, new Vector2(0.02f, 0.04f), 2, topLeft.X + (bottomRight.X - topLeft.X) * 0.5f);
+            cloudManager.FastForward(1000, 0.05f);
+
+            cameraMovement = new CameraMovement();
         }
 
         public void CreateMap(Grid grid)
         {
-            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront");
+            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront"), backgroundTexture = Load.Get<Texture2D>("Carpet");
 
             tiles = new Renderer.Sprite[grid.xLength, grid.yLength];
             tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
             highlights = new Renderer.Animator[grid.xLength, grid.yLength];
+            backgrounds = new Renderer.Sprite[DIAMETER, DIAMETER];
+
+            Vector2 centre = TopLeftCorner + (BottomRightCorner - TopLeftCorner) * 0.5f, dimension = 2 * new Vector2(backgroundTexture.Width, backgroundTexture.Height) / Camera.WORLDUNITPIXELS, origin = centre - dimension * 0.5f * DIAMETER;
+
+            for (int x = 0; x < DIAMETER; ++x)
+            {
+                for (int y = 0; y < DIAMETER; ++y)
+                {
+                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, origin + dimension * new Vector2(x, y), Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
+                }
+            }
 
             for (int x = 0; x < grid.xLength; ++x)
             {
@@ -124,8 +150,6 @@ namespace Zettalith
 
                     tiles[x, y].Active = grid[x, y] != null;
                     tileFronts[x, y].Active = grid[x, y] != null;
-
-
 
                     if (!InGameController.IsHost)
                     {
@@ -144,6 +168,8 @@ namespace Zettalith
             {
                 UpdateHandPieces();
             }
+
+            cloudManager.Update(deltaTime);
 
             hud.Update(deltaTime);
 
@@ -196,9 +222,10 @@ namespace Zettalith
 
         void UpdateManaGUI()
         {
-            mana[0].String = new StringBuilder("Blue: " + controller.LocalMana.Blue);
-            mana[1].String = new StringBuilder("Green: " + controller.LocalMana.Green);
-            mana[2].String = new StringBuilder("Red: " + controller.LocalMana.Red);
+            mana[0].String = new StringBuilder("Blue: " + InGameController.LocalMana.Blue);
+            mana[1].String = new StringBuilder("Green: " + InGameController.LocalMana.Green);
+            mana[2].String = new StringBuilder("Red: " + InGameController.LocalMana.Red);
+            essence.String = new StringBuilder("Essence: " + InGameController.LocalEssence);
         }
 
         public void CloseSetup()
@@ -339,7 +366,7 @@ namespace Zettalith
                 {
                     if (movementHighlight.Contains(MousePoint.ToRender()))
                     {
-                        if (InGameController.Main.LocalMana >= interactionPiece.Piece.Bottom.MoveCost)
+                        if (InGameController.LocalMana >= interactionPiece.Piece.Bottom.MoveCost)
                         {
                             player.ExecuteMovement(interactionPiece, MousePoint.ToRender());
                         }
@@ -483,12 +510,12 @@ namespace Zettalith
                 {
                     if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
                     {
-                        if (controller.LocalMana >= dragOutPiece.GetCost)
+                        if (InGameController.LocalMana >= dragOutPiece.GetCost)
                         {
                             removePiece = dragOutPiece;
                             player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);
 
-                            controller.LocalMana -= dragOutPiece.GetCost;
+                            InGameController.LocalMana -= dragOutPiece.GetCost;
                         }
                             
                         dragOutPiece = null;

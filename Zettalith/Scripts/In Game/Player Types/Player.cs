@@ -20,6 +20,7 @@ namespace Zettalith
         protected Player opponent;
 
         public Mana Mana { get; set; } = new Mana(12, 18, 18);
+        public int Essence { get; set; }
 
         public List<TilePiece> TilePieces { get; private set; }
         public Set Set { get; private set; }
@@ -55,7 +56,7 @@ namespace Zettalith
 
         public void PlacePiece(InGamePiece piece, int x, int y)
         {
-            if (inGameController.LocalMana > piece.GetCost)
+            if (InGameController.LocalMana > piece.GetCost)
             {
                 inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
             }

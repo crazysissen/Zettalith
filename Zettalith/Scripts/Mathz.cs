@@ -169,5 +169,8 @@ namespace Zettalith
             int multiplier = InGameController.IsHost ? 1 : -1;
             return new Vector2(vector.X * multiplier, vector.Y * multiplier);
         }
+
+        public static int Floor(this float value)
+            => value > 0 ? ((int)value) : ((int)value - 1);
     }
 }
