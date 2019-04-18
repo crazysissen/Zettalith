@@ -17,12 +17,12 @@ namespace Zettalith
     // Jag har en idé, vi skapar en enum -Sixten
     enum GameAction
     {
-        Movement, Ability, Attack, Placement, EndTurn
+        Movement, Ability, Attack, Placement, EndTurn, RequestEndTurn
     }
 
     enum InGameState
     {
-        Setup, Logistics, Battle, End
+        Setup, Logistics, Wait, Battle, End
     }
 
     class InGameController
@@ -211,6 +211,9 @@ namespace Zettalith
                 case InGameState.End:
                     UpdateEnd();
                     break;
+
+                default:
+                    break;
             }
 
             for (int i = 0; i < Grid.Objects.Length; ++i)
@@ -287,7 +290,14 @@ namespace Zettalith
                     break;
 
                 case GameAction.EndTurn:
-                    TurnSwitch();
+                    Local.ClientController.ComputeRecieveLogistics(arg[0]);
+                    break;
+
+                case GameAction.RequestEndTurn:
+                    if (gameState == InGameState.Logistics)
+                    {
+                        Local.ClientController.ComputeSendLogistics();
+                    }
                     break;
 
                 default:
@@ -366,13 +376,23 @@ namespace Zettalith
         {
             if (gameState == InGameState.Battle)
             {
+                Execute(GameAction.RequestEndTurn, true);
+                Local.ClientController.CloseBattle();
+                gameState = InGameState.Wait;
+            }
+        }
+
+        public void EndLogisticsTurn()
+        {
+            if (gameState == InGameState.Logistics)
+            {
                 Execute(GameAction.EndTurn, true);
             }
         }
 
-        void TurnSwitch()
+        public void TurnSwitch()
         {
-            InGameState newState = gameState == InGameState.Battle ? InGameState.Logistics : InGameState.Battle;
+            InGameState newState = gameState == InGameState.Wait ? InGameState.Logistics : InGameState.Battle;
 
             gameState = newState;
 
