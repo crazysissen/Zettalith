@@ -26,7 +26,7 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.CircleAoE(piece.Position, AbilityRange, false);
+            List<Point> points = Abilities.CircleAoE(piece.Position, new Point(), AbilityRange, 0, false);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());

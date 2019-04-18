@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Lob()
         {
-            Name = "Bomb Lobber";
+            Name = "Mortar Tower";
             Health = 4;
             AttackDamage = 1;
             AbilityRange = 2;
@@ -25,7 +25,7 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.CircleAoE(mousePos, AbilityRange, true);
+            List<Point> points = Abilities.CircleAoE(mousePos, piece.Position, AbilityRange, 3, true);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());

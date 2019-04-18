@@ -227,16 +227,16 @@ namespace Zettalith
             return points;
         }
 
-        public static List<Point> SquareAoE(Point origin, int range, bool excludeObjects)
+        public static List<Point> SquareAoE(Point center, int radius, bool excludeObjects)
         {
             List<Point> points = new List<Point>();
 
-            int xBound = (origin.X - range) < 0 ? 0 : origin.X - range;
-            int yBound = (origin.Y + range) > InGameController.Grid.yLength ? InGameController.Grid.yLength : origin.Y + range;
+            int xBound = (center.X - radius) < 0 ? 0 : center.X - radius;
+            int yBound = (center.Y + radius) > InGameController.Grid.yLength ? InGameController.Grid.yLength : center.Y + radius;
 
-            for (int i = xBound; i <= origin.X + range && i <= InGameController.Grid.xLength; ++i)
+            for (int i = xBound; i <= center.X + radius && i <= InGameController.Grid.xLength; ++i)
             {
-                for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
+                for (int j = yBound; j >= center.Y - radius && j >= 0; --j)
                 {
                     if (excludeObjects)
                     {
@@ -251,18 +251,23 @@ namespace Zettalith
             return points;
         }
 
-        public static List<Point> CircleAoE(Point origin, int range, bool includeCenter)
+        public static List<Point> CircleAoE(Point center, Point origin, int radius, int minRange, bool includeCenter)
         {
             List<Point> points = new List<Point>();
 
-            int xBound = (origin.X - range) < 0 ? 0 : origin.X - range;
-            int yBound = (origin.Y + range) > InGameController.Grid.yLength ? InGameController.Grid.yLength : origin.Y + range;
-
-            for (int i = xBound; i <= origin.X + range && i <= InGameController.Grid.xLength; ++i)
+            if ((center - origin).ToVector2().Length() < minRange)
             {
-                for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
+                return points;
+            }
+
+            int xBound = (center.X - radius) < 0 ? 0 : center.X - radius;
+            int yBound = (center.Y + radius) > InGameController.Grid.yLength ? InGameController.Grid.yLength : center.Y + radius;
+
+            for (int i = xBound; i <= center.X + radius && i <= InGameController.Grid.xLength; ++i)
+            {
+                for (int j = yBound; j >= center.Y - radius && j >= 0; --j)
                 {
-                    if ((new Point(i, j) - origin).ToVector2().Length() < (range + 0.5f))
+                    if ((new Point(i, j) - center).ToVector2().Length() < (radius + 0.5f))
                     {
                         points.Add(new Point(i, j));
                     }
@@ -271,7 +276,7 @@ namespace Zettalith
             
             if (!includeCenter)
             {
-                points.Remove(origin);
+                points.Remove(center);
             }
 
             return points;

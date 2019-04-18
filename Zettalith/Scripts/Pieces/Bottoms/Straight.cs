@@ -15,8 +15,8 @@ namespace Zettalith.Pieces
             Name = "Straight";
             Health = 6;
             AttackDamage = 1;
-            ManaCost = new Mana(0, 0, 1);
-            MoveCost = new Mana(2, 1, 0);
+            ManaCost = new Mana(0, 0, 2);
+            MoveCost = new Mana(1, 1, 0);
             MoveRange = 4;
             Texture = Load.Get<Texture2D>("1TileBottom");
 
