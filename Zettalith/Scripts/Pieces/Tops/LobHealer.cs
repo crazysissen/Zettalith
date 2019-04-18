@@ -13,11 +13,11 @@ namespace Zettalith.Pieces
         public LobHealer()
         {
             Name = "Splash Healer";
-            Health = 2;
+            Health = 3;
             AttackDamage = 0;
-            AbilityRange = 2;
+            AbilityRange = 1;
             ManaCost = new Mana(0, 2, 2);
-            AbilityCost = new Mana();
+            AbilityCost = new Mana(0, 0, 4);
             Modifier = new Addition(new Stats(3), true);
             Texture = Load.Get<Texture2D>("HealerTop");
 

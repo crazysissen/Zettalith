@@ -16,8 +16,8 @@ namespace Zettalith.Pieces
             Health = 4;
             AttackDamage = 1;
             AbilityRange = 2;
-            ManaCost = new Mana(4, 0, 0);
-            AbilityCost = new Mana(2, 0, 0);
+            ManaCost = new Mana(0, 4, 0);
+            AbilityCost = new Mana(0, 4, 0);
             Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("BombTop1");
 

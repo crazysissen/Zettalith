@@ -13,11 +13,11 @@ namespace Zettalith.Pieces
         public Healer()
         {
             Name = "Healer";
-            Health = 8;
-            AttackDamage = 1;
+            Health = 4;
+            AttackDamage = 0;
             AbilityRange = 3;
             ManaCost = new Mana(0, 2, 2);
-            AbilityCost = new Mana();
+            AbilityCost = new Mana(0, 0, 3);
             Modifier = new Addition(new Stats(5), true);
             Texture = Load.Get<Texture2D>("HealerTop");
 
