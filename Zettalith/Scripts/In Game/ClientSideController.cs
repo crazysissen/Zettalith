@@ -77,9 +77,9 @@ namespace Zettalith
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
             mana = new Renderer.Text[3];
-            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + InGameController.LocalMana.Blue, 3.5f, 0, new Vector2(10, 70));
-            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + InGameController.LocalMana.Green, 3.5f, 0, new Vector2(10, 100));
-            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + InGameController.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
+            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + InGameController.LocalMana.Red, 3.5f, 0, new Vector2(10, 70));
+            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + InGameController.LocalMana.Blue, 3.5f, 0, new Vector2(10, 100)); 
+            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + InGameController.LocalMana.Green, 3.5f, 0, new Vector2(10, 130));
             essence = new Renderer.Text(Layer.GUI, Font.Bold, "Essence: " + InGameController.LocalEssence, 3.5f, 0, new Vector2(10, 180));
             UpdateManaGUI();
 
@@ -222,9 +222,9 @@ namespace Zettalith
 
         void UpdateManaGUI()
         {
-            mana[0].String = new StringBuilder("Blue: " + InGameController.LocalMana.Blue);
-            mana[1].String = new StringBuilder("Green: " + InGameController.LocalMana.Green);
-            mana[2].String = new StringBuilder("Red: " + InGameController.LocalMana.Red);
+            mana[0].String = new StringBuilder("Red: " + InGameController.LocalMana.Red);
+            mana[1].String = new StringBuilder("Blue: " + InGameController.LocalMana.Blue);
+            mana[2].String = new StringBuilder("Green: " + InGameController.LocalMana.Green);
             essence.String = new StringBuilder("Essence: " + InGameController.LocalEssence);
         }
 
