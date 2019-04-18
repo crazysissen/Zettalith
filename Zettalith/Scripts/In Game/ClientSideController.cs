@@ -11,7 +11,7 @@ namespace Zettalith
     class ClientSideController
     {
         const int 
-            DIAMETER = 5;
+            DIAMETER = 7;
 
         public const float
             HEIGHTDISTANCE = 0.6875f,
@@ -121,11 +121,22 @@ namespace Zettalith
 
         public void CreateMap(Grid grid)
         {
-            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront");
+            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront"), backgroundTexture = Load.Get<Texture2D>("Carpet");
 
             tiles = new Renderer.Sprite[grid.xLength, grid.yLength];
             tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
             highlights = new Renderer.Animator[grid.xLength, grid.yLength];
+            backgrounds = new Renderer.Sprite[DIAMETER, DIAMETER];
+
+            Vector2 centre = TopLeftCorner + (BottomRightCorner - TopLeftCorner) * 0.5f, dimension = 2 * new Vector2(backgroundTexture.Width, backgroundTexture.Height) / Camera.WORLDUNITPIXELS, origin = centre - dimension * 0.5f * DIAMETER;
+
+            for (int x = 0; x < DIAMETER; ++x)
+            {
+                for (int y = 0; y < DIAMETER; ++y)
+                {
+                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, origin + dimension * new Vector2(x, y), Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
+                }
+            }
 
             for (int x = 0; x < grid.xLength; ++x)
             {
@@ -139,8 +150,6 @@ namespace Zettalith
 
                     tiles[x, y].Active = grid[x, y] != null;
                     tileFronts[x, y].Active = grid[x, y] != null;
-
-
 
                     if (!InGameController.IsHost)
                     {
