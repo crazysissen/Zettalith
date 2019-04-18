@@ -186,6 +186,18 @@ namespace Zettalith
             UpdateHighlights();
         }
 
+        public void ComputeSendLogistics()
+        {
+            controller.Execute(GameAction.EndTurn, true, 1);
+        }
+
+        public void ComputeRecieveLogistics(object arg)
+        {
+            //TODO
+
+            controller.TurnSwitch();
+        }
+
         void EndSetup()
         {
             splash.Scale = Vector2.Zero;
@@ -231,6 +243,11 @@ namespace Zettalith
         public void CloseSetup()
         {
 
+        }
+
+        public void CloseBattle()
+        {
+            battleGUI.Active = false;
         }
 
         public void OpenBattle()
