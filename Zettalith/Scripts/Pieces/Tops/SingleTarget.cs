@@ -13,10 +13,11 @@ namespace Zettalith.Pieces
         public SingleTarget()
         {
             Name = "Blaster";
-            Health = 7;
-            AttackDamage = 3;
+            Health = 2;
+            AttackDamage = 1;
             AbilityRange = 4;
             ManaCost = new Mana(0, 3, 0);
+            AbilityCost = new Mana();
             Modifier = new Addition(new Stats(-5), true);
             Texture = Load.Get<Texture2D>("Top");
 

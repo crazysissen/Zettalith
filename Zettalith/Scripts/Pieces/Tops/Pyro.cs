@@ -15,10 +15,13 @@ namespace Zettalith.Pieces
             Name = "Pyro";
             Health = 7;
             AttackDamage = 3;
+            AbilityRange = 0;
             ManaCost = new Mana(0, 2, 0);
-            Description = "Deals 1 damage to all Zettaliths.";
-            Texture = Load.Get<Texture2D>("TestSubpiece2");
+            AbilityCost = new Mana();
             Modifier = new Addition(new Stats(-1), true);
+            Texture = Load.Get<Texture2D>("TestSubpiece2");
+
+            Description = "Deals 1 damage to all Zettaliths.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

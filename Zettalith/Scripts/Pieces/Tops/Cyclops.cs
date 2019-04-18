@@ -15,9 +15,12 @@ namespace Zettalith.Pieces
             Name = "Cycloptic Horror";
             Health = 6;
             AttackDamage = 2;
+            AbilityRange = 0;
             ManaCost = new Mana(2, 1, 0);
-            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
+            AbilityCost = new Mana();
             Modifier = new Addition(new Stats(-3), true);
+            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
+
             Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
         }
 
