@@ -30,6 +30,9 @@ namespace Zettalith
         const int
             STARTHAND = 3;
 
+        const float
+            ESSENCEDELAY = 0.1f; // TODO: Fix pls, temporary af
+
         public static InGameController Main { get; private set; }
 
         public static Grid Grid { get; private set; }
@@ -43,11 +46,15 @@ namespace Zettalith
         public static PlayerLocal Local => Main.players?[PlayerIndex] as PlayerLocal;
         public static PlayerRemote Remote => Main.players?[(PlayerIndex + 1) % 2] as PlayerRemote;
 
-        public Mana LocalMana { get => Local.Mana; set => Local.Mana = value; }
-        public Mana RemoteMana { get => Remote.Mana; set => Remote.Mana = value; }
+        public static Mana LocalMana { get => Local.Mana; set => Local.Mana = value; }
+        public static Mana RemoteMana { get => Remote.Mana; set => Remote.Mana = value; }
+
+        public static int LocalEssence { get => Local.Essence; set => Local.Essence = value; }
 
         XNAController xnaController;
         MainController mainController;
+
+        float essenceTimer;
 
         bool isHost;
         bool loading;
@@ -194,7 +201,7 @@ namespace Zettalith
                     break;
 
                 case InGameState.Logistics:
-                    UpdateLogistics();
+                    UpdateLogistics(deltaTime);
                     break;
 
                 case InGameState.Battle:
@@ -400,9 +407,15 @@ namespace Zettalith
 
         }
 
-        private void UpdateLogistics()
+        private void UpdateLogistics(float deltaTime)
         {
+            essenceTimer += deltaTime;
 
+            if (essenceTimer > ESSENCEDELAY)
+            {
+                essenceTimer -= ESSENCEDELAY;
+                LocalEssence += 1;
+            }
         }
 
         private void UpdateEnd()
