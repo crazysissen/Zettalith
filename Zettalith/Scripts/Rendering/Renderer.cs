@@ -15,6 +15,8 @@ namespace Zettalith
             DEGTORAD = (2 * (float)Math.PI) / 360,
             FONTSIZEMULTIPLIER = 1.0f / 4;
 
+        public event Action OnRender;
+
         /// <summary>Whether or not the object should be drawn automatically</summary>
         public virtual bool Active { get; set; } = true;
         public virtual bool AutomaticDraw { get; set; } = true;
@@ -27,6 +29,11 @@ namespace Zettalith
         public Renderer()
         {
             RendererController.AddRenderer(this);
+        }
+
+        public void RenderEvent()
+        {
+            OnRender?.Invoke();
         }
 
         public void Destroy()
@@ -58,14 +65,14 @@ namespace Zettalith
             /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
             public virtual SpriteEffects Effects { get; set; }
 
-            public Sprite(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            public Sprite(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 origin, SpriteEffects effects)
             {
                 Layer = layer;
                 Texture = texture;
                 Position = position;
                 Size = size;
                 Rotation = rotation;
-                Origin = rotationOrigin;
+                Origin = origin;
                 Color = color;
                 Effects = effects;
             }
@@ -100,8 +107,8 @@ namespace Zettalith
             /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
-            /// and what point will line up to the Vector2 position</summary>
+            /// <summary>A vector between (0,0) and the texture's dimensions to represent the pivot around which the object rotates 
+            /// and what point will line up to the Rectangle position</summary>
             public virtual Vector2 Origin { get; set; }
 
             /// <summary>The color multiplier of the object</summary>
@@ -114,13 +121,13 @@ namespace Zettalith
 
             public SpriteScreen(Layer layer, Texture2D texture, Rectangle transform, Color color) : this(layer, texture, transform, color, 0, Vector2.Zero, SpriteEffects.None) { }
 
-            public SpriteScreen(Layer layer, Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            public SpriteScreen(Layer layer, Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 origin, SpriteEffects effects)
             {
                 Layer = layer;
                 Texture = texture;
                 Transform = transform;
                 Rotation = rotation;
-                Origin = rotationOrigin;
+                Origin = origin;
                 Color = color;
                 Effects = effects;
             }
@@ -155,14 +162,14 @@ namespace Zettalith
             /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
             public virtual SpriteEffects Effects { get; set; }
 
-            public SpriteScreenFloating(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            public SpriteScreenFloating(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 origin, SpriteEffects effects)
             {
                 Layer = layer;
                 Texture = texture;
                 Position = position;
                 Size = size;
                 Rotation = rotation;
-                Origin = rotationOrigin;
+                Origin = origin;
                 Color = color;
                 Effects = effects;
             }
@@ -423,6 +430,7 @@ namespace Zettalith
 
         void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
         {
+            RenderEvent();
             Draw(spriteBatch, null, unscaledDeltaTime);
         }
     }

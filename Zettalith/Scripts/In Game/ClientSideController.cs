@@ -10,6 +10,9 @@ namespace Zettalith
 {
     class ClientSideController
     {
+        const int 
+            DIAMETER = 5;
+
         public const float
             HEIGHTDISTANCE = 0.6875f,
             SPLASHSIZE = 6.0f,
@@ -27,6 +30,8 @@ namespace Zettalith
             pieceGhostColor = new Color(255, 255, 255, 120),
             dimColor = new Color(0, 0, 0, 160);
 
+        public static Vector2 TopLeftCorner { get; private set; }
+        public static Vector2 BottomRightCorner { get; private set; }
 
         public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
@@ -35,8 +40,9 @@ namespace Zettalith
         public bool MoveableCamera { get; set; } = true;
         public bool SetupComplete { get; private set; }
 
-        public Renderer.Sprite[,] tiles, tileFronts;
+        public Renderer.Sprite[,] tiles, tileFronts, backgrounds;
         public Renderer.Animator[,] highlights;
+        public CloudManager cloudManager;
 
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
@@ -65,8 +71,6 @@ namespace Zettalith
             this.player = player;
             this.controller = controller;
 
-            cameraMovement = new CameraMovement();
-
             dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
             string splashText = start ? "You Start" : "Opponent Starts";
@@ -94,11 +98,24 @@ namespace Zettalith
 
             hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, controller, this, player);
 
-
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
 
             CreateMap(InGameController.Grid);
+
+            Vector2 distance = new Vector2(40, 40 * HEIGHTDISTANCE);
+
+            Vector2
+                topLeft = InGameController.IsHost ? Vector2.Zero : new Vector2(-InGameController.Grid.xLength, -InGameController.Grid.yLength * HEIGHTDISTANCE),
+                bottomRight = InGameController.IsHost ? new Vector2(InGameController.Grid.xLength, InGameController.Grid.yLength * HEIGHTDISTANCE): Vector2.Zero;
+
+            TopLeftCorner = topLeft;
+            BottomRightCorner = bottomRight;
+
+            cloudManager = new CloudManager(50, 3, topLeft - distance, bottomRight + distance, 1.5f, 2, new Vector2(0.02f, 0.04f), 2);
+            cloudManager.FastForward(1000, 0.05f);
+
+            cameraMovement = new CameraMovement();
         }
 
         public void CreateMap(Grid grid)
@@ -113,13 +130,21 @@ namespace Zettalith
             {
                 for (int y = 0; y < grid.yLength; ++y)
                 {
-                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
-                    tileFronts[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, y - grid.yLength - 1), frontTexture, new Vector2(x, (y + 0.5f) * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 0), SpriteEffects.None);
-                    highlights[x, y] = new Renderer.Animator(new Layer(MainLayer.Background, y - grid.yLength), highlightTexture, new Point(32, 22), new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, new Vector2(16, 11), 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+                    bool host = InGameController.IsHost;
+
+                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    tileFronts[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), frontTexture, new Vector2(x, (y + (host ? 0.5f : -0.5f)) * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 0), SpriteEffects.None);
+                    highlights[x, y] = new Renderer.Animator(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y))), highlightTexture, new Point(32, 22), new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, new Vector2(16, 11), 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+
+                    tiles[x, y].Active = grid[x, y] != null;
+                    tileFronts[x, y].Active = grid[x, y] != null;
+
+
 
                     if (!InGameController.IsHost)
                     {
                         tiles[x, y].Position *= -1;
+                        tileFronts[x, y].Position *= -1;
                     }
                 }
             }
@@ -133,6 +158,8 @@ namespace Zettalith
             {
                 UpdateHandPieces();
             }
+
+            cloudManager.Update(deltaTime);
 
             hud.Update(deltaTime);
 

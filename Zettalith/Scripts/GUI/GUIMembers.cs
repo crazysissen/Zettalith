@@ -63,17 +63,17 @@ namespace Zettalith
                 FLASHTIME = 0.85f,
                 HEIGHTPROPORTION = 0.05f;
 
-            public enum TextType : byte { Letters = 0b0, Numbers = 0b1, Periods = 0b01, Symbols = 0b001 }
+            public enum TextType : byte { Letters = 0b1, Numbers = 0b10, Periods = 0b100, Space = 0b1000 }
 
             Point IGUIMember.Origin { get => _origin; set => _origin = value; }
             Layer IGUIMember.Layer => Layer;
             Point _origin = new Point();
 
             public string Content { get; set; }
-            public int MaxLetters { get; set; }
+            public int? MaxLetters { get; set; }
             public int CursorPosition { get; set; }
             public bool Highlighted { get; private set; }
-            public TextType AllowedText { get; set; }
+            public TextType AllowedText { get; set; } = TextType.Letters | TextType.Numbers | TextType.Periods | TextType.Space;
 
             public Layer Layer { get; set; }
             public Rectangle Rectangle { get; set; }
@@ -141,9 +141,9 @@ namespace Zettalith
                 iBeamFlash = 0;
             }
 
-            void Click(bool anOnAreaBool)
+            void Click(bool onArea)
             {
-                if (anOnAreaBool)
+                if (onArea)
                 {
                     ChangeState(true);
 
@@ -183,8 +183,11 @@ namespace Zettalith
 
             void Write(object value)
             {
-                Content = Content.Insert(CursorPosition, value.ToString());
-                ++CursorPosition;
+                if (MaxLetters == null || Content.Length <= MaxLetters)
+                {
+                    Content = Content.Insert(CursorPosition, value.ToString());
+                    ++CursorPosition;
+                }
             }
 
             void Back()
@@ -199,42 +202,69 @@ namespace Zettalith
                 Keys[] numbers = { Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9 };
                 Keys[] numPad = { Keys.NumPad0, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9 };
 
-                for (int i = 0; i < numbers.Length; ++i)
-                {
-                    Keys key = numbers[i];
+                bool shift = kState.IsKeyDown(Keys.LeftShift) || kState.IsKeyDown(Keys.RightShift);
 
-                    if (In.KeyDown(key))
-                    {
-                        Write(i);
-                    }
-                }
-
-                if (kState.NumLock)
+                if (AllowedText.HasFlag(TextType.Numbers))
                 {
-                    for (int i = 0; i < numPad.Length; ++i)
+                    for (int i = 0; i < numbers.Length; ++i)
                     {
-                        Keys key = numPad[i];
+                        Keys key = numbers[i];
 
                         if (In.KeyDown(key))
                         {
                             Write(i);
                         }
                     }
+
+                    if (kState.NumLock)
+                    {
+                        for (int i = 0; i < numPad.Length; ++i)
+                        {
+                            Keys key = numPad[i];
+
+                            if (In.KeyDown(key))
+                            {
+                                Write(i);
+                            }
+                        }
+                    }
                 }
 
-                if (In.KeyDown(Keys.OemPeriod))
+                if (AllowedText.HasFlag(TextType.Letters))
                 {
-                    if (kState.IsKeyDown(Keys.LeftShift) || kState.IsKeyDown(Keys.RightShift))
+                    for (int i = 65; i < 91; i++)
                     {
-                        Write(':');
-                    }
-                    else
-                    {
-                        Write('.');
+                        if (In.KeyDown((Keys)i))
+                        {
+                            Write((char)(shift ? i : (i + 32)));
+                        }
                     }
                 }
 
-                if (In.KeyDown(Keys.Back) && Content.Length > 0)
+                if (AllowedText.HasFlag(TextType.Periods))
+                {
+                    if (In.KeyDown(Keys.OemPeriod))
+                    {
+                        if (shift)
+                        {
+                            Write(':');
+                        }
+                        else
+                        {
+                            Write('.');
+                        }
+                    }
+                }
+
+                if (AllowedText.HasFlag(TextType.Space))
+                {
+                    if (In.KeyDown(Keys.Space))
+                    {
+                        Write(' ');
+                    }
+                }
+
+                if (In.KeyDown(Keys.Back) && Content.Length > 0 && CursorPosition > 0)
                 {
                     Back();
                 }
