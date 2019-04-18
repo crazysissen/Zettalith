@@ -55,7 +55,7 @@ namespace Zettalith
                     for (int i = 0; i < Math.Abs((In.MouseState.ScrollWheelValue - previousScrollWheelValue) / 120); ++i)
                     {
                         camera.Scale *= tempCameraScaleModifier;
-                        camera.Position += tempCameraPositionAddend;
+                        if (camera.Scale > 0.05) { camera.Position += tempCameraPositionAddend; }
                     }
 
                     if (camera.Scale > 0.8f) { camera.Scale = 0.8f; }
