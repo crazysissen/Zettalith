@@ -12,7 +12,7 @@ namespace Zettalith
     {
         Texture2D[] cloudTextures;
 
-        float currentTime, multiplier, speed, inaccuracy, spriteScale;
+        float currentTime, multiplier, speed, inaccuracy, spriteScale, originX;
         int rows;
         Vector2 topLeft, bottomRight, scale;
 
@@ -21,7 +21,7 @@ namespace Zettalith
 
         List<Cloud> clouds;
 
-        public CloudManager(int rows, float speed, Vector2 topLeft, Vector2 bottomRight, float multiplier, float inaccuracy, Vector2 scale, float spriteScale)
+        public CloudManager(int rows, float speed, Vector2 topLeft, Vector2 bottomRight, float multiplier, float inaccuracy, Vector2 scale, float spriteScale, float originX)
         {
             this.rows = rows;
             this.multiplier = multiplier;
@@ -31,6 +31,7 @@ namespace Zettalith
             this.inaccuracy = inaccuracy;
             this.scale = scale;
             this.spriteScale = spriteScale;
+            this.originX = originX;
 
             noise = new Noise();
             random = new Random();
@@ -66,11 +67,12 @@ namespace Zettalith
                         offset = new Vector2((float)random.NextDouble() - 0.5f, (float)random.NextDouble() - 0.5f) * 2 * inaccuracy;
                     }
 
-                    Cloud newCloud = new Cloud(new Vector2(topLeft.X + offset.X, currentY + offset.Y), bottomRight.Y - currentY);
+                    Cloud newCloud = new Cloud(new Vector2(topLeft.X + offset.X, currentY + offset.Y), (bottomRight.Y - currentY) / bottomRight.Y);
 
                     Texture2D texture = GetTexture(value, out int index);
                     newCloud.Renderer = new Renderer.Sprite(new Layer(MainLayer.Background, -1000 + (int)(newCloud.Position.Y * 20)), texture, newCloud.Position, Vector2.One * spriteScale, Color.White, 0, new Vector2(texture.Width * 0.5f, texture.Height), random.Next(2) == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
                     newCloud.Renderer.OnRender += newCloud.OnRender;
+                    newCloud.XOrigin = originX;
 
                     clouds.Add(newCloud);
                 }
@@ -112,8 +114,12 @@ namespace Zettalith
 
         class Cloud
         {
+            const float
+                MODIFIER = 0.5f;
+
             public Renderer.Sprite Renderer { get; set; }
             public float Depth { get; set; }
+            public float XOrigin { get; set; }
             public Vector2 Position { get; set; }
 
             public Cloud(Vector2 position, float depth)
@@ -124,7 +130,7 @@ namespace Zettalith
 
             public void OnRender()
             {
-                Renderer.Position = Position;
+                Renderer.Position = (Position + new Vector2(((RendererController.Camera.Position.X - XOrigin) * MODIFIER * Depth), 0)) * new Vector2((1 - (0.3f * Depth)), 1);
             }
 
             public void Destroy()
