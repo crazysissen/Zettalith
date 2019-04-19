@@ -44,7 +44,7 @@ namespace Zettalith
                 }
 
                 // Resets the unlocked list if you suck dong
-                // PersonalData.UserData.UnlockedPieces = Subpieces.Unlocked.ToList();
+                PersonalData.UserData.UnlockedPieces = Subpieces.Unlocked.ToList();
 
                 if (PersonalData.UserData.UnlockedPieces.Count < Subpieces.Unlocked.Length)
                 {
