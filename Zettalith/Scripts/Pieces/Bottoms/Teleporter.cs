@@ -14,9 +14,11 @@ namespace Zettalith.Pieces
         {
             Name = "Teleporter";
             Health = 5;
-            ManaCost = new Mana(0, 2, 0);
-            MoveRange = 3;
-            Texture = Load.Get<Texture2D>("SwapBottom");
+            AttackDamage = 0;
+            ManaCost = new Mana(3, 0, 5);
+            MoveCost = new Mana(3, 0, 3);
+            MoveRange = 4;
+            Texture = Load.Get<Texture2D>("TPBottom");
 
             Description = "Teleports to an empty tile within " + MoveRange + " tiles.";
         }

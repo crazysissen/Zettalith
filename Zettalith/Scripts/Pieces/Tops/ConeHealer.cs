@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
@@ -13,10 +13,11 @@ namespace Zettalith.Pieces
         public ConeHealer()
         {
             Name = "Cone Healer";
-            Health = 6;
+            Health = 3;
             AttackDamage = 1;
-            ManaCost = new Mana(0, 3, 2);
             AbilityRange = 4;
+            ManaCost = new Mana(0, 3, 2);
+            AbilityCost = new Mana(0, 0, 4);
             Modifier = new Addition(new Stats(2), true);
             Texture = Load.Get<Texture2D>("HealerTop");
 

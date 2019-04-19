@@ -1,26 +1,26 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class Queen : Bottom
+    class OneTile : Bottom
     {
-        public Queen()
+        public OneTile()
         {
-            Name = "Queen";
-            Health = 5;
-            AttackDamage = 1;
-            ManaCost = new Mana(0, 0, 4);
-            MoveCost = new Mana(0, 0, 3);
-            MoveRange = 3;
-            Texture = Load.Get<Texture2D>("QueenBottom");
+            Name = "Tyler1";
+            Health = 2;
+            AttackDamage = 0;
+            ManaCost = new Mana(1, 0, 0);
+            MoveCost = new Mana(1, 0, 0);
+            MoveRange = 1;
+            Texture = Load.Get<Texture2D>("1TileBottom");
 
-            Description = "Moves " + MoveRange + " tiles in any given direction.";
+            Description = "Moves " + MoveRange + " tiles in any direction";
         }
 
         public override List<Point> RequestMove(Point origin)

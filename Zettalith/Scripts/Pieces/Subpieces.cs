@@ -16,7 +16,7 @@ namespace Zettalith
             typeof(MediumBody), typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk),
             typeof(Straight), typeof(Diagonal), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(Healer), typeof(Lob),
             typeof(KingHead), typeof(KingFeet), typeof(KingMiddle),
-            typeof(Swap), typeof(Cone), typeof(CyclopsNightmare), typeof(CyclopsAbomination), typeof(LobHealer), typeof(ConeHealer), 
+            typeof(Swap), typeof(Cone), typeof(CyclopsNightmare), typeof(CyclopsAbomination), typeof(LobHealer), typeof(ConeHealer), typeof(OneTile), 
         };
 
         // Declares the desired default pieces for the default deck
@@ -32,7 +32,7 @@ namespace Zettalith
             true, true, true, true, true,
             true, true, true, true, true, true, true, true, true, true, true,
             false, false, false,
-            true, true, true, true, true, true,
+            true, true, true, true, true, true, true
         };
 
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)

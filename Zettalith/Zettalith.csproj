@@ -122,6 +122,7 @@
     <Compile Include="Scripts\Movement.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal2.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\KingFeet.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\OneTile.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen2.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Straight2.cs" />

@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
@@ -12,19 +13,20 @@ namespace Zettalith.Pieces
         public LobHealer()
         {
             Name = "Splash Healer";
-            Health = 2;
+            Health = 3;
             AttackDamage = 0;
-            AbilityRange = 2;
+            AbilityRange = 1;
             ManaCost = new Mana(0, 2, 2);
+            AbilityCost = new Mana(0, 0, 4);
             Modifier = new Addition(new Stats(3), true);
-            Texture = Load.Get<Microsoft.Xna.Framework.Graphics.Texture2D>("HealerTop");
+            Texture = Load.Get<Texture2D>("HealerTop");
 
             Description = "Throws a health potion and heals all targets within " + AbilityRange + " tiles by " + (Modifier as Addition).StatChanges.Health;
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.CircleAoE(mousePos, AbilityRange, true);
+            List<Point> points = Abilities.CircleAoE(mousePos, piece.Position, AbilityRange, 0, true);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());

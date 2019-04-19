@@ -71,6 +71,7 @@ namespace Zettalith
             Random r = new Random(config.seed);
 
             Map map = MapGen.Generate(r, config.mapDiameter.X, config.mapDiameter.Y, config.type);
+            //Map map = MapGen.RectangleMap(r, config.mapDiameter.X, config.mapDiameter.Y);
 
             int startPlayer = r.Next(2);
 

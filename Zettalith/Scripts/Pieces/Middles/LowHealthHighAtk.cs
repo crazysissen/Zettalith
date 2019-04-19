@@ -14,9 +14,9 @@ namespace Zettalith.Pieces
         public LowHealthHighAtk()
         {
             Name = "Low Health, High Atk";
-            Health = 3;
-            AttackDamage = 3;
-            ManaCost = new Mana(2, 0, 0);
+            Health = 4;
+            AttackDamage = 5;
+            ManaCost = new Mana(4, 0, 0);
             Description = "Good Atk.";
             Texture = Load.Get<Texture2D>("HighATKLowHPMiddle");
         }

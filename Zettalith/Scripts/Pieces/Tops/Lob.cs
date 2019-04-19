@@ -12,11 +12,12 @@ namespace Zettalith.Pieces
     {
         public Lob()
         {
-            Name = "Bomb Lobber";
+            Name = "Mortar Tower";
             Health = 4;
-            AttackDamage = 1;
+            AttackDamage = 0;
             AbilityRange = 2;
             ManaCost = new Mana(0, 0, 4);
+            AbilityCost = new Mana(2, 0, 3);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("AOELOBtop");
 
@@ -25,7 +26,7 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.CircleAoE(mousePos, AbilityRange, true);
+            List<Point> points = Abilities.CircleAoE(mousePos, piece.Position, AbilityRange, 3, true);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());

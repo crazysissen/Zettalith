@@ -11,7 +11,7 @@ namespace Zettalith
     class ClientSideController
     {
         const int 
-            DIAMETER = 5;
+            DIAMETER = 7;
 
         public const float
             HEIGHTDISTANCE = 0.6875f,
@@ -78,9 +78,9 @@ namespace Zettalith
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
             mana = new Renderer.Text[3];
-            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + InGameController.LocalMana.Blue, 3.5f, 0, new Vector2(10, 70));
-            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + InGameController.LocalMana.Green, 3.5f, 0, new Vector2(10, 100));
-            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + InGameController.LocalMana.Red, 3.5f, 0, new Vector2(10, 130));
+            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + InGameController.LocalMana.Red, 3.5f, 0, new Vector2(10, 70));
+            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + InGameController.LocalMana.Blue, 3.5f, 0, new Vector2(10, 100)); 
+            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + InGameController.LocalMana.Green, 3.5f, 0, new Vector2(10, 130));
             essence = new Renderer.Text(Layer.GUI, Font.Bold, "Essence: " + InGameController.LocalEssence, 3.5f, 0, new Vector2(10, 180));
             UpdateManaGUI();
 
@@ -124,11 +124,22 @@ namespace Zettalith
 
         public void CreateMap(Grid grid)
         {
-            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront");
+            Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront"), backgroundTexture = Load.Get<Texture2D>("Carpet");
 
             tiles = new Renderer.Sprite[grid.xLength, grid.yLength];
             tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
             highlights = new Renderer.Animator[grid.xLength, grid.yLength];
+            backgrounds = new Renderer.Sprite[DIAMETER, DIAMETER];
+
+            Vector2 centre = TopLeftCorner + (BottomRightCorner - TopLeftCorner) * 0.5f, dimension = 2 * new Vector2(backgroundTexture.Width, backgroundTexture.Height) / Camera.WORLDUNITPIXELS, origin = centre - dimension * 0.5f * DIAMETER;
+
+            for (int x = 0; x < DIAMETER; ++x)
+            {
+                for (int y = 0; y < DIAMETER; ++y)
+                {
+                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, origin + dimension * new Vector2(x, y), Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
+                }
+            }
 
             for (int x = 0; x < grid.xLength; ++x)
             {
@@ -142,8 +153,6 @@ namespace Zettalith
 
                     tiles[x, y].Active = grid[x, y] != null;
                     tileFronts[x, y].Active = grid[x, y] != null;
-
-
 
                     if (!InGameController.IsHost)
                     {
@@ -178,6 +187,18 @@ namespace Zettalith
 
             previousScreenPosition = In.MousePosition;
             UpdateHighlights();
+        }
+
+        public void ComputeSendLogistics()
+        {
+            controller.Execute(GameAction.EndTurn, true, 1);
+        }
+
+        public void ComputeRecieveLogistics(object arg)
+        {
+            //TODO
+
+            controller.TurnSwitch();
         }
 
         void EndSetup()
@@ -216,15 +237,20 @@ namespace Zettalith
 
         void UpdateManaGUI()
         {
-            mana[0].String = new StringBuilder("Blue: " + InGameController.LocalMana.Blue);
-            mana[1].String = new StringBuilder("Green: " + InGameController.LocalMana.Green);
-            mana[2].String = new StringBuilder("Red: " + InGameController.LocalMana.Red);
+            mana[0].String = new StringBuilder("Red: " + InGameController.LocalMana.Red);
+            mana[1].String = new StringBuilder("Blue: " + InGameController.LocalMana.Blue);
+            mana[2].String = new StringBuilder("Green: " + InGameController.LocalMana.Green);
             essence.String = new StringBuilder("Essence: " + InGameController.LocalEssence);
         }
 
         public void CloseSetup()
         {
 
+        }
+
+        public void CloseBattle()
+        {
+            battleGUI.Active = false;
         }
 
         public void OpenBattle()

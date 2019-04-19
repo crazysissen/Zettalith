@@ -14,11 +14,12 @@ namespace Zettalith.Pieces
         {
             Name = "Swap";
             Health = 2;
-            ManaCost = new Mana(4, 0, 0);
-            MoveCost = new Mana(0, 4, 0);
-            Texture = Load.Get<Texture2D>("BombTop1");
+            AttackDamage = 0;
+            ManaCost = new Mana(0, 3, 5);
+            MoveCost = new Mana(0, 5, 5);
+            Texture = Load.Get<Texture2D>("SwapBottom");
 
-            Description = "Swaps place with another Zettalith";
+            Description = "Swaps place with another Zettalith.";
         }
 
         public override List<Point> RequestMove(Point origin)

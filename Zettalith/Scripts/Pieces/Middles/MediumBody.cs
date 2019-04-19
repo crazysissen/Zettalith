@@ -14,9 +14,9 @@ namespace Zettalith.Pieces
         public MediumBody()
         {
             Name = "Medium Body";
-            Health = 5;
-            AttackDamage = 2;
-            ManaCost = new Mana(1, 1, 1);
+            Health = 6;
+            AttackDamage = 3;
+            ManaCost = new Mana(2, 2, 0);
             Description = "Balanced body.";
             Texture = Load.Get<Texture2D>("MediumMiddle");
         }
