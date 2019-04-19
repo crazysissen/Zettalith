@@ -207,12 +207,12 @@ namespace Zettalith
 
         public void ComputeRecieveLogistics(object arg)
         {
-            //EffectCache anEffectCache = arg as EffectCache;
+            EffectCache anEffectCache = arg as EffectCache;
 
-            //for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
-            //{
-            //    PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
-            //}
+            for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
+            {
+                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+            }
 
             controller.TurnSwitch();
         }
