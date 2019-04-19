@@ -226,18 +226,16 @@ namespace Zettalith
         public static List<Point> Custom(Point origin, Point[] custom)
         {
             List<Point> points = new List<Point>();
+            Point[] newPoints = new Point[custom.Length];
 
-            if (!InGameController.IsHost)
+            for (int i = 0; i < custom.Length; ++i)
             {
-                for (int i = 0; i < custom.Length; ++i)
-                {
-                    custom[i] = new Point(custom[i].X, custom[i].Y * -1);
-                }
+                newPoints[i] = new Point(custom[i].X, custom[i].Y * (InGameController.IsHost ? 1 : -1));
             }
 
             for (int i = 0; i < custom.Length; ++i)
             {
-                points.Add(origin + custom[i]);
+                points.Add(origin + newPoints[i]);
             }
 
             return points;
