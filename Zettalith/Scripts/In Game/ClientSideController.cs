@@ -528,7 +528,7 @@ namespace Zettalith
 
                     if (ghost == null)
                     {
-                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 16, dragOutPiece.Texture.Height - 11);
+                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 13, dragOutPiece.Texture.Height - 9);
                         ghost = new Renderer.Sprite(Layer.Default, dragOutPiece.Texture, MousePositionAbsolute, Vector2.One, pieceGhostColor, 0, origin, SpriteEffects.None);
                     }
 
