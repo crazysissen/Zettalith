@@ -51,7 +51,6 @@ namespace Zettalith
             if (complete)
             {
                 loading.Destroy();
-                loading = null;
 
                 Piece kingPiece = new Piece(19, 21, 20);
                 InGamePiece[] kings = { new InGamePiece(kingPiece), new InGamePiece(kingPiece) };
@@ -60,7 +59,7 @@ namespace Zettalith
                 Deck[] decks = { new Deck(loadedConfig.sets[0]), new Deck(loadedConfig.sets[1]) };
                 loadedConfig.decks = decks;
 
-                controller.Initialize(loadedConfig);
+                controller.Initialize(loadedConfig, loading);
             }
         }
 

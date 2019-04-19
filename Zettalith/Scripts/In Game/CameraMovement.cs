@@ -19,7 +19,7 @@ namespace Zettalith
         {
             Vector2 initialWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
 
-            if (In.MouseState.MiddleButton == ButtonState.Pressed)
+            if (Input.MouseState.MiddleButton == ButtonState.Pressed)
             {
                 Vector2 tempCameraMove = new Vector2(previousWorldPosition.X - initialWorldPosition.X, previousWorldPosition.Y - initialWorldPosition.Y);
                 camera.Position += tempCameraMove;
@@ -31,26 +31,26 @@ namespace Zettalith
                 camera.Position += cameraSpeed * 2;
             }
 
-            if (In.MouseState.ScrollWheelValue != previousScrollWheelValue)
+            if (Input.MouseState.ScrollWheelValue != previousScrollWheelValue)
             {
                 float tempCameraScaleModifier = 1;
                 Vector2 tempCameraPositionAddend = new Vector2();
 
                 // Zoomat in
-                if (0 < In.MouseState.ScrollWheelValue - previousScrollWheelValue)
+                if (0 < Input.MouseState.ScrollWheelValue - previousScrollWheelValue)
                 {
                     tempCameraScaleModifier = 1f + cameraScaleZoom;
                     tempCameraPositionAddend = 0.13f * (camera.ScreenToWorldPosition(mousePosition.ToVector2()) - camera.ScreenToWorldPosition(camera.CenterCoordinate));
                 }
 
                 // Zoomat ut
-                if (0 > In.MouseState.ScrollWheelValue - previousScrollWheelValue)
+                if (0 > Input.MouseState.ScrollWheelValue - previousScrollWheelValue)
                 {
                     tempCameraScaleModifier = 1 - (cameraScaleZoom / (1f + cameraScaleZoom));
                     tempCameraPositionAddend = -1 * 0.175f * (camera.ScreenToWorldPosition(mousePosition.ToVector2()) - camera.ScreenToWorldPosition(camera.CenterCoordinate));
                 }
 
-                for (int i = 0; i < Math.Abs((In.MouseState.ScrollWheelValue - previousScrollWheelValue) / 120); ++i)
+                for (int i = 0; i < Math.Abs((Input.MouseState.ScrollWheelValue - previousScrollWheelValue) / 120); ++i)
                 {
                     camera.Scale *= tempCameraScaleModifier;
                     if (camera.Scale > 0.05) { camera.Position += tempCameraPositionAddend; }
@@ -59,13 +59,13 @@ namespace Zettalith
                 camera.Scale = camera.Scale.Clamp(0.05f, 0.8f);
             }
 
-            if (In.Key(Keys.W))
+            if (Input.Key(Keys.W))
                 camera.Position = new Vector2(camera.Position.X, camera.Position.Y - deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider));
-            if (In.Key(Keys.A))
+            if (Input.Key(Keys.A))
                 camera.Position = new Vector2(camera.Position.X - deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider), camera.Position.Y);
-            if (In.Key(Keys.S))
+            if (Input.Key(Keys.S))
                 camera.Position = new Vector2(camera.Position.X, camera.Position.Y + deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider));
-            if (In.Key(Keys.D))
+            if (Input.Key(Keys.D))
                 camera.Position = new Vector2(camera.Position.X + deltaTime * (camera.ScreenToWorldSize(new Vector2(0, camera.ScreenHeight)).Y / cameraKeyboardMoveDivider), camera.Position.Y);
 
             if (camera.Position.Y < ClientSideController.TopLeftCorner.Y) { camera.Position = new Vector2(camera.Position.X, ClientSideController.TopLeftCorner.Y); }
@@ -74,7 +74,7 @@ namespace Zettalith
             if (camera.Position.X > ClientSideController.BottomRightCorner.X) { camera.Position = new Vector2(ClientSideController.BottomRightCorner.X, camera.Position.Y); }
 
             previousWorldPosition = camera.ScreenToWorldPosition(mousePosition.ToVector2());
-            previousScrollWheelValue = In.MouseState.ScrollWheelValue;
+            previousScrollWheelValue = Input.MouseState.ScrollWheelValue;
         }
     }
 }

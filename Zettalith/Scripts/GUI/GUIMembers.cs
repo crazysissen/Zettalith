@@ -114,7 +114,7 @@ namespace Zettalith
 
                 Mouse.SetCursor(onArea ? MouseCursor.IBeam : MouseCursor.Arrow);
 
-                if (In.LeftMouseDown)
+                if (Input.LeftMouseDown)
                 {
                     Click(onArea);
                 }
@@ -147,7 +147,7 @@ namespace Zettalith
                 {
                     ChangeState(true);
 
-                    float tempPosition = In.MousePosition.ToVector2().X - _origin.X - TextRenderer.Position.X, lastLength = float.MinValue;
+                    float tempPosition = Input.MousePosition.ToVector2().X - _origin.X - TextRenderer.Position.X, lastLength = float.MinValue;
 
                     List<float> lengths = new List<float>();
 
@@ -210,7 +210,7 @@ namespace Zettalith
                     {
                         Keys key = numbers[i];
 
-                        if (In.KeyDown(key))
+                        if (Input.KeyDown(key))
                         {
                             Write(i);
                         }
@@ -222,7 +222,7 @@ namespace Zettalith
                         {
                             Keys key = numPad[i];
 
-                            if (In.KeyDown(key))
+                            if (Input.KeyDown(key))
                             {
                                 Write(i);
                             }
@@ -234,7 +234,7 @@ namespace Zettalith
                 {
                     for (int i = 65; i < 91; i++)
                     {
-                        if (In.KeyDown((Keys)i))
+                        if (Input.KeyDown((Keys)i))
                         {
                             Write((char)(shift ? i : (i + 32)));
                         }
@@ -243,7 +243,7 @@ namespace Zettalith
 
                 if (AllowedText.HasFlag(TextType.Periods))
                 {
-                    if (In.KeyDown(Keys.OemPeriod))
+                    if (Input.KeyDown(Keys.OemPeriod))
                     {
                         if (shift)
                         {
@@ -258,34 +258,34 @@ namespace Zettalith
 
                 if (AllowedText.HasFlag(TextType.Space))
                 {
-                    if (In.KeyDown(Keys.Space))
+                    if (Input.KeyDown(Keys.Space))
                     {
                         Write(' ');
                     }
                 }
 
-                if (In.KeyDown(Keys.Back) && Content.Length > 0 && CursorPosition > 0)
+                if (Input.KeyDown(Keys.Back) && Content.Length > 0 && CursorPosition > 0)
                 {
                     Back();
                 }
 
-                if (In.KeyDown(Keys.Delete) && CursorPosition < Content.Length)
+                if (Input.KeyDown(Keys.Delete) && CursorPosition < Content.Length)
                 {
                     ++CursorPosition;
                     Back();
                 }
 
-                if (In.KeyDown(Keys.Enter))
+                if (Input.KeyDown(Keys.Enter))
                 {
                     ChangeState(false);
                 }
 
-                if (In.KeyDown(Keys.Left) && CursorPosition > 0)
+                if (Input.KeyDown(Keys.Left) && CursorPosition > 0)
                 {
                     --CursorPosition;
                 }
 
-                if (In.KeyDown(Keys.Right) && CursorPosition < Content.Length)
+                if (Input.KeyDown(Keys.Right) && CursorPosition < Content.Length)
                 {
                     ++CursorPosition;
                 }

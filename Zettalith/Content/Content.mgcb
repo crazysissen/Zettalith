@@ -1215,7 +1215,7 @@
 /processorParam:TextureFormat=Color
 /build:Map/Carpet.png
 
-#begin GUI/InGameGUI/ManaBottom.png
+#begin Misc/Menu3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1225,9 +1225,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GUI/InGameGUI/ManaBottom.png
+/build:Misc/Menu3.png
 
-#begin GUI/InGameGUI/ManaTop.png
+#begin Misc/Menu4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1237,5 +1237,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GUI/InGameGUI/ManaTop.png
+/build:Misc/Menu4.png
 

@@ -114,8 +114,8 @@ namespace Zettalith
 
             //camera.Scale -= (0.2f * (float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            MouseState mouseState = In.MouseState;
-            KeyboardState keyboardState = In.KeyboardState;
+            MouseState mouseState = Input.MouseState;
+            KeyboardState keyboardState = Input.KeyboardState;
 
             renderMasks.Clear();
 

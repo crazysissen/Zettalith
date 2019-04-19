@@ -125,6 +125,8 @@ namespace Zettalith
 
         protected override void Update(GameTime gameTime)
         {
+            Input.Update();
+
             base.Update(gameTime);
 
             MainController.Update(
@@ -134,7 +136,6 @@ namespace Zettalith
 
         protected override void Draw(GameTime gameTime)
         {
-
             base.Draw(gameTime);
 
             MainController.Draw(
@@ -142,9 +143,6 @@ namespace Zettalith
                 gameTime: gameTime, 
                 graphics: Graphics, 
                 spriteBatch: SpriteBatch);
-
-            // Last
-            In.UpdateMethods();
         }
 
         protected override void OnExiting(object sender, EventArgs args)

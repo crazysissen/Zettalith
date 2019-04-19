@@ -10,6 +10,9 @@ namespace Zettalith
 {
     class CloudManager
     {
+        public const float
+            DEPTHSLOW = 0.5f;
+
         Texture2D[] cloudTextures;
 
         float currentTime, multiplier, speed, inaccuracy, spriteScale, originX;
@@ -115,7 +118,7 @@ namespace Zettalith
         class Cloud
         {
             const float
-                MODIFIER = 0.5f;
+                MODIFIER = 1.2f;
 
             public Renderer.Sprite Renderer { get; set; }
             public float Depth { get; set; }

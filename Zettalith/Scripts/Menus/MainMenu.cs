@@ -32,7 +32,7 @@ namespace Zettalith
                 Origin = new Point((int)(Settings.GetHalfResolution.X - tempButtonWidth * 0.5 ), (int)(Settings.GetResolution.Y * 0.36))
             };
 
-            Texture2D menuTexture = Load.Get<Texture2D>("Menu");
+            Texture2D menuTexture = Load.Get<Texture2D>("Menu3");
             background = new Renderer.AnimatorScreen(new Layer(MainLayer.GUI, -1), menuTexture, new Point(480, 270), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
 
             collection.Add(background, main);
