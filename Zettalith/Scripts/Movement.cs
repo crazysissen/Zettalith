@@ -222,5 +222,17 @@ namespace Zettalith
             points.Remove(origin);
             return points;
         }
+
+        public static List<Point> Custom(Point origin, Point[] custom)
+        {
+            List<Point> points = new List<Point>();
+
+            for (int i = 0; i < custom.Length; ++i)
+            {
+                points.Add(origin + custom[i]);
+            }
+
+            return points;
+        }
     }
 }
