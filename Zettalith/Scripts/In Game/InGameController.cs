@@ -284,6 +284,7 @@ namespace Zettalith
                     break;
 
                 case GameAction.Attack:
+                    ActivateAttack((int)arg[0], (int)arg[1]);
                     break;
 
                 case GameAction.Placement:
@@ -339,6 +340,11 @@ namespace Zettalith
             {
                 deck.Remove(piece);
             }
+        }
+
+        public void ActivateAttack(int attacking, int recieving)
+        {
+
         }
 
         public void ActivateAbility(int pieceIndex, object[] data)
@@ -399,8 +405,9 @@ namespace Zettalith
 
             Local.SwitchTurns(newState);
 
-            LocalMana = new Mana(10, 16, 12);
-            RemoteMana = new Mana(10, 16, 12);
+            // TODO: REFRESH MANA
+            LocalMana = Local.BaseMana;
+            RemoteMana = Remote.BaseMana;
         }
 
         private Player CreateLocalPlayer()

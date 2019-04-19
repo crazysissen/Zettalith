@@ -22,8 +22,10 @@ namespace Zettalith
         static public readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255),
             defaultEnemyHighlightColor = new Color(255, 40, 0, 255),
-            movementHighlightColor = new Color(255, 200, 0, 155),
-            movementSelectedHighlightColor = new Color(255, 200, 0, 255),
+            movementHighlightColor = new Color(145, 200, 80, 155),
+            movementSelectedHighlightColor = new Color(160, 255, 45, 255),
+            meleeHighlightColor = new Color(230, 110, 20, 200),
+            meleeSelectedColor = new Color(255, 140, 35, 255),
             pieceEnemyHighlightColor = new Color(255, 172, 180, 255),
             pieceHighlightColor = new Color(172, 255, 242, 255),
             pieceCoveredColor = new Color(172, 255, 242, 80),
@@ -54,7 +56,7 @@ namespace Zettalith
         Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
 
-        Point[] movementHighlight;
+        Point[] movementHighlight, meleeHighlight;
         List<Point> highlightSquares;
         Vector2 previousGamePosition;
         Point previousScreenPosition = new Point();
@@ -205,12 +207,12 @@ namespace Zettalith
 
         public void ComputeRecieveLogistics(object arg)
         {
-            EffectCache anEffectCache = arg as EffectCache;
+            //EffectCache anEffectCache = arg as EffectCache;
 
-            for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
-            {
-                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
-            }
+            //for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
+            //{
+            //    PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+            //}
 
             controller.TurnSwitch();
         }
@@ -399,6 +401,19 @@ namespace Zettalith
                     }
                 }
 
+                if (meleeHighlight != null)
+                {
+                    if (meleeHighlight.Contains(MousePoint.ToRender()))
+                    {
+                        try
+                        {
+                            Point targetPoint = MousePoint.ToRender();
+                            player.ExecuteMelee(interactionPiece, InGameController.Grid.GetObject(targetPoint.X, targetPoint.Y) as TilePiece);
+                        }
+                        catch { }
+                    }
+                }
+
                 if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
                 {
                     player.RequestAction(interactionPiece);
@@ -406,6 +421,7 @@ namespace Zettalith
 
                 ghost?.Destroy();
                 ghost = null;
+                meleeHighlight = null;
                 movementHighlight = null;
                 interactionPiece = null;
             }
@@ -413,11 +429,8 @@ namespace Zettalith
 
             if (leftMouseDown)
             {
-                Console.WriteLine("410");
-
                 if (highlightedPiece != null)
                 {
-                    Console.WriteLine("414");
                     interactionPiece = highlightedPiece;
                     mouseDownPosition = Input.MousePosition;
                 }
@@ -438,11 +451,24 @@ namespace Zettalith
                     }
                 }
 
+                if (meleeHighlight != null && meleeHighlight.Length > 0)
+                {
+                    foreach (Point point in meleeHighlight)
+                    {
+                        AddHighlight(point == MousePoint.ToRender() ? meleeSelectedColor : meleeHighlightColor, point);
+                    }
+                }
+
                 if (distance > DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
                 {
                     if (ghost == null)
                     {
                         ghost = new Renderer.Sprite(Layer.Default, interactionPiece.Renderer.Texture, MousePosition, Vector2.One, pieceGhostColor, 0, interactionPiece.Renderer.Origin, SpriteEffects.None);
+                    }
+
+                    if (meleeHighlight == null)
+                    {
+                        meleeHighlight = player.RequestMelee(interactionPiece);
                     }
 
                     if (movementHighlight == null)

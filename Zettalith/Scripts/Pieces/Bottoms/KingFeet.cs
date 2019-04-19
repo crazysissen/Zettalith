@@ -14,6 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "King Feet";
             Health = 1;
+            AttackDamage = 2;
             MoveRange = 1;
             Texture = Load.Get<Texture2D>("SixtenBottom3");
         }

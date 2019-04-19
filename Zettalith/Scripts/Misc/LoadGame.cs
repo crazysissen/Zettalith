@@ -52,7 +52,7 @@ namespace Zettalith
             {
                 loading.Destroy();
 
-                Piece kingPiece = new Piece(19, 21, 20);
+                Piece kingPiece = new Piece((byte)Subpieces.SubPieces.IndexOf(Subpieces.KingTop), (byte)Subpieces.SubPieces.IndexOf(Subpieces.KingMiddle), (byte)Subpieces.SubPieces.IndexOf(Subpieces.KingBottom));
                 InGamePiece[] kings = { new InGamePiece(kingPiece), new InGamePiece(kingPiece) };
                 loadedConfig.kings = kings;
 
