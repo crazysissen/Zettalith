@@ -8,7 +8,7 @@ using Zettalith.Pieces;
 namespace Zettalith
 {
     [Serializable]
-    struct PersonalData
+    class PersonalData
     {
         public static Settings Settings => UserData.CurrentSettings;
         public static PersonalData UserData { get; set; }

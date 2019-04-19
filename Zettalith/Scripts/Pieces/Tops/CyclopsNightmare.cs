@@ -14,7 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "Cycloptic Nightmare";
             Health = 5;
-            AttackDamage = 3;
+            AttackDamage = 10;
             AbilityRange = 0;
             ManaCost = new Mana(4, 3, 2);
             AbilityCost = new Mana(1, 1, 1);

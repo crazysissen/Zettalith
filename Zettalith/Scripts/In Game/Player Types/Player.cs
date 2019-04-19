@@ -19,7 +19,9 @@ namespace Zettalith
         protected XNAController xnaController;
         protected Player opponent;
 
-        public Mana Mana { get; set; } = new Mana(12, 18, 18);
+        // TODO: STARTING MANA
+        public Mana BaseMana { get; set; } = new Mana(15, 15, 15);
+        public Mana Mana { get; set; }
         public int Essence { get; set; }
 
         public List<TilePiece> TilePieces { get; private set; }
@@ -35,6 +37,7 @@ namespace Zettalith
             this.xnaController = xnaController;
             this.opponent = opponent;
 
+            Mana = BaseMana;
             Deck = deck;
             Set = set;
         }
@@ -42,6 +45,11 @@ namespace Zettalith
         public void SetKing(TilePiece king)
         {
             King = king;
+        }
+
+        public void AddBaseMana(Mana add)
+        {
+            BaseMana += add;
         }
 
         public void EndTurn()
@@ -56,7 +64,7 @@ namespace Zettalith
 
         public void PlacePiece(InGamePiece piece, int x, int y)
         {
-            if (InGameController.LocalMana > piece.GetCost)
+            if (InGameController.LocalMana >= piece.GetCost)
             {
                 inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
             }

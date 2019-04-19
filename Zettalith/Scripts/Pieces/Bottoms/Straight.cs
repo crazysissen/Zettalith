@@ -14,7 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "Straight";
             Health = 3;
-            AttackDamage = 1;
+            AttackDamage = 0;
             ManaCost = new Mana(2, 0, 0);
             MoveCost = new Mana(2, 0, 0);
             MoveRange = 3;
