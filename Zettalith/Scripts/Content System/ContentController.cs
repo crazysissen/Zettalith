@@ -13,7 +13,7 @@ namespace Zettalith
         static Dictionary<string, object> contentDictionary;
         static Dictionary<string, object> contentCollections;
 
-        static string[] ignoredExtensions = { ".ttf" };
+        static string[] ignoredExtensions = { ".ttf", ".ogg" };
 
         static Load()
         {

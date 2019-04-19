@@ -1263,3 +1263,9 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/ManaTop.png
 
+#begin Sound/Music/Druids.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Music/Druids.mp3
+
