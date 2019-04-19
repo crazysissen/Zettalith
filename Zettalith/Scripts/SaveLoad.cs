@@ -46,13 +46,13 @@ namespace Zettalith
                 // Resets the unlocked list if you suck dong
                 PersonalData.UserData.UnlockedPieces = Subpieces.Unlocked.ToList();
 
-                if (PersonalData.UserData.UnlockedPieces.Count < Subpieces.Unlocked.Length)
-                {
-                    for (int i = PersonalData.UserData.UnlockedPieces.Count; i < Subpieces.Unlocked.Length; ++i)
-                    {
-                        PersonalData.UserData.UnlockedPieces.Add(Subpieces.Unlocked[i]);
-                    }
-                }
+                //if (PersonalData.UserData.UnlockedPieces.Count < Subpieces.Unlocked.Length)
+                //{
+                //    for (int i = PersonalData.UserData.UnlockedPieces.Count; i < Subpieces.Unlocked.Length; ++i)
+                //    {
+                //        PersonalData.UserData.UnlockedPieces.Add(Subpieces.Unlocked[i]);
+                //    }
+                //}
             }
             catch
             {
