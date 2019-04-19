@@ -74,10 +74,10 @@ namespace Zettalith
 
                 bool color = false;
 
-                if (dragOutPiece == null && rectangle.Contains(In.MousePosition) && !(i < handPieces.Count - 1 && GetTargetRectangle(i + 1, handPieces.Count).Contains(In.MousePosition)))
+                if (dragOutPiece == null && rectangle.Contains(Input.MousePosition) && !(i < handPieces.Count - 1 && GetTargetRectangle(i + 1, handPieces.Count).Contains(Input.MousePosition)))
                 {
                     color = true;
-                    if (In.LeftMouseDown)
+                    if (Input.LeftMouseDown)
                     {
                         dragOutPiece = item.piece;
                     }

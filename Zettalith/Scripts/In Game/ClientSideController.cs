@@ -33,7 +33,7 @@ namespace Zettalith
         public static Vector2 TopLeftCorner { get; private set; }
         public static Vector2 BottomRightCorner { get; private set; }
 
-        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2()); 
+        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
         public static Point MousePoint => MousePosition.RoundToPoint();
 
@@ -44,6 +44,8 @@ namespace Zettalith
         public Renderer.Animator[,] highlights;
         public CloudManager cloudManager;
         public EffectCache MyEffectCache;
+
+        public Vector2[,] backgroundPositions;
 
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
@@ -130,6 +132,7 @@ namespace Zettalith
             tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
             highlights = new Renderer.Animator[grid.xLength, grid.yLength];
             backgrounds = new Renderer.Sprite[DIAMETER, DIAMETER];
+            backgroundPositions = new Vector2[DIAMETER, DIAMETER];
 
             Vector2 centre = TopLeftCorner + (BottomRightCorner - TopLeftCorner) * 0.5f, dimension = 2 * new Vector2(backgroundTexture.Width, backgroundTexture.Height) / Camera.WORLDUNITPIXELS, origin = centre - dimension * 0.5f * DIAMETER;
 
@@ -137,7 +140,8 @@ namespace Zettalith
             {
                 for (int y = 0; y < DIAMETER; ++y)
                 {
-                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, origin + dimension * new Vector2(x, y), Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
+                    backgroundPositions[x, y] = origin + dimension * new Vector2(x, y);
+                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, backgroundPositions[x, y], Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
                 }
             }
 
@@ -182,11 +186,25 @@ namespace Zettalith
 
             if (MoveableCamera)
             {
-                cameraMovement.Update(RendererController.Camera, In.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default), deltaTime);
+                cameraMovement.Update(RendererController.Camera, Input.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default), deltaTime);
             }
 
-            previousScreenPosition = In.MousePosition;
+            previousScreenPosition = Input.MousePosition;
             UpdateHighlights();
+        }
+
+        public void UpdateBackground()
+        {
+            if (backgrounds == null)
+                return;
+
+            for (int x = 0; x < DIAMETER; x++)
+            {
+                for (int y = 0; y < DIAMETER; y++)
+                {
+                    backgrounds[x, y].Position = backgroundPositions[x, y] + RendererController.Camera.Position * 0.7f * new Vector2(1, 0);
+                }
+            }
         }
 
         public void ComputeSendLogistics()
@@ -316,7 +334,7 @@ namespace Zettalith
         {
             AnimatePieces(deltaTime);
 
-            bool leftMouse = In.LeftMouse, leftMouseDown = In.LeftMouseDown;
+            bool leftMouse = Input.LeftMouse, leftMouseDown = Input.LeftMouseDown;
             List<TilePiece> highlightedPieces = new List<TilePiece>();
             highlightedPiece = null;
 
@@ -380,7 +398,7 @@ namespace Zettalith
         {
             if (!leftMouse && interactionPiece != null)
             {
-                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+                float distance = (Input.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
 
                 if (movementHighlight != null)
                 {
@@ -404,18 +422,23 @@ namespace Zettalith
                 interactionPiece = null;
             }
 
-            if (highlightedPiece != null)
+
+            if (leftMouseDown)
             {
-                if (leftMouseDown)
+                Console.WriteLine("410");
+
+                if (highlightedPiece != null)
                 {
+                    Console.WriteLine("414");
                     interactionPiece = highlightedPiece;
-                    mouseDownPosition = In.MousePosition;
+                    mouseDownPosition = Input.MousePosition;
                 }
             }
+            
 
             if (leftMouse && interactionPiece != null)
             {
-                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+                float distance = (Input.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
 
                 AddHighlight(Color.White, interactionPiece.Position.ToRender());
 
@@ -522,7 +545,7 @@ namespace Zettalith
 
             if (dragOutPiece != null)
             {
-                if (In.LeftMouse)
+                if (Input.LeftMouse)
                 {
                     AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
 

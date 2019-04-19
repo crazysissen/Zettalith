@@ -61,13 +61,13 @@ namespace Zettalith
             if (ActionPiece != null)
             {
                 // Cancel
-                if (In.RightMouseDown)
+                if (Input.RightMouseDown)
                 {
                     ActionPiece = null;
                     return;
                 }
 
-                object[] returnArray = ActionPiece.Piece.Top.UpdateAbility(ActionPiece, ClientSideController.MousePoint.ToRender(), RendererFocus.OnArea(new Rectangle(In.MousePosition, new Point(1, 1)), Layer.Default) && In.LeftMouseDown, out bool cancel);
+                object[] returnArray = ActionPiece.Piece.Top.UpdateAbility(ActionPiece, ClientSideController.MousePoint.ToRender(), RendererFocus.OnArea(new Rectangle(Input.MousePosition, new Point(1, 1)), Layer.Default) && Input.LeftMouseDown, out bool cancel);
 
                 // Cancel
                 if (cancel)

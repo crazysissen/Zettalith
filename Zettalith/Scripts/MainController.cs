@@ -27,6 +27,8 @@ namespace Zettalith
         public static GameState CurrentState => Main.stateManager.GameState;
         public static int CurrentSubState => Main.stateManager.Peek;
 
+        private Renderer.SpriteScreen gameBackground;
+
         private XNAController xnaController;
         private Random r;
         private StateManager stateManager;
@@ -90,6 +92,8 @@ namespace Zettalith
                 //NetworkManager.StartPeerSearch(LOCALHOST);
             }
 
+            gameBackground = new Renderer.SpriteScreen(new Layer(MainLayer.AbsoluteBottom, -100), Load.Get<Texture2D>("Menu4"), new Rectangle(Point.Zero, Settings.GetResolution));
+
             CreateMainMenu();
 
             //SAVE LOAD TESTING, TOM LISTA AV PERSONALDATA SPARAS OCH LADDAS
@@ -146,6 +150,11 @@ namespace Zettalith
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
+            if (inGameController != null)
+            {
+                InGameController.Local?.ClientController?.UpdateBackground();
+            }
+
             RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 

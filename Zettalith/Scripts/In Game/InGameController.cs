@@ -56,6 +56,8 @@ namespace Zettalith
 
         float essenceTimer;
 
+        Renderer.AnimatorScreen loadingScreen;
+
         bool isHost;
         bool loading;
         LoadGame loadGame;
@@ -67,8 +69,6 @@ namespace Zettalith
         Set[] sets;
 
         LoadedConfig loadedConfig;
-
-        InGamePiece piece;
 
         /// <summary>
         /// Can move, piece, origin, target
@@ -131,9 +131,11 @@ namespace Zettalith
             loadGame.Initialize(config, this, isHost);
         }
 
-        public void Initialize(LoadedConfig loadedConfig)
+        public void Initialize(LoadedConfig loadedConfig, Renderer.AnimatorScreen animator)
         {
             this.loadedConfig = loadedConfig;
+
+            loadingScreen = animator;
 
             PlayerIndex = isHost ? 0 : 1;
             OpponentIndex = (PlayerIndex + 1) % 2;
@@ -244,7 +246,6 @@ namespace Zettalith
             switch (actionType)
             {
                 case GameAction.Movement:
-
                     break;
 
                 case GameAction.Ability:
