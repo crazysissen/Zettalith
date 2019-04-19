@@ -16,6 +16,7 @@ namespace Zettalith
         List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)> handPieces;
 
         Renderer.SpriteScreen panels;
+        Renderer.Text essence, redMana;
         GUI.Button bEndTurn;
 
         Point handStart, handEnd;
@@ -42,17 +43,21 @@ namespace Zettalith
             handStart = new Point((int)(Settings.GetResolution.X * 0.16f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
             handEnd = new Point((int)(Settings.GetResolution.X * 0.6f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
 
+            essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.92f, Settings.GetResolution.Y * 0.005f), new Vector2(), Color.Blue);
+            essence.Position = new Vector2(essence.Position.X - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
+
             GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
             button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
             button.OnClick += clientSideController.DrawPieceFromDeck;
 
-            collection.Add(panels, bEndTurn, button);
+            collection.Add(panels, bEndTurn, button, essence);
             collection.Active = false;
         }
 
         public void Update(float deltaTime)
         {
-            
+            essence.String = new StringBuilder(InGameController.LocalEssence + "e");
+            essence.Position = new Vector2(Settings.GetResolution.X * 0.92f - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
         }
 
         public void UpdateHand(InGamePiece removePiece, ref InGamePiece dragOutPiece)
