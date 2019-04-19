@@ -9,9 +9,9 @@ namespace Zettalith
     [Serializable]
     struct Mana
     {
-        public int Red { get; private set; }
-        public int Blue { get; private set; }
-        public int Green { get; private set; }
+        public int Red { get; set; }
+        public int Blue { get; set; }
+        public int Green { get; set; }
         
         public Mana(int red, int blue, int green)
         {
