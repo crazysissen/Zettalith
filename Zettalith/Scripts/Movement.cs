@@ -232,6 +232,14 @@ namespace Zettalith
                 points.Add(origin + custom[i]);
             }
 
+            if (!InGameController.IsHost)
+            {
+                for (int i = 0; i < points.Count; ++i)
+                {
+                    points[i] = new Point(points[i].X, points[i].Y * -1);
+                }
+            }
+
             return points;
         }
     }
