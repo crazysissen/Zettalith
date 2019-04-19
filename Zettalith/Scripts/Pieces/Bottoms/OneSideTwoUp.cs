@@ -10,9 +10,14 @@ namespace Zettalith.Pieces
 {
     class OneSideTwoUp : Bottom
     {
-        Point[] customMove = new Point[]
+        //Point[] customMove = new Point[]
+        //{
+        //    new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, -2),
+        //};
+
+        int[] customMove = new int[]
         {
-            new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, -2),
+            0, 1, 2, 1,
         };
 
         public OneSideTwoUp()
@@ -30,7 +35,7 @@ namespace Zettalith.Pieces
 
         public override List<Point> RequestMove(Point origin)
         {
-            return Movement.Custom(origin, customMove);
+            return Movement.Straight(origin, customMove);
         }
 
         public override void ActivateMove(TilePiece piece, Point target)
