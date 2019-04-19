@@ -10,8 +10,6 @@ namespace Zettalith
 {
     static class PerkBuffBonusEffects
     {
-        
-
         public static Action<int>[] EffectArray { get; set; }
 
         static PerkBuffBonusEffects()
@@ -22,6 +20,8 @@ namespace Zettalith
 
             };
         }
+
+        // Skriv metoder för perks/buffs/bonusars effekts här. De får bara ha en int som parameter. Den representerar målet. 0 -> n är indexet i listan av pieces. -1 är jag själv. -2 är motståndaren.
 
         public static void GenericEffect(int anInt)
         {

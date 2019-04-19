@@ -209,12 +209,18 @@ namespace Zettalith
 
         public void ComputeSendLogistics()
         {
-            controller.Execute(GameAction.EndTurn, true, 1);
+            controller.Execute(GameAction.EndTurn, true, MyEffectCache);
+            MyEffectCache = new EffectCache();
         }
 
         public void ComputeRecieveLogistics(object arg)
         {
-            //TODO
+            EffectCache anEffectCache = arg as EffectCache;
+
+            for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
+            {
+                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+            }
 
             controller.TurnSwitch();
         }
@@ -551,7 +557,7 @@ namespace Zettalith
 
                     if (ghost == null)
                     {
-                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 16, dragOutPiece.Texture.Height - 11);
+                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 13, dragOutPiece.Texture.Height - 9);
                         ghost = new Renderer.Sprite(Layer.Default, dragOutPiece.Texture, MousePositionAbsolute, Vector2.One, pieceGhostColor, 0, origin, SpriteEffects.None);
                     }
 

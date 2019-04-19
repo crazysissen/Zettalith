@@ -29,16 +29,32 @@ namespace Zettalith
             bClose = new GUI.Button(new Layer(MainLayer.GUI, 7), new Rectangle((int)(Settings.GetResolution.X * 0.1f), (int)(Settings.GetResolution.Y * 0.1f), tempCloseButtonSize * (int)(Ztuff.SizeResFactor * bCloseTexture.Bounds.Width), tempCloseButtonSize * (int)(Ztuff.SizeResFactor * bCloseTexture.Bounds.Height)), bCloseTexture) { ScaleEffect = true };
             bClose.OnClick += csc.ClosePerks;
 
-
             Texture2D White = Load.Get<Texture2D>("White");
+
+
+
+
+
+            // Denna delen är allt som är intressant för dig som ska göra perks.
+            // Effekten är indexet i en lista av metoder som du finner i PerkBuffBonusEffects klassen.
+            // Targeten är piecens index i listan av pieces. -1 är jag och -2 är motståndaren.
 
             allPerks = new Perk[]
             {
-                new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), null) {On = false, Achieved = true },
-                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), null)
+                new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, 0, 0, 0, 0, csc) {Achieved = true },
+                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 2, -1, 3, 0, 4, 0, csc)
             };
 
+            // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.
+
             allPerks[0].CreateConnections(new Perk[] { allPerks[1]});
+
+
+
+
+
+
+
 
             float difX, difY;
             int width, height;
@@ -93,24 +109,36 @@ namespace Zettalith
 
     class Perk
     {
-        public bool On { get; set; } = true;
         public bool Achieved { get; set; }
         public Connection[] Connections { get; set; }
         public GUI.Button AccessButton { get; set; }
         public string PerkName { get; set; }
         public string PerkDescription { get; set; }
+        public int Effect { get; set; }
+        public int Target { get; set; }
+        public int RedCost { get; set; }
+        public int GreenCost { get; set; }
+        public int BlueCost { get; set; }
+        public int EssenceCost { get; set; }
+        ClientSideController theCSC;
 
-        public Perk(string name, string description, float x, float y, float scale, Texture2D texture, Action effect)
+        public Perk(string name, string description, float x, float y, float scale, Texture2D texture, int anEffect, int aTarget, int redManaCost, int greenManaCost, int blueManaCost, int essenceCost, ClientSideController csc)
         {
+            theCSC = csc;
             PerkName = name;
             PerkDescription = PerkDescription;
             Achieved = false;
             AccessButton = new GUI.Button(new Layer(MainLayer.GUI, 7), new Rectangle((int)(Settings.GetResolution.X * x), (int)(Settings.GetResolution.Y * y), (int)(Ztuff.SizeResFactor * texture.Bounds.Width * scale), (int)(Ztuff.SizeResFactor * texture.Bounds.Height * scale)), texture) { ScaleEffect = true };
+            Effect = anEffect;
+            Target = aTarget;
+            RedCost = redManaCost;
+            GreenCost = greenManaCost;
+            BlueCost = blueManaCost;
+            EssenceCost = essenceCost;
             AccessButton.OnClick += UsePerk;
-            AccessButton.OnClick += effect;
         }
 
-        public Perk() { On = true; Achieved = false; AccessButton = new GUI.Button(new Layer(MainLayer.GUI, 6), new Rectangle()); PerkName = "Sample text"; PerkDescription = "Sample text"; }
+        public Perk() { Achieved = false; AccessButton = new GUI.Button(new Layer(MainLayer.GUI, 6), new Rectangle()); PerkName = "Sample text"; PerkDescription = "Sample text"; }
 
         public void CreateConnections(Perk[] somePerks)
         {
@@ -124,7 +152,12 @@ namespace Zettalith
 
         void UsePerk()
         {
-            Achieved = true;
+            if (/*Om man har råd*/true && Achieved == false)
+            {
+                // Subtrahera kostanden från spelarens resurser
+                theCSC.MyEffectCache.AListOfSints.Add(new Sints(Effect, Target));
+                Achieved = true;
+            }
         }
     }
 
