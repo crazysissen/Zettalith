@@ -42,7 +42,7 @@ namespace Zettalith
             allPerks = new Perk[]
             {
                 new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, 0, 0, 0, 0, csc) {Achieved = true },
-                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 2, -1, 3, 0, 4, 0, csc)
+                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 1, -1, 3, 0, 4, 0, csc)
             };
 
             // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.
@@ -152,9 +152,9 @@ namespace Zettalith
 
         void UsePerk()
         {
-            if (/*Om man har råd*/true && Achieved == false)
+            if ( RedCost <= InGameController.LocalMana.Red && GreenCost <= InGameController.LocalMana.Green && BlueCost <= InGameController.LocalMana.Blue && EssenceCost <= InGameController.LocalEssence && Achieved == false)
             {
-                // Subtrahera kostanden från spelarens resurser
+                //InGameController.LocalMana.Red -= RedCost;
                 theCSC.MyEffectCache.AListOfSints.Add(new Sints(Effect, Target));
                 Achieved = true;
             }
