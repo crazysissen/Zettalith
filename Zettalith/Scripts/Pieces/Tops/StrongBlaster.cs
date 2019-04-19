@@ -8,17 +8,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class SingleTarget : Top
+    class StrongBlaster : Top
     {
-        public SingleTarget()
+        public StrongBlaster()
         {
-            Name = "Blaster";
-            Health = 2;
-            AttackDamage = 1;
-            AbilityRange = 4;
-            ManaCost = new Mana(3, 0, 0);
-            AbilityCost = new Mana(3, 0, 0);
-            Modifier = new Addition(new Stats(-5), true);
+            Name = "Strong Blaster";
+            Health = 4;
+            AttackDamage = 2;
+            AbilityRange = 3;
+            ManaCost = new Mana(5, 0, 0);
+            AbilityCost = new Mana(4, 0, 0);
+            Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("Top");
 
             Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to target Zettalith within " + AbilityRange + " tiles";

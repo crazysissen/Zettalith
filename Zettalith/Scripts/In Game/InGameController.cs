@@ -399,8 +399,9 @@ namespace Zettalith
 
             Local.SwitchTurns(newState);
 
-            LocalMana = new Mana(10, 16, 12);
-            RemoteMana = new Mana(10, 16, 12);
+            // TODO: REFRESH MANA
+            LocalMana = Local.BaseMana;
+            RemoteMana = Remote.BaseMana;
         }
 
         private Player CreateLocalPlayer()

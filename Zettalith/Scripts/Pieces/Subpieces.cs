@@ -12,29 +12,47 @@ namespace Zettalith
         // TODO: Add all SubPieces to exist in the game to this list with the format below
         public static List<Type> SubPieces = new List<Type>
         {
-            typeof(SingleTarget), typeof(Bomb), typeof(Pyro), typeof(Cyclops),
-            typeof(MediumBody), typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk),
-            typeof(Straight), typeof(Diagonal), typeof(Teleporter), typeof(Queen), typeof(Diagonal2), typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(Healer), typeof(Lob),
-            typeof(KingHead), typeof(KingFeet), typeof(KingMiddle),
-            typeof(Swap), typeof(Cone), typeof(CyclopsNightmare), typeof(CyclopsAbomination), typeof(LobHealer), typeof(ConeHealer), typeof(OneTile), 
-        };
+            typeof(KingHead), typeof(KingMiddle), typeof(KingFeet),
 
-        // Declares the desired default pieces for the default deck
-        public static Type DefaultTop = typeof(SingleTarget);
-        public static Type DefaultMiddle = typeof(MediumBody);
-        public static Type DefaultBottom = typeof(Straight);
+            typeof(Blaster), typeof(StrongBlaster), typeof(WeakBlaster),typeof(Bomb), typeof(Pyro),
+            typeof(MediumBody), typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk),
+            typeof(Straight), typeof(Diagonal), typeof(Teleporter), typeof(Queen), typeof(Diagonal2),
+            typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(Healer), typeof(Mortar),
+            typeof(Swap), typeof(Cone), typeof(LobHealer), typeof(ConeHealer), typeof(OneTile),
+            typeof(Cyclops),
+
+            typeof(Duplicator),
+
+            typeof(CyclopsNightmare), typeof(CyclopsAbomination),
+        };
 
         // Bool values here decides if a subpiece is unlocked or not
         // NOTE! Order corresponds to the above subpieces list
         public static bool[] Unlocked = new bool[]
         {
-            true, true, true,
-            true, true, true, true, true,
-            true, true, true, true, true, true, true, true, true, true, true,
             false, false, false,
-            true, true, true, true, true, true, true
+
+            true, true, true, true, true,
+            true, true, true, true, true,
+            true, true, true, true, true,
+            true, true, true, true, true,
+            true, true, true, true, true,
+            true,
+
+            false,
+
+            false, false,
         };
 
+        // Declares the desired default pieces for the default deck
+        public static Type DefaultTop = typeof(Blaster);
+        public static Type DefaultMiddle = typeof(MediumBody);
+        public static Type DefaultBottom = typeof(Straight);
+
+        public static Type KingTop = typeof(KingHead);
+        public static Type KingMiddle = typeof(KingMiddle);
+        public static Type KingBottom = typeof(KingFeet);
+        
         // Creates a SubPiece from a selected index (in Subpieces.subpieces list)
         public static SubPiece FromIndex(int index)
         {

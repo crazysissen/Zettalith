@@ -33,14 +33,22 @@ namespace Zettalith
             {
                 PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
 
-                if (PersonalData.UserData.SavedSets.Count == 0 || PersonalData.UserData.UnlockedPieces == null)
+                if (PersonalData.UserData.UnlockedPieces == null || PersonalData.UserData.CurrentSettings == null)
                 {
                     throw new Exception("");
                 }
 
+                if (PersonalData.UserData.SavedSets.Count == 0)
+                {
+                    PersonalData.CreateDefaultSet();
+                }
+
+                // Resets the unlocked list if you suck dong
+                // PersonalData.UserData.UnlockedPieces = Subpieces.Unlocked.ToList();
+
                 if (PersonalData.UserData.UnlockedPieces.Count < Subpieces.Unlocked.Length)
                 {
-                    for (int i = PersonalData.UserData.UnlockedPieces.Count + 1; i <= Subpieces.Unlocked.Length; ++i)
+                    for (int i = PersonalData.UserData.UnlockedPieces.Count; i < Subpieces.Unlocked.Length; ++i)
                     {
                         PersonalData.UserData.UnlockedPieces.Add(Subpieces.Unlocked[i]);
                     }
