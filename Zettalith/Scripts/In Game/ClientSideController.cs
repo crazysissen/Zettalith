@@ -43,6 +43,7 @@ namespace Zettalith
         public Renderer.Sprite[,] tiles, tileFronts, backgrounds;
         public Renderer.Animator[,] highlights;
         public CloudManager cloudManager;
+        public EffectCache MyEffectCache;
 
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
@@ -117,6 +118,8 @@ namespace Zettalith
             cloudManager.FastForward(1000, 0.05f);
 
             cameraMovement = new CameraMovement();
+
+            MyEffectCache = new EffectCache();
         }
 
         public void CreateMap(Grid grid)
