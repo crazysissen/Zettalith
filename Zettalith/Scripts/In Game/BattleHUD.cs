@@ -16,10 +16,12 @@ namespace Zettalith
         List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)> handPieces;
 
         Renderer.SpriteScreen panels;
-        Renderer.Text essence, redMana;
+        Renderer.Text essence;
         GUI.Button bEndTurn;
 
         Point handStart, handEnd;
+
+        ManaBar[] Bars;
 
         public BattleHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
         {
@@ -46,6 +48,13 @@ namespace Zettalith
             essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.92f, Settings.GetResolution.Y * 0.005f), new Vector2(), Color.Blue);
             essence.Position = new Vector2(essence.Position.X - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
 
+            Bars = new ManaBar[3];
+            for (int i = 0; i < Bars.Length; ++i)
+            {
+                Bars[i] = new ManaBar(new Vector2(Settings.GetResolution.X * (0.71f + 0.05f * i), Settings.GetResolution.Y), i + 1);
+                collection.Add(Bars[i].Top, Bars[i].Bottom, Bars[i].ManaText, Bars[i].ManaBlock);
+            }
+
             GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
             button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
             button.OnClick += clientSideController.DrawPieceFromDeck;
@@ -58,6 +67,10 @@ namespace Zettalith
         {
             essence.String = new StringBuilder(InGameController.LocalEssence + "e");
             essence.Position = new Vector2(Settings.GetResolution.X * 0.92f - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
+
+            Bars[0].Update(InGameController.LocalMana.Red);
+            Bars[1].Update(InGameController.LocalMana.Green);
+            Bars[2].Update(InGameController.LocalMana.Blue);
         }
 
         public void UpdateHand(InGamePiece removePiece, ref InGamePiece dragOutPiece)

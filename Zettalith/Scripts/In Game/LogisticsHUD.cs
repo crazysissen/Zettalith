@@ -16,9 +16,10 @@ namespace Zettalith
         List<(Renderer.SpriteScreen renderer, InGamePiece piece, RendererFocus focus)> handPieces;
 
         Renderer.SpriteScreen panels;
+        Renderer.Text essence;
         GUI.Button bPerks, bBuffs, bBonuses;
 
-        Point handStart, handEnd;
+        ManaBar[] Bars;
 
         public LogisticsHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
         {
@@ -37,22 +38,32 @@ namespace Zettalith
 
             bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.65f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
 
+            essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.83f, Settings.GetResolution.Y * 0.006f), new Vector2(), Color.Blue);
+            essence.Position = new Vector2(essence.Position.X - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
 
-
-            handStart = new Point((int)(Settings.GetResolution.X * 0.13f), (int)(Settings.GetResolution.Y * 0.77f));
-            handEnd = new Point((int)(Settings.GetResolution.X * 0.6f), (int)(Settings.GetResolution.Y * 0.77f));
+            Bars = new ManaBar[3];
+            for (int i = 0; i < Bars.Length; ++i)
+            {
+                Bars[i] = new ManaBar(new Vector2(Settings.GetResolution.X * (0.71f + 0.05f * i), Settings.GetResolution.Y), i + 1);
+                collection.Add(Bars[i].Top, Bars[i].Bottom, Bars[i].ManaText, Bars[i].ManaBlock);
+            }
 
             GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
             button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
             button.OnClick += clientSideController.DrawPieceFromDeck;
 
-            collection.Add(panels, bPerks, bBuffs, bBonuses, button);
+            collection.Add(panels, bPerks, bBuffs, bBonuses, button, essence);
             collection.Active = false;
         }
 
         public void Update(float deltaTime)
         {
+            essence.String = new StringBuilder(InGameController.LocalEssence + "e");
+            essence.Position = new Vector2(Settings.GetResolution.X * 0.83f - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
 
+            Bars[0].Update(InGameController.LocalMana.Red);
+            Bars[1].Update(InGameController.LocalMana.Green);
+            Bars[2].Update(InGameController.LocalMana.Blue);
         }
     }
 }
