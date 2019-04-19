@@ -40,6 +40,7 @@ namespace Zettalith
         }
     }
 
+    [Serializable]
     struct Sints
     {
         public int IntA, IntB;
