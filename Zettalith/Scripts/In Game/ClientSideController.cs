@@ -531,9 +531,21 @@ namespace Zettalith
                 if (In.LeftMouse)
                 {
                     AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+
+                    if (ghost == null)
+                    {
+                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 13, dragOutPiece.Texture.Height - 9);
+                        ghost = new Renderer.Sprite(Layer.Default, dragOutPiece.Texture, MousePositionAbsolute, Vector2.One, pieceGhostColor, 0, origin, SpriteEffects.None);
+                    }
+
+                    ghost.Position = MousePositionAbsolute;
+                    ghost.Layer = new Layer(MainLayer.Main, TileObject.DefaultLayer((int)(MousePosition.Y)).layer + 1);
                 }
                 else
                 {
+                    ghost?.Destroy();
+                    ghost = null;
+
                     if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
                     {
                         if (InGameController.LocalMana >= dragOutPiece.GetCost)
@@ -544,6 +556,10 @@ namespace Zettalith
                             InGameController.LocalMana -= dragOutPiece.GetCost;
                         }
                             
+                        dragOutPiece = null;
+                    }
+                    else
+                    {
                         dragOutPiece = null;
                     }
                 }

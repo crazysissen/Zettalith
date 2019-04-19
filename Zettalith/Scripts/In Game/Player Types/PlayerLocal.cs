@@ -79,8 +79,16 @@ namespace Zettalith
                 // Activate ability
                 if (returnArray != null)
                 {
-                    ExecuteAction(ActionPiece, returnArray);
-                    ActionPiece = null;
+                    if (InGameController.LocalMana >= ActionPiece.Piece.ModifiedStats.AbilityCost)
+                    {
+                        ExecuteAction(ActionPiece, returnArray);
+                        ActionPiece = null;
+                    }
+                    else
+                    {
+                        ActionPiece = null;
+                        return;
+                    }
                 }
             }
         }
