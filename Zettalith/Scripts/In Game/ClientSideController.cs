@@ -447,11 +447,8 @@ namespace Zettalith
 
             if (leftMouseDown)
             {
-                Console.WriteLine("410");
-
                 if (highlightedPiece != null)
                 {
-                    Console.WriteLine("414");
                     interactionPiece = highlightedPiece;
                     mouseDownPosition = Input.MousePosition;
                 }
