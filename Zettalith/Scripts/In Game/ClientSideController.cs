@@ -191,12 +191,18 @@ namespace Zettalith
 
         public void ComputeSendLogistics()
         {
-            controller.Execute(GameAction.EndTurn, true, 1);
+            controller.Execute(GameAction.EndTurn, true, MyEffectCache);
+            MyEffectCache = new EffectCache();
         }
 
         public void ComputeRecieveLogistics(object arg)
         {
-            //TODO
+            EffectCache anEffectCache = arg as EffectCache;
+
+            for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
+            {
+                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+            }
 
             controller.TurnSwitch();
         }
