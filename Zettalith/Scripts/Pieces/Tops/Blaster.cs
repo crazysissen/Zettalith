@@ -14,7 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "Blaster";
             Health = 3;
-            AttackDamage = 1;
+            AttackDamage = 0;
             AbilityRange = 4;
             ManaCost = new Mana(3, 0, 0);
             AbilityCost = new Mana(3, 0, 0);

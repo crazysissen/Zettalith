@@ -14,7 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "Bomb";
             Health = 4;
-            AttackDamage = 1;
+            AttackDamage = 0;
             AbilityRange = 2;
             ManaCost = new Mana(0, 4, 0);
             AbilityCost = new Mana(0, 4, 0);

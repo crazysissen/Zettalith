@@ -14,7 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "Fire Conjurer";
             Health = 2;
-            AttackDamage = 2;
+            AttackDamage = 0;
             AbilityRange = 3;
             ManaCost = new Mana(0, 4, 0);
             AbilityCost = new Mana(0, 3, 0);

@@ -14,10 +14,10 @@ namespace Zettalith.Pieces
         {
             Name = "Duplicator";
             Health = 1;
-            AttackDamage = 1;
+            AttackDamage = 2;
             AbilityRange = 1;
             ManaCost = new Mana(0, 1, 4);
-            AbilityCost = new Mana(0, 1, 3);
+            AbilityCost = new Mana(0, 1, 5);
             // Modifier = new Addition();
             Texture = Load.Get<Texture2D>("DuplicateHead");
 

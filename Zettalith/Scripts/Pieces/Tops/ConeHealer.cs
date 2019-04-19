@@ -14,7 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "Cone Healer";
             Health = 3;
-            AttackDamage = 1;
+            AttackDamage = 0;
             AbilityRange = 4;
             ManaCost = new Mana(0, 3, 2);
             AbilityCost = new Mana(0, 0, 4);

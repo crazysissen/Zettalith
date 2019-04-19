@@ -14,6 +14,7 @@ namespace Zettalith.Pieces
         {
             Name = "King Head";
             Health = 1;
+            AttackDamage = 1;
             Texture = Load.Get<Texture2D>("King_Head");
         }
     }
