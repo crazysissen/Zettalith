@@ -13,11 +13,11 @@ namespace Zettalith.Pieces
         public Cyclops()
         {
             Name = "Cycloptic Horror";
-            Health = 6;
+            Health = 4;
             AttackDamage = 2;
             AbilityRange = 0;
-            ManaCost = new Mana(2, 1, 0);
-            AbilityCost = new Mana();
+            ManaCost = new Mana(0, 3, 0);
+            AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
 

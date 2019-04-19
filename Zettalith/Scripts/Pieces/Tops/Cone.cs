@@ -13,11 +13,11 @@ namespace Zettalith.Pieces
         public Cone()
         {
             Name = "Fire Conjurer";
-            Health = 5;
-            AttackDamage = 1;
+            Health = 2;
+            AttackDamage = 2;
             AbilityRange = 3;
-            ManaCost = new Mana(0, 3, 0);
-            AbilityCost = new Mana();
+            ManaCost = new Mana(0, 4, 0);
+            AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-4), true);
             Texture = Load.Get<Texture2D>("King_Head");
 

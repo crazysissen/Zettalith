@@ -98,6 +98,7 @@
     <Compile Include="Scripts\In Game\InGameHUD.cs" />
     <Compile Include="Scripts\In Game\BonusHUD.cs" />
     <Compile Include="Scripts\In Game\BuffHud.cs" />
+    <Compile Include="Scripts\In Game\PerkBuffBonusEffects.cs" />
     <Compile Include="Scripts\In Game\PerkHUD.cs" />
     <Compile Include="Scripts\Misc\Noise.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />

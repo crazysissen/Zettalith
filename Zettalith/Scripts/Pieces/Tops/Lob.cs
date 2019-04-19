@@ -14,10 +14,10 @@ namespace Zettalith.Pieces
         {
             Name = "Mortar Tower";
             Health = 4;
-            AttackDamage = 1;
+            AttackDamage = 0;
             AbilityRange = 2;
             ManaCost = new Mana(0, 0, 4);
-            AbilityCost = new Mana();
+            AbilityCost = new Mana(2, 0, 3);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("AOELOBtop");
 

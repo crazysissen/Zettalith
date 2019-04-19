@@ -43,6 +43,7 @@ namespace Zettalith
         public Renderer.Sprite[,] tiles, tileFronts, backgrounds;
         public Renderer.Animator[,] highlights;
         public CloudManager cloudManager;
+        public EffectCache MyEffectCache;
 
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
@@ -117,6 +118,8 @@ namespace Zettalith
             cloudManager.FastForward(1000, 0.05f);
 
             cameraMovement = new CameraMovement();
+
+            MyEffectCache = new EffectCache();
         }
 
         public void CreateMap(Grid grid)
@@ -522,9 +525,21 @@ namespace Zettalith
                 if (In.LeftMouse)
                 {
                     AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+
+                    if (ghost == null)
+                    {
+                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 16, dragOutPiece.Texture.Height - 11);
+                        ghost = new Renderer.Sprite(Layer.Default, dragOutPiece.Texture, MousePositionAbsolute, Vector2.One, pieceGhostColor, 0, origin, SpriteEffects.None);
+                    }
+
+                    ghost.Position = MousePositionAbsolute;
+                    ghost.Layer = new Layer(MainLayer.Main, TileObject.DefaultLayer((int)(MousePosition.Y)).layer + 1);
                 }
                 else
                 {
+                    ghost?.Destroy();
+                    ghost = null;
+
                     if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
                     {
                         if (InGameController.LocalMana >= dragOutPiece.GetCost)
@@ -535,6 +550,10 @@ namespace Zettalith
                             InGameController.LocalMana -= dragOutPiece.GetCost;
                         }
                             
+                        dragOutPiece = null;
+                    }
+                    else
+                    {
                         dragOutPiece = null;
                     }
                 }
