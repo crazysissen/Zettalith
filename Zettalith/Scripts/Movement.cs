@@ -227,17 +227,17 @@ namespace Zettalith
         {
             List<Point> points = new List<Point>();
 
+            if (!InGameController.IsHost)
+            {
+                for (int i = 0; i < custom.Length; ++i)
+                {
+                    custom[i] = new Point(custom[i].X, custom[i].Y * -1);
+                }
+            }
+
             for (int i = 0; i < custom.Length; ++i)
             {
                 points.Add(origin + custom[i]);
-            }
-
-            if (!InGameController.IsHost)
-            {
-                for (int i = 0; i < points.Count; ++i)
-                {
-                    points[i] = new Point(points[i].X, points[i].Y * -1);
-                }
             }
 
             return points;
