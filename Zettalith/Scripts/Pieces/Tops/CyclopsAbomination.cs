@@ -8,22 +8,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestTop3 : Top
+    class CyclopsAbomination : Top
     {
-        public TestTop3()
+        public CyclopsAbomination()
         {
-            Name = "Woop";
+            Name = "Cycloptic Abomination";
             Health = 10;
-            AttackDamage = 2;
-            ManaCost = new Mana(2, 1, 0);
-            Texture = Load.Get<Texture2D>("TestSubpiece");
-            Modifier = new Addition(new Stats(-3), true);
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
+            AttackDamage = 3;
+            AbilityRange = 0;
+            ManaCost = new Mana(4, 4, 4);
+            AbilityCost = new Mana(1, 1, 1);
+            Modifier = new Addition(new Stats(-5), true);
+            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
+
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a 5 units wide beam.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.Beam(piece.Position, mousePos);
+            List<Point> points = Abilities.Beam(piece.Position, mousePos, 5);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             if (sPoints.Count == 0)
@@ -38,14 +41,22 @@ namespace Zettalith.Pieces
                 return null;
             }
 
-            // TODO: Highlight spoints list
             ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { sPoints, Modifier };
-                cancel = false;
-                return temp;
+                for (int i = 0; i < sPoints.Count; ++i)
+                {
+                    if (mousePos == sPoints[i])
+                    {
+                        object[] temp = { sPoints, Modifier };
+                        cancel = false;
+                        return temp;
+                    }
+                }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;

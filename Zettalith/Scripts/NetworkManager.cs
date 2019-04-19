@@ -22,11 +22,15 @@ namespace Zettalith
 
     static class NetworkManager
     {
+        public const string tempIP = "10.156.46.100";
+
         public static string PublicIP { get; private set; }
         public static string LocalIP { get; private set; }
         public static string ServerName { get; private set; }
 
         static Dictionary<string, SerializedEvent> listeners = new Dictionary<string, SerializedEvent>();
+
+        public static event Action OnConnected, OnDisconnected, OnError;
 
         public static void Send(string callsign, object message)
         {
@@ -87,8 +91,6 @@ namespace Zettalith
 
         static Callback callback;
 
-        public static event Action OnConnected, OnDisconnected; 
-
         public static void Initialize(XNAController xnaController)
         {
             xnaController.Exiting += DestroyPeerEvent;
@@ -111,6 +113,7 @@ namespace Zettalith
 
             NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
+                EnableUPnP = true,
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 10,
                 Port = PORT
@@ -123,6 +126,8 @@ namespace Zettalith
             localPeer = new NetServer(config);
 
             localPeer.Start();
+
+            localPeer.UPnP.ForwardPort(PORT, "ZettalithPortForward");
         }
 
         public static void CreateClient()
@@ -136,6 +141,7 @@ namespace Zettalith
 
             NetPeerConfiguration config = new NetPeerConfiguration(/*string.Format("Zettalith [{0}, {1}, {2}, {3}]", ver.Major, ver.Minor, ver.Build, ver.Revision)*/ "Test!")
             {
+                EnableUPnP = true,
                 MaximumHandshakeAttempts = 8,
                 MaximumConnections = 10,
                 Port = PORT
@@ -147,6 +153,8 @@ namespace Zettalith
             localPeer = new NetClient(config);
 
             localPeer.Start();
+
+            localPeer.UPnP.ForwardPort(PORT, "ZettalithPortForward");
         }
 
         public static void CreateLocalGame()
@@ -274,15 +282,11 @@ namespace Zettalith
 
                     // This is the client and a discovery request was returned with response
                     case NetIncomingMessageType.DiscoveryResponse:
-
                         Lobby.PeerFound(message.SenderEndPoint, false, message.ReadString());
-
                         break;
 
                     case NetIncomingMessageType.WarningMessage:
-
                         Test.Log("Warning: " + message.ReadString());
-
                         break;
 
                     //case NetIncomingMessageType.Error:
@@ -300,8 +304,10 @@ namespace Zettalith
                     //case NetIncomingMessageType.DebugMessage:
                     //    break;
 
-                    //case NetIncomingMessageType.ErrorMessage:
-                    //    break;
+                    case NetIncomingMessageType.ErrorMessage:
+                        OnError.Invoke();
+                        Test.Log("Error: " + message.ReadString());
+                        break;
 
                     //case NetIncomingMessageType.NatIntroductionSuccess:
                     //    break;
@@ -331,17 +337,24 @@ namespace Zettalith
 
         private static void GetPublicIP()
         {
-            System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
-            System.Net.WebResponse webResponse = request.GetResponse();
-            System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
+            try
+            {
+                System.Net.WebRequest request = System.Net.WebRequest.Create("http://checkip.dyndns.org");
+                System.Net.WebResponse webResponse = request.GetResponse();
+                System.IO.StreamReader reader = new System.IO.StreamReader(webResponse.GetResponseStream());
 
-            string response = reader.ReadToEnd().Trim();
-            string[] a = response.Split(':');
-            string[] a2 = a[1].Substring(1).Split('<');
+                string response = reader.ReadToEnd().Trim();
+                string[] a = response.Split(':');
+                string[] a2 = a[1].Substring(1).Split('<');
 
-            PublicIP = a2[0];
+                PublicIP = a2[0];
 
-            Test.Log("Public IP retrieved: " + PublicIP);
+                Test.Log("Public IP retrieved: " + PublicIP);
+            }
+            catch
+            {
+                PublicIP = "Failed";
+            }
         }
 
         class SerializedEvent

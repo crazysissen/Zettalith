@@ -6,9 +6,9 @@ namespace Zettalith
     [Serializable]
     class Set
     {
-        public List<Piece> Pieces { get; set; }
+        public List<Piece> Pieces { get; set; } = new List<Piece>();
 
-        public string Name { get; set; } = "Unnamed Collection";
+        public string Name { get; set; } = "Default Set";
         public bool Complete => Pieces.Count == MaxSize;
 
         public static int MaxSize { get; private set; } = 20;

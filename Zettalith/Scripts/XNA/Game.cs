@@ -142,6 +142,9 @@ namespace Zettalith
                 gameTime: gameTime, 
                 graphics: Graphics, 
                 spriteBatch: SpriteBatch);
+
+            // Last
+            In.UpdateMethods();
         }
 
         protected override void OnExiting(object sender, EventArgs args)

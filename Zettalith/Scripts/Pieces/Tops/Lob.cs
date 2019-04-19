@@ -8,31 +8,43 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class TestTop2 : Top
+    class Lob : Top
     {
-        public TestTop2()
+        public Lob()
         {
-            Name = "Pyro";
-            Health = 20;
-            AttackDamage = 3;
-            ManaCost = new Mana(0, 2, 0);
-            Description = "Deals 1 damage to all Zettaliths.";
-            Texture = Load.Get<Texture2D>("TestSubpiece2");
-            Modifier = new Addition(new Stats(-1), true);
+            Name = "Mortar Tower";
+            Health = 4;
+            AttackDamage = 0;
+            AbilityRange = 2;
+            ManaCost = new Mana(0, 0, 4);
+            AbilityCost = new Mana(2, 0, 3);
+            Modifier = new Addition(new Stats(-3), true);
+            Texture = Load.Get<Texture2D>("AOELOBtop");
+
+            Description = "Bombs target area and deals " + (Modifier as Addition).StatChanges.Health * -1 + " area damage within " + AbilityRange + " tiles";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.TargetAll();
+            List<Point> points = Abilities.CircleAoE(mousePos, piece.Position, AbilityRange, 3, true);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { sPoints, Modifier };
-                cancel = false;
-                return temp;
+                for (int i = 0; i < sPoints.Count; ++i)
+                {
+                    if (mousePos == sPoints[i])
+                    {
+                        object[] temp = { sPoints, Modifier };
+                        cancel = false;
+                        return temp;
+                    }
+                }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;

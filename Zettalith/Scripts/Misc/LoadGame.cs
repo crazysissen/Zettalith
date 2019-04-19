@@ -53,6 +53,10 @@ namespace Zettalith
                 loading.Destroy();
                 loading = null;
 
+                Piece kingPiece = new Piece(19, 21, 20);
+                InGamePiece[] kings = { new InGamePiece(kingPiece), new InGamePiece(kingPiece) };
+                loadedConfig.kings = kings;
+
                 Deck[] decks = { new Deck(loadedConfig.sets[0]), new Deck(loadedConfig.sets[1]) };
                 loadedConfig.decks = decks;
 
@@ -67,6 +71,7 @@ namespace Zettalith
             Random r = new Random(config.seed);
 
             Map map = MapGen.Generate(r, config.mapDiameter.X, config.mapDiameter.Y, config.type);
+            //Map map = MapGen.RectangleMap(r, config.mapDiameter.X, config.mapDiameter.Y);
 
             int startPlayer = r.Next(2);
 
@@ -97,6 +102,7 @@ namespace Zettalith
         public int startPlayer;
         public Set[] sets;
         public Deck[] decks;
+        public InGamePiece[] kings;
     }
 
     [Serializable]

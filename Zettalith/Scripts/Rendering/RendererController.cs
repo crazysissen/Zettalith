@@ -119,7 +119,7 @@ namespace Zettalith
 
             renderMasks.Clear();
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 
             IGUIMember[] guiMembers = GUI.GetMembers(GUI, mouseState, keyboardState, (float)gameTime.ElapsedGameTime.TotalSeconds, Point.Zero);
 
@@ -140,6 +140,7 @@ namespace Zettalith
 
                     if (renderer.Active)
                     {
+                        renderer.RenderEvent();
                         renderer.Draw(spriteBatch, Camera, deltaTime);
                     }
 

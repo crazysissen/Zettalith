@@ -91,6 +91,16 @@
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievements.cs" />
+    <Compile Include="Scripts\In Game\CameraMovement.cs" />
+    <Compile Include="Scripts\In Game\CloudManager.cs" />
+    <Compile Include="Scripts\In Game\EndHUD.cs" />
+    <Compile Include="Scripts\In Game\HUD.cs" />
+    <Compile Include="Scripts\In Game\InGameHUD.cs" />
+    <Compile Include="Scripts\In Game\BonusHUD.cs" />
+    <Compile Include="Scripts\In Game\BuffHud.cs" />
+    <Compile Include="Scripts\In Game\PerkBuffBonusEffects.cs" />
+    <Compile Include="Scripts\In Game\PerkHUD.cs" />
+    <Compile Include="Scripts\Misc\Noise.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\In Game\BattleHUD.cs" />
@@ -111,22 +121,34 @@
     <Compile Include="Scripts\Misc\ParameterizedAction.cs" />
     <Compile Include="Scripts\Movement.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal2.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\KingFeet.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\OneTile.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Queen2.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Straight2.cs" />
+    <Compile Include="Scripts\Pieces\Bottoms\Swap.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Teleporter.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Straight.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Teleporter2.cs" />
     <Compile Include="Scripts\Pieces\Middles\HighHealthLowAtk.cs" />
     <Compile Include="Scripts\Pieces\Middles\HighHealthHighAtk.cs" />
+    <Compile Include="Scripts\Pieces\Middles\KingMiddle.cs" />
     <Compile Include="Scripts\Pieces\Middles\MediumBody.cs" />
     <Compile Include="Scripts\Pieces\Middles\LowHealthHighAtk.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal.cs" />
     <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\ConeHealer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Cone.cs" />
+    <Compile Include="Scripts\Pieces\Tops\CyclopsAbomination.cs" />
+    <Compile Include="Scripts\Pieces\Tops\CyclopsNightmare.cs" />
     <Compile Include="Scripts\Pieces\Tops\Duplicator.cs" />
-    <Compile Include="Scripts\Pieces\Tops\TestTop2.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Healer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\KingHead.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Lob.cs" />
+    <Compile Include="Scripts\Pieces\Tops\LobHealer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Pyro.cs" />
     <Compile Include="Scripts\Menus\SetDesigner.cs" />
     <Compile Include="Scripts\Content System\ContentController.cs" />
     <Compile Include="Scripts\Content System\Importable.cs" />
@@ -159,12 +181,13 @@
     <Compile Include="Scripts\Pieces\Middles\LowHealthLowAtk.cs" />
     <Compile Include="Scripts\Pieces\Tops\Bomb.cs" />
     <Compile Include="Scripts\In Game\Player Types\Player.cs" />
-    <Compile Include="Scripts\In Game\GameRendering.cs" />
-    <Compile Include="Scripts\Pieces\Tops\TestTop3.cs" />
+    <Compile Include="Scripts\In Game\ClientSideController.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Cyclops.cs" />
     <Compile Include="Scripts\Modifier\Addition.cs" />
     <Compile Include="Scripts\Modifier\Modifier.cs" />
     <Compile Include="Scripts\Modifier\Multiplication.cs" />
     <Compile Include="Scripts\Pieces\Piece.cs" />
+    <Compile Include="Scripts\Pieces\Tops\SingleTarget.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
     <Compile Include="Scripts\Rendering\Layer.cs" />
     <Compile Include="Scripts\Rendering\Renderer.cs" />
@@ -183,6 +206,7 @@
     <Compile Include="Scripts\TimerTable.cs" />
     <Compile Include="Scripts\XNA\Game.cs" />
     <Compile Include="Scripts\XNA\Program.cs" />
+    <Compile Include="Scripts\Ztuff.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />

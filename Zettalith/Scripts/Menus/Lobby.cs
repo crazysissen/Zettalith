@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith
 {
@@ -13,17 +14,22 @@ namespace Zettalith
             STARTHEADER = "START",
             RECIEVEDATAHEADER = "RECIEVEPLAYERDATA";
 
+        const float
+            TIMEOUT = 5.0f;
+
         private static Lobby singleton;
         private static Callback callback;
 
-        private bool host, connected, ready;
+        private bool host, connected, ready, connecting;
+        private float timeOut;
 
         private System.Net.IPEndPoint endPoint;
 
         private GUI.Collection collection;
         private GUI.Button bStart, bBack;
+        private GUI.TextField tIpField;
         private Renderer.SpriteScreen localBackground, globalBackground;
-        private Renderer.Text title, localIP, globalIP, statusHeader, status;
+        private Renderer.Text title, localIP, globalIP, statusHeader, status, ipFieldTitle;
 
         private Set testSet;
 
@@ -35,16 +41,22 @@ namespace Zettalith
             host = config != null;
             this.config = config;
 
-            testSet = new Set()
-            {
-                Pieces = new List<Piece>()
-                {
-                    new Piece(0, 4, 9),
-                    new Piece(1, 5, 10),
-                    new Piece(2, 6, 11),
-                    new Piece(3, 7, 12),
-                }
-            };
+            //testSet = host ? PersonalData.UserData.SavedSets.Last() : PersonalData.UserData.SavedSets[0];
+            SaveLoad.Load();
+            testSet = PersonalData.UserData.SavedSets.Last();
+
+            //testSet = new Set()
+            //{
+            //    Pieces = new List<Piece>()
+            //    {
+            //        new Piece(0, 3, 8),
+            //        new Piece(1, 4, 9),
+            //        new Piece(2, 5, 10),
+            //        new Piece(16, 6, 11),
+            //        new Piece(17, 6, 11),
+            //        new Piece(18, 4, 9),
+            //    }
+            //};
 
             collection = new GUI.Collection()
             {
@@ -83,6 +95,26 @@ namespace Zettalith
                 NetworkManager.StartPeerSearch("localhost");
             }
 
+            if (!XNAController.localGame)
+            {
+                if (config == null)
+                {
+                    bStart.ChangeText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"));
+
+                    ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
+                    tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 420, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
+                    tIpField.AllowedText = GUI.TextField.TextType.Numbers | GUI.TextField.TextType.Periods;
+                    tIpField.MaxLetters = 24;
+                    collection.Add(tIpField, ipFieldTitle);
+
+                    NetworkManager.CreateClient();
+                }
+                else
+                {
+                    NetworkManager.CreateHost("Good Server");
+                }
+            }
+
             NetworkManager.OnConnected += Connected;
             NetworkManager.OnDisconnected += Disconnected;
 
@@ -93,6 +125,16 @@ namespace Zettalith
         public void Update(float deltaTime)
         {
             UpdateGUI();
+
+            if (connecting)
+            {
+                timeOut += deltaTime;
+                if (timeOut > TIMEOUT)
+                {
+                    connecting = false;
+                    ipFieldTitle.String = new StringBuilder("Timed out. Try again:");
+                }
+            }
         }
 
         private void UpdateGUI()
@@ -114,6 +156,10 @@ namespace Zettalith
             {
                 NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Local Server", callback);
             }
+            else if (singleton.config == null)
+            {
+                NetworkManager.TryJoin(ipEndPoint.Address.ToString(), ipEndPoint.Port, "Trying to join from: AA", callback);
+            }
 
             singleton.endPoint = ipEndPoint;
         }
@@ -128,12 +174,20 @@ namespace Zettalith
         void Connected()
         {
             connected = true;
+
+            if (!host && !XNAController.localGame)
+            {
+                ipFieldTitle.String = new StringBuilder("Connected!");
+                bStart.ChangeText("Ready");
+                connecting = false;
+            }
         }
 
         void Disconnected()
         {
             ready = false;
             connected = false;
+            connecting = false;
         }
 
         void BStart()
@@ -158,6 +212,31 @@ namespace Zettalith
 
                 ready = !ready;
                 NetworkManager.Send(STARTHEADER, ready);
+            }
+            else if (!host && !XNAController.localGame && !connecting)
+            {
+                if (tIpField.Content == NetworkManager.LocalIP || tIpField.Content == NetworkManager.PublicIP)
+                {
+                    ipFieldTitle.String = new StringBuilder("Very funny..");
+                    return;
+                }
+
+                connecting = true;
+                timeOut = 0;
+
+                ipFieldTitle.String = new StringBuilder("Connecting...");
+
+                NetworkManager.StartPeerSearch(tIpField.Content);
+                NetworkManager.OnError += OnError;
+            }
+        }
+
+        void OnError()
+        {
+            if (connecting)
+            {
+                ipFieldTitle.String = new StringBuilder("Error. Try again:");
+                connecting = false;
             }
         }
 

@@ -11,17 +11,19 @@ namespace Zettalith
     struct PersonalData
     {
         public static Settings Settings => UserData.CurrentSettings;
-        public static PersonalData UserData { get; set; } = new PersonalData();
+        public static PersonalData UserData { get; set; }
 
         public static PersonalData Default = new PersonalData
         {
             CurrentSettings = new Settings(),
             UnlockedPieces = Subpieces.Unlocked.ToList(),
             SavedPieces = new List<Piece>(),
-            SavedSets = new List<Set>(),
+            SavedSets = new List<Set>() /*{ CreateDefaultSet() }*/,
             Locked = Achievements.DefaultLocked,
             Unlocked = Achievements.DefaultUnlocked,
         };
+
+        //public static Set DefaultSet = CreateDefaultSet();
 
         public Settings CurrentSettings { get; set; }
 
@@ -32,5 +34,34 @@ namespace Zettalith
 
         public Dictionary<string, Achievement> Locked { get; set; }
         public Dictionary<string, Achievement> Unlocked { get; set; }
+
+        //public static Set CreateDefaultSet()
+        //{
+        //    Set set = new Set();
+
+        //    List<Top> tops = Subpieces.GetSubpieces<Top>();
+        //    List<Middle> middles = Subpieces.GetSubpieces<Middle>();
+        //    List<Bottom> bottoms = Subpieces.GetSubpieces<Bottom>();
+
+        //    for (int i = 0; i < Set.MaxSize; ++i)
+        //    {
+        //        set.AddUnit(new Piece((byte)Subpieces.SubPieces.IndexOf(tops[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(middles[0].GetType()), (byte)Subpieces.SubPieces.IndexOf(bottoms[0].GetType())));
+        //    }
+
+        //    return set;
+        //}
+
+        public static void CreateDefaultSet()
+        {
+            Set set = new Set();
+
+            for (int i = 0; i < Set.MaxSize; ++i)
+            {
+                set.AddUnit(new Piece((byte)Subpieces.SubPieces.IndexOf(Subpieces.DefaultTop), (byte)Subpieces.SubPieces.IndexOf(Subpieces.DefaultMiddle), (byte)Subpieces.SubPieces.IndexOf(Subpieces.DefaultBottom)));
+            }
+
+            if (UserData.SavedSets.Count == 0)
+                UserData.SavedSets.Add(set);
+        }
     }
 }

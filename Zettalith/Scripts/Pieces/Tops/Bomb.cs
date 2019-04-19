@@ -15,27 +15,36 @@ namespace Zettalith.Pieces
             Name = "Bomb";
             Health = 4;
             AttackDamage = 1;
-            ManaCost = new Mana(4, 0, 0);
-            AbilityCost = new Mana(2, 0, 0);
+            AbilityRange = 2;
+            ManaCost = new Mana(0, 4, 0);
+            AbilityCost = new Mana(0, 4, 0);
             Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("BombTop1");
-            AbilityRange = 2;
 
             Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths within " + AbilityRange + " tiles";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.CircleAoE(piece.Position, AbilityRange, false);
+            List<Point> points = Abilities.CircleAoE(piece.Position, new Point(), AbilityRange, 0, false);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());
 
             if (mouseDown)
             {
-                object[] temp = { sPoints, Modifier, piece.GridIndex };
-                cancel = false;
-                return temp;
+                for (int i = 0; i < sPoints.Count; ++i)
+                {
+                    if (mousePos == sPoints[i])
+                    {
+                        object[] temp = { sPoints, Modifier, piece.GridIndex };
+                        cancel = false;
+                        return temp;
+                    }
+                }
+
+                cancel = true;
+                return null;
             }
 
             cancel = false;
@@ -57,7 +66,6 @@ namespace Zettalith.Pieces
             }
 
             InGameController.Grid[(int)data[2]].Destroy();
-
         }
     }
 }

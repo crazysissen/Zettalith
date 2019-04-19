@@ -19,11 +19,14 @@ namespace Zettalith
         protected XNAController xnaController;
         protected Player opponent;
 
+        public Mana Mana { get; set; } = new Mana(12, 18, 18);
+        public int Essence { get; set; }
+
         public List<TilePiece> TilePieces { get; private set; }
         public Set Set { get; private set; }
         public Deck Deck { get; private set; }
         public List<InGamePiece> Hand { get; private set; }
-
+        public TilePiece King { get; private set; }
 
         public virtual void Start(InGameController inGameController, MainController mainController, XNAController xnaController, Player opponent, Deck deck, Set set)
         {
@@ -36,14 +39,27 @@ namespace Zettalith
             Set = set;
         }
 
+        public void SetKing(TilePiece king)
+        {
+            King = king;
+        }
+
         public void EndTurn()
         {
             inGameController.EndTurn();
         }
 
+        public void BackToMenu()
+        {
+
+        }
+
         public void PlacePiece(InGamePiece piece, int x, int y)
         {
-            inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
+            if (InGameController.LocalMana > piece.GetCost)
+            {
+                inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
+            }
         }
 
 
@@ -94,7 +110,7 @@ namespace Zettalith
 
         }
 
-        public virtual void Update(float deltaTime)
+        public virtual void Update(float deltaTime, InGameState gameState)
         {
            
         }

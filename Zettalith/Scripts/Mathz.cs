@@ -118,6 +118,8 @@ namespace Zettalith
             return returnVector;
         }
 
+        public static Vector2 Lerp(this Vector2 vector, Vector2 target, float value) => vector + (target - vector) * value;
+
         public static SPoint[] ToSPointArray(this Point[] array)
         {
             SPoint[] newArray = new SPoint[array.Length];
@@ -155,5 +157,20 @@ namespace Zettalith
 
             return newArray;
         }
+
+        public static Point ToRender(this Point point)
+        {
+            int multiplier = InGameController.IsHost ? 1 : -1;
+            return new Point(point.X * multiplier, point.Y * multiplier);
+        }
+
+        public static Vector2 ToRender(this Vector2 vector)
+        {
+            int multiplier = InGameController.IsHost ? 1 : -1;
+            return new Vector2(vector.X * multiplier, vector.Y * multiplier);
+        }
+
+        public static int Floor(this float value)
+            => value > 0 ? ((int)value) : ((int)value - 1);
     }
 }

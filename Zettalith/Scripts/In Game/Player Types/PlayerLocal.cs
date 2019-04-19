@@ -9,7 +9,7 @@ namespace Zettalith
 {
     class PlayerLocal : Player
     {
-        public ClientSideController Renderer { get; private set; }
+        public ClientSideController ClientController { get; private set; }
 
         public TilePiece ActionPiece { get; private set; }
 
@@ -17,19 +17,19 @@ namespace Zettalith
         {
             base.Start(inGameController, mainController, xnaController, opponent, deck, set);
 
-            Renderer = new ClientSideController(this, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
+            ClientController = new ClientSideController(this, inGameController, InGameController.IsHost, InGameController.StartPlayer == InGameController.PlayerIndex);
         }
 
         public void SwitchTurns(InGameState newState)
         {
             if (newState == InGameState.Battle)
             {
-                Renderer.OpenBattle();
+                ClientController.OpenBattle();
 
                 return;
             }
 
-            Renderer.OpenLogistics();
+            ClientController.OpenLogistics();
         }
 
         public override void TurnStart()
@@ -37,15 +37,13 @@ namespace Zettalith
             base.TurnStart();
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(float deltaTime, InGameState gameState)
         {
-            base.Update(deltaTime);
+            ClientController.Update(deltaTime, gameState);
 
             UpdateAbility();
 
-            Renderer.Update(deltaTime);
-
-            if (Renderer.SetupComplete)
+            if (ClientController.SetupComplete)
             {
 
             }
@@ -69,7 +67,7 @@ namespace Zettalith
                     return;
                 }
 
-                object[] returnArray = ActionPiece.Piece.Top.UpdateAbility(ActionPiece, ClientSideController.MousePoint, RendererFocus.OnArea(new Rectangle(In.MousePosition, new Point(1, 1)), Layer.Default) && In.LeftMouseDown, out bool cancel);
+                object[] returnArray = ActionPiece.Piece.Top.UpdateAbility(ActionPiece, ClientSideController.MousePoint.ToRender(), RendererFocus.OnArea(new Rectangle(In.MousePosition, new Point(1, 1)), Layer.Default) && In.LeftMouseDown, out bool cancel);
 
                 // Cancel
                 if (cancel)
@@ -81,8 +79,16 @@ namespace Zettalith
                 // Activate ability
                 if (returnArray != null)
                 {
-                    ExecuteAction(ActionPiece, returnArray);
-                    ActionPiece = null;
+                    if (InGameController.LocalMana >= ActionPiece.Piece.ModifiedStats.AbilityCost)
+                    {
+                        ExecuteAction(ActionPiece, returnArray);
+                        ActionPiece = null;
+                    }
+                    else
+                    {
+                        ActionPiece = null;
+                        return;
+                    }
                 }
             }
         }

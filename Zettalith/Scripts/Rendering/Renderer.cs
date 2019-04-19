@@ -15,6 +15,8 @@ namespace Zettalith
             DEGTORAD = (2 * (float)Math.PI) / 360,
             FONTSIZEMULTIPLIER = 1.0f / 4;
 
+        public event Action OnRender;
+
         /// <summary>Whether or not the object should be drawn automatically</summary>
         public virtual bool Active { get; set; } = true;
         public virtual bool AutomaticDraw { get; set; } = true;
@@ -27,6 +29,11 @@ namespace Zettalith
         public Renderer()
         {
             RendererController.AddRenderer(this);
+        }
+
+        public void RenderEvent()
+        {
+            OnRender?.Invoke();
         }
 
         public void Destroy()
@@ -58,14 +65,14 @@ namespace Zettalith
             /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
             public virtual SpriteEffects Effects { get; set; }
 
-            public Sprite(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            public Sprite(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 origin, SpriteEffects effects)
             {
                 Layer = layer;
                 Texture = texture;
                 Position = position;
                 Size = size;
                 Rotation = rotation;
-                Origin = rotationOrigin;
+                Origin = origin;
                 Color = color;
                 Effects = effects;
             }
@@ -73,7 +80,7 @@ namespace Zettalith
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
                 Vector2 position = camera.WorldToScreenPosition(Position);
-                spriteBatch.Draw(Texture, position, null, Color, Rotation * DEGTORAD, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, position, null, Color, Rotation, Origin, camera.WorldToScreenSize(Size), Effects, Layer.LayerDepth);
             }
 
             public Rectangle GetArea()
@@ -100,8 +107,8 @@ namespace Zettalith
             /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
             public virtual float Rotation { get; set; }
 
-            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the object rotates 
-            /// and what point will line up to the Vector2 position</summary>
+            /// <summary>A vector between (0,0) and the texture's dimensions to represent the pivot around which the object rotates 
+            /// and what point will line up to the Rectangle position</summary>
             public virtual Vector2 Origin { get; set; }
 
             /// <summary>The color multiplier of the object</summary>
@@ -114,20 +121,63 @@ namespace Zettalith
 
             public SpriteScreen(Layer layer, Texture2D texture, Rectangle transform, Color color) : this(layer, texture, transform, color, 0, Vector2.Zero, SpriteEffects.None) { }
 
-            public SpriteScreen(Layer layer, Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 rotationOrigin, SpriteEffects effects)
+            public SpriteScreen(Layer layer, Texture2D texture, Rectangle transform, Color color, float rotation, Vector2 origin, SpriteEffects effects)
             {
                 Layer = layer;
                 Texture = texture;
                 Transform = transform;
                 Rotation = rotation;
-                Origin = rotationOrigin;
+                Origin = origin;
                 Color = color;
                 Effects = effects;
             }
 
             public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
             {
-                spriteBatch.Draw(Texture, new Rectangle(Transform.Location + Offset, Transform.Size), null, Color, Rotation * DEGTORAD, Origin, Effects, Layer.LayerDepth);
+                spriteBatch.Draw(Texture, new Rectangle(Transform.Location + Offset, Transform.Size), null, Color, Rotation, Origin, Effects, Layer.LayerDepth);
+            }
+        }
+
+        public class SpriteScreenFloating : RendererIGUI
+        {
+            /// <summary>The texture of the object</summary>
+            public virtual Texture2D Texture { get; set; }
+
+            /// <summary>The x & y coordinates of the object in world space</summary>
+            public virtual Vector2 Position { get; set; }
+
+            /// <summary>The width/height of the object</summary>
+            public virtual Vector2 Size { get; set; }
+
+            /// <summary>The rotation angle of the object measured in degrees (0-360)</summary>
+            public virtual float Rotation { get; set; }
+
+            /// <summary>A vector between (0,0) and (1,1) to represent the pivot around which the sprite is rotated
+            /// and what point will line up to the Vector2 position</summary>
+            public virtual Vector2 Origin { get; set; }
+
+            /// <summary>The color multiplier of the object</summary>
+            public virtual Color Color { get; set; }
+
+            /// <summary>Wether or not the sprite is flipped somehow, stack using binary OR operator (|)</summary>
+            public virtual SpriteEffects Effects { get; set; }
+
+            public SpriteScreenFloating(Layer layer, Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation, Vector2 origin, SpriteEffects effects)
+            {
+                Layer = layer;
+                Texture = texture;
+                Position = position;
+                Size = size;
+                Rotation = rotation;
+                Origin = origin;
+                Color = color;
+                Effects = effects;
+            }
+
+            public override void Draw(SpriteBatch spriteBatch, Camera camera, float deltaTime)
+            {
+                Vector2 position = Position;
+                spriteBatch.Draw(Texture, position + Offset.ToVector2(), null, Color, Rotation, Origin, Size, Effects, Layer.LayerDepth);
             }
         }
 
@@ -162,6 +212,7 @@ namespace Zettalith
             public bool Repeat { get; set; }
             public int CurrentFrame => (int)(Time / TimeInterval);
             public int FrameCount { get; private set; }
+            public bool Complete { get; private set; }
 
             public Animator(Layer layer, Texture2D sheet, Point frameDimensions, Vector2 position, Vector2 size, Vector2 origin, float rotation, Color color, float interval, float startTime, bool repeat, SpriteEffects spriteEffects)
             {
@@ -193,7 +244,15 @@ namespace Zettalith
                 Time += deltaTime;
                 if (Time > FrameCount * TimeInterval)
                 {
-                    Time %= (FrameCount * TimeInterval);
+                    if (Repeat)
+                    {
+                        Time %= (FrameCount * TimeInterval);
+                    }
+                    else
+                    {
+                        Complete = true;
+                        return;
+                    }
                 }
 
                 int currentFrame = CurrentFrame;
@@ -371,6 +430,7 @@ namespace Zettalith
 
         void IGUIMember.Draw(SpriteBatch spriteBatch, MouseState mouse, KeyboardState keyboard, float unscaledDeltaTime)
         {
+            RenderEvent();
             Draw(spriteBatch, null, unscaledDeltaTime);
         }
     }

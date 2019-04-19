@@ -33,7 +33,7 @@ namespace Zettalith
             {
                 PersonalData.UserData = Bytestreamer.ToObject<PersonalData>(Encrypt(File.ReadAllBytes(FullPath)));
 
-                if (PersonalData.UserData.UnlockedPieces == null)
+                if (PersonalData.UserData.SavedSets.Count == 0 || PersonalData.UserData.UnlockedPieces == null)
                 {
                     throw new Exception("");
                 }
@@ -60,6 +60,7 @@ namespace Zettalith
             if (!File.Exists(FullPath))
             {
                 PersonalData.UserData = PersonalData.Default;
+                PersonalData.CreateDefaultSet();
                 Save();
             }
             else

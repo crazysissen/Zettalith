@@ -57,6 +57,7 @@ namespace Zettalith
             grey = new Renderer.SpriteScreen(managementBackgroundLayer, greySeeThrough2D, new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
             main.Add(managementText, bRed, bBlue, bGreen);
+            collection.Active = false;
         }
 
         public void Update()
@@ -67,16 +68,22 @@ namespace Zettalith
         public void BRed()
         {
             //Red++;
+
+            collection.Active = false;
         }
 
         private void BBlue()
         {
             //Blue++;
+
+            collection.Active = false;
         }
 
         public void BGreen()
         {
             //Green++;
+
+            collection.Active = false;
         }
     }
 }

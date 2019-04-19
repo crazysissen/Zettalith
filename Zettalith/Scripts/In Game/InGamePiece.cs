@@ -13,6 +13,8 @@ namespace Zettalith
     {
         public static InGamePiece[] Pieces { get; private set; } = new InGamePiece[4096];
 
+        public Mana GetCost => ModifiedStats.Mana;
+
         public Piece Piece { get; private set; }
         public int Index { get; set; }
         public Texture2D Texture { get; set; }
@@ -23,6 +25,7 @@ namespace Zettalith
         public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
         public Bottom Bottom { get; private set; } /* => bottoms[piece.BottomIndex]*/
 
+        public bool IsKing => Top is KingHead && Middle is KingMiddle && Bottom is KingFeet;
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
@@ -39,6 +42,9 @@ namespace Zettalith
             Top = Subpieces.FromIndex(piece.TopIndex) as Top;
             Middle = Subpieces.FromIndex(piece.MiddleIndex) as Middle;
             Bottom = Subpieces.FromIndex(piece.BottomIndex) as Bottom;
+
+            Texture = ClientSideController.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
+
             baseStats = BaseStats;
         }
 
@@ -49,7 +55,7 @@ namespace Zettalith
             MaxHealth = Top.Health + Middle.Health + Bottom.Health,
             Health = Top.Health + Middle.Health + Bottom.Health,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            //AbilityCost = Top.AbilityCost,
+            AbilityCost = Top.AbilityCost,
             MoveCost = Bottom.MoveCost
         };
 
@@ -64,16 +70,37 @@ namespace Zettalith
                 {
                     if (modifier is Addition)
                     {
-                        modified += (modifier as Addition).StatChanges;
+                        modified += modifier.StatChanges;
                     }
                     else if (modifier is Multiplication)
                     {
-                        modified *= (modifier as Multiplication).StatChanges;
+                        modified *= modifier.StatChanges;
                     }
                     else if (modifier is Direct)
                     {
-                        ClearMods();
-                        modified = (modifier as Direct).StatChanges;
+                        if (!(modifier.StatChanges.AbilityCost == new Mana()))
+                        {
+                            modified.AbilityCost = modifier.StatChanges.AbilityCost;
+                        }
+                        if (modifier.StatChanges.Health > 0)
+                        {
+                            modified.Health = modifier.StatChanges.Health;
+                        }
+                        if (!(modifier.StatChanges.Mana == new Mana()))
+                        {
+                            modified.Mana = modifier.StatChanges.Mana;
+                        }
+                        if (!(modifier.StatChanges.MoveCost == new Mana()))
+                        {
+                            modified.MoveCost = modifier.StatChanges.MoveCost;
+                        }
+                        if (modifier.StatChanges.AttackDamage > 0)
+                        {
+                            modified.AttackDamage = modifier.StatChanges.AttackDamage;
+                        }
+
+                        //ClearMods();
+                        //modified = (modifier as Direct).StatChanges;
                     }
                 }
 
@@ -81,15 +108,13 @@ namespace Zettalith
             }
         }
 
-        // TODO: GameAction?
         // Adds a modifier to this unit
         public void ModThis(Modifier mod)
         {
             modifiers.Add(mod);
         }
 
-        // TODO: GameAction?
-        // Clears modifications that are not permanent
+        // Clears modifications that are not permanent, aka debuffs
         public void ClearMods()
         {
             List<Modifier> remove = new List<Modifier>();
@@ -102,7 +127,11 @@ namespace Zettalith
                 }
             }
 
-            remove.Clear();
+            for (int i = 0; i < remove.Count; ++i)
+            {
+                modifiers.Remove(remove[i]);
+                i--;
+            }
         }
 
         // Clears all mods, aka resets the unit to its factory state
