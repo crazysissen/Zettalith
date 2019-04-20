@@ -287,9 +287,33 @@ namespace Zettalith
             perkGUI.Active = true;
         }
 
+        public void OpenBuff()
+        {
+            logisticsGUI.Active = false;
+            buffGUI.Active = true;
+        }
+
+        public void OpenBonus()
+        {
+            logisticsGUI.Active = false;
+            bonusGUI.Active = true;
+        }
+
         public void ClosePerks()
         {
             perkGUI.Active = false;
+            logisticsGUI.Active = true;
+        }
+
+        public void CloseBuffs()
+        {
+            buffGUI.Active = false;
+            logisticsGUI.Active = true;
+        }
+
+        public void CloseBonus()
+        {
+            bonusGUI.Active = false;
             logisticsGUI.Active = true;
         }
 
