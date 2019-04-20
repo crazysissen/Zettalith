@@ -71,11 +71,13 @@ namespace Zettalith
             localIP = new Renderer.Text(Layer.GUI, Font.Default, "", 4, 0, new Vector2(0, 240));
             globalIP = new Renderer.Text(Layer.GUI, Font.Default, "", 4, 0, new Vector2(0, 280));
 
-            bStart = new GUI.Button(Layer.GUI, new Rectangle(0, 380, 320, 80), Color.White) { ScaleEffect = true };
+            Texture2D buttonTexture = Load.Get<Texture2D>("Button2");
+
+            bStart = new GUI.Button(Layer.GUI, new Rectangle(0, 380, 320, 80), buttonTexture, Color.White) { ScaleEffect = true };
             bStart.AddText(host ? "Start" : "Ready", 6, true, Color.Black, Font.Bold);
             bStart.OnClick += BStart;
 
-            bBack = new GUI.Button(Layer.GUI, new Rectangle(0, 500, 240, 60), Color.White) { ScaleEffect = true };
+            bBack = new GUI.Button(Layer.GUI, new Rectangle(0, 500, 240, 60), buttonTexture, Color.White) { ScaleEffect = true };
             bBack.AddText("Back", 4, true, Color.Black, Font.Default);
             bBack.OnClick += BBack;
 
@@ -102,7 +104,7 @@ namespace Zettalith
                     bStart.ChangeText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"));
 
                     ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
-                    tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 420, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
+                    tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 420, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, buttonTexture);
                     tIpField.AllowedText = GUI.TextField.TextType.Numbers | GUI.TextField.TextType.Periods;
                     tIpField.MaxLetters = 24;
                     collection.Add(tIpField, ipFieldTitle);

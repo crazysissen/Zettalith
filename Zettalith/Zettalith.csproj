@@ -102,6 +102,7 @@
     <Compile Include="Scripts\In Game\PerkHUD.cs" />
     <Compile Include="Scripts\In Game\Player Types\InfoBox.cs" />
     <Compile Include="Scripts\Misc\Noise.cs" />
+    <Compile Include="Scripts\Misc\Sound.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />
     <Compile Include="Scripts\Font.cs" />
     <Compile Include="Scripts\In Game\BattleHUD.cs" />
