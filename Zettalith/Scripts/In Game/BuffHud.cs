@@ -69,11 +69,6 @@ namespace Zettalith
         {
 
         }
-
-        void CloseThis()
-        {
-            collection.Active = false;
-        }
     }
 
     class Buff

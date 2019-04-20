@@ -18,12 +18,13 @@ namespace Zettalith
         public PerkHUD PerkHUD { get; private set; }
         public BuffHUD BuffHUD { get; private set; }
         public BuffHUD BonusHUD { get; private set; }
+        public ManagementHUD ManagementHUD { get; private set; }
 
         GUI.Collection collection;
 
         
 
-        public InGameHUD(GUI.Collection inGameCollection, GUI.Collection perkCollection, GUI.Collection buffCollection, GUI.Collection bonusCollection, GUI.Collection battleCollection, GUI.Collection logisticsCollection, GUI.Collection endCollection, InGameController igc, ClientSideController csc, PlayerLocal player)
+        public InGameHUD(GUI.Collection inGameCollection, GUI.Collection perkCollection, GUI.Collection buffCollection, GUI.Collection bonusCollection, GUI.Collection battleCollection, GUI.Collection logisticsCollection, GUI.Collection endCollection, GUI.Collection managementCollection, InGameController igc, ClientSideController csc, PlayerLocal player)
         {
             Collection = inGameCollection;
 
@@ -53,6 +54,7 @@ namespace Zettalith
             PerkHUD = new PerkHUD(perkCollection, igc, player, csc);
             BuffHUD = new BuffHUD(buffCollection, igc, player, buffs, csc);
             BonusHUD = new BuffHUD(bonusCollection, igc, player, bonuses, csc);
+            ManagementHUD = new ManagementHUD(managementCollection, igc, player, bonuses, csc);
         }
 
         public void Update(float deltaTime)
@@ -63,6 +65,7 @@ namespace Zettalith
             PerkHUD.Update(deltaTime);
             BuffHUD.Update(deltaTime);
             BonusHUD.Update(deltaTime);
+            ManagementHUD.Update(deltaTime);
         }
     }
 
