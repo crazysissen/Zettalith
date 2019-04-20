@@ -70,17 +70,17 @@ namespace Zettalith
                 int textureSize = (int)(size.X * IMAGESIZE);
                 subPieces[i] = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, -9), Load.Get<Texture2D>("Square"), new Rectangle(size.X / 7, (int)currentY, textureSize, (int)(textureSize * ClientSideController.HEIGHTDISTANCE * 2)));
 
-                float crystalInset = size.X * 0.05f;
+                float crystalInset = size.X * 0.05f, crystalOffset = size.Y * 0.05f;
 
-                hpCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), healthTexture, new Vector2(crystalInset, currentY), Vector2.One * 1.6f * (Settings.GetResolution.Y / 720f), Color.White, 0, Vector2.Zero, SpriteEffects.None);
-                dmgCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), damageTexture, new Vector2(crystalInset, currentY + size.Y * 0.09f), Vector2.One * 1.6f * (Settings.GetResolution.Y / 720f), Color.White, 0, Vector2.Zero, SpriteEffects.None);
+                hpCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), healthTexture, new Vector2(crystalInset, crystalOffset + currentY), Vector2.One * 1.6f * (Settings.GetResolution.Y / 720f), Color.White, 0, new Vector2(healthTexture.Width, healthTexture.Height) * 0.5f, SpriteEffects.None);
+                dmgCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), damageTexture, new Vector2(crystalInset, crystalOffset + currentY + size.Y * 0.09f), Vector2.One * 1.6f * (Settings.GetResolution.Y / 720f), Color.White, 0, new Vector2(healthTexture.Width, healthTexture.Height) * 0.5f, SpriteEffects.None);
 
-                float textSize = 1.2f * (Settings.GetResolution.Y / 720f);
+                float textSize = 1.2f * (Settings.GetResolution.Y / 720f), textOffset = -size.Y * 0.001f;
 
-                hps[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, currentY), Color.White);
-                dmgs[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, currentY + size.Y * 0.09f), Color.White);
-                hps2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + 0.01f, currentY + 0.01f), Color.Black);
-                dmgs2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + 0.01f, currentY + size.Y * 0.09f + 0.01f), Color.Black);
+                hps[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, textOffset + crystalOffset + currentY), Color.White);
+                dmgs[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, textOffset + crystalOffset + currentY + size.Y * 0.09f), Color.White);
+                hps2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + size.X * 0.004f, textOffset + crystalOffset + currentY + size.Y * 0.004f), Color.Black);
+                dmgs2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + size.X * 0.004f, textOffset + crystalOffset + currentY + size.Y * 0.09f + size.Y * 0.004f), Color.Black);
 
                 if (i == 0)
                 {
