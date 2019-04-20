@@ -272,6 +272,15 @@ namespace Zettalith
         public void CloseLogistics()
         {
             logisticsGUI.Active = false;
+            perkGUI.Active = false;
+            buffGUI.Active = false;
+            bonusGUI.Active = false;
+            if (managementGUI.Active == true)
+            {
+                int manaToIncrease = new Random().Next(0, 3);
+                InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 2 ? 1 : 0));
+                managementGUI.Active = false;
+            }
         }
 
         public void OpenBattle()

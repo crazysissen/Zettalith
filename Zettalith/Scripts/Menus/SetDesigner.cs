@@ -18,7 +18,7 @@ namespace Zettalith
 
         GUI.Button bCreate, bBack, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, bNext, bDone, bCopy;
 
-        Renderer.SpriteScreen collectionInspectorLines, setDesignerLines, topSubPiece, middleSubPiece, bottomSubPiece, highlight;
+        Renderer.SpriteScreen topSubPiece, middleSubPiece, bottomSubPiece, highlight;
 
         Renderer.Text topName, topHealth, topAttack, topMana, topDesc, middleName, middleHealth, middleAttack, middleMana, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc;
 
@@ -31,7 +31,7 @@ namespace Zettalith
         List<Middle> unlockedMiddleList;
         List<Bottom> unlockedBottomList;
 
-        Texture2D miniLith2D, arrow2D, arrowHover2D, arrowPressed2D, highlight2D, bDelete2D, setNamePlate2D;
+        Texture2D miniLith2D, arrow2D, arrowHover2D, arrowPressed2D, highlight2D, bDelete2D, setNamePlate2D, button2D;
 
         int currentlyShowingTop = 0, currentlyShowingMiddle = 0, currentlyShowingBottom = 0, selectedPiece = 0, setBeingModifiedIndex;
 
@@ -61,6 +61,7 @@ namespace Zettalith
             highlight2D = Load.Get<Texture2D>("Highlighted");
             bDelete2D = Load.Get<Texture2D>("DeleteButton");
             setNamePlate2D = Load.Get<Texture2D>("SetNamePlate");
+            button2D = Load.Get<Texture2D>("Button1");
 
             RendererController.GUI.Add(collections);
 
@@ -106,15 +107,14 @@ namespace Zettalith
             }
 
             #region //CollectionInspector
-            bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
-            bCreate.AddText("Create Deck", 4, true, textColor, Font.Default);
+            bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * button2D.Width) * 7, (int)(Ztuff.SizeResFactor * button2D.Height) * 7), button2D);
+            bCreate.AddText("Create Deck", 4, true, Color.White, Font.Default);
             bCreate.OnClick += BCreateSet;
 
-            bBack = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.023f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
-            bBack.AddText("Back", 4, true, textColor, Font.Default);
+            bBack = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.01f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * button2D.Width) * 7, (int)(Ztuff.SizeResFactor * button2D.Height) * 7), button2D);
+            bBack.AddText("Back", 4, true, Color.White, Font.Default);
             bBack.OnClick += BBackToMain;
-
-            collectionInspectorLines = new Renderer.SpriteScreen(collectionLayer, Load.Get<Texture2D>("CollectionInspectorLines"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
+            
 
             int numOfSavedSets = PersonalData.UserData.SavedSets.Count(), curPosInRow = 0, curPosVert = 0;
 
@@ -209,15 +209,14 @@ namespace Zettalith
             bottomMana = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue"), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.618f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             bottomDesc = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.654f)), new Vector2(0, 0), textColor, SpriteEffects.None);
             #endregion
-
-            setDesignerLines = new Renderer.SpriteScreen(designerLayer, Load.Get<Texture2D>("SetDesignerLines"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
+            
             #endregion
 
             topFullDesc.Add(topName, topHealth, topAttack, topMana, topDesc);
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleMana, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc);
-            collectionInspector.Add(bCreate, bBack, collectionInspectorLines);
-            setDesigner.Add(setDesignerLines, bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy);
+            collectionInspector.Add(bCreate, bBack);
+            setDesigner.Add(bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy);
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 setDesigner.Add(miniliths[i]);
