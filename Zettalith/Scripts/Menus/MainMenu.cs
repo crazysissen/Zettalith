@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Zettalith
 {
@@ -19,12 +20,20 @@ namespace Zettalith
         Renderer.AnimatorScreen background;
         GUI.Button bHost, bJoin, bArmies, bSettings, bQuit;
 
+        SoundEffect song;
+
         public void Initialize(MainController controller)
         {
             this.controller = controller;
 
             int buttonHeight = Settings.GetResolution.Y / 20, buttonSpace = Settings.GetResolution.Y / 48;
             int tempButtonWidth = 5 * Settings.GetResolution.X / 48;
+
+            if (!XNAController.LocalGameClient)
+            {
+                song = Load.Get<SoundEffect>("Druids");
+                Sound.PlaySong(song);
+            }
 
             collection = new GUI.Collection();
             main = new GUI.Collection()

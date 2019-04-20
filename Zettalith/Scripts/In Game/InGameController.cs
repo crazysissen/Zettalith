@@ -397,7 +397,7 @@ namespace Zettalith
             {
                 ResetAttacks();
                 Execute(GameAction.RequestEndTurn, true);
-                Local.ClientController.CloseBattle();
+                
                 gameState = InGameState.Wait;
             }
         }

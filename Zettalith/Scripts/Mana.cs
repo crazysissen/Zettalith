@@ -50,6 +50,8 @@ namespace Zettalith
             return false;
         }
 
+        public override string ToString() => "R: " + Red + ", G: " + Green + ", B: " + Blue;
+
         public override int GetHashCode() => base.GetHashCode();
     }
 }

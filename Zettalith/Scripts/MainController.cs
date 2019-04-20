@@ -73,6 +73,8 @@ namespace Zettalith
 
             SaveLoad.Initialize();
 
+            Sound.Init();
+
             xnaController = game;
             stateManager = new StateManager(GameState.MainMenu, 0);
 

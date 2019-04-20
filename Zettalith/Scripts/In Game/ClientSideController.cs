@@ -66,7 +66,8 @@ namespace Zettalith
         InGameController controller;
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
-        Point mouseDownPosition;
+        InfoBox infoBox;
+        Point mouseDownPosition, rightMouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
 
@@ -97,6 +98,8 @@ namespace Zettalith
             collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI);
 
             hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI, controller, this, player);
+
+            infoBox = new InfoBox(collection);
 
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
@@ -167,6 +170,8 @@ namespace Zettalith
         {
             AnimatePieces(deltaTime);
             Pieces(deltaTime, gameState == InGameState.Battle);
+
+            infoBox.Update(deltaTime);
 
             if (gameState == InGameState.Battle)
             {
@@ -264,6 +269,11 @@ namespace Zettalith
             battleGUI.Active = false;
         }
 
+        public void CloseLogistics()
+        {
+            logisticsGUI.Active = false;
+        }
+
         public void OpenBattle()
         {
             battleGUI.Active = true;
@@ -350,7 +360,7 @@ namespace Zettalith
 
         void Pieces(float deltaTime, bool moveable)
         {
-            bool leftMouse = Input.LeftMouse, leftMouseDown = Input.LeftMouseDown;
+            bool leftMouse = Input.LeftMouse, leftMouseDown = Input.LeftMouseDown, rightMouse = Input.RightMouse, rightMouseDown = Input.RightMouseDown;
             List<TilePiece> highlightedPieces = new List<TilePiece>();
             highlightedPiece = null;
 
@@ -460,6 +470,21 @@ namespace Zettalith
                 {
                     interactionPiece = highlightedPiece;
                     mouseDownPosition = Input.MousePosition;
+                }
+
+                infoBox.Close();
+            }
+
+            if (rightMouseDown)
+            {
+                if (highlightedPiece != null)
+                {
+                    infoBox.Set(highlightedPiece);
+                    infoBox.Open();
+                }
+                else
+                {
+                    infoBox.Close();
                 }
             }
 
