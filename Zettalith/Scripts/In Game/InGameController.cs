@@ -328,6 +328,8 @@ namespace Zettalith
         public void PlacePiece(int pieceIndex, int x, int y, int player)
         {
             InGamePiece piece = InGamePiece.Pieces[pieceIndex];
+            piece.HasMoved = true;
+            piece.HasAttacked = true;
 
             TileObject obj = Grid.Place(x, y, new TilePiece(piece, player));
 
@@ -356,7 +358,7 @@ namespace Zettalith
             }
 
             //TODO: Unit already attacked pop-up?
-            Test.Log("Unit already attacked");
+            Test.Log("Unit cannot attack");
         }
 
         public void ActivateAbility(int pieceIndex, object[] data)
@@ -385,7 +387,7 @@ namespace Zettalith
             }
 
             //TODO: Unit already moved pop-up?
-            Test.Log("Unit already moved");
+            Test.Log("Unit cannot move");
         }
 
         public void EndGame(int winnerIndex)

@@ -16,6 +16,7 @@ namespace Zettalith.Pieces
             Health = 1;
             AttackDamage = 2;
             MoveRange = 1;
+            MovementTime = 2;
             Texture = Load.Get<Texture2D>("SixtenBottom3");
         }
 

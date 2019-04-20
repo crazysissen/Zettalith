@@ -107,6 +107,11 @@ namespace Zettalith
                     }
                 }
 
+                if (modified.Health > modified.MaxHealth)
+                {
+                    modified.Health = modified.MaxHealth;
+                }
+
                 return modified;
             }
         }

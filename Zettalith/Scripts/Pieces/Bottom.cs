@@ -11,6 +11,8 @@ namespace Zettalith
     {
         public int MoveRange { get; set; }
 
+        public float MovementTime { get; set; }
+
         public virtual List<Point> RequestMove(Point origin)
         {
             return null;
