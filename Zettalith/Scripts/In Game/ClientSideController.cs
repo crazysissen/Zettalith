@@ -163,6 +163,7 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
+            AnimatePieces(deltaTime);
             Pieces(deltaTime, gameState == InGameState.Battle);
 
             if (gameState == InGameState.Battle)
@@ -322,8 +323,6 @@ namespace Zettalith
 
         void Pieces(float deltaTime, bool moveable)
         {
-            AnimatePieces(deltaTime);
-
             bool leftMouse = Input.LeftMouse, leftMouseDown = Input.LeftMouseDown;
             List<TilePiece> highlightedPieces = new List<TilePiece>();
             highlightedPiece = null;
