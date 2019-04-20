@@ -42,8 +42,8 @@ namespace Zettalith
             loadThread = new Thread(Setup);
             loadThread.Start();
 
-            animation = Load.Get<Texture2D>("LoadingScreen");
-            loading = new Renderer.AnimatorScreen(Layer.Default, animation, new Point(128, 72), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+            animation = Load.Get<Texture2D>("LoadingScreen2");
+            loading = new Renderer.AnimatorScreen(Layer.Default, animation, new Point(240, 135), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
         }
 
         public void Update(float deltaTime)
