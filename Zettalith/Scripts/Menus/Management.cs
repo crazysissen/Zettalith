@@ -35,7 +35,7 @@ namespace Zettalith
             bGreen = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 10)), mana2D, Color.Green) { ScaleEffect = true };
             bGreen.OnClick += BGreen;
 
-            bBlue = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 10)), mana2D, Color.Blue) { ScaleEffect = true };
+            bBlue = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D .Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 10)), mana2D, Color.Blue) { ScaleEffect = true };
             bBlue.OnClick += BBlue;
 
             collection.Add(grey, managementText, bRed, bBlue, bGreen);
