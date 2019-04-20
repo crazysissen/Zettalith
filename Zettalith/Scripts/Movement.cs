@@ -47,13 +47,19 @@ namespace Zettalith
         /// For the int array: Down, Right, Up, Left
         /// </summary>
         /// <param name="origin"></param>
-        /// <param name="moveRanges"></param>
+        /// <param name="tempRanges"></param>
         /// <returns></returns>
         public static List<Point> Straight(Point origin, int[] moveRanges)
         {
             List<Point> points = new List<Point>();
+            int[] tempRanges = moveRanges;
 
-            for (int i = 1; i <= moveRanges[0]; ++i)
+            if (!InGameController.IsHost)
+            {
+                tempRanges = new int[] { tempRanges[2], tempRanges[3], tempRanges[0], tempRanges[1] };
+            }
+
+            for (int i = 1; i <= tempRanges[0]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X, origin.Y + i))
                     points.Add(new Point(origin.X, origin.Y + i));
@@ -61,7 +67,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i <= moveRanges[1]; ++i)
+            for (int i = 1; i <= tempRanges[1]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X + i, origin.Y))
                     points.Add(new Point(origin.X + i, origin.Y));
@@ -69,7 +75,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i <= moveRanges[2]; ++i)
+            for (int i = 1; i <= tempRanges[2]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X, origin.Y - i))
                     points.Add(new Point(origin.X, origin.Y - i));
@@ -77,7 +83,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i <= moveRanges[3]; ++i)
+            for (int i = 1; i <= tempRanges[3]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X - i, origin.Y))
                     points.Add(new Point(origin.X - i, origin.Y));
@@ -126,13 +132,19 @@ namespace Zettalith
         /// For the int array: Bottom-right, Top-right, Top-left, Bottom-left
         /// </summary>
         /// <param name="origin"></param>
-        /// <param name="moveRanges"></param>
+        /// <param name="tempRanges"></param>
         /// <returns></returns>
         public static List<Point> Diagonal(Point origin, int[] moveRanges)
         {
             List<Point> points = new List<Point>();
+            int[] tempRanges = moveRanges;
 
-            for (int i = 1; i <= moveRanges[0]; ++i)
+            if (!InGameController.IsHost)
+            {
+                tempRanges = new int[] { tempRanges[2], tempRanges[3], tempRanges[0], tempRanges[1] };
+            }
+
+            for (int i = 1; i <= tempRanges[0]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X + i, origin.Y + i))
                     points.Add(new Point(origin.X + i, origin.Y + i));
@@ -140,7 +152,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i <= moveRanges[1]; ++i)
+            for (int i = 1; i <= tempRanges[1]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X + i, origin.Y - i))
                     points.Add(new Point(origin.X + i, origin.Y - i));
@@ -148,7 +160,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i <= moveRanges[2]; ++i)
+            for (int i = 1; i <= tempRanges[2]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X - i, origin.Y - i))
                     points.Add(new Point(origin.X - i, origin.Y - i));
@@ -156,7 +168,7 @@ namespace Zettalith
                     break;
             }
 
-            for (int i = 1; i <= moveRanges[3]; ++i)
+            for (int i = 1; i <= tempRanges[3]; ++i)
             {
                 if (InGameController.Grid.Vacant(origin.X - i, origin.Y + i))
                     points.Add(new Point(origin.X - i, origin.Y + i));
