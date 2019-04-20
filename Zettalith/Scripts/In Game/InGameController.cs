@@ -344,7 +344,19 @@ namespace Zettalith
 
         public void ActivateAttack(int attacking, int recieving)
         {
+            TilePiece attacker = (TilePiece)Grid.GetObject(Grid[attacking].Position.X, Grid[attacking].Position.Y);
+            TilePiece reciever = (TilePiece)Grid.GetObject(Grid[recieving].Position.X, Grid[recieving].Position.Y);
 
+            if (!attacker.Piece.HasAttacked)
+            {
+                Modifier mod = new Addition(new Stats(-attacker.Piece.ModifiedStats.AttackDamage), true);
+                reciever.Piece.ModThis(mod);
+                attacker.Piece.HasAttacked = true;
+                return;
+            }
+
+            // TODO: Unit already attacked pop-up?
+            Test.Log("Unit already attacked");
         }
 
         public void ActivateAbility(int pieceIndex, object[] data)
@@ -383,6 +395,7 @@ namespace Zettalith
         {
             if (gameState == InGameState.Battle)
             {
+                ResetAttacks();
                 Execute(GameAction.RequestEndTurn, true);
                 Local.ClientController.CloseBattle();
                 gameState = InGameState.Wait;
@@ -408,6 +421,21 @@ namespace Zettalith
             // TODO: REFRESH MANA
             LocalMana = Local.BaseMana;
             RemoteMana = Remote.BaseMana;
+        }
+
+        void ResetAttacks()
+        {
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TilePiece piece = Grid[i] as TilePiece;
+
+                if (piece == null)
+                {
+                    continue;
+                }
+
+                piece.Piece.HasAttacked = false;
+            }
         }
 
         private Player CreateLocalPlayer()

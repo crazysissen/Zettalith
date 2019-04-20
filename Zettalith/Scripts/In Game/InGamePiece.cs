@@ -29,6 +29,8 @@ namespace Zettalith
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
+        public bool HasAttacked { get; set; }
+
         List<Modifier> modifiers = new List<Modifier>();
 
         public InGamePiece(Piece piece)

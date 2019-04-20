@@ -22,11 +22,11 @@ namespace Zettalith.Pieces
 
         public OneSideTwoUp()
         {
-            Name = "One to the side and two to the up noggers";
+            Name = "Viking Legs";
             Health = 2;
             AttackDamage = 0;
-            ManaCost = new Mana(2, 1, 0);
-            MoveCost = new Mana(2, 1, 0);
+            ManaCost = new Mana(2, 0, 0);
+            MoveCost = new Mana(1, 0, 0);
             MoveRange = 0;
             Texture = Load.Get<Texture2D>("TPBottom");
 
