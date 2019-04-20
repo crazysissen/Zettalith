@@ -372,11 +372,20 @@ namespace Zettalith
         {
             TilePiece piece = Grid[pieceIndex] as TilePiece;
 
-            piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
+            if (!piece.Piece.HasMoved)
+            {
+                piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
-            Local.ClientController.PlacePieceAnimation(piece);
+                Local.ClientController.PlacePieceAnimation(piece);
 
-            players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+                players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+
+                piece.Piece.HasMoved = true;
+                return;
+            }
+
+            //TODO: Unit already moved pop-up?
+            Test.Log("Unit already moved");
         }
 
         public void EndGame(int winnerIndex)
@@ -396,6 +405,7 @@ namespace Zettalith
             if (gameState == InGameState.Battle)
             {
                 ResetAttacks();
+                ResetMovements();
                 Execute(GameAction.RequestEndTurn, true);
                 
                 gameState = InGameState.Wait;
@@ -435,6 +445,21 @@ namespace Zettalith
                 }
 
                 piece.Piece.HasAttacked = false;
+            }
+        }
+
+        void ResetMovements()
+        {
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TilePiece piece = Grid[i] as TilePiece;
+
+                if (piece == null)
+                {
+                    continue;
+                }
+
+                piece.Piece.HasMoved = false;
             }
         }
 
