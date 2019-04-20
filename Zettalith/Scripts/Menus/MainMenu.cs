@@ -40,28 +40,29 @@ namespace Zettalith
             RendererController.GUI.Add(collection);
 
             Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
+            Texture2D buttonTexture = Load.Get<Texture2D>("Button1");
 
             float textSize = 4 * (Settings.GetResolution.Y / 1080f);
 
             //title = new Renderer.Text(new Layer(MainLayer.GUI, 0), Font.Styled, "Zettalith", textSize * 2.5f, 0, new Vector2((float)(Settings.GetResolution.X * -0.09), (float)(Settings.GetResolution.Y * -0.18)));
 
-            bHost = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bHost = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 0, tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bHost.AddText("Host", textSize, false, textColor, Font.Default);
             bHost.OnClick += BHost;
 
-            bJoin = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonColor) /*{ ScaleEffect = true }*/;
+            bJoin = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonTexture, buttonColor) /*{ ScaleEffect = true }*/;
             bJoin.AddText("Join", textSize, false, textColor, Font.Default);
             bJoin.OnClick += BJoin;
 
-            bArmies = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bArmies = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 2 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bArmies.AddText("Collection", textSize, false, textColor, Font.Default);
             bArmies.OnClick += BArmies;
 
-            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bSettings.AddText("Settings", textSize, false, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonColor) { ScaleEffect = true };
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bQuit.AddText("Quit", textSize, false, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
