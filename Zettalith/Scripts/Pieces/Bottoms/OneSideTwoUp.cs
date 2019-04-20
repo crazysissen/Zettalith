@@ -10,25 +10,15 @@ namespace Zettalith.Pieces
 {
     class OneSideTwoUp : Bottom
     {
-        //Point[] customMove = new Point[]
-        //{
-        //    new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, -2),
-        //};
-
-        int[] customMove = new int[]
-        {
-            0, 1, 2, 1,
-        };
-
         public OneSideTwoUp()
         {
-            Name = "One to the side and two to the up noggers";
+            Name = "Viking Legs";
             Health = 2;
             AttackDamage = 0;
-            ManaCost = new Mana(2, 1, 0);
-            MoveCost = new Mana(2, 1, 0);
+            ManaCost = new Mana(2, 0, 0);
+            MoveCost = new Mana(1, 0, 0);
             MoveRange = 0;
-            Texture = Load.Get<Texture2D>("TPBottom");
+            Texture = Load.Get<Texture2D>("Bottom");
 
             Description = "Capable of moving one unit to the sides or two units forward";
         }
@@ -42,5 +32,10 @@ namespace Zettalith.Pieces
         {
             InGameController.Grid.ChangePosition(piece, target.X, target.Y);
         }
+
+        int[] customMove = new int[]
+        {
+            0, 1, 2, 1,
+        };
     }
 }

@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Teleporter2()
         {
-            Name = "Teleporter 2";
+            Name = "Teleporter 3000";
             Health = 5;
             AttackDamage = 0;
             ManaCost = new Mana(5, 0, 7);
