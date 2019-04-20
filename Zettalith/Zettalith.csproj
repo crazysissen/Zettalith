@@ -87,7 +87,6 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PickPiece.cs" />
     <Compile Include="Scripts\Abilities.cs" />
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
@@ -97,7 +96,6 @@
     <Compile Include="Scripts\In Game\EndHUD.cs" />
     <Compile Include="Scripts\In Game\HUD.cs" />
     <Compile Include="Scripts\In Game\InGameHUD.cs" />
-    <Compile Include="Scripts\In Game\BonusHUD.cs" />
     <Compile Include="Scripts\In Game\BuffHud.cs" />
     <Compile Include="Scripts\In Game\PerkBuffBonusEffects.cs" />
     <Compile Include="Scripts\In Game\PerkHUD.cs" />

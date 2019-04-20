@@ -67,7 +67,6 @@ namespace Zettalith
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
         Point mouseDownPosition;
-        PickPiece pickingPiece = new PickPiece();
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
 
@@ -307,14 +306,9 @@ namespace Zettalith
             logisticsGUI.Active = true;
         }
 
-        public void CloseBuffs()
+        public void CloseBuffsAndBonus()
         {
             buffGUI.Active = false;
-            logisticsGUI.Active = true;
-        }
-
-        public void CloseBonus()
-        {
             bonusGUI.Active = false;
             logisticsGUI.Active = true;
         }
@@ -432,7 +426,17 @@ namespace Zettalith
 
                 if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
                 {
-                    player.RequestAction(interactionPiece);
+
+                    if (Ztuff.pickingPiece == false)
+                    {
+                        player.RequestAction(interactionPiece);
+                    }
+                    else
+                    {
+                        MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
+                        Ztuff.RestoreFromBuff();
+                        Ztuff.pickingPiece = false;
+                    }
                 }
 
                 ghost?.Destroy();
