@@ -24,7 +24,7 @@ namespace Zettalith
         {
             if (newState == InGameState.Battle)
             {
-                ClientController.CloseBattle();
+                ClientController.CloseLogistics();
                 ClientController.OpenBattle();
 
                 return;

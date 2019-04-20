@@ -72,14 +72,14 @@ namespace Zettalith
 
                 float crystalInset = size.X * 0.05f;
 
-                hpCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), healthTexture, new Vector2(crystalInset, currentY), Vector2.One * 0.1f * size.Y, Color.White, 0, Vector2.Zero, SpriteEffects.None);
-                dmgCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), damageTexture, new Vector2(crystalInset, currentY + size.Y * 0.09f), Vector2.One * 0.1f * size.Y, Color.White, 0, Vector2.Zero, SpriteEffects.None);
+                hpCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), healthTexture, new Vector2(crystalInset, currentY), Vector2.One * 1.6f * (Settings.GetResolution.Y / 720f), Color.White, 0, Vector2.Zero, SpriteEffects.None);
+                dmgCs[i] = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -9), damageTexture, new Vector2(crystalInset, currentY + size.Y * 0.09f), Vector2.One * 1.6f * (Settings.GetResolution.Y / 720f), Color.White, 0, Vector2.Zero, SpriteEffects.None);
 
                 float textSize = 1.2f * (Settings.GetResolution.Y / 720f);
 
                 hps[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, currentY), Color.White);
-                dmgs[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + 0.01f, currentY + 0.01f), Color.White);
-                hps2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, currentY + size.Y * 0.09f), Color.Black);
+                dmgs[i] = new Renderer.Text(new Layer(MainLayer.GUI, -7), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset, currentY + size.Y * 0.09f), Color.White);
+                hps2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + 0.01f, currentY + 0.01f), Color.Black);
                 dmgs2[i] = new Renderer.Text(new Layer(MainLayer.GUI, -8), Font.Styled, i.ToString(), textSize, 0, new Vector2(crystalInset + 0.01f, currentY + size.Y * 0.09f + 0.01f), Color.Black);
 
                 if (i == 0)
@@ -134,6 +134,8 @@ namespace Zettalith
 
                 this.subPieces[i].Texture = subPieces[i].Texture;
             }
+
+            SetTextOrigins();
         }
 
         public void Open()
