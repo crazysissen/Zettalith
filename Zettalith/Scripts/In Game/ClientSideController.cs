@@ -67,6 +67,7 @@ namespace Zettalith
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
         Point mouseDownPosition;
+        PickPiece pickingPiece = new PickPiece();
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
 

@@ -87,6 +87,7 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PickPiece.cs" />
     <Compile Include="Scripts\Abilities.cs" />
     <Compile Include="Scripts\Ability.cs" />
     <Compile Include="Scripts\BenneBoiStats\Achievement.cs" />
