@@ -29,7 +29,7 @@ namespace Zettalith
             LogisticsHUD = new LogisticsHUD(logisticsCollection, igc, player, csc);
             EndHUD = new EndHUD(endCollection, igc, player, csc);
             PerkHUD = new PerkHUD(perkCollection, igc, player, csc);
-            BuffHUD = new BuffHUD(buffCollection, igc, player, csc);
+            BuffHUD = new BuffHUD(buffCollection, igc, player, csc, Collection);
             BonusHUD = new BonusHUD(bonusCollection, igc, player, csc);
         }
 

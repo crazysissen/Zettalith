@@ -35,8 +35,10 @@ namespace Zettalith
             bPerks.OnClick += csc.OpenPerks;
 
             bBuffs = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Buff Shop Button")) { ScaleEffect = true };
+            bBuffs.OnClick += csc.OpenBuff;
 
             bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.65f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
+            bBonuses.OnClick += csc.OpenBonus;
 
             essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.83f, Settings.GetResolution.Y * 0.006f), new Vector2(), Color.Blue);
             essence.Position = new Vector2(essence.Position.X - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
