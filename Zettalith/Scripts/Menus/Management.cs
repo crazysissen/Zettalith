@@ -49,21 +49,21 @@ namespace Zettalith
 
         public void BRed()
         {
-            InGameController.LocalMana = new Mana(InGameController.LocalMana.Red + 1, InGameController.LocalMana.Blue, InGameController.LocalMana.Green);
+            InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + 1, InGameController.Local.BaseMana.Blue, InGameController.Local.BaseMana.Green);
 
             CloseManagement();
         }
 
         private void BBlue()
         {
-            InGameController.LocalMana = new Mana(InGameController.LocalMana.Red, InGameController.LocalMana.Blue + 1, InGameController.LocalMana.Green);
+            InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red, InGameController.Local.BaseMana.Blue + 1, InGameController.Local.BaseMana.Green);
 
             CloseManagement();
         }
 
         public void BGreen()
         {
-            InGameController.LocalMana = new Mana(InGameController.LocalMana.Red, InGameController.LocalMana.Blue, InGameController.LocalMana.Green + 1);
+            InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red, InGameController.Local.BaseMana.Blue, InGameController.Local.BaseMana.Green + 1);
 
             CloseManagement();
         }
