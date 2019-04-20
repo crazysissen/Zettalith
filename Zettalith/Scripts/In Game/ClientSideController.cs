@@ -402,19 +402,11 @@ namespace Zettalith
                 AddHighlight(highlightedPiece.Player == InGameController.PlayerIndex ? defaultHighlightColor : defaultEnemyHighlightColor, highlightedPiece.Position);
             }
 
-            if (moveable)
-            {
-                BoardMove(leftMouseDown, leftMouse, highlightedPiece);
-            }
-        }
-
-        void BoardMove(bool leftMouseDown, bool leftMouse, TilePiece highlightedPiece)
-        {
             if (!leftMouse && interactionPiece != null)
             {
                 float distance = (Input.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
 
-                if (movementHighlight != null)
+                if (moveable && movementHighlight != null)
                 {
                     if (movementHighlight.Contains(MousePoint.ToRender()))
                     {
@@ -425,7 +417,7 @@ namespace Zettalith
                     }
                 }
 
-                if (meleeHighlight != null)
+                if (moveable && meleeHighlight != null)
                 {
                     if (meleeHighlight.Contains(MousePoint.ToRender()))
                     {
@@ -450,7 +442,6 @@ namespace Zettalith
                 interactionPiece = null;
             }
 
-
             if (leftMouseDown)
             {
                 if (highlightedPiece != null)
@@ -459,8 +450,15 @@ namespace Zettalith
                     mouseDownPosition = Input.MousePosition;
                 }
             }
-            
 
+            if (moveable)
+            {
+                BoardMove(leftMouseDown, leftMouse, highlightedPiece);
+            }
+        }
+
+        void BoardMove(bool leftMouseDown, bool leftMouse, TilePiece highlightedPiece)
+        {
             if (leftMouse && interactionPiece != null)
             {
                 float distance = (Input.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
