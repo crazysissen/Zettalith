@@ -50,7 +50,7 @@ namespace Zettalith
         public Vector2[,] backgroundPositions;
 
         InGameHUD hud;
-        GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
+        GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI, managementGUI;
 
         Renderer.Text splash;
         Renderer.Sprite ghost;
@@ -90,12 +90,14 @@ namespace Zettalith
             perkGUI = new GUI.Collection();
             buffGUI = new GUI.Collection();
             bonusGUI = new GUI.Collection();
+            managementGUI = new GUI.Collection();
             endGUI = new GUI.Collection() { Origin = (res * 0.5f).ToPoint() };
+            
 
             RendererController.GUI.Add(collection);
-            collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI);
+            collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI);
 
-            hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, controller, this, player);
+            hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI, controller, this, player);
 
             infoBox = new InfoBox(collection);
 
@@ -285,11 +287,17 @@ namespace Zettalith
         public void OpenLogistics()
         {
             battleGUI.Active = false;
-            logisticsGUI.Active = true;
+            logisticsGUI.Active = false;
+            managementGUI.Active = true;
 
             splash.String = new StringBuilder("Opponent's Turn");
             splash.Origin = splash.Font.MeasureString("Opponent's Turn") * 0.5f;
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+        }
+
+        public void ForceOpenLogistics()
+        {
+            logisticsGUI.Active = true;
         }
 
         public void OpenPerks()
@@ -316,14 +324,9 @@ namespace Zettalith
             logisticsGUI.Active = true;
         }
 
-        public void CloseBuffs()
+        public void CloseBuffsAndBonus()
         {
             buffGUI.Active = false;
-            logisticsGUI.Active = true;
-        }
-
-        public void CloseBonus()
-        {
             bonusGUI.Active = false;
             logisticsGUI.Active = true;
         }
@@ -441,7 +444,17 @@ namespace Zettalith
 
                 if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
                 {
-                    player.RequestAction(interactionPiece);
+
+                    if (Ztuff.pickingPiece == false)
+                    {
+                        player.RequestAction(interactionPiece);
+                    }
+                    else
+                    {
+                        MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
+                        Ztuff.RestoreFromBuff();
+                        Ztuff.pickingPiece = false;
+                    }
                 }
 
                 ghost?.Destroy();

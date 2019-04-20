@@ -17,20 +17,44 @@ namespace Zettalith
         public EndHUD EndHUD { get; private set; }
         public PerkHUD PerkHUD { get; private set; }
         public BuffHUD BuffHUD { get; private set; }
-        public BonusHUD BonusHUD { get; private set; }
+        public BuffHUD BonusHUD { get; private set; }
+        public ManagementHUD ManagementHUD { get; private set; }
 
         GUI.Collection collection;
 
-        public InGameHUD(GUI.Collection inGameCollection, GUI.Collection perkCollection, GUI.Collection buffCollection, GUI.Collection bonusCollection, GUI.Collection battleCollection, GUI.Collection logisticsCollection, GUI.Collection endCollection, InGameController igc, ClientSideController csc, PlayerLocal player)
+        
+
+        public InGameHUD(GUI.Collection inGameCollection, GUI.Collection perkCollection, GUI.Collection buffCollection, GUI.Collection bonusCollection, GUI.Collection battleCollection, GUI.Collection logisticsCollection, GUI.Collection endCollection, GUI.Collection managementCollection, InGameController igc, ClientSideController csc, PlayerLocal player)
         {
             Collection = inGameCollection;
+
+            Buff[] buffs = new Buff[]
+            {
+            new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection)
+            };
+
+            Buff[] bonuses = new Buff[]
+            {
+            new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
+            new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection)
+            };
 
             BattleHUD = new BattleHUD(battleCollection, igc, player, csc);
             LogisticsHUD = new LogisticsHUD(logisticsCollection, igc, player, csc);
             EndHUD = new EndHUD(endCollection, igc, player, csc);
             PerkHUD = new PerkHUD(perkCollection, igc, player, csc);
-            BuffHUD = new BuffHUD(buffCollection, igc, player, csc, Collection);
-            BonusHUD = new BonusHUD(bonusCollection, igc, player, csc);
+            BuffHUD = new BuffHUD(buffCollection, igc, player, buffs, csc);
+            BonusHUD = new BuffHUD(bonusCollection, igc, player, bonuses, csc);
+            ManagementHUD = new ManagementHUD(managementCollection, igc, player, bonuses, csc);
         }
 
         public void Update(float deltaTime)
@@ -41,6 +65,7 @@ namespace Zettalith
             PerkHUD.Update(deltaTime);
             BuffHUD.Update(deltaTime);
             BonusHUD.Update(deltaTime);
+            ManagementHUD.Update(deltaTime);
         }
     }
 

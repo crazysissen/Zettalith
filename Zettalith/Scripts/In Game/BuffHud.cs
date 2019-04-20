@@ -18,27 +18,18 @@ namespace Zettalith
 
         Buff[] allBuffs;
 
-        public BuffHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc, GUI.Collection aMainCollection) : base(igc, p, csc)
+        public BuffHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, Buff[] someBuffs, ClientSideController csc) : base(igc, p, csc)
         {
             this.collection = collection;
-            mainCollection = aMainCollection;
 
             background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 5), Load.Get<Texture2D>("Shop Background"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
             int tempCloseButtonSize = 6;
             Texture2D bCloseTexture = Load.Get<Texture2D>("DeleteButton");
             bClose = new GUI.Button(new Layer(MainLayer.GUI, 7), new Rectangle((int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.1f), tempCloseButtonSize * (int)(Ztuff.SizeResFactor * bCloseTexture.Bounds.Width), tempCloseButtonSize * (int)(Ztuff.SizeResFactor * bCloseTexture.Bounds.Height)), bCloseTexture) { ScaleEffect = true };
-            bClose.OnClick += csc.CloseBuffs;
+            bClose.OnClick += csc.CloseBuffsAndBonus;
 
-            allBuffs = new Buff[]
-            {
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, csc, mainCollection),
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, csc, mainCollection),
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, csc, mainCollection),
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, csc, mainCollection),
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, csc, mainCollection),
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, csc, mainCollection)
-            };
+            allBuffs = someBuffs;
 
             int row;
             int iThisRow;
@@ -90,10 +81,9 @@ namespace Zettalith
         public int GreenCost { get; set; }
         public int BlueCost { get; set; }
         public int EssenceCost { get; set; }
-        ClientSideController theCSC;
         GUI.Collection theCOL;
 
-        public Buff(string name, string description, int effect, int costRedMana, int costGreenMana, int costBlueMana, int costEssence, ClientSideController csc, GUI.Collection col)
+        public Buff(string name, string description, int effect, int costRedMana, int costGreenMana, int costBlueMana, int costEssence, GUI.Collection col)
         {
             BuffName = name;
             BuffDescription = description;
@@ -102,7 +92,6 @@ namespace Zettalith
             GreenCost = costGreenMana;
             BlueCost = costBlueMana;
             EssenceCost = costEssence;
-            theCSC = csc;
             theCOL = col;
             Texture2D buttonTexture = Load.Get<Texture2D>("BuffButton");
             AccessButton = new GUI.Button(new Layer(MainLayer.GUI, 7), new Rectangle(0, 0, (int)((int)(Ztuff.SizeResFactor * buttonTexture.Bounds.Width) * 6f), (int)((int)(Ztuff.SizeResFactor * buttonTexture.Bounds.Height) * 6f)), buttonTexture);
@@ -117,9 +106,8 @@ namespace Zettalith
                 InGameController.LocalEssence -= EssenceCost;
 
                 theCOL.Active = false;
-
-
-                //theCSC.MyEffectCache.AListOfSints.Add(new Sints(Effect, target));
+                Ztuff.RecieveEffect(Effect, theCOL);
+                Ztuff.pickingPiece = true;
             }
         }
     }
