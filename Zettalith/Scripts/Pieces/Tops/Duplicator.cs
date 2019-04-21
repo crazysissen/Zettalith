@@ -60,7 +60,7 @@ namespace Zettalith.Pieces
             Point pos = (SPoint)data[0];
             TilePiece duplicator = (TilePiece)InGameController.Grid[(int)data[1]];
             InGamePiece piece = new InGamePiece(new Piece((byte)duplicator.Piece.Top.ToIndex(), (byte)duplicator.Piece.Middle.ToIndex(), (byte)duplicator.Piece.Bottom.ToIndex()));
-            InGameController.Main.PlacePiece(piece.Index, pos.X, pos.Y, InGameController.PlayerIndex);
+            InGameController.Main.PlacePiece(piece.Index, pos.X, pos.Y, duplicator.Player);
 
             //TilePiece temp = new TilePiece(new InGamePiece(piece.Piece.Piece), piece.Player);
             //InGameController.Main.PlacePiece((int)data[1], pos.X, pos.Y, piece.Player);
