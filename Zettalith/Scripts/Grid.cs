@@ -11,22 +11,24 @@ namespace Zettalith
     sealed class Grid
     {
         const int
-            MAXSIZE = 4096;
+            MAXSIZE = 1024;
 
         public readonly int xLength, yLength;
 
         public Tile[,] TileArray { get; private set; }
-        public TileObject[] Objects { get; private set; }
+        public TileObject[] Objects => objects;
+
+        private TileObject[] objects;
 
         public TileObject this[int id]
         {
-            get => id >= 0 && id < Objects.Length ? Objects[id] : null;
+            get => id >= 0 && id < objects.Length ? objects[id] : null;
 
             set
             {
-                if (id >= 0 && id < Objects.Length)
+                if (id >= 0 && id < objects.Length)
                 {
-                    Objects[id] = value;
+                    objects[id] = value;
                 }
             }
         }
@@ -75,7 +77,29 @@ namespace Zettalith
             yLength = y;
 
             TileArray = new Tile[x, y];
-            Objects = new TileObject[MAXSIZE];
+            objects = new TileObject[MAXSIZE];
+        }
+
+        public List<TileObject> GetList()
+        {
+            try
+            {
+                List<TileObject> tempObjects = new List<TileObject>();
+
+                for (int i = 0; i < MAXSIZE; i++)
+                {
+                    if (objects[i]!= null)
+                    {
+                        tempObjects.Add(objects[i]);
+                    }
+                }
+
+                return tempObjects;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public Point PositionOf(int id)
@@ -101,8 +125,8 @@ namespace Zettalith
                 return;
             }
 
-            TileArray[Objects[id].Position.X, Objects[id].Position.Y].TileObject = null;
-            Objects[id] = null;
+            TileArray[Objects[id].Position.X, objects[id].Position.Y].TileObject = null;
+            objects[id] = null;
         }
 
         public void Remove(TileObject tObject)
@@ -117,7 +141,7 @@ namespace Zettalith
         {
             if (InBounds(x, y))
             {
-                Objects[TileArray[x, y].TileObject.Value] = null;
+                objects[TileArray[x, y].TileObject.Value] = null;
                 TileArray[x, y] = null;
             }
         }
@@ -144,7 +168,7 @@ namespace Zettalith
 
             int? tileObject = TileArray[x, y].TileObject;
 
-            return tileObject.HasValue ? Objects[tileObject.Value] : null;
+            return tileObject.HasValue ? objects[tileObject.Value] : null;
         }
 
         public void ChangePosition(TileObject tObject, int x, int y)
@@ -168,9 +192,9 @@ namespace Zettalith
 
         public int NewIndex()
         {
-            for (int i = 0; i < Objects.Length; i++)
+            for (int i = 0; i < objects.Length; i++)
             {
-                if (Objects[i] == null)
+                if (objects[i] == null)
                 {
                     return i;
                 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Zettalith
 {
@@ -56,6 +57,8 @@ namespace Zettalith
         Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
 
+        SoundEffect song;
+
         Point[] movementHighlight, meleeHighlight;
         List<Point> highlightSquares;
         Vector2 previousGamePosition;
@@ -67,6 +70,7 @@ namespace Zettalith
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
         InfoBox infoBox;
+        PieceStats pieceStats;
         Point mouseDownPosition, rightMouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
@@ -92,7 +96,6 @@ namespace Zettalith
             bonusGUI = new GUI.Collection();
             managementGUI = new GUI.Collection();
             endGUI = new GUI.Collection() { Origin = (res * 0.5f).ToPoint() };
-            
 
             RendererController.GUI.Add(collection);
             collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI);
@@ -100,6 +103,8 @@ namespace Zettalith
             hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI, controller, this, player);
 
             infoBox = new InfoBox(collection);
+
+            pieceStats = new PieceStats();
 
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
@@ -121,6 +126,12 @@ namespace Zettalith
             cameraMovement = new CameraMovement();
 
             MyEffectCache = new EffectCache();
+
+            song = Load.Get<SoundEffect>("Altitude");
+            if (!XNAController.LocalGameClient)
+            {
+                Sound.PlaySong(song);
+            }
         }
 
         public void CreateMap(Grid grid)
@@ -202,9 +213,17 @@ namespace Zettalith
             {
                 for (int y = 0; y < DIAMETER; y++)
                 {
-                    backgrounds[x, y].Position = backgroundPositions[x, y] + RendererController.Camera.Position * 0.7f * new Vector2(1, 0);
+                    backgrounds[x, y].Position = backgroundPositions[x, y] + RendererController.Camera.Position * 0.9f * new Vector2(1, 0);
                 }
             }
+        }
+
+        public void UpdateStats()
+        {
+            if (pieceStats == null)
+                return;
+
+            pieceStats.Update();
         }
 
         public void ComputeSendLogistics()
