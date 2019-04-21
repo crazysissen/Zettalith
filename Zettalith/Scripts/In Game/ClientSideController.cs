@@ -301,6 +301,7 @@ namespace Zettalith
                 InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 2 ? 1 : 0));
                 managementGUI.Active = false;
             }
+            Ztuff.pickingPiece = false;
         }
 
         public void OpenBattle()
@@ -471,18 +472,17 @@ namespace Zettalith
                     }
                 }
 
-                if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
+                if (distance < DRAGDISTANCE)
                 {
-
-                    if (Ztuff.pickingPiece == false)
-                    {
-                        player.RequestAction(interactionPiece);
-                    }
-                    else
+                    if (Ztuff.pickingPiece == true)
                     {
                         MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
                         Ztuff.RestoreFromBuff();
                         Ztuff.pickingPiece = false;
+                    }
+                    else if (interactionPiece.Player == InGameController.PlayerIndex)
+                    {
+                        player.RequestAction(interactionPiece);
                     }
                 }
 
