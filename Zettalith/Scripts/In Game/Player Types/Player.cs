@@ -19,7 +19,9 @@ namespace Zettalith
         protected XNAController xnaController;
         protected Player opponent;
 
-        public Mana Mana { get; set; } = new Mana(12, 18, 18);
+        // TODO: STARTING MANA
+        public Mana BaseMana { get; set; } = new Mana(15, 15, 15);
+        public Mana Mana { get; set; }
         public int Essence { get; set; }
 
         public List<TilePiece> TilePieces { get; private set; }
@@ -35,6 +37,7 @@ namespace Zettalith
             this.xnaController = xnaController;
             this.opponent = opponent;
 
+            Mana = BaseMana;
             Deck = deck;
             Set = set;
         }
@@ -42,6 +45,11 @@ namespace Zettalith
         public void SetKing(TilePiece king)
         {
             King = king;
+        }
+
+        public void AddBaseMana(Mana add)
+        {
+            BaseMana += add;
         }
 
         public void EndTurn()
@@ -56,7 +64,7 @@ namespace Zettalith
 
         public void PlacePiece(InGamePiece piece, int x, int y)
         {
-            if (InGameController.LocalMana > piece.GetCost)
+            if (InGameController.LocalMana >= piece.GetCost)
             {
                 inGameController.Execute(GameAction.Placement, true, piece.Index, x, y, InGameController.PlayerIndex);
             }
@@ -70,6 +78,31 @@ namespace Zettalith
             //return new Point[0];
         }
 
+        public Point[] RequestMelee(TilePiece piece)
+        {
+            List<Point> points = new List<Point>();
+
+            Point origin = piece.Position - new Point(1, 1);
+
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    TileObject tileObject = InGameController.Grid.GetObject(origin.X + x, origin.Y + y);
+
+                    if (tileObject is TilePiece tilePiece)
+                    {
+                        if (tilePiece.Player == InGameController.OpponentIndex)
+                        {
+                            points.Add(new Point(origin.X + x, origin.Y + y));
+                        }
+                    }
+                }
+            }
+
+            return points.ToArray();
+        }
+
         public void ExecuteMovement(TilePiece piece, Point point)
         {
             inGameController.Execute(GameAction.Movement, true, piece.GridIndex, point.X, point.Y);
@@ -78,6 +111,11 @@ namespace Zettalith
         public void ExecuteAction(TilePiece piece, object[] data)
         {
             inGameController.Execute(GameAction.Ability, true, piece.GridIndex, new OArray() { o = data });
+        }
+
+        public void ExecuteMelee(TilePiece attacker, TilePiece reciever)
+        {
+            inGameController.Execute(GameAction.Attack, true, attacker.GridIndex, reciever.GridIndex);
         }
 
         public InGamePiece TryRemoveFromHand(InGamePiece piece)

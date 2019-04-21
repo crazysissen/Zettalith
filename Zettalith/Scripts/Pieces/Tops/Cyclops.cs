@@ -14,14 +14,14 @@ namespace Zettalith.Pieces
         {
             Name = "Cycloptic Horror";
             Health = 4;
-            AttackDamage = 2;
+            AttackDamage = 0;
             AbilityRange = 0;
             ManaCost = new Mana(0, 3, 0);
             AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
 
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a straight line";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

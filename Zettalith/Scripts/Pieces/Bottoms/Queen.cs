@@ -14,13 +14,14 @@ namespace Zettalith.Pieces
         {
             Name = "Queen";
             Health = 5;
-            AttackDamage = 1;
+            AttackDamage = 0;
             ManaCost = new Mana(0, 0, 4);
             MoveCost = new Mana(0, 0, 3);
             MoveRange = 3;
-            Texture = Load.Get<Texture2D>("QueenBottom");
+            MovementTime = 1;
+            Texture = Load.Get<Texture2D>("HorseBottom");
 
-            Description = "Moves " + MoveRange + " tiles in any given direction.";
+            Description = "Moves in any direction";
         }
 
         public override List<Point> RequestMove(Point origin)

@@ -12,15 +12,16 @@ namespace Zettalith.Pieces
     {
         public OneTile()
         {
-            Name = "Tyler1";
+            Name = "One Tile";
             Health = 2;
             AttackDamage = 0;
-            ManaCost = new Mana(1, 0, 0);
-            MoveCost = new Mana(1, 0, 0);
+            ManaCost = new Mana(2, 0, 0);
+            MoveCost = new Mana(2, 0, 0);
             MoveRange = 1;
+            MovementTime = 0.5f;
             Texture = Load.Get<Texture2D>("1TileBottom");
 
-            Description = "Moves " + MoveRange + " tiles in any direction";
+            Description = "Moves in any direction";
         }
 
         public override List<Point> RequestMove(Point origin)

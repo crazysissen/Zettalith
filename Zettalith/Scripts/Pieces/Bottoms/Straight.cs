@@ -13,14 +13,15 @@ namespace Zettalith.Pieces
         public Straight()
         {
             Name = "Straight";
-            Health = 3;
+            Health = 4;
             AttackDamage = 1;
             ManaCost = new Mana(2, 0, 0);
             MoveCost = new Mana(2, 0, 0);
             MoveRange = 3;
+            MovementTime = 1;
             Texture = Load.Get<Texture2D>("1TileBottom");
 
-            Description = "Moves " + MoveRange + " tiles in a straight line.";
+            Description = "Moves in a straight line";
         }
 
         public override List<Point> RequestMove(Point origin)

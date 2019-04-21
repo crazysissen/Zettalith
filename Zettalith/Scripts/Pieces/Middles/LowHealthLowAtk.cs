@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
@@ -15,9 +14,9 @@ namespace Zettalith.Pieces
         {
             Name = "Low Health, Low Atk";
             Health = 4;
-            AttackDamage = 2;
+            AttackDamage = 1;
             ManaCost = new Mana(2, 0, 0);
-            Description = "Trash Body.";
+            Description = "Weak body with low offense";
             Texture = Load.Get<Texture2D>("LowATKLowHPMiddle");
         }
     }

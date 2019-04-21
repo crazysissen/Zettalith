@@ -42,8 +42,8 @@ namespace Zettalith
             loadThread = new Thread(Setup);
             loadThread.Start();
 
-            animation = Load.Get<Texture2D>("LoadingScreen");
-            loading = new Renderer.AnimatorScreen(Layer.Default, animation, new Point(128, 72), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
+            animation = Load.Get<Texture2D>("LoadingScreen2");
+            loading = new Renderer.AnimatorScreen(Layer.Default, animation, new Point(240, 135), new Rectangle(Point.Zero, Settings.GetResolution), Vector2.Zero, 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
         }
 
         public void Update(float deltaTime)
@@ -51,16 +51,15 @@ namespace Zettalith
             if (complete)
             {
                 loading.Destroy();
-                loading = null;
 
-                Piece kingPiece = new Piece(19, 21, 20);
+                Piece kingPiece = new Piece((byte)Subpieces.SubPieces.IndexOf(Subpieces.KingTop), (byte)Subpieces.SubPieces.IndexOf(Subpieces.KingMiddle), (byte)Subpieces.SubPieces.IndexOf(Subpieces.KingBottom));
                 InGamePiece[] kings = { new InGamePiece(kingPiece), new InGamePiece(kingPiece) };
                 loadedConfig.kings = kings;
 
                 Deck[] decks = { new Deck(loadedConfig.sets[0]), new Deck(loadedConfig.sets[1]) };
                 loadedConfig.decks = decks;
 
-                controller.Initialize(loadedConfig);
+                controller.Initialize(loadedConfig, loading);
             }
         }
 

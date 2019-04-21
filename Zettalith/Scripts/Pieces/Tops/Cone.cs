@@ -14,14 +14,14 @@ namespace Zettalith.Pieces
         {
             Name = "Fire Conjurer";
             Health = 2;
-            AttackDamage = 2;
+            AttackDamage = 0;
             AbilityRange = 3;
             ManaCost = new Mana(0, 4, 0);
             AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-4), true);
-            Texture = Load.Get<Texture2D>("King_Head");
+            Texture = Load.Get<Texture2D>("FireConjurerTop");
 
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage in a " + AbilityRange + " units long cone";
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a cone";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

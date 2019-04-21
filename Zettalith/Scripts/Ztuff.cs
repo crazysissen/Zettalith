@@ -11,10 +11,23 @@ namespace Zettalith
     static class Ztuff
     {
         public static float SizeResFactor;
+        public static int incomingEffect;
+        public static bool pickingPiece = false;
+        static GUI.Collection theGUI;
 
         static Ztuff()
         {
             SizeResFactor = Settings.GetResolution.Y / 1080f;
+        }
+
+        public static void RecieveGUI(GUI.Collection gui)
+        {
+            theGUI = gui;
+        }
+
+        public static void RestoreFromBuff()
+        {
+            theGUI.Active = true;
         }
     }
 }

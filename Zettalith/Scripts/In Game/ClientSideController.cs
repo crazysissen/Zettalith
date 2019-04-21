@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Zettalith
 {
     class ClientSideController
     {
         const int 
+            placeHeight = 2,
             DIAMETER = 7;
 
         public const float
@@ -22,8 +24,10 @@ namespace Zettalith
         static public readonly Color
             defaultHighlightColor = new Color(0, 255, 215, 255),
             defaultEnemyHighlightColor = new Color(255, 40, 0, 255),
-            movementHighlightColor = new Color(255, 200, 0, 155),
-            movementSelectedHighlightColor = new Color(255, 200, 0, 255),
+            movementHighlightColor = new Color(145, 200, 80, 155),
+            movementSelectedHighlightColor = new Color(160, 255, 45, 255),
+            meleeHighlightColor = new Color(230, 110, 20, 200),
+            meleeSelectedColor = new Color(255, 140, 35, 255),
             pieceEnemyHighlightColor = new Color(255, 172, 180, 255),
             pieceHighlightColor = new Color(172, 255, 242, 255),
             pieceCoveredColor = new Color(172, 255, 242, 80),
@@ -33,7 +37,9 @@ namespace Zettalith
         public static Vector2 TopLeftCorner { get; private set; }
         public static Vector2 BottomRightCorner { get; private set; }
 
-        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(In.MousePosition.ToVector2()); 
+        public static ParticleMap Particles { get; private set; }
+
+        public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
         public static Point MousePoint => MousePosition.RoundToPoint();
 
@@ -45,15 +51,18 @@ namespace Zettalith
         public CloudManager cloudManager;
         public EffectCache MyEffectCache;
 
-        InGameHUD hud;
-        GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI;
+        public Vector2[,] backgroundPositions;
 
-        Renderer.Text splash, essence;
-        Renderer.Text[] mana;
+        InGameHUD hud;
+        GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI, managementGUI;
+
+        Renderer.Text splash;
         Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
 
-        Point[] movementHighlight;
+        SoundEffect song;
+
+        Point[] movementHighlight, meleeHighlight;
         List<Point> highlightSquares;
         Vector2 previousGamePosition;
         Point previousScreenPosition = new Point();
@@ -63,7 +72,9 @@ namespace Zettalith
         InGameController controller;
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
-        Point mouseDownPosition;
+        InfoBox infoBox;
+        PieceStats pieceStats;
+        Point mouseDownPosition, rightMouseDownPosition;
 
         List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)> animatingPieces;
 
@@ -77,13 +88,6 @@ namespace Zettalith
             string splashText = start ? "You Start" : "Opponent Starts";
             splash = new Renderer.Text(new Layer(MainLayer.GUI, 50), Font.Bold, splashText, SPLASHSIZE, 0, Settings.GetHalfResolution.ToVector2(), 0.5f * Font.Bold.MeasureString(splashText), defaultHighlightColor);
 
-            mana = new Renderer.Text[3];
-            mana[0] = new Renderer.Text(Layer.GUI, Font.Bold, "Red: " + InGameController.LocalMana.Red, 3.5f, 0, new Vector2(10, 70));
-            mana[1] = new Renderer.Text(Layer.GUI, Font.Bold, "Blue: " + InGameController.LocalMana.Blue, 3.5f, 0, new Vector2(10, 100)); 
-            mana[2] = new Renderer.Text(Layer.GUI, Font.Bold, "Green: " + InGameController.LocalMana.Green, 3.5f, 0, new Vector2(10, 130));
-            essence = new Renderer.Text(Layer.GUI, Font.Bold, "Essence: " + InGameController.LocalEssence, 3.5f, 0, new Vector2(10, 180));
-            UpdateManaGUI();
-
             collection = new GUI.Collection();
 
             Vector2 res = Settings.GetResolution.ToVector2();
@@ -93,12 +97,21 @@ namespace Zettalith
             perkGUI = new GUI.Collection();
             buffGUI = new GUI.Collection();
             bonusGUI = new GUI.Collection();
+            managementGUI = new GUI.Collection();
             endGUI = new GUI.Collection() { Origin = (res * 0.5f).ToPoint() };
 
             RendererController.GUI.Add(collection);
-            collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, mana[0], mana[1], mana[2]);
+            collection.Add(perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI);
 
-            hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, controller, this, player);
+            hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI, controller, this, player);
+
+            infoBox = new InfoBox(collection);
+
+            Particles = new ParticleMap(collection, InGameController.Grid.xLength * 32, InGameController.Grid.yLength * 22, MainLayer.Main, TileObject.DefaultLayer(host ? 0 : InGameController.Grid.yLength - 1).layer + 1, TileObject.DefaultLayer(host ? InGameController.Grid.yLength - 1 : 0).layer + 2, true);
+
+            GUI.Collection pieceStatsCollection = new GUI.Collection();
+            pieceStats = new PieceStats(pieceStatsCollection);
+            collection.Add(pieceStatsCollection);
 
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
@@ -120,6 +133,12 @@ namespace Zettalith
             cameraMovement = new CameraMovement();
 
             MyEffectCache = new EffectCache();
+
+            song = Load.Get<SoundEffect>("Altitude");
+            if (!XNAController.LocalGameClient)
+            {
+                Sound.PlaySong(song);
+            }
         }
 
         public void CreateMap(Grid grid)
@@ -130,6 +149,7 @@ namespace Zettalith
             tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
             highlights = new Renderer.Animator[grid.xLength, grid.yLength];
             backgrounds = new Renderer.Sprite[DIAMETER, DIAMETER];
+            backgroundPositions = new Vector2[DIAMETER, DIAMETER];
 
             Vector2 centre = TopLeftCorner + (BottomRightCorner - TopLeftCorner) * 0.5f, dimension = 2 * new Vector2(backgroundTexture.Width, backgroundTexture.Height) / Camera.WORLDUNITPIXELS, origin = centre - dimension * 0.5f * DIAMETER;
 
@@ -137,7 +157,8 @@ namespace Zettalith
             {
                 for (int y = 0; y < DIAMETER; ++y)
                 {
-                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, origin + dimension * new Vector2(x, y), Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
+                    backgroundPositions[x, y] = origin + dimension * new Vector2(x, y);
+                    backgrounds[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, -10000), backgroundTexture, backgroundPositions[x, y], Vector2.One, Color.White, 0, new Vector2(backgroundTexture.Width, backgroundTexture.Height) * 0.5f, SpriteEffects.None);
                 }
             }
 
@@ -165,7 +186,15 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
+            if (Input.LeftMouse)
+            {
+                Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
+            }
+
+            AnimatePieces(deltaTime);
             Pieces(deltaTime, gameState == InGameState.Battle);
+
+            infoBox.Update(deltaTime);
 
             if (gameState == InGameState.Battle)
             {
@@ -178,25 +207,65 @@ namespace Zettalith
 
             SplashUpdate(deltaTime, gameState);
 
-            UpdateManaGUI();
-
             if (MoveableCamera)
             {
-                cameraMovement.Update(RendererController.Camera, In.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default), deltaTime);
+                cameraMovement.Update(RendererController.Camera, Input.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default), deltaTime);
             }
 
-            previousScreenPosition = In.MousePosition;
+            previousScreenPosition = Input.MousePosition;
             UpdateHighlights();
+        }
+
+        public void UpdateBackground()
+        {
+            if (backgrounds == null)
+                return;
+
+            for (int x = 0; x < DIAMETER; x++)
+            {
+                for (int y = 0; y < DIAMETER; y++)
+                {
+                    backgrounds[x, y].Position = backgroundPositions[x, y] + RendererController.Camera.Position * 0.9f * new Vector2(1, 0);
+                }
+            }
+        }
+
+        public void UpdateStats()
+        {
+            if (pieceStats == null)
+                return;
+
+            pieceStats.Update();
+        }
+
+        public void UpdateParticles(float deltaTime)
+        {
+            if (Particles == null)
+                return;
+
+            Vector2 offset = new Vector2(0.5f, 0.5f * HEIGHTDISTANCE);
+            if (InGameController.IsHost)
+            {
+                offset *= -1;
+            }
+
+            Particles.Update(TopLeftCorner + offset, BottomRightCorner + offset, true, deltaTime);
         }
 
         public void ComputeSendLogistics()
         {
-            controller.Execute(GameAction.EndTurn, true, 1);
+            controller.Execute(GameAction.EndTurn, true, MyEffectCache);
+            MyEffectCache = new EffectCache();
         }
 
         public void ComputeRecieveLogistics(object arg)
         {
-            //TODO
+            EffectCache anEffectCache = arg as EffectCache;
+
+            for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
+            {
+                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+            }
 
             controller.TurnSwitch();
         }
@@ -235,14 +304,6 @@ namespace Zettalith
             // TODO Add logistics UI
         }
 
-        void UpdateManaGUI()
-        {
-            mana[0].String = new StringBuilder("Red: " + InGameController.LocalMana.Red);
-            mana[1].String = new StringBuilder("Blue: " + InGameController.LocalMana.Blue);
-            mana[2].String = new StringBuilder("Green: " + InGameController.LocalMana.Green);
-            essence.String = new StringBuilder("Essence: " + InGameController.LocalEssence);
-        }
-
         public void CloseSetup()
         {
 
@@ -253,10 +314,27 @@ namespace Zettalith
             battleGUI.Active = false;
         }
 
+        public void CloseLogistics()
+        {
+            logisticsGUI.Active = false;
+            perkGUI.Active = false;
+            buffGUI.Active = false;
+            bonusGUI.Active = false;
+            if (managementGUI.Active == true)
+            {
+                int manaToIncrease = new Random().Next(0, 3);
+                InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 2 ? 1 : 0));
+                managementGUI.Active = false;
+            }
+            Ztuff.pickingPiece = false;
+        }
+
         public void OpenBattle()
         {
             battleGUI.Active = true;
             logisticsGUI.Active = false;
+
+            DrawPieceFromDeck();
 
             splash.String = new StringBuilder("Your Turn");
             splash.Origin = splash.Font.MeasureString("Your Turn") * 0.5f;
@@ -266,11 +344,17 @@ namespace Zettalith
         public void OpenLogistics()
         {
             battleGUI.Active = false;
-            logisticsGUI.Active = true;
+            logisticsGUI.Active = false;
+            managementGUI.Active = true;
 
             splash.String = new StringBuilder("Opponent's Turn");
             splash.Origin = splash.Font.MeasureString("Opponent's Turn") * 0.5f;
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });
+        }
+
+        public void ForceOpenLogistics()
+        {
+            logisticsGUI.Active = true;
         }
 
         public void OpenPerks()
@@ -279,9 +363,28 @@ namespace Zettalith
             perkGUI.Active = true;
         }
 
+        public void OpenBuff()
+        {
+            logisticsGUI.Active = false;
+            buffGUI.Active = true;
+        }
+
+        public void OpenBonus()
+        {
+            logisticsGUI.Active = false;
+            bonusGUI.Active = true;
+        }
+
         public void ClosePerks()
         {
             perkGUI.Active = false;
+            logisticsGUI.Active = true;
+        }
+
+        public void CloseBuffsAndBonus()
+        {
+            buffGUI.Active = false;
+            bonusGUI.Active = false;
             logisticsGUI.Active = true;
         }
 
@@ -314,9 +417,7 @@ namespace Zettalith
 
         void Pieces(float deltaTime, bool moveable)
         {
-            AnimatePieces(deltaTime);
-
-            bool leftMouse = In.LeftMouse, leftMouseDown = In.LeftMouseDown;
+            bool leftMouse = Input.LeftMouse, leftMouseDown = Input.LeftMouseDown, rightMouse = Input.RightMouse, rightMouseDown = Input.RightMouseDown;
             List<TilePiece> highlightedPieces = new List<TilePiece>();
             highlightedPiece = null;
 
@@ -370,19 +471,11 @@ namespace Zettalith
                 AddHighlight(highlightedPiece.Player == InGameController.PlayerIndex ? defaultHighlightColor : defaultEnemyHighlightColor, highlightedPiece.Position);
             }
 
-            if (moveable)
-            {
-                BoardMove(leftMouseDown, leftMouse, highlightedPiece);
-            }
-        }
-
-        void BoardMove(bool leftMouseDown, bool leftMouse, TilePiece highlightedPiece)
-        {
             if (!leftMouse && interactionPiece != null)
             {
-                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+                float distance = (Input.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
 
-                if (movementHighlight != null)
+                if (moveable && movementHighlight != null)
                 {
                     if (movementHighlight.Contains(MousePoint.ToRender()))
                     {
@@ -393,37 +486,91 @@ namespace Zettalith
                     }
                 }
 
-                if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
+                if (moveable && meleeHighlight != null)
                 {
-                    player.RequestAction(interactionPiece);
+                    if (meleeHighlight.Contains(MousePoint.ToRender()))
+                    {
+                        try
+                        {
+                            Point targetPoint = MousePoint.ToRender();
+                            player.ExecuteMelee(interactionPiece, InGameController.Grid.GetObject(targetPoint.X, targetPoint.Y) as TilePiece);
+                        }
+                        catch { }
+                    }
+                }
+
+                if (distance < DRAGDISTANCE)
+                {
+                    if (Ztuff.pickingPiece == true)
+                    {
+                        MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
+                        Ztuff.RestoreFromBuff();
+                        Ztuff.pickingPiece = false;
+                    }
+                    else if (interactionPiece.Player == InGameController.PlayerIndex)
+                    {
+                        player.RequestAction(interactionPiece);
+                    }
                 }
 
                 ghost?.Destroy();
                 ghost = null;
+                meleeHighlight = null;
                 movementHighlight = null;
                 interactionPiece = null;
             }
 
-            if (highlightedPiece != null)
+            if (leftMouseDown)
             {
-                if (leftMouseDown)
+                if (highlightedPiece != null)
                 {
                     interactionPiece = highlightedPiece;
-                    mouseDownPosition = In.MousePosition;
+                    mouseDownPosition = Input.MousePosition;
+                }
+
+                infoBox.Close();
+            }
+
+            if (rightMouseDown)
+            {
+                if (highlightedPiece != null)
+                {
+                    infoBox.Set(highlightedPiece);
+                    infoBox.Open();
+                }
+                else
+                {
+                    infoBox.Close();
                 }
             }
 
+            if (moveable)
+            {
+                BoardMove(leftMouseDown, leftMouse, highlightedPiece);
+            }
+        }
+
+        void BoardMove(bool leftMouseDown, bool leftMouse, TilePiece highlightedPiece)
+        {
             if (leftMouse && interactionPiece != null)
             {
-                float distance = (In.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
+                float distance = (Input.MousePosition.ToVector2() - mouseDownPosition.ToVector2()).Length();
 
                 AddHighlight(Color.White, interactionPiece.Position.ToRender());
 
-                if (movementHighlight != null && movementHighlight.Length > 0)
+                if (movementHighlight != null && movementHighlight.Length > 0 && !interactionPiece.Piece.HasMoved)
                 {
                     foreach (Point point in movementHighlight)
                     {
                         AddHighlight(point == MousePoint.ToRender() ? movementSelectedHighlightColor : movementHighlightColor, point);
+                    }
+                }
+
+                if (meleeHighlight != null && meleeHighlight.Length > 0 && !interactionPiece.Piece.HasAttacked)
+                {
+                    foreach (Point point in meleeHighlight)
+                    {
+                        AddHighlight(point == MousePoint.ToRender() ? meleeSelectedColor : meleeHighlightColor, point);
                     }
                 }
 
@@ -432,6 +579,11 @@ namespace Zettalith
                     if (ghost == null)
                     {
                         ghost = new Renderer.Sprite(Layer.Default, interactionPiece.Renderer.Texture, MousePosition, Vector2.One, pieceGhostColor, 0, interactionPiece.Renderer.Origin, SpriteEffects.None);
+                    }
+
+                    if (meleeHighlight == null)
+                    {
+                        meleeHighlight = player.RequestMelee(interactionPiece);
                     }
 
                     if (movementHighlight == null)
@@ -522,13 +674,21 @@ namespace Zettalith
 
             if (dragOutPiece != null)
             {
-                if (In.LeftMouse)
+                List<Point> placementTiles = PlacementTiles();
+
+                if (Input.LeftMouse)
                 {
-                    AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+                    if (placementTiles.Contains(MousePoint.ToRender()))
+                    {
+                        placementTiles.Remove(MousePoint.ToRender());
+                        AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+                    }
+
+                    AddHighlight(defaultHighlightColor, placementTiles.ToArray());
 
                     if (ghost == null)
                     {
-                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 16, dragOutPiece.Texture.Height - 11);
+                        Vector2 origin = new Vector2(dragOutPiece.Texture.Width - 13, dragOutPiece.Texture.Height - 9);
                         ghost = new Renderer.Sprite(Layer.Default, dragOutPiece.Texture, MousePositionAbsolute, Vector2.One, pieceGhostColor, 0, origin, SpriteEffects.None);
                     }
 
@@ -540,7 +700,7 @@ namespace Zettalith
                     ghost?.Destroy();
                     ghost = null;
 
-                    if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
+                    if (/*InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y) && */placementTiles.Contains(MousePoint.ToRender()))
                     {
                         if (InGameController.LocalMana >= dragOutPiece.GetCost)
                         {
@@ -560,6 +720,35 @@ namespace Zettalith
             }
 
             hud.BattleHUD.UpdateHand(removePiece, ref dragOutPiece);
+        }
+
+        List<Point> PlacementTiles()
+        {
+            List<Point> points = new List<Point>();
+            bool isHost = InGameController.IsHost ? true : false;
+
+            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            {
+                for (int j = 0; j < placeHeight; ++j)
+                {
+                    if (isHost)
+                    {
+                        if (InGameController.Grid.Vacant(i, InGameController.Grid.yLength - j - 1))
+                        {
+                            points.Add(new Point(i, InGameController.Grid.yLength - j - 1));
+                        }
+                    }
+                    else
+                    {
+                        if (InGameController.Grid.Vacant(i, j))
+                        {
+                            points.Add(new Point(i, j));
+                        }
+                    }
+                }
+            }
+
+            return points;
         }
 
         void SplashUpdate(float deltaTime, InGameState gameState)

@@ -56,6 +56,8 @@ namespace Zettalith
 
         float essenceTimer;
 
+        Renderer.AnimatorScreen loadingScreen;
+
         bool isHost;
         bool loading;
         LoadGame loadGame;
@@ -67,8 +69,6 @@ namespace Zettalith
         Set[] sets;
 
         LoadedConfig loadedConfig;
-
-        InGamePiece piece;
 
         /// <summary>
         /// Can move, piece, origin, target
@@ -131,9 +131,11 @@ namespace Zettalith
             loadGame.Initialize(config, this, isHost);
         }
 
-        public void Initialize(LoadedConfig loadedConfig)
+        public void Initialize(LoadedConfig loadedConfig, Renderer.AnimatorScreen animator)
         {
             this.loadedConfig = loadedConfig;
+
+            loadingScreen = animator;
 
             PlayerIndex = isHost ? 0 : 1;
             OpponentIndex = (PlayerIndex + 1) % 2;
@@ -174,7 +176,11 @@ namespace Zettalith
 
             Local.ClientController.DrawPieceFromDeck();
             Local.ClientController.DrawPieceFromDeck();
-            Local.ClientController.DrawPieceFromDeck();
+
+            if (StartPlayer != PlayerIndex)
+            {
+                Local.ClientController.DrawPieceFromDeck();
+            }
         }
 
         public void NewTurnStart()
@@ -244,7 +250,6 @@ namespace Zettalith
             switch (actionType)
             {
                 case GameAction.Movement:
-
                     break;
 
                 case GameAction.Ability:
@@ -283,6 +288,7 @@ namespace Zettalith
                     break;
 
                 case GameAction.Attack:
+                    ActivateAttack((int)arg[0], (int)arg[1]);
                     break;
 
                 case GameAction.Placement:
@@ -326,6 +332,8 @@ namespace Zettalith
         public void PlacePiece(int pieceIndex, int x, int y, int player)
         {
             InGamePiece piece = InGamePiece.Pieces[pieceIndex];
+            piece.HasMoved = true;
+            piece.HasAttacked = true;
 
             TileObject obj = Grid.Place(x, y, new TilePiece(piece, player));
 
@@ -338,6 +346,23 @@ namespace Zettalith
             {
                 deck.Remove(piece);
             }
+        }
+
+        public void ActivateAttack(int attacking, int recieving)
+        {
+            TilePiece attacker = (TilePiece)Grid[attacking];
+            TilePiece reciever = (TilePiece)Grid[recieving];
+
+            if (!attacker.Piece.HasAttacked)
+            {
+                Modifier mod = new Addition(new Stats(-attacker.Piece.ModifiedStats.AttackDamage), true);
+                reciever.Piece.ModThis(mod);
+                attacker.Piece.HasAttacked = true;
+                return;
+            }
+
+            //TODO: Unit already attacked pop-up?
+            Test.Log("Unit cannot attack");
         }
 
         public void ActivateAbility(int pieceIndex, object[] data)
@@ -353,11 +378,20 @@ namespace Zettalith
         {
             TilePiece piece = Grid[pieceIndex] as TilePiece;
 
-            piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
+            if (!piece.Piece.HasMoved)
+            {
+                piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
-            Local.ClientController.PlacePieceAnimation(piece);
+                Local.ClientController.PlacePieceAnimation(piece);
 
-            players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+                players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+
+                piece.Piece.HasMoved = true;
+                return;
+            }
+
+            //TODO: Unit already moved pop-up?
+            Test.Log("Unit cannot move");
         }
 
         public void EndGame(int winnerIndex)
@@ -376,8 +410,10 @@ namespace Zettalith
         {
             if (gameState == InGameState.Battle)
             {
+                ResetAttacks();
+                ResetMovements();
                 Execute(GameAction.RequestEndTurn, true);
-                Local.ClientController.CloseBattle();
+                
                 gameState = InGameState.Wait;
             }
         }
@@ -396,10 +432,46 @@ namespace Zettalith
 
             gameState = newState;
 
+            if (gameState == InGameState.Battle)
+            {
+                LocalMana = Local.BaseMana;
+                RemoteMana = Remote.BaseMana;
+            }
+
             Local.SwitchTurns(newState);
 
-            LocalMana = new Mana(10, 16, 12);
-            RemoteMana = new Mana(10, 16, 12);
+            //LocalMana = Local.BaseMana;
+            //RemoteMana = Remote.BaseMana;
+        }
+
+        void ResetAttacks()
+        {
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TilePiece piece = Grid[i] as TilePiece;
+
+                if (piece == null)
+                {
+                    continue;
+                }
+
+                piece.Piece.HasAttacked = false;
+            }
+        }
+
+        void ResetMovements()
+        {
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TilePiece piece = Grid[i] as TilePiece;
+
+                if (piece == null)
+                {
+                    continue;
+                }
+
+                piece.Piece.HasMoved = false;
+            }
         }
 
         private Player CreateLocalPlayer()

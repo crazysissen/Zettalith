@@ -29,6 +29,9 @@ namespace Zettalith
         public bool Damaged => ModifiedStats.Health < ModifiedStats.MaxHealth;
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
+        public bool HasAttacked { get; set; }
+        public bool HasMoved { get; set; }
+
         List<Modifier> modifiers = new List<Modifier>();
 
         public InGamePiece(Piece piece)
@@ -54,6 +57,7 @@ namespace Zettalith
             AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
             MaxHealth = Top.Health + Middle.Health + Bottom.Health,
             Health = Top.Health + Middle.Health + Bottom.Health,
+            Armor = Top.Armor + Middle.Armor + Bottom.Armor,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
             AbilityCost = Top.AbilityCost,
             MoveCost = Bottom.MoveCost
@@ -70,6 +74,21 @@ namespace Zettalith
                 {
                     if (modifier is Addition)
                     {
+                        if (modified.Armor > 0)
+                        {
+                            modified.Armor += modifier.StatChanges.Health;
+
+                            if (modified.Armor < 0)
+                            {
+                                modifier.StatChanges = new Stats(modifier.StatChanges.AttackDamage, modified.Armor, modifier.StatChanges.Armor, modifier.StatChanges.Mana, modifier.StatChanges.AbilityCost, modifier.StatChanges.MoveCost);
+                                modified.Armor = 0;
+                            }
+                            else
+                            {
+                                modifier.StatChanges = new Stats(modifier.StatChanges.AttackDamage, 0, modifier.StatChanges.Armor, modifier.StatChanges.Mana, modifier.StatChanges.AbilityCost, modifier.StatChanges.MoveCost);
+                            }
+                        }
+
                         modified += modifier.StatChanges;
                     }
                     else if (modifier is Multiplication)
@@ -85,6 +104,10 @@ namespace Zettalith
                         if (modifier.StatChanges.Health > 0)
                         {
                             modified.Health = modifier.StatChanges.Health;
+                        }
+                        if (modifier.StatChanges.Armor >= 0)
+                        {
+                            modified.Armor = modifier.StatChanges.Armor;
                         }
                         if (!(modifier.StatChanges.Mana == new Mana()))
                         {
@@ -102,6 +125,11 @@ namespace Zettalith
                         //ClearMods();
                         //modified = (modifier as Direct).StatChanges;
                     }
+                }
+
+                if (modified.Health > modified.MaxHealth)
+                {
+                    modified.Health = modified.MaxHealth;
                 }
 
                 return modified;

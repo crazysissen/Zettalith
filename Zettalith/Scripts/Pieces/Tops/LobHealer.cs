@@ -19,9 +19,9 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 2, 2);
             AbilityCost = new Mana(0, 0, 4);
             Modifier = new Addition(new Stats(3), true);
-            Texture = Load.Get<Texture2D>("HealerTop");
+            Texture = Load.Get<Texture2D>("HealerTop3");
 
-            Description = "Throws a health potion and heals all targets within " + AbilityRange + " tiles by " + (Modifier as Addition).StatChanges.Health;
+            Description = "Throws a health potion that restores " + Modifier.StatChanges.Health + " health to Zettaliths in a circle";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

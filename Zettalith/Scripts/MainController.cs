@@ -27,6 +27,8 @@ namespace Zettalith
         public static GameState CurrentState => Main.stateManager.GameState;
         public static int CurrentSubState => Main.stateManager.Peek;
 
+        private Renderer.SpriteScreen gameBackground;
+
         private XNAController xnaController;
         private Random r;
         private StateManager stateManager;
@@ -71,6 +73,8 @@ namespace Zettalith
 
             SaveLoad.Initialize();
 
+            Sound.Init();
+
             xnaController = game;
             stateManager = new StateManager(GameState.MainMenu, 0);
 
@@ -89,6 +93,8 @@ namespace Zettalith
                 //NetworkManager.CreateClient();
                 //NetworkManager.StartPeerSearch(LOCALHOST);
             }
+
+            gameBackground = new Renderer.SpriteScreen(new Layer(MainLayer.AbsoluteBottom, -100), Load.Get<Texture2D>("Menu4"), new Rectangle(Point.Zero, Settings.GetResolution));
 
             CreateMainMenu();
 
@@ -146,6 +152,13 @@ namespace Zettalith
 
         public void Draw(XNAController game, GameTime gameTime, GraphicsDeviceManager graphics, SpriteBatch spriteBatch)
         {
+            if (inGameController != null)
+            {
+                InGameController.Local?.ClientController?.UpdateBackground();
+                InGameController.Local?.ClientController?.UpdateStats();
+                InGameController.Local?.ClientController?.UpdateParticles((float)gameTime.ElapsedGameTime.TotalSeconds);
+            }
+
             RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
@@ -207,6 +220,8 @@ namespace Zettalith
 
         public void ToGame(StartupConfig config, bool host)
         {
+            mainMenu.StopMusic();
+
             stateManager.SetGameState(GameState.InGame, 0);
 
             inGameController = new InGameController(host, this, xnaController);

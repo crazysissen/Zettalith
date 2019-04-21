@@ -129,20 +129,20 @@ namespace Zettalith
             {
                 for (int j = 0; j < InGameController.Grid.yLength; ++j)
                 {
-                    if (!(InGameController.Grid.GetObject(i, j) is TilePiece pointsPiece))
+                    if (!(InGameController.Grid.GetObject(i, j) is TilePiece tempPiece))
                         continue;
                     else
                     {
                         if (enemy)
                         {
-                            if (pointsPiece.Player != InGameController.PlayerIndex)
+                            if (tempPiece.Player != InGameController.PlayerIndex)
                             {
                                 points.Add(new Point(i, j));
                             }
                         }
                         if (!enemy)
                         {
-                            if (pointsPiece.Player == InGameController.PlayerIndex)
+                            if (tempPiece.Player == InGameController.PlayerIndex)
                             {
                                 points.Add(new Point(i, j));
                             }
@@ -165,19 +165,19 @@ namespace Zettalith
             {
                 for (int j = yBound; j >= origin.Y - range && j >= 0; --j)
                 {
-                    if (!(InGameController.Grid.GetObject(i, j) is TilePiece pointsPiece))
+                    if (!(InGameController.Grid.GetObject(i, j) is TilePiece tempPiece))
                         continue;
 
                     if (enemy)
                     {
-                        if (pointsPiece.Player != InGameController.PlayerIndex)
+                        if (tempPiece.Player != InGameController.PlayerIndex)
                         {
                             points.Add(new Point(i, j));
                         }
                     }
                     if (!enemy)
                     {
-                        if (pointsPiece.Player == InGameController.PlayerIndex)
+                        if (tempPiece.Player == InGameController.PlayerIndex)
                         {
                             points.Add(new Point(i, j));
                         }
@@ -192,9 +192,9 @@ namespace Zettalith
         {
             List<Point> points = new List<Point>();
 
-            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            for (int i = 0; i <= InGameController.Grid.xLength; ++i)
             {
-                for (int j = 0; j < InGameController.Grid.yLength; ++j)
+                for (int j = 0; j <= InGameController.Grid.yLength; ++j)
                 {
                     if (InGameController.Grid.GetObject(i, j) is TilePiece)
                     {

@@ -14,14 +14,14 @@ namespace Zettalith.Pieces
         {
             Name = "Cone Healer";
             Health = 3;
-            AttackDamage = 1;
+            AttackDamage = 0;
             AbilityRange = 4;
             ManaCost = new Mana(0, 3, 2);
             AbilityCost = new Mana(0, 0, 4);
             Modifier = new Addition(new Stats(2), true);
-            Texture = Load.Get<Texture2D>("HealerTop");
+            Texture = Load.Get<Texture2D>("HealerTop2");
 
-            Description = "Heals all Zettaliths in a " + AbilityRange + " units long cone by " + (Modifier as Addition).StatChanges.Health;
+            Description = "Restores " + Modifier.StatChanges.Health + " health to Zettaliths in a cone";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

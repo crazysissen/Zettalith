@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
@@ -17,9 +17,11 @@ namespace Zettalith.Pieces
             AttackDamage = 0;
             ManaCost = new Mana(0, 3, 5);
             MoveCost = new Mana(0, 5, 5);
+            MoveRange = 0;
+            MovementTime = 3f;
             Texture = Load.Get<Texture2D>("SwapBottom");
 
-            Description = "Swaps place with another Zettalith.";
+            Description = "Swaps place with another Zettalith";
         }
 
         public override List<Point> RequestMove(Point origin)
