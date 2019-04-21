@@ -42,6 +42,8 @@ namespace Zettalith
 
         class PieceStatsInstance
         {
+            const float DISTANCE = 4.0f, TRANSITION = 1.7f;
+
             public Renderer.SpriteScreenFloating overlay, healthCrystal, armorCrystal, damageCrystal;
             public Renderer.Text health, armor, damage, healthSh, armorSh, damageSh;
 
@@ -101,11 +103,11 @@ namespace Zettalith
                     hPos = camera.WorldToScreenPosition(supposedPosition + new Vector2(currentArmor <= 0 ? -0.19f : -0.34f, -1.9f)),
                     aPos = camera.WorldToScreenPosition(supposedPosition + new Vector2(0, -1.9f)),
                     dPos = camera.WorldToScreenPosition(supposedPosition + new Vector2(currentArmor <= 0 ? 0.19f : 0.34f, -1.9f)),
-                    crystalSize = camera.WorldToScreenSize(Vector2.One) * 0.8f * (useDistance ? Multiplier(distance, 6, 7) : 1);
+                    crystalSize = camera.WorldToScreenSize(Vector2.One) * 0.8f * (useDistance ? Multiplier(distance, DISTANCE, DISTANCE + TRANSITION) : 1);
 
                 overlay.Position = camera.WorldToScreenPosition(supposedPosition + new Vector2(0, -1.8f));
                 overlay.Size = camera.WorldToScreenSize(Vector2.One) * 0.4f;
-                overlay.Color = new Color(255, 255, 255, (int)(210 * (useDistance ? Multiplier(distance, 5.8f, 6.8f) : 1)));
+                overlay.Color = new Color(255, 255, 255, (int)(210 * (useDistance ? Multiplier(distance, DISTANCE - 0.3f, DISTANCE + TRANSITION - 0.3f) : 1)));
 
                 healthCrystal.Position = hPos;
                 healthCrystal.Size = crystalSize;
@@ -131,7 +133,7 @@ namespace Zettalith
 
             Vector2 FontSize(float distance, bool useDistance)
             {
-                return RendererController.Camera.WorldToScreenSize(Vector2.One * 0.15f) * (useDistance ? Multiplier(distance, 6.2f, 7.2f) : 1);
+                return RendererController.Camera.WorldToScreenSize(Vector2.One * 0.15f) * (useDistance ? Multiplier(distance, DISTANCE + 0.2f, DISTANCE + TRANSITION + 0.2f) : 1);
             }
 
             float Multiplier(float distance, float minDistance, float maxDistance)
