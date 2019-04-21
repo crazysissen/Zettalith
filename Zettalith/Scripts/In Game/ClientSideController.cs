@@ -301,6 +301,7 @@ namespace Zettalith
                 InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 2 ? 1 : 0));
                 managementGUI.Active = false;
             }
+            Ztuff.pickingPiece = false;
         }
 
         public void OpenBattle()

@@ -20,9 +20,8 @@ namespace Zettalith
             SizeResFactor = Settings.GetResolution.Y / 1080f;
         }
 
-        public static void RecieveEffect(int effect, GUI.Collection gui)
+        public static void RecieveGUI(GUI.Collection gui)
         {
-            incomingEffect = effect;
             theGUI = gui;
         }
 

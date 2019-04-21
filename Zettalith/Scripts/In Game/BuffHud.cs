@@ -106,7 +106,8 @@ namespace Zettalith
                 InGameController.LocalEssence -= EssenceCost;
 
                 theCOL.Active = false;
-                Ztuff.RecieveEffect(Effect, theCOL);
+                Ztuff.RecieveGUI(theCOL);
+                Ztuff.incomingEffect = Effect;
                 Ztuff.pickingPiece = true;
             }
         }
