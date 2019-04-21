@@ -31,16 +31,12 @@
 //            }
 
 //            renderers = new Renderer.SpriteScreenFloating[count];
+//            int currentLayer = minLayer - 1;
 
 //            for (int i = 0; i < count; i++)
 //            {
-//                renderers[i] = new Renderer.SpriteScreenFloating()
+//                renderers[i] = new Renderer.SpriteScreenFloating(new Layer(mainLayer, ++currentLayer), textures[i], Vector2.Zero, Vector2.One, Color.White, 0, Vector2.Zero, SpriteEffects.None);
 //            }
-//        } 
-
-//        public void Update(Vector2 worldTopLeft, Vector2 worldBottomRight)
-//        {
-//            Update(camera.WorldToScreenPosition(worldTopLeft), camera.WorldToScreenPosition(worldBottomRight));
 //        }
 
 //        public void Update(Vector2 coordinateTopLeft, Vector2 coordinateBottomRight, bool worldSpace)
@@ -54,7 +50,7 @@
 //                bottomRight = camera.WorldToScreenPosition(coordinateBottomRight);
 //            }
 
-//            float stepDistance = (bottomRight.Y - topLeft.Y) / count, start = stepDistance * 0.5f;
+//            float stepDistance = (bottomRight.Y - topLeft.Y) / count;
 
 //            for (int i = 0; i < count; i++)
 //            {

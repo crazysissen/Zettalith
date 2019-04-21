@@ -41,6 +41,7 @@ namespace Zettalith
                 if (i >= objects.Length)
                 {
                     instances[i].collection.Active = false;
+                    continue;
                 }
 
                 if (objects[i] is TilePiece tilePiece)
