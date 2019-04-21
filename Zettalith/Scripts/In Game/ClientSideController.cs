@@ -471,18 +471,17 @@ namespace Zettalith
                     }
                 }
 
-                if (distance < DRAGDISTANCE && interactionPiece.Player == InGameController.PlayerIndex)
+                if (distance < DRAGDISTANCE)
                 {
-
-                    if (Ztuff.pickingPiece == false)
-                    {
-                        player.RequestAction(interactionPiece);
-                    }
-                    else
+                    if (Ztuff.pickingPiece == true)
                     {
                         MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
                         Ztuff.RestoreFromBuff();
                         Ztuff.pickingPiece = false;
+                    }
+                    else if (interactionPiece.Player == InGameController.PlayerIndex)
+                    {
+                        player.RequestAction(interactionPiece);
                     }
                 }
 
