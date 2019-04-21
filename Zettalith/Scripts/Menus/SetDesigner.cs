@@ -475,7 +475,7 @@ namespace Zettalith
             topName.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Name);
             topHealth.String = new StringBuilder("Health: " + unlockedTopList[currentlyShowingTop].Health.ToString());
             topAttack.String = new StringBuilder("Attack: " + unlockedTopList[currentlyShowingTop].AttackDamage.ToString());
-            topMana.String = new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green");
+            topMana.String = new StringBuilder(unlockedTopList[currentlyShowingTop].ManaCost.Red + " red, " + unlockedTopList[currentlyShowingTop].ManaCost.Green + " green, " + unlockedTopList[currentlyShowingTop].ManaCost.Blue + " blue");
             topDesc.String = new StringBuilder(unlockedTopList[currentlyShowingTop].Description);
 
             newSet[selectedPiece].TopIndex = (byte)currentlyShowingTop;
@@ -489,7 +489,7 @@ namespace Zettalith
             middleName.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name);
             middleHealth.String = new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString());
             middleAttack.String = new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString());
-            middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green");
+            middleMana.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].ManaCost.Red + " red, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Green + " green, " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.Blue + " blue");
             middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
             newSet[selectedPiece].MiddleIndex = (byte)(currentlyShowingMiddle);
 
@@ -502,7 +502,7 @@ namespace Zettalith
             bottomName.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name);
             bottomHealth.String = new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString());
             bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
-            bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green");
+            bottomMana.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].ManaCost.Red + " red, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Green + " green, " + unlockedBottomList[currentlyShowingBottom].ManaCost.Blue + " blue");
             bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
             newSet[selectedPiece].BottomIndex = (byte)(currentlyShowingBottom);
 

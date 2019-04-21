@@ -141,12 +141,14 @@
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal.cs" />
     <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Assassin.cs" />
     <Compile Include="Scripts\Pieces\Tops\ConeHealer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Cone.cs" />
     <Compile Include="Scripts\Pieces\Tops\CyclopsAbomination.cs" />
     <Compile Include="Scripts\Pieces\Tops\CyclopsNightmare.cs" />
     <Compile Include="Scripts\Pieces\Tops\Duplicator.cs" />
     <Compile Include="Scripts\Pieces\Tops\Healer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Imitator.cs" />
     <Compile Include="Scripts\Pieces\Tops\KingHead.cs" />
     <Compile Include="Scripts\Pieces\Tops\Mortar.cs" />
     <Compile Include="Scripts\Pieces\Tops\LobHealer.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Scripts\Modifier\Multiplication.cs" />
     <Compile Include="Scripts\Pieces\Piece.cs" />
     <Compile Include="Scripts\Pieces\Tops\Blaster.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Recruiter.cs" />
     <Compile Include="Scripts\Pieces\Tops\StrongBlaster.cs" />
     <Compile Include="Scripts\Pieces\Tops\WeakBlaster.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
