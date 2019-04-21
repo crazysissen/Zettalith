@@ -16,6 +16,7 @@ namespace Zettalith
 
         public string Name { get; set; }
         public int Health { get; set; }
+        public int Armor { get; set; }
         public int AttackDamage { get; set; }
         public Mana ManaCost { get; set; } = new Mana(0, 0, 0);
         public Mana MoveCost { get; set; } = new Mana(0, 0, 0);

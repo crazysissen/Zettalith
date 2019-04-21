@@ -8,15 +8,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class LowHealthLowAtk : Middle
+    class WeakShield : Middle
     {
-        public LowHealthLowAtk()
+        public WeakShield()
         {
-            Name = "Low Health, Low Atk";
-            Health = 4;
+            Name = "Weak Shield";
+            Health = 2;
+            Armor = 4;
             AttackDamage = 1;
             ManaCost = new Mana(2, 0, 0);
-            Description = "Trash Body.";
+            Description = "Shielded Body";
             Texture = Load.Get<Texture2D>("LowATKLowHPMiddle");
         }
     }

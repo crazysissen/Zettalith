@@ -57,6 +57,7 @@ namespace Zettalith
             AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
             MaxHealth = Top.Health + Middle.Health + Bottom.Health,
             Health = Top.Health + Middle.Health + Bottom.Health,
+            Armor = Top.Armor + Middle.Armor + Bottom.Armor,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
             AbilityCost = Top.AbilityCost,
             MoveCost = Bottom.MoveCost
@@ -73,6 +74,21 @@ namespace Zettalith
                 {
                     if (modifier is Addition)
                     {
+                        if (modified.Armor > 0)
+                        {
+                            modified.Armor += modifier.StatChanges.Health;
+
+                            if (modified.Armor < 0)
+                            {
+                                modifier.StatChanges = new Stats(modifier.StatChanges.AttackDamage, modified.Armor, modifier.StatChanges.Armor, modifier.StatChanges.Mana, modifier.StatChanges.AbilityCost, modifier.StatChanges.MoveCost);
+                                modified.Armor = 0;
+                            }
+                            else
+                            {
+                                modifier.StatChanges = new Stats(modifier.StatChanges.AttackDamage, 0, modifier.StatChanges.Armor, modifier.StatChanges.Mana, modifier.StatChanges.AbilityCost, modifier.StatChanges.MoveCost);
+                            }
+                        }
+
                         modified += modifier.StatChanges;
                     }
                     else if (modifier is Multiplication)
@@ -88,6 +104,10 @@ namespace Zettalith
                         if (modifier.StatChanges.Health > 0)
                         {
                             modified.Health = modifier.StatChanges.Health;
+                        }
+                        if (modifier.StatChanges.Armor >= 0)
+                        {
+                            modified.Armor = modifier.StatChanges.Armor;
                         }
                         if (!(modifier.StatChanges.Mana == new Mana()))
                         {

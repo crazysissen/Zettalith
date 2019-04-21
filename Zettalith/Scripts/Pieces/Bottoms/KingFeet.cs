@@ -18,6 +18,8 @@ namespace Zettalith.Pieces
             MoveRange = 1;
             MovementTime = 2;
             Texture = Load.Get<Texture2D>("SixtenBottom3");
+
+            Description = "The finest boots in the entire kingdom";
         }
 
         public override List<Point> RequestMove(Point origin)

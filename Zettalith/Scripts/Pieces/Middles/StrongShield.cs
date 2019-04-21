@@ -8,12 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class HighHealthLowAtk : Middle
+    class StrongShield : Middle
     {
-        public HighHealthLowAtk()
+        public StrongShield()
         {
-            Name = "High Health, Low Atk";
-            Health = 10;
+            Name = "Strong Shield";
+            Health = 5;
+            Armor = 7;
             AttackDamage = 1;
             ManaCost = new Mana(0, 4, 0);
             Description = "Good Health.";

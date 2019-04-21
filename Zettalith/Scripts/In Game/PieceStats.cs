@@ -89,7 +89,7 @@ namespace Zettalith
                     baseStats = piece.Piece.BaseStats,
                     modifiedStats = piece.Piece.ModifiedStats;
 
-                int currentArmor = 1;
+                int currentArmor = modifiedStats.Armor;
                 Vector2 fontScale = FontSize(distance, useDistance), supposedPosition = piece.SupposedPosition;
 
                 // Set texts
