@@ -428,11 +428,16 @@ namespace Zettalith
 
             gameState = newState;
 
+            if (gameState == InGameState.Battle)
+            {
+                LocalMana = Local.BaseMana;
+                RemoteMana = Remote.BaseMana;
+            }
+
             Local.SwitchTurns(newState);
 
-            // TODO: REFRESH MANA
-            LocalMana = Local.BaseMana;
-            RemoteMana = Remote.BaseMana;
+            //LocalMana = Local.BaseMana;
+            //RemoteMana = Remote.BaseMana;
         }
 
         void ResetAttacks()
