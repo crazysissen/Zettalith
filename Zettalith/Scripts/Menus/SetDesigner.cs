@@ -22,7 +22,7 @@ namespace Zettalith
 
         Renderer.Text topName, topHealth, topAttack, topMana, topDesc, middleName, middleHealth, middleAttack, middleMana, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc;
 
-        
+        GUI.TextField nameField;
 
         GUI.Button[] miniliths;
         List<GUI.Button> setsButtons, deleteButtons;
@@ -107,11 +107,11 @@ namespace Zettalith
             }
 
             #region //CollectionInspector
-            bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * button2D.Width) * 7, (int)(Ztuff.SizeResFactor * button2D.Height) * 7), button2D);
+            bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.757f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
             bCreate.AddText("Create Deck", 4, true, Color.White, Font.Default);
             bCreate.OnClick += BCreateSet;
 
-            bBack = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.01f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * button2D.Width) * 7, (int)(Ztuff.SizeResFactor * button2D.Height) * 7), button2D);
+            bBack = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.0095f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
             bBack.AddText("Back", 4, true, Color.White, Font.Default);
             bBack.OnClick += BBackToMain;
             
@@ -122,8 +122,8 @@ namespace Zettalith
             {
                 if (curPosInRow == 6) { curPosInRow = 0; curPosVert++; }
 
-                setsButtons.Add(new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.16 * (0.17 + curPosInRow)), (int)(Settings.GetResolution.Y * 0.1 * (0.15 + curPosVert)), (int)(Settings.GetResolution.X * 0.06 * 9 / 4), (int)(Settings.GetResolution.Y * 0.06)), setNamePlate2D));
-                setsButtons[i].AddText(PersonalData.UserData.SavedSets[i].Name, 3, true, black, Font.Default);
+                setsButtons.Add(new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.16 * (0.17 + curPosInRow)), (int)(Settings.GetResolution.Y * 0.03 + Settings.GetResolution.Y * 0.1 * (0.15 + curPosVert)), (int)(Ztuff.SizeResFactor * button2D.Width) * 3, (int)(Ztuff.SizeResFactor * button2D.Height) * 3), button2D));
+                setsButtons[i].AddText(PersonalData.UserData.SavedSets[i].Name, 3, true, Color.White, Font.Default);
                 setsButtons[i].OnClick += modSetCalls[i].Activate;
                 deleteButtons.Add(new GUI.Button(new Layer(MainLayer.GUI, collectionLayer.layer + 1), new Rectangle(setsButtons[i].Transform.Location.X + setsButtons[i].Transform.Width, setsButtons[i].Transform.Location.Y, (int)(Settings.GetResolution.X * 0.02 * 9 / 16), (int)(Settings.GetResolution.Y * 0.02)), bDelete2D));
                 deleteButtons[i].OnClick += deleteCalls[i].Activate;
@@ -135,8 +135,8 @@ namespace Zettalith
             #endregion
 
             #region //SetDesigner
-            bCancelSet = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.023f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)));
-            bCancelSet.AddText("Cancel", 4, true, textColor, Font.Default);
+            bCancelSet = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.0095f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
+            bCancelSet.AddText("Cancel", 4, true, Color.White, Font.Default);
             bCancelSet.OnClick += BBackToMain;
 
             Texture2D tempMini = ImageProcessing.CombinePiece(unlockedTopList[0].Texture, unlockedMiddleList[0].Texture, unlockedBottomList[0].Texture);
@@ -178,17 +178,21 @@ namespace Zettalith
             middleSubPiece = new Renderer.SpriteScreen(designerLayer, unlockedMiddleList[currentlyShowingMiddle].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.40f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.Y * 0.177777777)));
             bottomSubPiece = new Renderer.SpriteScreen(designerLayer, unlockedBottomList[currentlyShowingBottom].Texture, new Rectangle((int)(Settings.GetResolution.X * 0.20f), (int)(Settings.GetResolution.Y * 0.66f), (int)(Settings.GetResolution.X * 0.1 / Math.Sqrt(2)), (int)(Settings.GetResolution.Y * 0.177777777)));
 
-            bNext = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.4), (int)(Settings.GetResolution.Y * 0.3), (int)(Settings.GetResolution.X * 0.05), (int)(Settings.GetResolution.Y * 0.05)), buttonColor);
-            bNext.AddText("Next", 4, true, textColor, Font.Default);
+            bNext = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.4), (int)(Settings.GetResolution.Y * 0.3), (int)(Ztuff.SizeResFactor * button2D.Width) * 2, (int)(Ztuff.SizeResFactor * button2D.Height) * 2), button2D);
+            bNext.AddText("Next", 3, true, Color.White, Font.Default);
             bNext.OnClick += BNextPiece;
 
-            bCopy = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.4), (int)(Settings.GetResolution.Y * 0.4), (int)(Settings.GetResolution.X * 0.05), (int)(Settings.GetResolution.Y * 0.05)), buttonColor);
-            bCopy.AddText("Copy", 4, true, textColor, Font.Default);
+            bCopy = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.4), (int)(Settings.GetResolution.Y * 0.37), (int)(Ztuff.SizeResFactor * button2D.Width) * 2, (int)(Ztuff.SizeResFactor * button2D.Height) * 2), button2D);
+            bCopy.AddText("Copy", 3, true, Color.White, Font.Default);
             bCopy.OnClick += BCopyPiece;
 
-            bDone = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.523f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Settings.GetResolution.X * 0.486f), (int)(Settings.GetResolution.Y * 0.09f)), buttonColor);
-            bDone.AddText("Done", 4, true, textColor, Font.Default);
+            bDone = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.757f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
+            bDone.AddText("Done", 4, true, Color.White, Font.Default);
             bDone.OnClick += BDone;
+
+            Texture2D TextFieldTexture = Load.Get<Texture2D>("Button2");
+            nameField = new GUI.TextField(new Layer(MainLayer.GUI, 10), new Layer(MainLayer.GUI, 11), Font.Default, 4, new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * TextFieldTexture.Width) * 5, (int)(Ztuff.SizeResFactor * TextFieldTexture.Width)), new Vector2((int)(Settings.GetResolution.X * 0.565f), (int)(Settings.GetResolution.Y * 0.915)), Vector2.Zero, "", Color.Black, Color.DarkGray, TextFieldTexture);
+            nameField.MaxLetters = 14;
 
             #region //Descriptions
             topName = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedTopList[currentlyShowingTop].Name), new Vector2(1f, 1f), 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)), new Vector2(0, 0), textColor, SpriteEffects.None);
@@ -216,7 +220,7 @@ namespace Zettalith
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleMana, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMana, bottomDesc);
             collectionInspector.Add(bCreate, bBack);
-            setDesigner.Add(bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy);
+            setDesigner.Add(bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy, nameField);
             for (int i = 0; i < miniliths.Length; ++i)
             {
                 setDesigner.Add(miniliths[i]);
@@ -241,10 +245,11 @@ namespace Zettalith
             if (moddingASet)
             {
                 PersonalData.UserData.SavedSets[setBeingModifiedIndex].Pieces = tempSet.ToList();
+                PersonalData.UserData.SavedSets[setBeingModifiedIndex].Name = nameField.Content;
             }
             else
             {
-                PersonalData.UserData.SavedSets.Add(new Set() { Pieces = tempSet.ToList(), Name = "Set " + (PersonalData.UserData.SavedSets.Count + 1) });
+                PersonalData.UserData.SavedSets.Add(new Set() { Pieces = tempSet.ToList(), Name = nameField.Content });
             }
 
             SaveLoad.Save();
@@ -254,8 +259,9 @@ namespace Zettalith
 
         private void BCreateSet()
         {
-            if (PersonalData.UserData.SavedSets.Count() < 54)
+            if (PersonalData.UserData.SavedSets.Count() < 48)
             {
+                nameField.Content = "Input name";
                 collectionInspector.Active = false;
                 setDesigner.Active = true;
                 focusCollection.Active = false;
@@ -290,6 +296,7 @@ namespace Zettalith
             setDesigner.Active = true;
             focusCollection.Active = false;
             focusDesigner.Active = true;
+            nameField.Content = set.Name;
 
             newSet = new JankPiece[Set.MaxSize];
 
