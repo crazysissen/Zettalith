@@ -55,8 +55,8 @@ namespace Zettalith
 
             allPerks = new Perk[]
             {
-                new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, 0, 0, 0, 0, csc, descriptionCollection) {Achieved = true },
-                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 1, -1, 3, 0, 4, 0, csc, descriptionCollection)
+                new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false},
+                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 1, -1, new Mana(), 0, csc, descriptionCollection)
             };
 
             // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.
@@ -123,6 +123,7 @@ namespace Zettalith
 
     class Perk
     {
+        public bool On { get; set; } = true;
         public bool Achieved { get; set; }
         public Connection[] Connections { get; set; }
         public GUI.Button AccessButton { get; set; }
@@ -130,14 +131,12 @@ namespace Zettalith
         public string PerkDescription { get; set; }
         public int Effect { get; set; }
         public int Target { get; set; }
-        public int RedCost { get; set; }
-        public int GreenCost { get; set; }
-        public int BlueCost { get; set; }
+        public Mana Cost { get; set; }
         public int EssenceCost { get; set; }
         ClientSideController theCSC;
         GUI.Collection theDEC;
 
-        public Perk(string name, string description, float x, float y, float scale, Texture2D texture, int anEffect, int aTarget, int redManaCost, int greenManaCost, int blueManaCost, int essenceCost, ClientSideController csc, GUI.Collection dec)
+        public Perk(string name, string description, float x, float y, float scale, Texture2D texture, int anEffect, int aTarget, Mana aCost, int essenceCost, ClientSideController csc, GUI.Collection dec)
         {
             theCSC = csc;
             theDEC = dec;
@@ -147,9 +146,7 @@ namespace Zettalith
             AccessButton = new GUI.Button(new Layer(MainLayer.GUI, 7), new Rectangle((int)(Settings.GetResolution.X * x), (int)(Settings.GetResolution.Y * y), (int)(Ztuff.SizeResFactor * texture.Bounds.Width * scale), (int)(Ztuff.SizeResFactor * texture.Bounds.Height * scale)), texture) { ScaleEffect = true };
             Effect = anEffect;
             Target = aTarget;
-            RedCost = redManaCost;
-            GreenCost = greenManaCost;
-            BlueCost = blueManaCost;
+            Cost = aCost;
             EssenceCost = essenceCost;
             AccessButton.OnClick += UsePerk;
             AccessButton.OnClick += HideStats;
@@ -171,9 +168,9 @@ namespace Zettalith
 
         void UsePerk()
         {
-            if ( RedCost <= InGameController.LocalMana.Red && GreenCost <= InGameController.LocalMana.Green && BlueCost <= InGameController.LocalMana.Blue && EssenceCost <= InGameController.LocalEssence && Achieved == false)
+            if ( Cost <= InGameController.LocalMana && EssenceCost <= InGameController.LocalEssence && Achieved == false)
             {
-                InGameController.LocalMana -= new Mana(RedCost, BlueCost, GreenCost);
+                InGameController.LocalMana -= Cost;
                 InGameController.LocalEssence -= EssenceCost;
                 theCSC.MyEffectCache.AListOfSints.Add(new Sints(Effect, Target));
                 Achieved = true;
@@ -182,38 +179,41 @@ namespace Zettalith
 
         void ShowStats()
         {
-            theDEC.Active = true;
+            if (On == true)
+            {
+                theDEC.Active = true;
 
-            (theDEC.Members[0] as Renderer.SpriteScreen).Transform = new Rectangle(Input.MousePosition.X , Input.MousePosition.Y, (int)((int)(Ztuff.SizeResFactor * (theDEC.Members[0] as Renderer.SpriteScreen).Texture.Bounds.Width) * 7f), (int)((int)(Ztuff.SizeResFactor * (theDEC.Members[0] as Renderer.SpriteScreen).Texture.Bounds.Height) * 7f));
+                (theDEC.Members[0] as Renderer.SpriteScreen).Transform = new Rectangle(Input.MousePosition.X, Input.MousePosition.Y, (int)((int)(Ztuff.SizeResFactor * (theDEC.Members[0] as Renderer.SpriteScreen).Texture.Bounds.Width) * 7f), (int)((int)(Ztuff.SizeResFactor * (theDEC.Members[0] as Renderer.SpriteScreen).Texture.Bounds.Height) * 7f));
 
-            (theDEC.Members[1] as Renderer.Text).String = new StringBuilder(PerkName);
-            (theDEC.Members[1] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.5f - ((theDEC.Members[1] as Renderer.Text).Font.MeasureString((theDEC.Members[1] as Renderer.Text).String).X * (theDEC.Members[1] as Renderer.Text).Scale.X) * 0.5f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.06f);
+                (theDEC.Members[1] as Renderer.Text).String = new StringBuilder(PerkName);
+                (theDEC.Members[1] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.5f - ((theDEC.Members[1] as Renderer.Text).Font.MeasureString((theDEC.Members[1] as Renderer.Text).String).X * (theDEC.Members[1] as Renderer.Text).Scale.X) * 0.5f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.06f);
 
-            (theDEC.Members[2] as Renderer.Text).String = new StringBuilder(PerkDescription);
-            (theDEC.Members[2] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.1f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.4f);
+                (theDEC.Members[2] as Renderer.Text).String = new StringBuilder(PerkDescription);
+                (theDEC.Members[2] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.1f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.4f);
 
-            (theDEC.Members[3] as Renderer.Text).String = new StringBuilder(RedCost.ToString());
-            (theDEC.Members[4] as Renderer.Text).String = new StringBuilder("R");
-            (theDEC.Members[5] as Renderer.Text).String = new StringBuilder(GreenCost.ToString());
-            (theDEC.Members[6] as Renderer.Text).String = new StringBuilder("G");
-            (theDEC.Members[7] as Renderer.Text).String = new StringBuilder(BlueCost.ToString());
-            (theDEC.Members[8] as Renderer.Text).String = new StringBuilder("B");
-            (theDEC.Members[9] as Renderer.Text).String = new StringBuilder(EssenceCost.ToString());
-            (theDEC.Members[10] as Renderer.Text).String = new StringBuilder("e");
+                (theDEC.Members[3] as Renderer.Text).String = new StringBuilder(Cost.Red.ToString());
+                (theDEC.Members[4] as Renderer.Text).String = new StringBuilder("R");
+                (theDEC.Members[5] as Renderer.Text).String = new StringBuilder(Cost.Green.ToString());
+                (theDEC.Members[6] as Renderer.Text).String = new StringBuilder("G");
+                (theDEC.Members[7] as Renderer.Text).String = new StringBuilder(Cost.Blue.ToString());
+                (theDEC.Members[8] as Renderer.Text).String = new StringBuilder("B");
+                (theDEC.Members[9] as Renderer.Text).String = new StringBuilder(EssenceCost.ToString());
+                (theDEC.Members[10] as Renderer.Text).String = new StringBuilder("e");
 
-            (theDEC.Members[4] as Renderer.Text).Color = Color.Red;
-            (theDEC.Members[6] as Renderer.Text).Color = Color.Green;
-            (theDEC.Members[8] as Renderer.Text).Color = Color.Blue;
-            (theDEC.Members[10] as Renderer.Text).Color = Color.LightBlue;
+                (theDEC.Members[4] as Renderer.Text).Color = Color.Red;
+                (theDEC.Members[6] as Renderer.Text).Color = Color.Green;
+                (theDEC.Members[8] as Renderer.Text).Color = Color.Blue;
+                (theDEC.Members[10] as Renderer.Text).Color = Color.LightBlue;
 
-            (theDEC.Members[3] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.2f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
-            (theDEC.Members[4] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.3f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
-            (theDEC.Members[5] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.6f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
-            (theDEC.Members[6] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.7f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
-            (theDEC.Members[7] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.2f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
-            (theDEC.Members[8] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.3f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
-            (theDEC.Members[9] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.6f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
-            (theDEC.Members[10] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.7f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+                (theDEC.Members[3] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.2f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
+                (theDEC.Members[4] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.3f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
+                (theDEC.Members[5] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.6f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
+                (theDEC.Members[6] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.7f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
+                (theDEC.Members[7] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.2f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+                (theDEC.Members[8] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.3f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+                (theDEC.Members[9] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.6f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+                (theDEC.Members[10] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.7f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+            }
         }
 
         void HideStats()
