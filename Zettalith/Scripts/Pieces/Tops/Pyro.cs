@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(-1), true);
             Texture = Load.Get<Texture2D>("PyroTop");
 
-            Description = "Deals 1 damage to all Zettaliths.";
+            Description = "Deals 1 damage to all Zettaliths";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

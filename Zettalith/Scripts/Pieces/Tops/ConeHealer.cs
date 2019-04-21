@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(2), true);
             Texture = Load.Get<Texture2D>("HealerTop2");
 
-            Description = "Heals all Zettaliths in a " + AbilityRange + " units long cone by " + (Modifier as Addition).StatChanges.Health;
+            Description = "Restores " + Modifier.StatChanges.Health + " health to Zettaliths in a cone";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

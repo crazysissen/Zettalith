@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             MovementTime = 3f;
             Texture = Load.Get<Texture2D>("SwapBottom");
 
-            Description = "Swaps place with another Zettalith.";
+            Description = "Swaps place with another Zettalith";
         }
 
         public override List<Point> RequestMove(Point origin)

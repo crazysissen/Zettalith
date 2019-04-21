@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             Health = 6;
             AttackDamage = 3;
             ManaCost = new Mana(2, 2, 0);
-            Description = "Balanced body.";
+            Description = "Mediocre body with decent offense";
             Texture = Load.Get<Texture2D>("MediumMiddle");
         }
     }

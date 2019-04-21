@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
 
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a straight line.";
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a straight line";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

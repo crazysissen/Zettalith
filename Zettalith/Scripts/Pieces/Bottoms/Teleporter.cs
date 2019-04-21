@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             MovementTime = 3;
             Texture = Load.Get<Texture2D>("SmallTPBottom");
 
-            Description = "Teleports to an empty tile within " + MoveRange + " tiles.";
+            Description = "Teleports to an empty tile";
         }
 
         public override List<Point> RequestMove(Point origin)
