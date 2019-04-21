@@ -55,7 +55,7 @@ namespace Zettalith
             CloseManagement();
         }
 
-        private void BBlue()
+        private void BGreen()
         {
             InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red, InGameController.Local.BaseMana.Green + 1, InGameController.Local.BaseMana.Blue);
             InGameController.LocalMana = new Mana(InGameController.LocalMana.Red, InGameController.LocalMana.Green + 1, InGameController.LocalMana.Blue);
@@ -63,7 +63,7 @@ namespace Zettalith
             CloseManagement();
         }
 
-        public void BGreen()
+        public void BBlue()
         {
             InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red, InGameController.Local.BaseMana.Green, InGameController.Local.BaseMana.Blue + 1);
             InGameController.LocalMana = new Mana(InGameController.LocalMana.Red, InGameController.LocalMana.Green, InGameController.LocalMana.Blue + 1);
