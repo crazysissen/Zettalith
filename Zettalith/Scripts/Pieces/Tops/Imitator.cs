@@ -27,6 +27,15 @@ namespace Zettalith.Pieces
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
             List<Point> points = Abilities.TargetAll(piece.Position, AbilityRange);
+
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if ((InGameController.Grid.GetObject(points[i].X, points[i].Y) as TilePiece).Piece.IsKing)
+                {
+                    points.Remove(points[i]);
+                }
+            }
+
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());
@@ -59,6 +68,9 @@ namespace Zettalith.Pieces
             InGamePiece copy = new InGamePiece(new Piece((byte)toCopy.Piece.Top.ToIndex(), (byte)toCopy.Piece.Middle.ToIndex(), (byte)toCopy.Piece.Bottom.ToIndex()));
             InGameController.Grid.GetObject(pos.X, pos.Y).Destroy();
             InGameController.Main.PlacePiece(copy.Index, pos.X, pos.Y, InGameController.PlayerIndex);
+
+            Modifier mod = new Direct(toCopy.Piece.ModifiedStats, true);
+            (InGameController.Grid.GetObject(pos.X, pos.Y) as TilePiece).Piece.ModThis(mod);
         }
     }
 }
