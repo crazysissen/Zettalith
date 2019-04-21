@@ -35,8 +35,14 @@ namespace Zettalith
 
                 if (objects[i] is TilePiece tilePiece)
                 {
+                    instances[i].collection.Active = true;
                     instances[i].Set(tilePiece, (tilePiece.SupposedPosition - mousePosition).Length(), USEDISTANCE);
                 }
+            }
+
+            for (int i = objects.Length - 1; i < instances.Count; i++)
+            {
+                instances[i].collection.Active = false;
             }
         }
 
@@ -44,11 +50,14 @@ namespace Zettalith
         {
             const float DISTANCE = 4.0f, TRANSITION = 1.7f;
 
+            public GUI.Collection collection;
             public Renderer.SpriteScreenFloating overlay, healthCrystal, armorCrystal, damageCrystal;
             public Renderer.Text health, armor, damage, healthSh, armorSh, damageSh;
 
             public PieceStatsInstance()
             {
+                collection = new GUI.Collection();
+
                 overlay = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -21), Load.Get<Texture2D>("StatsOverlay"), Vector2.Zero, Vector2.One * 0.5f, new Color(255, 255, 255, 210), 0, new Vector2(40, 25), SpriteEffects.None);
 
                 healthCrystal = new Renderer.SpriteScreenFloating(new Layer(MainLayer.GUI, -20), Load.Get<Texture2D>("HealthCrystal"), Vector2.Zero, Vector2.One, Color.White, 0, new Vector2(6.5f, 6.5f), SpriteEffects.None);
@@ -62,6 +71,8 @@ namespace Zettalith
                 healthSh = new Renderer.Text(new Layer(MainLayer.GUI, -19), Font.Styled, "H", 1, 0, Vector2.Zero, Color.Black);
                 armorSh = new Renderer.Text(new Layer(MainLayer.GUI, -19), Font.Styled, "H", 1, 0, Vector2.Zero, Color.Black);
                 damageSh = new Renderer.Text(new Layer(MainLayer.GUI, -19), Font.Styled, "H", 1, 0, Vector2.Zero, Color.Black);
+
+                collection.Add(overlay, healthCrystal, armorCrystal, damageCrystal, health, armor, damage, healthSh, armorSh, damageSh);
             }
 
             public void Set(TilePiece piece, float distance, bool useDistance)
