@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             MovementTime = 1.5f;
             Texture = Load.Get<Texture2D>("DiagonalBottom");
 
-            Description = "Moves " + MoveRange + " tiles diagonally.";
+            Description = "Moves diagonally";
         }
 
         public override List<Point> RequestMove(Point origin)

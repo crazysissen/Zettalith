@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             // Modifier = new Addition();
             Texture = Load.Get<Texture2D>("DuplicateHead");
 
-            Description = "Duplicates itself.";
+            Description = "Duplicates itself";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

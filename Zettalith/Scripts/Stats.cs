@@ -39,7 +39,7 @@ namespace Zettalith
             MoveCost = new Mana();
         }
 
-        public Stats(int armor, bool wassup)
+        public Stats(int armor, bool isArmor)
         {
             AttackDamage = 0;
             MaxHealth = 0;

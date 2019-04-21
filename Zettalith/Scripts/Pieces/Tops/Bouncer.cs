@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("Top");
 
-            Description = "Push another Zettalith, dealing " + Modifier.StatChanges.Health * -1 + " damage";
+            Description = "Pushes another Zettalith into nearest edge or Zettalith, dealing " + Modifier.StatChanges.Health * -1 + " damage";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

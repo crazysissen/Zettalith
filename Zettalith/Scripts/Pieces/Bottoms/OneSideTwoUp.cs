@@ -21,7 +21,8 @@ namespace Zettalith.Pieces
             MovementTime = 0.5f;
             Texture = Load.Get<Texture2D>("AggresiveBottom");
 
-            Description = "Capable of moving one unit to the sides or two units forward";
+            Description = "Moves one unit sideways or two units forward";
+            //Description = "Capable of moving one unit to the sides or two units forward";
         }
 
         public override List<Point> RequestMove(Point origin)

@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             Armor = 7;
             AttackDamage = 1;
             ManaCost = new Mana(0, 4, 0);
-            Description = "Good Health.";
+            Description = "Strongly shielded body";
             Texture = Load.Get<Texture2D>("LowATKHighHPMiddle");
         }
     }

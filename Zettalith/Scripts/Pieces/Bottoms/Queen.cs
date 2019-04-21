@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             MovementTime = 1;
             Texture = Load.Get<Texture2D>("HorseBottom");
 
-            Description = "Moves " + MoveRange + " tiles in any given direction.";
+            Description = "Moves in any direction";
         }
 
         public override List<Point> RequestMove(Point origin)

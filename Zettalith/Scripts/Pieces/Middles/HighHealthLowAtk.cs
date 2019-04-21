@@ -16,7 +16,7 @@ namespace Zettalith.Pieces
             Health = 10;
             AttackDamage = 1;
             ManaCost = new Mana(0, 4, 0);
-            Description = "Good Health.";
+            Description = "Strong body with low offense";
             Texture = Load.Get<Texture2D>("LowATKHighHPMiddle");
         }
     }
