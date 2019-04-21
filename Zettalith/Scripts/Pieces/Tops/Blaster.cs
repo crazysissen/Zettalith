@@ -54,7 +54,7 @@ namespace Zettalith.Pieces
         public override void ActivateAbility(object[] data)
         {
             TileObject piece = InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
-            (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
+            (piece as TilePiece).Piece.ModThis((Modifier)data[1]);
 
             ClientSideController.Particles.Beam(piece.SupposedPosition - new Vector2(0, 1), (InGameController.Grid[(int)data[2]]).SupposedPosition - new Vector2(0, 1), Color.White, new Color(Color.CadetBlue, 0.0f));
         }

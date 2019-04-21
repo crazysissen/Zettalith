@@ -15,7 +15,7 @@ namespace Zettalith.Pieces
             Name = "King Head";
             Health = 1;
             AttackDamage = 1;
-            Texture = Load.Get<Texture2D>("King_Head");
+            Texture = Load.Get<Texture2D>("AltKing");
 
             Description = "The finest crown in the entire kingdom";
         }

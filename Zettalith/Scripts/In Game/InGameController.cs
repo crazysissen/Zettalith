@@ -176,7 +176,6 @@ namespace Zettalith
 
             Local.ClientController.DrawPieceFromDeck();
             Local.ClientController.DrawPieceFromDeck();
-            Local.ClientController.DrawPieceFromDeck();
 
             if (StartPlayer != PlayerIndex)
             {
@@ -351,8 +350,8 @@ namespace Zettalith
 
         public void ActivateAttack(int attacking, int recieving)
         {
-            TilePiece attacker = (TilePiece)Grid.GetObject(Grid[attacking].Position.X, Grid[attacking].Position.Y);
-            TilePiece reciever = (TilePiece)Grid.GetObject(Grid[recieving].Position.X, Grid[recieving].Position.Y);
+            TilePiece attacker = (TilePiece)Grid[attacking];
+            TilePiece reciever = (TilePiece)Grid[recieving];
 
             if (!attacker.Piece.HasAttacked)
             {
@@ -433,11 +432,16 @@ namespace Zettalith
 
             gameState = newState;
 
+            if (gameState == InGameState.Battle)
+            {
+                LocalMana = Local.BaseMana;
+                RemoteMana = Remote.BaseMana;
+            }
+
             Local.SwitchTurns(newState);
 
-            // TODO: REFRESH MANA
-            LocalMana = Local.BaseMana;
-            RemoteMana = Remote.BaseMana;
+            //LocalMana = Local.BaseMana;
+            //RemoteMana = Remote.BaseMana;
         }
 
         void ResetAttacks()

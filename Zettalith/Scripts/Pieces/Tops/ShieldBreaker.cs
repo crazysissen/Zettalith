@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 3, 3);
             AbilityCost = new Mana(0, 2, 3);
             Modifier = new Direct(new Stats(0, true), true);
-            Texture = Load.Get<Texture2D>("Assassin");
+            Texture = Load.Get<Texture2D>("ShieldBreaker");
 
             Description = "Removes all armor from a Zettalith";
         }

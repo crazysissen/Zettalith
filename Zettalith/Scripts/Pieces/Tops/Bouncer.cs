@@ -19,9 +19,9 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(2, 4, 0);
             AbilityCost = new Mana(0, 5, 0);
             Modifier = new Addition(new Stats(-3), true);
-            Texture = Load.Get<Texture2D>("Top");
+            Texture = Load.Get<Texture2D>("Bouncer");
 
-            Description = "Pushes another Zettalith into nearest edge or Zettalith, dealing " + Modifier.StatChanges.Health * -1 + " damage";
+            Description = "Pushes away another Zettalith, dealing " + Modifier.StatChanges.Health * -1 + " damage";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

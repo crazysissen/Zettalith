@@ -18,7 +18,7 @@ namespace Zettalith.Pieces
             AttackDamage = 1;
             ManaCost = new Mana(0, 4, 0);
             Description = "Strongly shielded body";
-            Texture = Load.Get<Texture2D>("LowATKHighHPMiddle");
+            Texture = Load.Get<Texture2D>("StrongShieldBody");
         }
     }
 }

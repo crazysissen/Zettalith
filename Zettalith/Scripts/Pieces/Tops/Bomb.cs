@@ -19,9 +19,9 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 4, 0);
             AbilityCost = new Mana(0, 4, 0);
             Modifier = new Addition(new Stats(-7), true);
-            Texture = Load.Get<Texture2D>("BombTop1");
+            Texture = Load.Get<Texture2D>("AltBomb");
 
-            Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a circle";
+            Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage in a circle";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

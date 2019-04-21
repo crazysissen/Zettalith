@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 3, 0);
             AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-3), true);
-            Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
+            Texture = Load.Get<Texture2D>("AltCyclops");
 
             Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a straight line";
         }

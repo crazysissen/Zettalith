@@ -59,7 +59,7 @@ namespace Zettalith
             bHost.AddText("Host", textSize, true, textColor, Font.Default);
             bHost.OnClick += BHost;
 
-            bJoin = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonTexture, buttonColor) /*{ ScaleEffect = true }*/;
+            bJoin = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, buttonHeight + buttonSpace, tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bJoin.AddText("Join", textSize, true, textColor, Font.Default);
             bJoin.OnClick += BJoin;
 
