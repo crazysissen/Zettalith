@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(5, 0, 0);
             AbilityCost = new Mana(4, 0, 0);
             Modifier = new Addition(new Stats(-9), true);
-            Texture = Load.Get<Texture2D>("Top");
+            Texture = Load.Get<Texture2D>("Assassin");
 
             Description = "Deal " + (Modifier as Addition).StatChanges.Health * -1 + " damage";
         }

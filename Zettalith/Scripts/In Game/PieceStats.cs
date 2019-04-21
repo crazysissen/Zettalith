@@ -14,8 +14,11 @@ namespace Zettalith
 
         List<PieceStatsInstance> instances;
 
-        public PieceStats()
+        GUI.Collection collection;
+
+        public PieceStats(GUI.Collection collection)
         {
+            this.collection = collection;
             instances = new List<PieceStatsInstance>();
         }
 
@@ -26,11 +29,19 @@ namespace Zettalith
 
             Vector2 mousePosition = RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2());
 
-            for (int i = 0; i < objects.Length; i++)
+            while (instances.Count < objects.Length)
             {
-                if (instances.Count <= i)
+                PieceStatsInstance instance = new PieceStatsInstance();
+                instances.Add(instance);
+                collection.Add(instance.collection);
+            }
+
+            for (int i = 0; i < instances.Count; i++)
+            {
+                if (i >= objects.Length)
                 {
-                    instances.Add(new PieceStatsInstance());
+                    instances[i].collection.Active = false;
+                    continue;
                 }
 
                 if (objects[i] is TilePiece tilePiece)
@@ -38,11 +49,6 @@ namespace Zettalith
                     instances[i].collection.Active = true;
                     instances[i].Set(tilePiece, (tilePiece.SupposedPosition - mousePosition).Length(), USEDISTANCE);
                 }
-            }
-
-            for (int i = objects.Length - 1; i < instances.Count; i++)
-            {
-                instances[i].collection.Active = false;
             }
         }
 

@@ -97,10 +97,12 @@
     <Compile Include="Scripts\In Game\HUD.cs" />
     <Compile Include="Scripts\In Game\InGameHUD.cs" />
     <Compile Include="Scripts\In Game\BuffHud.cs" />
+    <Compile Include="Scripts\In Game\ParticleMap.cs" />
     <Compile Include="Scripts\In Game\PerkBuffBonusEffects.cs" />
     <Compile Include="Scripts\In Game\PerkHUD.cs" />
     <Compile Include="Scripts\In Game\PieceStats.cs" />
     <Compile Include="Scripts\In Game\Player Types\InfoBox.cs" />
+    <Compile Include="Scripts\Misc\ConvertibleGrid.cs" />
     <Compile Include="Scripts\Misc\Noise.cs" />
     <Compile Include="Scripts\Misc\Sound.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />

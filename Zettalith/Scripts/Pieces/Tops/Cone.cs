@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 4, 0);
             AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-4), true);
-            Texture = Load.Get<Texture2D>("King_Head");
+            Texture = Load.Get<Texture2D>("FireConjurerTop");
 
             Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage in a " + AbilityRange + " units long cone";
         }
