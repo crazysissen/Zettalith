@@ -30,6 +30,7 @@ namespace Zettalith
         public bool HealthBuffed => ModifiedStats.Health > BaseStats.MaxHealth;
 
         public bool HasAttacked { get; set; }
+        public bool HasMoved { get; set; }
 
         List<Modifier> modifiers = new List<Modifier>();
 
@@ -104,6 +105,11 @@ namespace Zettalith
                         //ClearMods();
                         //modified = (modifier as Direct).StatChanges;
                     }
+                }
+
+                if (modified.Health > modified.MaxHealth)
+                {
+                    modified.Health = modified.MaxHealth;
                 }
 
                 return modified;

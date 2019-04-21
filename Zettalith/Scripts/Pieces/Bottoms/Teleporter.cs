@@ -18,6 +18,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(3, 0, 5);
             MoveCost = new Mana(3, 0, 3);
             MoveRange = 4;
+            MovementTime = 3;
             Texture = Load.Get<Texture2D>("TPBottom");
 
             Description = "Teleports to an empty tile within " + MoveRange + " tiles.";

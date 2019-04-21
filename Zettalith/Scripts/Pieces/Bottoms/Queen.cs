@@ -18,6 +18,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 0, 4);
             MoveCost = new Mana(0, 0, 3);
             MoveRange = 3;
+            MovementTime = 1;
             Texture = Load.Get<Texture2D>("QueenBottom");
 
             Description = "Moves " + MoveRange + " tiles in any given direction.";

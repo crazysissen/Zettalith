@@ -12,6 +12,7 @@ namespace Zettalith
     class ClientSideController
     {
         const int 
+            placeHeight = 2,
             DIAMETER = 7;
 
         public const float
@@ -291,6 +292,15 @@ namespace Zettalith
         public void CloseLogistics()
         {
             logisticsGUI.Active = false;
+            perkGUI.Active = false;
+            buffGUI.Active = false;
+            bonusGUI.Active = false;
+            if (managementGUI.Active == true)
+            {
+                int manaToIncrease = new Random().Next(0, 3);
+                InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 2 ? 1 : 0));
+                managementGUI.Active = false;
+            }
         }
 
         public void OpenBattle()
@@ -521,7 +531,7 @@ namespace Zettalith
 
                 AddHighlight(Color.White, interactionPiece.Position.ToRender());
 
-                if (movementHighlight != null && movementHighlight.Length > 0)
+                if (movementHighlight != null && movementHighlight.Length > 0 && !interactionPiece.Piece.HasMoved)
                 {
                     foreach (Point point in movementHighlight)
                     {
@@ -529,7 +539,7 @@ namespace Zettalith
                     }
                 }
 
-                if (meleeHighlight != null && meleeHighlight.Length > 0)
+                if (meleeHighlight != null && meleeHighlight.Length > 0 && !interactionPiece.Piece.HasAttacked)
                 {
                     foreach (Point point in meleeHighlight)
                     {
@@ -637,9 +647,17 @@ namespace Zettalith
 
             if (dragOutPiece != null)
             {
+                List<Point> placementTiles = PlacementTiles();
+
                 if (Input.LeftMouse)
                 {
-                    AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+                    if (placementTiles.Contains(MousePoint.ToRender()))
+                    {
+                        placementTiles.Remove(MousePoint.ToRender());
+                        AddHighlight(movementSelectedHighlightColor, MousePoint.ToRender());
+                    }
+
+                    AddHighlight(defaultHighlightColor, placementTiles.ToArray());
 
                     if (ghost == null)
                     {
@@ -655,7 +673,7 @@ namespace Zettalith
                     ghost?.Destroy();
                     ghost = null;
 
-                    if (InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y))
+                    if (/*InGameController.Grid.Vacant(MousePoint.ToRender().X, MousePoint.ToRender().Y) && */placementTiles.Contains(MousePoint.ToRender()))
                     {
                         if (InGameController.LocalMana >= dragOutPiece.GetCost)
                         {
@@ -675,6 +693,35 @@ namespace Zettalith
             }
 
             hud.BattleHUD.UpdateHand(removePiece, ref dragOutPiece);
+        }
+
+        List<Point> PlacementTiles()
+        {
+            List<Point> points = new List<Point>();
+            bool isHost = InGameController.IsHost ? true : false;
+
+            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            {
+                for (int j = 0; j < placeHeight; ++j)
+                {
+                    if (isHost)
+                    {
+                        if (InGameController.Grid.Vacant(i, InGameController.Grid.yLength - j - 1))
+                        {
+                            points.Add(new Point(i, InGameController.Grid.yLength - j - 1));
+                        }
+                    }
+                    else
+                    {
+                        if (InGameController.Grid.Vacant(i, j))
+                        {
+                            points.Add(new Point(i, j));
+                        }
+                    }
+                }
+            }
+
+            return points;
         }
 
         void SplashUpdate(float deltaTime, InGameState gameState)

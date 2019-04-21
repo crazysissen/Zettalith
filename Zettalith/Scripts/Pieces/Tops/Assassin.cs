@@ -8,20 +8,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class WeakBlaster : Top
+    class Assassin : Top
     {
-        public WeakBlaster()
+        public Assassin()
         {
-            Name = "Weak Blaster";
-            Health = 2;
+            Name = "Assassin";
+            Health = 1;
             AttackDamage = 0;
-            AbilityRange = 5;
-            ManaCost = new Mana(2, 0, 0);
-            AbilityCost = new Mana(2, 0, 0);
-            Modifier = new Addition(new Stats(-3), true);
+            AbilityRange = 1;
+            ManaCost = new Mana(5, 0, 0);
+            AbilityCost = new Mana(4, 0, 0);
+            Modifier = new Addition(new Stats(-9), true);
             Texture = Load.Get<Texture2D>("Top");
 
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to target Zettalith within " + AbilityRange + " tiles";
+            Description = "Deal " + (Modifier as Addition).StatChanges.Health * -1 + " damage";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
