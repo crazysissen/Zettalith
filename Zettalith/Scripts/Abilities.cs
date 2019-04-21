@@ -192,9 +192,9 @@ namespace Zettalith
         {
             List<Point> points = new List<Point>();
 
-            for (int i = 0; i < InGameController.Grid.xLength; ++i)
+            for (int i = 0; i <= InGameController.Grid.xLength; ++i)
             {
-                for (int j = 0; j < InGameController.Grid.yLength; ++j)
+                for (int j = 0; j <= InGameController.Grid.yLength; ++j)
                 {
                     if (InGameController.Grid.GetObject(i, j) is TilePiece)
                     {

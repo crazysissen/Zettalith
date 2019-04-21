@@ -140,6 +140,8 @@
     <Compile Include="Scripts\Pieces\Middles\KingMiddle.cs" />
     <Compile Include="Scripts\Pieces\Middles\MediumBody.cs" />
     <Compile Include="Scripts\Pieces\Middles\LowHealthHighAtk.cs" />
+    <Compile Include="Scripts\Pieces\Middles\StrongShield.cs" />
+    <Compile Include="Scripts\Pieces\Middles\WeakShield.cs" />
     <Compile Include="Scripts\Pieces\Subpieces.cs" />
     <Compile Include="Scripts\Pieces\Bottoms\Diagonal.cs" />
     <Compile Include="Scripts\Pieces\Set.cs" />
@@ -197,6 +199,8 @@
     <Compile Include="Scripts\Pieces\Piece.cs" />
     <Compile Include="Scripts\Pieces\Tops\Blaster.cs" />
     <Compile Include="Scripts\Pieces\Tops\Recruiter.cs" />
+    <Compile Include="Scripts\Pieces\Tops\ShieldBearer.cs" />
+    <Compile Include="Scripts\Pieces\Tops\ShieldBreaker.cs" />
     <Compile Include="Scripts\Pieces\Tops\StrongBlaster.cs" />
     <Compile Include="Scripts\Pieces\Tops\WeakBlaster.cs" />
     <Compile Include="Scripts\Rendering\Camera.cs" />
