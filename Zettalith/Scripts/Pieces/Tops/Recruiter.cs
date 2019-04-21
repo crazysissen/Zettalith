@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 5, 0);
             AbilityCost = new Mana(0, 4, 0);
             // Modifier = 
-            Texture = Load.Get<Texture2D>("Top");
+            Texture = Load.Get<Texture2D>("RecruiterTop");
 
             Description = "Draws a Zettalith from your deck";
         }
