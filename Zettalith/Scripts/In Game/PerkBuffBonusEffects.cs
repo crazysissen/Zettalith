@@ -17,7 +17,7 @@ namespace Zettalith
             EffectArray = new Action<int>[] 
             {
                 //GenericEffect
-                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, 
+                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, MulitplyHealthPerk
             };
         }
 
@@ -55,6 +55,11 @@ namespace Zettalith
                 int healthChange = piece.Top.Modifier.StatChanges.Health;
                 piece.Top.Modifier = new Addition(new Stats(healthChange - 1), true);
             }
+        }
+
+        public static void MulitplyHealthPerk(int index)
+        {
+
         }
     }
 

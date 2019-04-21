@@ -55,13 +55,19 @@ namespace Zettalith
 
             allPerks = new Perk[]
             {
-                new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false},
-                new Perk("anotherPerk", "Sample text", 0.5f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 1, -1, new Mana(), 0, csc, descriptionCollection)
+                new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false, Achievable = true},
+                new Perk("Buff cost decrease", "The cost of all buffs is decreased by 30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 4, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Ability cost decrease", "The cost of all abilities is decreased by 30%", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 4, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Health increased", "The health of all Zettaliths in your hand and deck is increased by 50%", 0.3f, 0.7f, 1, Load.Get<Texture2D>("Health Perk"), 4, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Movement increased", "The movement speed of all Zettaliths in your hand and deck is increased by 30%", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 4, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Essence income increased 1", "Essence income is increased by 30%", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 4, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Essence income increased 2", "Essence income is increased by another 30%", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 4, -1, new Mana(), 0, csc, descriptionCollection)
             };
 
             // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.
 
-            allPerks[0].CreateConnections(new Perk[] { allPerks[1]});
+            allPerks[0].CreateConnections(new Perk[] { allPerks[1], allPerks[2], allPerks[3], allPerks[4], allPerks[5] });
+            allPerks[5].CreateConnections(new Perk[] { allPerks[6] });
 
 
 
@@ -83,7 +89,7 @@ namespace Zettalith
                         width = (int)(Settings.GetResolution.Y * 0.01);
                         height = (int)Math.Sqrt(Math.Pow(difX, 2) + Math.Pow(difY, 2));
 
-                        allPerks[i].Connections[j].MyLine = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 6), White, new Rectangle((int)(allPerks[i].AccessButton.Transform.X + allPerks[i].AccessButton.Transform.Width * 0.5 + difX * 0.5), (int)(allPerks[i].AccessButton.Transform.Y + allPerks[i].AccessButton.Transform.Height * 0.5 + difY * 0.5), width, height), Color.White, ((difX != 0) ? ((float)Math.Atan(difY / difX)) : (0f)), new Vector2(0.5f, 0.5f), SpriteEffects.None);
+                        allPerks[i].Connections[j].MyLine = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 6), White, new Rectangle((int)(allPerks[i].AccessButton.Transform.X + allPerks[i].AccessButton.Transform.Width * 0.5 + difX * 0.5), (int)(allPerks[i].AccessButton.Transform.Y + allPerks[i].AccessButton.Transform.Height * 0.5 + difY * 0.5), width, height), Color.White, (float)(Math.Atan2(difY, difX) + Math.PI * 0.5f), new Vector2(0.5f, 0.5f), SpriteEffects.None);
                         collection.Add(allPerks[i].Connections[j].MyLine);
                     }
                 }
@@ -109,6 +115,8 @@ namespace Zettalith
                         {
                             for (int j = 0; j < allPerks[i].Connections.Length; ++j)
                             {
+                                allPerks[i].Connections[j].MyPerk.Achievable = true;
+
                                 if (allPerks[i].Connections[j].MyPerk.Achieved)
                                 {
                                     allPerks[i].Connections[j].MyLine.Color = Color.Gold;
@@ -124,6 +132,7 @@ namespace Zettalith
     class Perk
     {
         public bool On { get; set; } = true;
+        public bool Achievable { get; set; } = false;
         public bool Achieved { get; set; }
         public Connection[] Connections { get; set; }
         public GUI.Button AccessButton { get; set; }
@@ -168,7 +177,7 @@ namespace Zettalith
 
         void UsePerk()
         {
-            if ( Cost <= InGameController.LocalMana && EssenceCost <= InGameController.LocalEssence && Achieved == false)
+            if ( Cost <= InGameController.LocalMana && EssenceCost <= InGameController.LocalEssence && Achieved == false && On == true && Achievable == true)
             {
                 InGameController.LocalMana -= Cost;
                 InGameController.LocalEssence -= EssenceCost;
