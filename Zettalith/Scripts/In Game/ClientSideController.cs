@@ -105,7 +105,9 @@ namespace Zettalith
 
             infoBox = new InfoBox(collection);
 
-            pieceStats = new PieceStats();
+            GUI.Collection pieceStatsCollection = new GUI.Collection();
+            pieceStats = new PieceStats(pieceStatsCollection);
+            collection.Add(pieceStatsCollection);
 
             splashTable = new TimerTable(new float[] { 1, 2 });
             animatingPieces = new List<(TilePiece piece, TimerTable table, Renderer.Animator[] animators)>();
