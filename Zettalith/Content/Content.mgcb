@@ -423,6 +423,42 @@
 /processorParam:TextureFormat=Color
 /build:GUI/InGameGUI/BuffButton.png 
 
+#begin GUI/InGameGUI/Ability Perk.png 
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/Ability Perk.png 
+
+#begin GUI/InGameGUI/Health Perk.png 
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/Health Perk.png 
+
+#begin GUI/InGameGUI/Move Perk.png 
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GUI/InGameGUI/Move Perk.png 
+
 #begin GUI/ManagementButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
