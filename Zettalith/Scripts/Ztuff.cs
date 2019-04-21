@@ -28,7 +28,9 @@ namespace Zettalith
         public static void RestoreFromBuff()
         {
             if (theGUI != null)
+            {
                 theGUI.Active = true;
+            }
         }
     }
 }
