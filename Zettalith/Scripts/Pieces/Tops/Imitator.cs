@@ -66,8 +66,9 @@ namespace Zettalith.Pieces
             TilePiece toCopy = (TilePiece)InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
 
             InGamePiece copy = new InGamePiece(new Piece((byte)toCopy.Piece.Top.ToIndex(), (byte)toCopy.Piece.Middle.ToIndex(), (byte)toCopy.Piece.Bottom.ToIndex()));
-            InGameController.Grid.GetObject(pos.X, pos.Y).Destroy();
-            InGameController.Main.PlacePiece(copy.Index, pos.X, pos.Y, InGameController.PlayerIndex);
+            TilePiece temp = (TilePiece)InGameController.Grid.GetObject(pos.X, pos.Y);
+            temp.Destroy();
+            InGameController.Main.PlacePiece(copy.Index, pos.X, pos.Y, temp.Player);
 
             Modifier mod = new Direct(toCopy.Piece.ModifiedStats, true);
             (InGameController.Grid.GetObject(pos.X, pos.Y) as TilePiece).Piece.ModThis(mod);
