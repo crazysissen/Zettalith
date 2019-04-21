@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             // Modifier = new Addition(new Stats(-9), true);
             Texture = Load.Get<Texture2D>("Top");
 
-            Description = "Become a copy of another Zettalith";
+            Description = "Becomes a copy of another Zettalith";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

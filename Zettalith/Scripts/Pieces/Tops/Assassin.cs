@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(-9), true);
             Texture = Load.Get<Texture2D>("Assassin");
 
-            Description = "Deal " + (Modifier as Addition).StatChanges.Health * -1 + " damage";
+            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

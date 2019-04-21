@@ -16,6 +16,8 @@ namespace Zettalith.Pieces
             Health = 1;
             AttackDamage = 2;
             Texture = Load.Get<Texture2D>("SixtenBottom3");
+
+            Description = "The finest robe in the entire kingdom";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Zettalith.Pieces
         public Recruiter()
         {
             Name = "Recruiter";
-            Health = 5;
+            Health = 2;
             AttackDamage = 2;
             AbilityRange = 0;
             ManaCost = new Mana(0, 5, 0);

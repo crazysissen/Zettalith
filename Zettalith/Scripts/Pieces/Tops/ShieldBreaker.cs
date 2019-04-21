@@ -8,25 +8,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zettalith.Pieces
 {
-    class ConeHealer : Top
+    class ShieldBreaker : Top
     {
-        public ConeHealer()
+        public ShieldBreaker()
         {
-            Name = "Cone Healer";
+            Name = "Shield Breaker";
             Health = 3;
-            AttackDamage = 0;
-            AbilityRange = 4;
-            ManaCost = new Mana(0, 3, 2);
-            AbilityCost = new Mana(0, 0, 4);
-            Modifier = new Addition(new Stats(2), true);
-            Texture = Load.Get<Texture2D>("HealerTop2");
+            AttackDamage = 2;
+            AbilityRange = 3;
+            ManaCost = new Mana(0, 3, 3);
+            AbilityCost = new Mana(0, 2, 3);
+            Modifier = new Direct(new Stats(0, true), true);
+            Texture = Load.Get<Texture2D>("Assassin");
 
-            Description = "Restores " + Modifier.StatChanges.Health + " health to Zettaliths in a cone";
+            Description = "Removes all armor from a Zettalith";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.Cone(piece.Position, mousePos, AbilityRange);
+            List<Point> points = Abilities.TargetAll(piece.Position, AbilityRange);
             List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             ClientSideController.AddHighlight(points.ToArray());
@@ -37,7 +37,7 @@ namespace Zettalith.Pieces
                 {
                     if (mousePos == sPoints[i])
                     {
-                        object[] temp = { sPoints, Modifier };
+                        object[] temp = { sPoints[i], Modifier };
                         cancel = false;
                         return temp;
                     }
@@ -53,17 +53,8 @@ namespace Zettalith.Pieces
 
         public override void ActivateAbility(object[] data)
         {
-            List<SPoint> temp = data[0] as List<SPoint>;
-
-            for (int i = 0; i < temp.Count; ++i)
-            {
-                TileObject piece = InGameController.Grid.GetObject(temp[i].X, temp[i].Y);
-
-                if (piece == null || !(piece is TilePiece))
-                    continue;
-
-                (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
-            }
+            TileObject piece = InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
+            (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
         }
     }
 }
