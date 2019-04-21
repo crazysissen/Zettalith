@@ -14,7 +14,7 @@ namespace Zettalith
 
         public enum Type
         {
-            SquareMap
+            SquareMap, NoiseMap, NoiseMirrorMap
         }
 
         static Func<Random, int, int, Map>[] functions = { NoHolesMap, RectangleMap };
