@@ -25,7 +25,7 @@ namespace Zettalith
             A_SERVERHANDLE = "-serverhandle";
 
         // Boot config
-        public static readonly bool localGame = false;
+        public static readonly bool localGame = true;
 
         public static bool DebugConsole { get; private set; } = true;
 

@@ -143,7 +143,16 @@ namespace Zettalith
 
         public void CreateMap(Grid grid)
         {
+            Random r = new Random();
+
             Texture2D tileTexture = Load.Get<Texture2D>("Tile"), highlightTexture = Load.Get<Texture2D>("TileHighlightSheet"), frontTexture = Load.Get<Texture2D>("TileFront"), backgroundTexture = Load.Get<Texture2D>("Carpet");
+            Texture2D[] tileTextures =
+            {
+                Load.Get<Texture2D>("Tile1"),
+                Load.Get<Texture2D>("Tile2"),
+                Load.Get<Texture2D>("Tile3"),
+                Load.Get<Texture2D>("Tile4")
+            };
 
             tiles = new Renderer.Sprite[grid.xLength, grid.yLength];
             tileFronts = new Renderer.Sprite[grid.xLength, grid.yLength];
@@ -168,7 +177,7 @@ namespace Zettalith
                 {
                     bool host = InGameController.IsHost;
 
-                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), tileTexture, new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
+                    tiles[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), tileTextures[r.Next(4)], new Vector2(x, y * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 11), SpriteEffects.None);
                     tileFronts[x, y] = new Renderer.Sprite(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y)) - 1), frontTexture, new Vector2(x, (y + (host ? 0.5f : -0.5f)) * HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(16, 0), SpriteEffects.None);
                     highlights[x, y] = new Renderer.Animator(new Layer(MainLayer.Background, (host ? (y - grid.yLength) : (-y))), highlightTexture, new Point(32, 22), new Vector2(x, y * HEIGHTDISTANCE).ToRender(), Vector2.One, new Vector2(16, 11), 0, Color.White, 0.05f, 0, true, SpriteEffects.None);
 
