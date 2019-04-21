@@ -18,6 +18,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(3, 0, 0);
             MoveCost = new Mana(4, 0, 0);
             MoveRange = 6;
+            MovementTime = 2;
             Texture = Load.Get<Texture2D>("StraightBottom");
 
             Description = "Moves " + MoveRange + " tiles in a straight line.";

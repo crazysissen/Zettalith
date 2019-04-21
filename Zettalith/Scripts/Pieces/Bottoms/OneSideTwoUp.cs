@@ -18,6 +18,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(2, 0, 0);
             MoveCost = new Mana(1, 0, 0);
             MoveRange = 0;
+            MovementTime = 0.5f;
             Texture = Load.Get<Texture2D>("Bottom");
 
             Description = "Capable of moving one unit to the sides or two units forward";

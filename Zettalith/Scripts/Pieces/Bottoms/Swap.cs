@@ -18,6 +18,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 3, 5);
             MoveCost = new Mana(0, 5, 5);
             MoveRange = 0;
+            MovementTime = 3f;
             Texture = Load.Get<Texture2D>("SwapBottom");
 
             Description = "Swaps place with another Zettalith.";

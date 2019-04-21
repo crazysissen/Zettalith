@@ -328,6 +328,8 @@ namespace Zettalith
         public void PlacePiece(int pieceIndex, int x, int y, int player)
         {
             InGamePiece piece = InGamePiece.Pieces[pieceIndex];
+            piece.HasMoved = true;
+            piece.HasAttacked = true;
 
             TileObject obj = Grid.Place(x, y, new TilePiece(piece, player));
 
@@ -356,7 +358,7 @@ namespace Zettalith
             }
 
             //TODO: Unit already attacked pop-up?
-            Test.Log("Unit already attacked");
+            Test.Log("Unit cannot attack");
         }
 
         public void ActivateAbility(int pieceIndex, object[] data)
@@ -372,11 +374,20 @@ namespace Zettalith
         {
             TilePiece piece = Grid[pieceIndex] as TilePiece;
 
-            piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
+            if (!piece.Piece.HasMoved)
+            {
+                piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
-            Local.ClientController.PlacePieceAnimation(piece);
+                Local.ClientController.PlacePieceAnimation(piece);
 
-            players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+                players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+
+                piece.Piece.HasMoved = true;
+                return;
+            }
+
+            //TODO: Unit already moved pop-up?
+            Test.Log("Unit cannot move");
         }
 
         public void EndGame(int winnerIndex)
@@ -396,6 +407,7 @@ namespace Zettalith
             if (gameState == InGameState.Battle)
             {
                 ResetAttacks();
+                ResetMovements();
                 Execute(GameAction.RequestEndTurn, true);
                 
                 gameState = InGameState.Wait;
@@ -435,6 +447,21 @@ namespace Zettalith
                 }
 
                 piece.Piece.HasAttacked = false;
+            }
+        }
+
+        void ResetMovements()
+        {
+            for (int i = 0; i < Grid.Objects.Length; ++i)
+            {
+                TilePiece piece = Grid[i] as TilePiece;
+
+                if (piece == null)
+                {
+                    continue;
+                }
+
+                piece.Piece.HasMoved = false;
             }
         }
 
