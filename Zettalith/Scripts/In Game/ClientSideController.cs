@@ -264,7 +264,10 @@ namespace Zettalith
 
             for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
             {
-                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+                if (InGameController.Grid[anEffectCache.AListOfSints[i].IntA] != null || anEffectCache.AListOfSints[i].IntA < 0)
+                {
+                    PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+                }
             }
 
             controller.TurnSwitch();
