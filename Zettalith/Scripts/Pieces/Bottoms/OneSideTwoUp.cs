@@ -12,14 +12,14 @@ namespace Zettalith.Pieces
     {
         public OneSideTwoUp()
         {
-            Name = "Viking Legs";
+            Name = "Berserk";
             Health = 2;
             AttackDamage = 0;
             ManaCost = new Mana(2, 0, 0);
             MoveCost = new Mana(1, 0, 0);
             MoveRange = 0;
             MovementTime = 0.5f;
-            Texture = Load.Get<Texture2D>("Bottom");
+            Texture = Load.Get<Texture2D>("AggresiveBottom");
 
             Description = "Capable of moving one unit to the sides or two units forward";
         }
