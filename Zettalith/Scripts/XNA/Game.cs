@@ -47,6 +47,7 @@ namespace Zettalith
 
             Graphics = new GraphicsDeviceManager(this)
             {
+                SynchronizeWithVerticalRetrace = false,
                 PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8,
                 PreferredBackBufferHeight = 720,
                 PreferredBackBufferWidth = 1280
