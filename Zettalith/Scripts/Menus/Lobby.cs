@@ -104,7 +104,7 @@ namespace Zettalith
                     bStart.ChangeText(connected ? "Ready" : (connecting ? "Connecting" : "Connect"));
 
                     ipFieldTitle = new Renderer.Text(Layer.GUI, Font.Bold, "Enter IP:", 3, 0, new Vector2(340, 380), Vector2.Zero, Color.White);
-                    tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 420, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, buttonTexture);
+                    tIpField = new GUI.TextField(Layer.GUI, new Layer(MainLayer.GUI, 1), Font.Default, 4, new Rectangle(340, 415, 420, 40), new Vector2(345, 420), Vector2.Zero, "", Color.Black, Color.DarkGray, Load.Get<Texture2D>("Square"));
                     tIpField.AllowedText = GUI.TextField.TextType.Numbers | GUI.TextField.TextType.Periods;
                     tIpField.MaxLetters = 24;
                     collection.Add(tIpField, ipFieldTitle);
@@ -137,6 +137,15 @@ namespace Zettalith
                     ipFieldTitle.String = new StringBuilder("Timed out. Try again:");
                 }
             }
+        }
+
+        public void Destroy()
+        {
+            NetworkManager.OnConnected -= Connected;
+            NetworkManager.OnDisconnected -= Disconnected;
+
+            NetworkManager.RevokeListen(STARTHEADER, Ready);
+            NetworkManager.RevokeListen(RECIEVEDATAHEADER, LoadGame.RecieveData);
         }
 
         private void UpdateGUI()
@@ -244,6 +253,8 @@ namespace Zettalith
 
         void BBack()
         {
+            Destroy();
+
             NetworkManager.DestroyPeer();
 
             collection.Active = false;

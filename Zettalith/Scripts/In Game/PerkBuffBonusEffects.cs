@@ -17,7 +17,7 @@ namespace Zettalith
             EffectArray = new Action<int>[] 
             {
                 //GenericEffect
-                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, MulitplyHealthPerk
+                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage
             };
         }
 
@@ -57,9 +57,33 @@ namespace Zettalith
             }
         }
 
-        public static void MulitplyHealthPerk(int index)
+        public static void NerfHp(int index)
         {
+            Modifier mod = new Addition(new Stats(0, -1, 0, new Mana(), new Mana(), new Mana()), true);
+            (InGameController.Grid[index] as TilePiece).Piece.ModThis(mod);
+        }
 
+        public static void NerfAttack(int index)
+        {
+            Modifier mod = new Addition(new Stats(-1, 0, 0, new Mana(), new Mana(), new Mana()), true);
+            (InGameController.Grid[index] as TilePiece).Piece.ModThis(mod);
+        }
+
+        public static void NerfArmor(int index)
+        {
+            Modifier mod = new Addition(new Stats(-1, true), true);
+            (InGameController.Grid[index] as TilePiece).Piece.ModThis(mod);
+        }
+
+        public static void NerfAbilityDamage(int index)
+        {
+            InGamePiece piece = (InGameController.Grid[index] as TilePiece).Piece;
+
+            if (piece.Top.Modifier is Addition && piece.Top.Modifier.StatChanges.Health < 0)
+            {
+                int healthChange = piece.Top.Modifier.StatChanges.Health;
+                piece.Top.Modifier = new Addition(new Stats(healthChange + 1), true);
+            }
         }
     }
 
