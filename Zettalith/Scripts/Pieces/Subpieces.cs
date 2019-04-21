@@ -20,6 +20,7 @@ namespace Zettalith
             typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(Healer), typeof(Mortar),
             typeof(Swap), typeof(Cone), typeof(LobHealer), typeof(ConeHealer), typeof(OneTile),
             typeof(Cyclops), typeof(OneSideTwoUp), typeof(Assassin), typeof(Recruiter), typeof(Imitator),
+            typeof(Bouncer),
 
             typeof(Duplicator),
 
@@ -38,6 +39,7 @@ namespace Zettalith
             true, true, true, true, true,
             true, true, true, true, true,
             true, true, true, true, true,
+            true,
 
             true,
 

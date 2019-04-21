@@ -15,7 +15,7 @@ namespace Zettalith.Pieces
             Name = "Bouncer";
             Health = 6;
             AttackDamage = 1;
-            AbilityRange = 2;
+            AbilityRange = 1;
             ManaCost = new Mana(2, 4, 0);
             AbilityCost = new Mana(0, 5, 0);
             Modifier = new Addition(new Stats(-3), true);
@@ -26,22 +26,90 @@ namespace Zettalith.Pieces
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
         {
-            List<Point> points = Abilities.Beam(piece.Position, mousePos, AbilityRange, 1);
-            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
-            SPoint target = new Point();
+            List<Point> points = Abilities.TargetAll(piece.Position, AbilityRange);
 
+            if (points.Contains(piece.Position))
+            {
+                points.Remove(piece.Position);
+            }
+
+            List<SPoint> sPoints = new List<SPoint>(points.ToArray().ToSPointArray());
 
             for (int i = 0; i < points.Count; ++i)
             {
-                if (InGameController.Grid.GetObject(points[i].X, points[i].Y) != null)
+                if (points[i].X != piece.Position.X && points[i].Y != piece.Position.Y)
                 {
-                    target = points[i];
-                    points.RemoveAt(i);
+                    cancel = true;
+                    return null;
+                }
+            }
+
+            Point target = new Point(-1, -1);
+
+            if (InGameController.Grid.GetObject(mousePos.X, mousePos.Y) != null && points.Contains(mousePos))
+            {
+                points.Remove(mousePos);
+                target = mousePos;
+            }
+
+            Point dir = target - piece.Position;
+            Point last = target;
+
+            for (int i = 1; i < InGameController.Grid.xLength; ++i)
+            {
+                if (dir.X > 0)
+                {
+                    if (InGameController.Grid.Vacant(target.X + i, target.Y))
+                    {
+                        last = new Point(target.X + i, target.Y);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else if (dir.X < 0)
+                {
+                    if (InGameController.Grid.Vacant(target.X - i, target.Y))
+                    {
+                        last = new Point(target.X - i, target.Y);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else if (dir.Y > 0)
+                {
+                    if (InGameController.Grid.Vacant(target.X, target.Y + i))
+                    {
+                        last = new Point(target.X, target.Y + i);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else if (dir.Y < 0)
+                {
+                    if (InGameController.Grid.Vacant(target.X, target.Y - i))
+                    {
+                        last = new Point(target.X, target.Y - i);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
 
             ClientSideController.AddHighlight(points.ToArray());
-            ClientSideController.AddHighlight(ClientSideController.defaultEnemyHighlightColor, target);
+
+            if (target != new Point(-1, -1))
+            {
+                ClientSideController.AddHighlight(ClientSideController.defaultEnemyHighlightColor, target);
+                ClientSideController.AddHighlight(ClientSideController.meleeHighlightColor, last);
+            }
 
             if (mouseDown)
             {
@@ -49,7 +117,7 @@ namespace Zettalith.Pieces
                 {
                     if (mousePos == sPoints[i])
                     {
-                        object[] temp = { sPoints[i], piece.GridIndex, target, Modifier };
+                        object[] temp = { (SPoint)target, (SPoint)last, Modifier };
                         cancel = false;
                         return temp;
                     }
@@ -59,16 +127,19 @@ namespace Zettalith.Pieces
                 return null;
             }
 
+            ClientSideController.AddHighlight(ClientSideController.defaultEnemyHighlightColor, target);
+            ClientSideController.AddHighlight(ClientSideController.meleeHighlightColor, last);
+
+            
             cancel = false;
             return null;
         }
 
         public override void ActivateAbility(object[] data)
         {
-            Point pos = InGameController.Grid.PositionOf((int)data[1]);
-            TilePiece caster = (TilePiece)InGameController.Grid.GetObject(pos.X, pos.Y);
-            TilePiece target = (TilePiece)InGameController.Grid.GetObject(((SPoint)data[2]).X, ((SPoint)data[2]).Y);
-
+            TilePiece target = (TilePiece)InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
+            InGameController.Grid.ChangePosition(target, ((SPoint)data[1]).X, ((SPoint)data[1]).Y);
+            target.Piece.ModThis((Modifier)data[2]);
         }
     }
 }
