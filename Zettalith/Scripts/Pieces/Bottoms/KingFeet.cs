@@ -13,7 +13,7 @@ namespace Zettalith.Pieces
         public KingFeet()
         {
             Name = "King Feet";
-            Health = 1;
+            Health = 10;
             AttackDamage = 2;
             MoveRange = 1;
             MovementTime = 2;

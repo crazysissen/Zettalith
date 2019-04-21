@@ -264,7 +264,10 @@ namespace Zettalith
 
             for (int i = 0; i < anEffectCache.AListOfSints.Count; ++i)
             {
-                PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+                if (InGameController.Grid[anEffectCache.AListOfSints[i].IntB] != null || anEffectCache.AListOfSints[i].IntB < 0)
+                {
+                    PerkBuffBonusEffects.EffectArray[anEffectCache.AListOfSints[i].IntA](anEffectCache.AListOfSints[i].IntB);
+                }
             }
 
             controller.TurnSwitch();
@@ -323,10 +326,11 @@ namespace Zettalith
             if (managementGUI.Active == true)
             {
                 int manaToIncrease = new Random().Next(0, 3);
-                InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 2 ? 1 : 0));
+                InGameController.Local.BaseMana = new Mana(InGameController.Local.BaseMana.Red + (manaToIncrease == 0 ? 1 : 0), InGameController.Local.BaseMana.Green + (manaToIncrease == 1 ? 1 : 0), InGameController.Local.BaseMana.Blue + (manaToIncrease == 2 ? 1 : 0));
                 managementGUI.Active = false;
             }
             Ztuff.pickingPiece = false;
+            Ztuff.RestoreFromBuff();
         }
 
         public void OpenBattle()

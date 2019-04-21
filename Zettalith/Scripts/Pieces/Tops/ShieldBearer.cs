@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             ManaCost = new Mana(0, 4, 2);
             AbilityCost = new Mana(0, 4, 0);
             Modifier = new Addition(new Stats(3, true), true);
-            Texture = Load.Get<Texture2D>("Assassin");
+            Texture = Load.Get<Texture2D>("ShieldBearer");
 
             Description = "Gives a Zettalith " + Modifier.StatChanges.Armor + " armor";
         }

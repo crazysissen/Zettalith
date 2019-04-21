@@ -74,52 +74,62 @@ namespace Zettalith
                 {
                     if (modifier is Addition)
                     {
+                        Modifier mod = new Addition(modifier.StatChanges, true);
+
                         if (modified.Armor > 0)
                         {
-                            modified.Armor += modifier.StatChanges.Health;
+                            modified.Armor += mod.StatChanges.Health;
 
                             if (modified.Armor < 0)
                             {
-                                modifier.StatChanges = new Stats(modifier.StatChanges.AttackDamage, modified.Armor, modifier.StatChanges.Armor, modifier.StatChanges.Mana, modifier.StatChanges.AbilityCost, modifier.StatChanges.MoveCost);
+                                mod.StatChanges = new Stats(mod.StatChanges.AttackDamage, modified.Armor, 0, mod.StatChanges.Mana, mod.StatChanges.AbilityCost, mod.StatChanges.MoveCost);
+                                modified += mod.StatChanges;
                                 modified.Armor = 0;
                             }
                             else
                             {
-                                modifier.StatChanges = new Stats(modifier.StatChanges.AttackDamage, 0, modifier.StatChanges.Armor, modifier.StatChanges.Mana, modifier.StatChanges.AbilityCost, modifier.StatChanges.MoveCost);
+                                modified += new Stats(mod.StatChanges.AttackDamage, 0, 0, mod.StatChanges.Mana, mod.StatChanges.AbilityCost, mod.StatChanges.MoveCost);
                             }
                         }
-
-                        modified += modifier.StatChanges;
+                        else
+                        {
+                            modified += mod.StatChanges;
+                        }
+                        // modified += mod.StatChanges;
                     }
                     else if (modifier is Multiplication)
                     {
-                        modified *= modifier.StatChanges;
+                        Modifier mod = new Multiplication(modifier.StatChanges, true);
+
+                        modified *= mod.StatChanges;
                     }
                     else if (modifier is Direct)
                     {
-                        if (!(modifier.StatChanges.AbilityCost == new Mana()))
+                        Modifier mod = new Direct(modifier.StatChanges, true);
+
+                        if (!(mod.StatChanges.AbilityCost == new Mana()))
                         {
-                            modified.AbilityCost = modifier.StatChanges.AbilityCost;
+                            modified.AbilityCost = mod.StatChanges.AbilityCost;
                         }
-                        if (modifier.StatChanges.Health > 0)
+                        if (mod.StatChanges.Health > 0)
                         {
-                            modified.Health = modifier.StatChanges.Health;
+                            modified.Health = mod.StatChanges.Health;
                         }
-                        if (modifier.StatChanges.Armor >= 0)
+                        if (mod.StatChanges.Armor >= 0)
                         {
-                            modified.Armor = modifier.StatChanges.Armor;
+                            modified.Armor = mod.StatChanges.Armor;
                         }
-                        if (!(modifier.StatChanges.Mana == new Mana()))
+                        if (!(mod.StatChanges.Mana == new Mana()))
                         {
-                            modified.Mana = modifier.StatChanges.Mana;
+                            modified.Mana = mod.StatChanges.Mana;
                         }
-                        if (!(modifier.StatChanges.MoveCost == new Mana()))
+                        if (!(mod.StatChanges.MoveCost == new Mana()))
                         {
-                            modified.MoveCost = modifier.StatChanges.MoveCost;
+                            modified.MoveCost = mod.StatChanges.MoveCost;
                         }
-                        if (modifier.StatChanges.AttackDamage > 0)
+                        if (mod.StatChanges.AttackDamage > 0)
                         {
-                            modified.AttackDamage = modifier.StatChanges.AttackDamage;
+                            modified.AttackDamage = mod.StatChanges.AttackDamage;
                         }
 
                         //ClearMods();

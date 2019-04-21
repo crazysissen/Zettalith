@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(3), true);
             Texture = Load.Get<Texture2D>("HealerTop3");
 
-            Description = "Throws a health potion that restores " + Modifier.StatChanges.Health + " health to Zettaliths in a circle";
+            Description = "Restores " + Modifier.StatChanges.Health + " health to Zettaliths in a circle";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

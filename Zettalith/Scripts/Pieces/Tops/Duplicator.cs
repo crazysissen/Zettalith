@@ -16,8 +16,8 @@ namespace Zettalith.Pieces
             Health = 1;
             AttackDamage = 1;
             AbilityRange = 1;
-            ManaCost = new Mana(0, 1, 4);
-            AbilityCost = new Mana(0, 1, 5);
+            ManaCost = new Mana(3, 3, 3);
+            AbilityCost = new Mana(5, 5, 5);
             // Modifier = new Addition();
             Texture = Load.Get<Texture2D>("DuplicateHead");
 
@@ -59,8 +59,10 @@ namespace Zettalith.Pieces
         {
             Point pos = (SPoint)data[0];
             TilePiece duplicator = (TilePiece)InGameController.Grid[(int)data[1]];
+            Modifier stats = new Direct(duplicator.Piece.ModifiedStats, true);
             InGamePiece piece = new InGamePiece(new Piece((byte)duplicator.Piece.Top.ToIndex(), (byte)duplicator.Piece.Middle.ToIndex(), (byte)duplicator.Piece.Bottom.ToIndex()));
-            InGameController.Main.PlacePiece(piece.Index, pos.X, pos.Y, InGameController.PlayerIndex);
+            InGameController.Main.PlacePiece(piece.Index, pos.X, pos.Y, duplicator.Player);
+            (InGameController.Grid.GetObject(pos.X, pos.Y) as TilePiece).Piece.ModThis(stats);
 
             //TilePiece temp = new TilePiece(new InGamePiece(piece.Piece.Piece), piece.Player);
             //InGameController.Main.PlacePiece((int)data[1], pos.X, pos.Y, piece.Player);

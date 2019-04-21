@@ -31,13 +31,13 @@ namespace Zettalith
             panels = new Renderer.SpriteScreen(Layer.GUI, Load.Get<Texture2D>("HUD Logistics"), new Rectangle(0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
 
             Texture2D PerkButtonTexture = Load.Get<Texture2D>("Perk Tree Button");
-            bPerks = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), PerkButtonTexture) { ScaleEffect = true };
+            bPerks = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.005f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width)) * 1.5f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)) * 1.5f)), PerkButtonTexture) { ScaleEffect = true };
             bPerks.OnClick += csc.OpenPerks;
 
-            bBuffs = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Buff Shop Button")) { ScaleEffect = true };
+            bBuffs = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.005f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width)) * 1.5f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)) * 1.5f)), Load.Get<Texture2D>("Buff Shop Button")) { ScaleEffect = true };
             bBuffs.OnClick += csc.OpenBuff;
 
-            bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.65f), (int)(Settings.GetResolution.Y * 0.005f), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width), (int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
+            bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.65f), (int)(Settings.GetResolution.Y * 0.005f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width)) * 1.5f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)) * 1.5f)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
             bBonuses.OnClick += csc.OpenBonus;
 
             essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.83f, Settings.GetResolution.Y * 0.006f), new Vector2(), Color.Blue);
