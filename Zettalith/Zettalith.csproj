@@ -102,6 +102,7 @@
     <Compile Include="Scripts\In Game\PerkHUD.cs" />
     <Compile Include="Scripts\In Game\PieceStats.cs" />
     <Compile Include="Scripts\In Game\Player Types\InfoBox.cs" />
+    <Compile Include="Scripts\Misc\AStarRip.cs" />
     <Compile Include="Scripts\Misc\ConvertibleGrid.cs" />
     <Compile Include="Scripts\Misc\Noise.cs" />
     <Compile Include="Scripts\Misc\Sound.cs" />
