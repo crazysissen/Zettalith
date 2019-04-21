@@ -21,7 +21,7 @@ namespace Zettalith.Pieces
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("AOELOBtop");
 
-            Description = "Deals " + Modifier.StatChanges.Health * -1 + " damage to Zettaliths in a circle. Cannot fire within 4 tiles";
+            Description = "Deals " + Modifier.StatChanges.Health * -1 + " damage in a circle. Cannot fire in 4 tiles";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
