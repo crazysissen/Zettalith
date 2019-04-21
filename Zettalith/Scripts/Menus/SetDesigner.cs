@@ -109,11 +109,11 @@ namespace Zettalith
             }
 
             #region //CollectionInspector
-            bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.757f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
+            bCreate = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.795f), (int)(Settings.GetResolution.Y * 0.877f), (int)(Ztuff.SizeResFactor * button2D.Width) * 5, (int)(Ztuff.SizeResFactor * button2D.Height) * 5), button2D);
             bCreate.AddText("Create Deck", 4, true, Color.White, Font.Default);
             bCreate.OnClick += BCreateSet;
 
-            bBack = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.0095f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
+            bBack = new GUI.Button(collectionLayer, new Rectangle((int)(Settings.GetResolution.X * 0.01f), (int)(Settings.GetResolution.Y * 0.877f), (int)(Ztuff.SizeResFactor * button2D.Width) * 5, (int)(Ztuff.SizeResFactor * button2D.Height) * 5), button2D);
             bBack.AddText("Back", 4, true, Color.White, Font.Default);
             bBack.OnClick += BBackToMain;
             
@@ -137,7 +137,7 @@ namespace Zettalith
             #endregion
 
             #region //SetDesigner
-            bCancelSet = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.0095f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
+            bCancelSet = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.01f), (int)(Settings.GetResolution.Y * 0.877f), (int)(Ztuff.SizeResFactor * button2D.Width) * 5, (int)(Ztuff.SizeResFactor * button2D.Height) * 5), button2D);
             bCancelSet.AddText("Cancel", 4, true, Color.White, Font.Default);
             bCancelSet.OnClick += BBackToMain;
 
@@ -188,7 +188,7 @@ namespace Zettalith
             bCopy.AddText("Copy", 3, true, Color.White, Font.Default);
             bCopy.OnClick += BCopyPiece;
 
-            bDone = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.757f), (int)(Settings.GetResolution.Y * 0.856f), (int)(Ztuff.SizeResFactor * button2D.Width) * 6, (int)(Ztuff.SizeResFactor * button2D.Height) * 6), button2D);
+            bDone = new GUI.Button(designerLayer, new Rectangle((int)(Settings.GetResolution.X * 0.795f), (int)(Settings.GetResolution.Y * 0.877f), (int)(Ztuff.SizeResFactor * button2D.Width) * 5, (int)(Ztuff.SizeResFactor * button2D.Height) * 5), button2D);
             bDone.AddText("Done", 4, true, Color.White, Font.Default);
             bDone.OnClick += BDone;
 
