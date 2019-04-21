@@ -143,6 +143,7 @@
     <Compile Include="Scripts\Pieces\Set.cs" />
     <Compile Include="Scripts\Bytestreamer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Assassin.cs" />
+    <Compile Include="Scripts\Pieces\Tops\Bouncer.cs" />
     <Compile Include="Scripts\Pieces\Tops\ConeHealer.cs" />
     <Compile Include="Scripts\Pieces\Tops\Cone.cs" />
     <Compile Include="Scripts\Pieces\Tops\CyclopsAbomination.cs" />

@@ -38,6 +38,7 @@ namespace Zettalith
 
         public static Stats operator +(Stats a, Stats b) => new Stats
         {
+            AttackDamage = a.AttackDamage + b.AttackDamage,
             MaxHealth = a.MaxHealth + b.MaxHealth,
             Health = a.Health + b.Health,
             Mana = a.Mana + b.Mana,
@@ -47,6 +48,7 @@ namespace Zettalith
 
         public static Stats operator *(Stats a, Stats b) => new Stats
         {
+            AttackDamage = a.AttackDamage * b.AttackDamage,
             MaxHealth = a.MaxHealth + b.MaxHealth,
             Health = a.Health * b.Health,
             Mana = a.Mana * b.Mana,
