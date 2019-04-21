@@ -155,6 +155,7 @@ namespace Zettalith
             if (inGameController != null)
             {
                 InGameController.Local?.ClientController?.UpdateBackground();
+                InGameController.Local?.ClientController?.UpdateStats();
             }
 
             RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -218,6 +219,8 @@ namespace Zettalith
 
         public void ToGame(StartupConfig config, bool host)
         {
+            mainMenu.StopMusic();
+
             stateManager.SetGameState(GameState.InGame, 0);
 
             inGameController = new InGameController(host, this, xnaController);

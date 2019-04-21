@@ -83,6 +83,11 @@ namespace Zettalith
 
         }
 
+        public void StopMusic()
+        {
+            song?.Dispose();
+        }
+
         public void CloseMenu()
         {
             collection.Active = false;
