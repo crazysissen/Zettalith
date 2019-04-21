@@ -188,7 +188,7 @@ namespace Zettalith
         {
             //if (Input.LeftMouse)
             //{
-            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), 30);
+            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
             //}
 
             AnimatePieces(deltaTime);
