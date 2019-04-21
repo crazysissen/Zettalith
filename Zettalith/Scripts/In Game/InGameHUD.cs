@@ -30,11 +30,15 @@ namespace Zettalith
 
             Buff[] buffs = new Buff[]
             {
-                new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
-                new Buff("Health", "+1 Health", 0, 0, 2, 0, 0, Collection),
-                new Buff("Attack Damage", "+1 Attack Damage", 1, 4, 0, 0, 0, Collection),
-                new Buff("Armor", "+1 Armor", 2, 0, 0, 2, 0, Collection),
-                new Buff("Ability Damage", "+1 Ability Damage", 3, 0, 0, 5, 0, Collection),
+                //new Buff("Buff name", "Sample text", 1, 1, 2, 3, 4, Collection),
+                new Buff("Buff Health", "+1 Health", 0, 0, 2, 0, 0, Collection),
+                new Buff("Buff Attack Damage", "+1 Attack Damage", 1, 4, 0, 0, 0, Collection),
+                new Buff("Buff Armor", "+1 Armor", 2, 0, 0, 2, 0, Collection),
+                new Buff("Buff Ability Damage", "+1 Ability Damage", 3, 0, 0, 5, 0, Collection),
+                new Buff("Nerf Health", "-1 Health", 4, 2, 0, 0, 0, Collection),
+                new Buff("Nerf Attack Damage", "-1 Attack Damage", 5, 0, 5, 0, 0, Collection),
+                new Buff("Nerf Armor", "-1 Armor", 6, 1, 0, 0, 0, Collection),
+                new Buff("Nerf Ability Damage", "-1 Ability Damage", 7, 3, 3, 5, 0, Collection),
             };
 
             Buff[] bonuses = new Buff[]
