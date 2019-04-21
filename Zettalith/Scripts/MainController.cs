@@ -156,6 +156,7 @@ namespace Zettalith
             {
                 InGameController.Local?.ClientController?.UpdateBackground();
                 InGameController.Local?.ClientController?.UpdateStats();
+                InGameController.Local?.ClientController?.UpdateParticles((float)gameTime.ElapsedGameTime.TotalSeconds);
             }
 
             RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);

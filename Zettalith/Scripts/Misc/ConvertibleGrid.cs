@@ -19,12 +19,15 @@ namespace Zettalith
 
         public T this[int x, int y]
         {
-            get => array[x + y *  height];
-            set => array[x + y * height] = value;
+            get => array[x + y *  width];
+            set => array[x + y * width] = value;
         }
 
         public ConvertibleGrid(int width, int height)
         {
+            this.width = width;
+            this.height = height;
+
             array = new T[width * height];
         }
     }

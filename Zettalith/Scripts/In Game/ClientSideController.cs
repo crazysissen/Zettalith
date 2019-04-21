@@ -37,6 +37,8 @@ namespace Zettalith
         public static Vector2 TopLeftCorner { get; private set; }
         public static Vector2 BottomRightCorner { get; private set; }
 
+        public static ParticleMap Particles { get; private set; }
+
         public static Vector2 MousePositionAbsolute => RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()); 
         public static Vector2 MousePosition => new Vector2(MousePositionAbsolute.X, MousePositionAbsolute.Y / HEIGHTDISTANCE);
         public static Point MousePoint => MousePosition.RoundToPoint();
@@ -104,6 +106,8 @@ namespace Zettalith
             hud = new InGameHUD(collection, perkGUI, buffGUI, bonusGUI, battleGUI, logisticsGUI, endGUI, managementGUI, controller, this, player);
 
             infoBox = new InfoBox(collection);
+
+            Particles = new ParticleMap(collection, InGameController.Grid.xLength * 32, InGameController.Grid.yLength * 22, MainLayer.Main, TileObject.DefaultLayer(host ? 0 : InGameController.Grid.yLength - 1).layer + 1, TileObject.DefaultLayer(host ? InGameController.Grid.yLength - 1 : 0).layer + 2, true);
 
             GUI.Collection pieceStatsCollection = new GUI.Collection();
             pieceStats = new PieceStats(pieceStatsCollection);
@@ -182,6 +186,11 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
+            //if (Input.LeftMouse)
+            //{
+            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
+            //}
+
             AnimatePieces(deltaTime);
             Pieces(deltaTime, gameState == InGameState.Battle);
 
@@ -227,6 +236,20 @@ namespace Zettalith
                 return;
 
             pieceStats.Update();
+        }
+
+        public void UpdateParticles(float deltaTime)
+        {
+            if (Particles == null)
+                return;
+
+            Vector2 offset = new Vector2(0.5f, 0.5f * HEIGHTDISTANCE);
+            if (InGameController.IsHost)
+            {
+                offset *= -1;
+            }
+
+            Particles.Update(TopLeftCorner + offset, BottomRightCorner + offset, true, deltaTime);
         }
 
         public void ComputeSendLogistics()
@@ -310,6 +333,8 @@ namespace Zettalith
         {
             battleGUI.Active = true;
             logisticsGUI.Active = false;
+
+            DrawPieceFromDeck();
 
             splash.String = new StringBuilder("Your Turn");
             splash.Origin = splash.Font.MeasureString("Your Turn") * 0.5f;
