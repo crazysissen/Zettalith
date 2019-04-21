@@ -20,7 +20,7 @@ namespace Zettalith
         protected Player opponent;
 
         // TODO: STARTING MANA
-        public Mana BaseMana { get; set; } = new Mana(15, 15, 15);
+        public Mana BaseMana { get; set; } = new Mana(5, 5, 5);
         public Mana Mana { get; set; }
         public int Essence { get; set; }
 

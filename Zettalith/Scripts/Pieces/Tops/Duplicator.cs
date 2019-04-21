@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             AttackDamage = 1;
             AbilityRange = 1;
             ManaCost = new Mana(0, 1, 4);
-            AbilityCost = new Mana(0, 1, 5);
+            AbilityCost = new Mana(5, 0, 5);
             // Modifier = new Addition();
             Texture = Load.Get<Texture2D>("DuplicateHead");
 
