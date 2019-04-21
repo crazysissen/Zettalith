@@ -334,6 +334,8 @@ namespace Zettalith
             battleGUI.Active = true;
             logisticsGUI.Active = false;
 
+            DrawPieceFromDeck();
+
             splash.String = new StringBuilder("Your Turn");
             splash.Origin = splash.Font.MeasureString("Your Turn") * 0.5f;
             splashTable = new TimerTable(new float[] { 0.4f, 0.6f, 0.3f });

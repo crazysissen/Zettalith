@@ -177,6 +177,11 @@ namespace Zettalith
             Local.ClientController.DrawPieceFromDeck();
             Local.ClientController.DrawPieceFromDeck();
             Local.ClientController.DrawPieceFromDeck();
+
+            if (StartPlayer != PlayerIndex)
+            {
+                Local.ClientController.DrawPieceFromDeck();
+            }
         }
 
         public void NewTurnStart()

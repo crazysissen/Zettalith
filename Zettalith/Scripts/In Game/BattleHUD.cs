@@ -55,11 +55,11 @@ namespace Zettalith
                 collection.Add(Bars[i].Top, Bars[i].Bottom, Bars[i].ManaText, Bars[i].ManaBlock);
             }
 
-            GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
-            button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
-            button.OnClick += clientSideController.DrawPieceFromDeck;
+            //GUI.Button button = new GUI.Button(Layer.GUI, new Rectangle(10, 10, 160, 60));
+            //button.AddText("Draw Piece", 3, true, Color.Black, Font.Bold);
+            //button.OnClick += clientSideController.DrawPieceFromDeck;
 
-            collection.Add(panels, bEndTurn, button, essence);
+            collection.Add(panels, bEndTurn, /*button, */essence);
             collection.Active = false;
         }
 
