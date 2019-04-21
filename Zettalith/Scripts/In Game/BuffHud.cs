@@ -102,7 +102,7 @@ namespace Zettalith
         {
             if (RedCost <= InGameController.LocalMana.Red && GreenCost <= InGameController.LocalMana.Green && BlueCost <= InGameController.LocalMana.Blue && EssenceCost <= InGameController.LocalEssence)
             {
-                InGameController.LocalMana -= new Mana(RedCost, BlueCost, GreenCost);
+                InGameController.LocalMana -= new Mana(RedCost, GreenCost, BlueCost);
                 InGameController.LocalEssence -= EssenceCost;
 
                 theCOL.Active = false;

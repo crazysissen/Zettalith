@@ -330,6 +330,7 @@ namespace Zettalith
                 managementGUI.Active = false;
             }
             Ztuff.pickingPiece = false;
+            Ztuff.RestoreFromBuff();
         }
 
         public void OpenBattle()
