@@ -17,7 +17,7 @@ namespace Zettalith.Pieces
             AttackDamage = 0;
             ManaCost = new Mana(3, 0, 5);
             MoveCost = new Mana(3, 0, 3);
-            MoveRange = 4;
+            MoveRange = 3;
             MovementTime = 3;
             Texture = Load.Get<Texture2D>("TPBottom");
 
