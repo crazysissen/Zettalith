@@ -55,11 +55,11 @@ namespace Zettalith
         public Stats BaseStats => new Stats()
         {
             AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
-            MaxHealth = Top.Health + Middle.Health + Bottom.Health /*+ Ztuff.healthIncrease*/,
-            Health = Top.Health + Middle.Health + Bottom.Health /*+ Ztuff.healthIncrease*/,
+            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
+            Health = Top.Health + Middle.Health + Bottom.Health,
             Armor = Top.Armor + Middle.Armor + Bottom.Armor,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            AbilityCost = Top.AbilityCost/* - Ztuff.abilityCostDecrease*/,
+            AbilityCost = Top.AbilityCost,
             MoveCost = Bottom.MoveCost
         };
 

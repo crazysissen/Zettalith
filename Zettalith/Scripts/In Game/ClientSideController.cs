@@ -11,8 +11,8 @@ namespace Zettalith
 {
     class ClientSideController
     {
-        public static int
-            placeHeight = 2/* + Ztuff.placeHeightIncrease*/;
+        const int
+            placeHeight = 2;
 
         const int 
             DIAMETER = 7;
@@ -197,10 +197,10 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
-            if (Input.LeftMouse)
-            {
-                Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
-            }
+            //if (Input.LeftMouse)
+            //{
+            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
+            //}
 
             AnimatePieces(deltaTime);
             Pieces(deltaTime, gameState == InGameState.Battle);
