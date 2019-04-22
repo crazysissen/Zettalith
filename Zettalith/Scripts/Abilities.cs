@@ -62,6 +62,15 @@ namespace Zettalith
                 }
             }
 
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
+                }
+            }
+
             return points;
         }
 
@@ -118,6 +127,15 @@ namespace Zettalith
                 }
             }
 
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
+                }
+            }
+
             return points;
         }
 
@@ -148,6 +166,15 @@ namespace Zettalith
                             }
                         }
                     }
+                }
+            }
+
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
                 }
             }
 
@@ -185,6 +212,15 @@ namespace Zettalith
                 }
             }
 
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
+                }
+            }
+
             return points;
         }
 
@@ -200,6 +236,15 @@ namespace Zettalith
                     {
                         points.Add(new Point(i, j));
                     }
+                }
+            }
+
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
                 }
             }
 
@@ -224,6 +269,15 @@ namespace Zettalith
                 }
             }
 
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
+                }
+            }
+
             return points;
         }
 
@@ -245,6 +299,15 @@ namespace Zettalith
                     }
                     else
                         points.Add(new Point(i, j));
+                }
+            }
+
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
                 }
             }
 
@@ -279,6 +342,15 @@ namespace Zettalith
                 points.Remove(center);
             }
 
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[points[i].X, points[i].Y] == null)
+                {
+                    points.RemoveAt(i);
+                    i--;
+                }
+            }
+
             return points;
         }
 
@@ -299,6 +371,43 @@ namespace Zettalith
                     rightCone.Add(new Point(origin.X + i, origin.Y + j));
                     downCone.Add(new Point(origin.X + j, origin.Y + i));
                     leftCone.Add(new Point(origin.X - i, origin.Y + j));
+                }
+            }
+
+            for (int i = 0; i < upCone.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[upCone[i].X, upCone[i].Y] == null)
+                {
+                    upCone.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            for (int i = 0; i < rightCone.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[rightCone[i].X, rightCone[i].Y] == null)
+                {
+                    rightCone.RemoveAt(i);
+                    i--;
+                }
+
+            }
+
+            for (int i = 0; i < downCone.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[downCone[i].X, downCone[i].Y] == null)
+                {
+                    downCone.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            for (int i = 0; i < leftCone.Count; ++i)
+            {
+                if (InGameController.Grid.TileArray[leftCone[i].X, leftCone[i].Y] == null)
+                {
+                    leftCone.RemoveAt(i);
+                    i--;
                 }
             }
 
