@@ -10,7 +10,9 @@ namespace Zettalith
 {
     static class Ztuff
     {
-        public static float SizeResFactor;
+        public static float 
+            abilityCostFactor,
+            SizeResFactor;
         public static int incomingEffect;
         public static bool pickingPiece = false;
         static GUI.Collection theGUI;
