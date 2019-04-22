@@ -45,7 +45,7 @@ namespace Zettalith
 
             buttonTexture = Load.Get<Texture2D>("Button1");
 
-            bBack = new GUI.Button(tutorialLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * buttonTexture.Bounds.Width * 2), (int)(Ztuff.SizeResFactor * buttonTexture.Bounds.Height * 2)), buttonTexture) { ScaleEffect = true };
+            bBack = new GUI.Button(tutorialLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * buttonTexture.Width * 2), (int)(Ztuff.SizeResFactor * buttonTexture.Height * 2)), buttonTexture) { ScaleEffect = true };
             bBack.AddText("Back", 3, true, Color.White, Font.Default);
             bBack.OnClick += BGoBack;
 

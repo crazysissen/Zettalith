@@ -28,7 +28,7 @@ namespace Zettalith
         int currentDisplay, masterToApply, musicToApply, sFXToApply, ambientToApply;
         float defaultFontSize;
 
-        Color buttonColor = new Color(220, 220, 220, 255), textColor = new Color(0, 160, 255, 255);
+        Color buttonColor = new Color(220, 220, 220, 255), textColor = Color.White;
 
         CustomVolumeCall[] masterVolumeCalls = new CustomVolumeCall[10];
         CustomVolumeCall[] musicVolumeCalls = new CustomVolumeCall[10];
@@ -140,7 +140,8 @@ namespace Zettalith
             CreateAudioBar(ref ambientVolumeText, "Ambient Volume", ref bAmbient, ambientToApply, ref ambientVolCollection, ref bAmbientSpeaker, ambientVolumeCalls, CallBAmbientAudioMute);
             #endregion
 
-            bBack = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.68f), (int)(Settings.GetResolution.X * 0.05f), (int)(Settings.GetResolution.Y * 0.05f)));
+            Texture2D backTexture = Load.Get<Texture2D>("Button1");
+            bBack = new GUI.Button(settingsLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.68f), (int)(Ztuff.SizeResFactor * backTexture.Width * 2), (int)(Ztuff.SizeResFactor * backTexture.Height * 2)), backTexture) { ScaleEffect = true };
             bBack.AddText("Back", defaultFontSize, true, textColor, Font.Default);
             bBack.OnClick += BGoBack;
 
