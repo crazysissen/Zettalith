@@ -88,7 +88,8 @@ namespace Zettalith
 
         public static void BuffCost(int index)
         {
-
+            Ztuff.BuffCostFactor = 0.7f;
+            Ztuff.changeBuffCost = true;
         }
 
         public static void AbilityCost(int index)

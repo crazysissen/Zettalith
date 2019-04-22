@@ -17,6 +17,7 @@ namespace Zettalith
         public static bool pickingPiece = false;
         static GUI.Collection theGUI;
         public static float BuffCostFactor = 1;
+        public static bool changeBuffCost = false;
 
         static Ztuff()
         {
