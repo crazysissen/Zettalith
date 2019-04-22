@@ -121,15 +121,24 @@ namespace Zettalith
 
             Mana tempCost = piece.Top.AbilityCost - (tilePiece.Player == InGameController.PlayerIndex ? Ztuff.abilityCostDecrease : new Mana());
 
-            if (!(tempCost < new Mana()))
+            int red = tempCost.Red, green = tempCost.Green, blue = tempCost.Blue;
+
+            if (tempCost.Red < 0)
             {
-                abilityCost.String = new StringBuilder(tempCost.ToString());
+                red = 0;
             }
-            else
+            if (tempCost.Green < 0)
             {
-                tempCost = new Mana();
-                abilityCost.String = new StringBuilder(tempCost.ToString());
+                green = 0;
             }
+            if (tempCost.Blue < 0)
+            {
+                blue = 0;
+            }
+
+            tempCost = new Mana(red, green, blue);
+
+            abilityCost.String = new StringBuilder(tempCost.ToString());
 
             movementCost.String = new StringBuilder(piece.Bottom.MoveCost.ToString());
 

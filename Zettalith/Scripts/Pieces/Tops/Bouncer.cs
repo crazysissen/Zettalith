@@ -39,8 +39,8 @@ namespace Zettalith.Pieces
             {
                 if (points[i].X != piece.Position.X && points[i].Y != piece.Position.Y)
                 {
-                    cancel = true;
-                    return null;
+                    points.RemoveAt(i);
+                    i--;
                 }
             }
 
