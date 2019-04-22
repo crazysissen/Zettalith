@@ -71,11 +71,7 @@ namespace Zettalith
             bSettings.AddText("Settings", textSize, true, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bTutorial = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
-            bTutorial.AddText("Tutorial", textSize, true, textColor, Font.Default);
-            bTutorial.OnClick += BTutorial;
-
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 5 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bQuit.AddText("Quit", textSize, true, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
