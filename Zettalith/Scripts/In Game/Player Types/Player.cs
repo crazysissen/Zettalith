@@ -24,6 +24,8 @@ namespace Zettalith
         public Mana Mana { get; set; }
         public int Essence { get; set; }
 
+        public static int healthIncrease;
+
         public List<TilePiece> TilePieces { get; private set; }
         public Set Set { get; private set; }
         public Deck Deck { get; private set; }
