@@ -12,7 +12,7 @@ namespace Zettalith
     class ClientSideController
     {
         public static int
-            placeHeight = 2 + Ztuff.placeHeightIncrease;
+            placeHeight = 2/* + Ztuff.placeHeightIncrease*/;
 
         const int 
             DIAMETER = 7;

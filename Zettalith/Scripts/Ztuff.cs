@@ -14,7 +14,7 @@ namespace Zettalith
             essenceFactor = 1f,
             SizeResFactor;
         public static int
-            placeHeightIncrease,
+            //placeHeightIncrease,
             incomingEffect;
         public static bool pickingPiece = false;
         static GUI.Collection theGUI;
@@ -22,7 +22,7 @@ namespace Zettalith
         public static bool changeBuffCost = false;
         public static Mana abilityCostDecrease = new Mana();
 
-        public static int[] healthIncrease = new int[2] { 0, 0 };
+        //public static int[] healthIncrease = new int[2] { 0, 0 };
 
         static Ztuff()
         {
