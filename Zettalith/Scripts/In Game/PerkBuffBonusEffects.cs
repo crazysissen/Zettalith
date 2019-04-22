@@ -17,7 +17,7 @@ namespace Zettalith
             EffectArray = new Action<int>[] 
             {
                 //GenericEffect
-                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage, BuffCost, AbilityCost, MoveCost, KingMove, EssenceIncome
+                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage, BuffCost, AbilityCost, KingMove, EssenceIncome
             };
         }
 
@@ -101,11 +101,6 @@ namespace Zettalith
             {
                 Ztuff.abilityCostDecrease = new Mana(1, 1, 1);
             }
-        }
-
-        public static void MoveCost(int index)
-        {
-            //Ztuff.healthIncrease[InGameController.PlayerIndex] = 5;
         }
 
         public static void KingMove(int index)
