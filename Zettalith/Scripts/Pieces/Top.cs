@@ -10,7 +10,7 @@ namespace Zettalith
     abstract class Top : SubPiece
     {
         public Modifier Modifier { get; set; }
-        public Mana AbilityCost { get; protected set; } = new Mana(0, 0, 0);
+        public Mana AbilityCost { get; set; } = new Mana(0, 0, 0);
 
         public bool HasAbility { get; protected set; }
 
