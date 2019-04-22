@@ -105,6 +105,11 @@ namespace Zettalith
                         else
                         {
                             modified += mod.StatChanges;
+
+                            if (modified.Armor < 0)
+                            {
+                                modified.Armor = 0;
+                            }
                         }
                         // modified += mod.StatChanges;
                     }
