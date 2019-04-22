@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public StrongShield()
         {
-            Name = "Strong Shield";
+            Name = "Champion";
             Health = 5;
             Armor = 7;
             AttackDamage = 1;

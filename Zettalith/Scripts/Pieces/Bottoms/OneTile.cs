@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public OneTile()
         {
-            Name = "One Tile";
+            Name = "Pawn";
             Health = 2;
             AttackDamage = 0;
             ManaCost = new Mana(2, 0, 0);

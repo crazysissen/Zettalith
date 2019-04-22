@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public WeakBlaster()
         {
-            Name = "Weak Blaster";
+            Name = "Sapper";
             Health = 2;
             AttackDamage = 0;
             AbilityRange = 5;

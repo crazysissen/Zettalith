@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public LobHealer()
         {
-            Name = "Splash Healer";
+            Name = "Alchemist";
             Health = 3;
             AttackDamage = 0;
             AbilityRange = 1;
