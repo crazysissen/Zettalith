@@ -102,7 +102,7 @@ namespace Zettalith
             {
                 for (int i = 0; i < costs.Count; ++i)
                 {
-                    string tempString = ((int)(int.Parse(costs[i].String.ToString()) * Ztuff.BuffCostFactor)).ToString();
+                    string tempString = ((int)(int.Parse(costs[i].String.ToString()) * Ztuff.BuffCostFactor + 0.5f)).ToString();
                     costs[i].String = new StringBuilder(tempString);
                 }
                 Ztuff.changeBuffCost = false;
@@ -139,10 +139,10 @@ namespace Zettalith
 
         void UseBuff()
         {
-            if ((int)(RedCost * Ztuff.BuffCostFactor) <= InGameController.LocalMana.Red && (int)(GreenCost * Ztuff.BuffCostFactor) <= InGameController.LocalMana.Green && (int)(BlueCost * Ztuff.BuffCostFactor) <= InGameController.LocalMana.Blue && (int)(EssenceCost * Ztuff.BuffCostFactor) <= InGameController.LocalEssence)
+            if ((int)(RedCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalMana.Red && (int)(GreenCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalMana.Green && (int)(BlueCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalMana.Blue && (int)(EssenceCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalEssence)
             {
-                InGameController.LocalMana -= new Mana((int)(RedCost * Ztuff.BuffCostFactor), (int)(GreenCost * Ztuff.BuffCostFactor), (int)(BlueCost * Ztuff.BuffCostFactor));
-                InGameController.LocalEssence -= (int)(EssenceCost * Ztuff.BuffCostFactor);
+                InGameController.LocalMana -= new Mana((int)(RedCost * Ztuff.BuffCostFactor + 0.5f), (int)(GreenCost * Ztuff.BuffCostFactor + 0.5f), (int)(BlueCost * Ztuff.BuffCostFactor + 0.5f));
+                InGameController.LocalEssence -= (int)(EssenceCost * Ztuff.BuffCostFactor + 0.5f);
 
                 theCOL.Active = false;
                 Ztuff.RecieveGUI(theCOL);
