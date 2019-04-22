@@ -17,7 +17,7 @@ namespace Zettalith
             EffectArray = new Action<int>[] 
             {
                 //GenericEffect
-                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage, BuffCost, AbilityCost, HealthIncrease, KingMove, EssenceIncome
+                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage, BuffCost, AbilityCost, MoveCost, KingMove, EssenceIncome
             };
         }
 
