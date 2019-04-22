@@ -158,8 +158,11 @@ namespace Zettalith
             players[1].Start(this, mainController, xnaController, players[0], decks[1], sets[1]);
 
             // Place kings
-            PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 0);
-            PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 1);
+            TilePiece king0 = PlacePiece(loadedConfig.kings[0].Index, loadedConfig.map.spawnPositions[1].X, loadedConfig.map.spawnPositions[1].Y, 0);
+            TilePiece king1 = PlacePiece(loadedConfig.kings[1].Index, loadedConfig.map.spawnPositions[0].X, loadedConfig.map.spawnPositions[0].Y, 1);
+
+            players[0].SetKing(king0);
+            players[1].SetKing(king1);
 
             loading = false;
             gameState = InGameState.Setup;
@@ -329,13 +332,13 @@ namespace Zettalith
             }
         }
 
-        public void PlacePiece(int pieceIndex, int x, int y, int player)
+        public TilePiece PlacePiece(int pieceIndex, int x, int y, int player)
         {
             InGamePiece piece = InGamePiece.Pieces[pieceIndex];
             piece.HasMoved = true;
             piece.HasAttacked = true;
 
-            TileObject obj = Grid.Place(x, y, new TilePiece(piece, player));
+            TilePiece obj = Grid.Place(x, y, new TilePiece(piece, player)) as TilePiece;
 
             obj.Renderer = new Renderer.Sprite(TileObject.DefaultLayer(y), piece.Texture, new Vector2(x, y * ClientSideController.HEIGHTDISTANCE), Vector2.One, Color.White, 0, new Vector2(13, piece.Texture.Height - 9), SpriteEffects.None);
             obj.UpdateRenderer();
@@ -346,6 +349,8 @@ namespace Zettalith
             {
                 deck.Remove(piece);
             }
+
+            return obj;
         }
 
         public void ActivateAttack(int attacking, int recieving)
