@@ -17,7 +17,7 @@ namespace Zettalith
             EffectArray = new Action<int>[] 
             {
                 //GenericEffect
-                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage
+                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage, BuffCost
             };
         }
 
@@ -84,6 +84,36 @@ namespace Zettalith
                 int healthChange = piece.Top.Modifier.StatChanges.Health;
                 piece.Top.Modifier = new Addition(new Stats(healthChange + 1), true);
             }
+        }
+
+        public static void BuffCost(int index)
+        {
+            Ztuff.BuffCostFactor = 0.7f;
+        }
+
+        public static void AbilityCost(int index)
+        {
+
+        }
+
+        public static void HealthIncrease(int index)
+        {
+
+        }
+
+        public static void MovementDecrease(int index)
+        {
+
+        }
+
+        public static void EssenceIncome1(int index)
+        {
+
+        }
+
+        public static void EssenceIncome2(int index)
+        {
+
         }
     }
 

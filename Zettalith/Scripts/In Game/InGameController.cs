@@ -31,7 +31,7 @@ namespace Zettalith
             STARTHAND = 3;
 
         const float
-            ESSENCEDELAY = 0.1f; // TODO: Fix pls, temporary af
+            ESSENCEDELAY = 1f; // TODO: Fix pls, temporary af
 
         public static InGameController Main { get; private set; }
 

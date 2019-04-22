@@ -14,6 +14,7 @@ namespace Zettalith
         public static int incomingEffect;
         public static bool pickingPiece = false;
         static GUI.Collection theGUI;
+        public static float BuffCostFactor = 1;
 
         static Ztuff()
         {

@@ -44,13 +44,13 @@ namespace Zettalith
                 }
             };
 
-            for (int x = 0; x < texture.Width; x++)
-            {
-                for (int y = 0; y < texture.Height; y++)
-                {
-                    // TODO: Fix split texture initialization
-                }
-            }
+            //for (int x = 0; x < texture.Width; x++)
+            //{
+            //    for (int y = 0; y < texture.Height; y++)
+            //    {
+            //        // TODO: Fix split texture initialization
+            //    }
+            //}
 
             Components = new Texture2D[3,3];
         }
