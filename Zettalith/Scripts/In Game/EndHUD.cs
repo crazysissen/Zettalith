@@ -10,23 +10,24 @@ namespace Zettalith
 {
     class EndHUD : HUD
     {
-        GUI.Collection collection;
+        GUI.Collection Collection;
 
-        GUI.Button bReturn;
+        GUI.Button bQuit;
 
         public EndHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
         {
-            this.collection = collection;
+            Collection = collection;
 
             Vector2 res = Settings.GetResolution.ToVector2();
 
-            bReturn = new GUI.Button(new Layer(MainLayer.GUI, 100), new Rectangle((int)(-res.X * 0.15f), (int)(-res.Y * 0.05f), (int)(res.X * 0.3f), (int)(res.Y * 0.1f))) { ScaleEffect = true };
-            bReturn.AddText("Back to Menu", 3, true, Color.Black, Font.Bold);
-            bReturn.OnClick += Return;
+            Texture2D quitTexture = Load.Get<Texture2D>("Button1");
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 15), new Rectangle((int)(res.X * -0.1f), (int)(res.Y * 0.05f), (int)(Ztuff.SizeResFactor * quitTexture.Width * 5), (int)(Ztuff.SizeResFactor * quitTexture.Height * 5)), quitTexture) { ScaleEffect = true };
+            bQuit.AddText("Quit Game", 4, true, Color.White, Font.Bold);
+            bQuit.OnClick += QuitGame;
 
-            collection.Add(bReturn);
+            Collection.Add(bQuit);
 
-            collection.Active = false;
+            Collection.Active = false;
         }
 
         public void Update(float deltaTime)
@@ -36,12 +37,12 @@ namespace Zettalith
 
         public void Open()
         {
-            collection.Active = true;
+            Collection.Active = true;
         }
 
-        void Return()
+        void QuitGame()
         {
-
+            XNAController.Quit();
         }
     }
 }
