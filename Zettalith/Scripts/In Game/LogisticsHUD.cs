@@ -40,7 +40,7 @@ namespace Zettalith
             bBonuses = new GUI.Button(new Layer(MainLayer.GUI, 2), new Rectangle((int)(Settings.GetResolution.X * 0.65f), (int)(Settings.GetResolution.Y * 0.005f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Width)) * 1.5f), (int)(((int)(Ztuff.SizeResFactor * PerkButtonTexture.Bounds.Height)) * 1.5f)), Load.Get<Texture2D>("Bonus Shop Button")) { ScaleEffect = true };
             bBonuses.OnClick += csc.OpenBonus;
 
-            essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.83f, Settings.GetResolution.Y * 0.006f), new Vector2(), Color.Blue);
+            essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Styled, InGameController.LocalEssence + "e", 4, 0, new Vector2(Settings.GetResolution.X * 0.83f, Settings.GetResolution.Y * 0.01f), new Vector2(), Color.LightBlue);
             essence.Position = new Vector2(essence.Position.X - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
 
             Bars = new ManaBar[3];

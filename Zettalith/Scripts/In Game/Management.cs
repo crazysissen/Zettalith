@@ -17,7 +17,7 @@ namespace Zettalith
 
         ClientSideController theCSC;
 
-        public ManagementHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, Buff[] someBuffs, ClientSideController csc) : base(igc, p, csc)
+        public ManagementHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
         {
             this.collection = collection;
             theCSC = csc;

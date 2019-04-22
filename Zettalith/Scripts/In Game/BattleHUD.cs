@@ -46,7 +46,7 @@ namespace Zettalith
             handStart = new Point((int)(Settings.GetResolution.X * 0.16f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.15f), Settings.GetResolution.Y - height * 2);
             handEnd = new Point((int)(Settings.GetResolution.X * 0.6f), (int)(Settings.GetResolution.Y * 0.77f)); //new Point((int)(Settings.GetResolution.X * 0.30f), Settings.GetResolution.Y - height * 2);
 
-            essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Italic, InGameController.LocalEssence + "e", 5, 0, new Vector2(Settings.GetResolution.X * 0.92f, Settings.GetResolution.Y * 0.005f), new Vector2(), Color.Blue);
+            essence = new Renderer.Text(new Layer(MainLayer.GUI, 2), Font.Styled, InGameController.LocalEssence + "e", 3, 0, new Vector2(Settings.GetResolution.X * 0.92f, Settings.GetResolution.Y * 0.01f), new Vector2(), Color.LightBlue);
             essence.Position = new Vector2(essence.Position.X - essence.Font.MeasureString(essence.String).X * essence.Scale.X, essence.Position.Y);
 
             Bars = new ManaBar[3];
