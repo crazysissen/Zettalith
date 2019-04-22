@@ -84,10 +84,10 @@ namespace Zettalith
                 costs.Add(blueCost);
                 costs.Add(essenceCost);
 
-                Renderer.Text R = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "R", 3, 0, new Vector2(redCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Red);
-                Renderer.Text G = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "G", 3, 0, new Vector2(greenCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Green);
-                Renderer.Text B = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "B", 3, 0, new Vector2(blueCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Blue);
-                Renderer.Text e = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "e", 3, 0, new Vector2(essenceCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.LightBlue);
+                Renderer.Text R = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "R", 3, 0, new Vector2(redCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.11f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Red);
+                Renderer.Text G = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "G", 3, 0, new Vector2(greenCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.11f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Green);
+                Renderer.Text B = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "B", 3, 0, new Vector2(blueCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.11f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Blue);
+                Renderer.Text e = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "e", 3, 0, new Vector2(essenceCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.11f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.LightBlue);
 
                 collection.Add(allBuffs[i].AccessButton, name, description, redCost, greenCost, blueCost, essenceCost, R, G, B, e);
             }
