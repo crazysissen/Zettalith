@@ -100,7 +100,15 @@ namespace Zettalith
                     {
                         dragOutPiece = item.piece;
                     }
+
+                    if (Input.RightMouseDown)
+                    {
+                        clientSideController.infoBox.Open();
+                        clientSideController.infoBox.Set(item.piece, true);
+                    }
                 }
+
+               
 
                 item.renderer.Color = color ? ClientSideController.pieceHighlightColor : Color.White;
                 item.renderer.Layer = new Layer(MainLayer.GUI, 1 + i);

@@ -143,20 +143,24 @@ namespace Zettalith
                 int count1 = spawns1.Count, count2 = spawns2.Count;
                 bool breakItDown = false;
 
-                for (int i = 0; i < count1 && !breakItDown; i++)
+                for (int i = 0; i < count1 - 1 && !breakItDown; i++)
                 {
                     int rIndex = r.Next(spawns1.Count);
                     Point randomSpawn = spawns1[rIndex];
                     spawns1.Remove(randomSpawn);
 
-                    for (int j = 0; j < count2 && !breakItDown; j++)
+                    List<Point> targets = new List<Point>(spawns2);
+
+                    for (int j = 0; j < count2 - 1 && !breakItDown; j++)
                     {
-                        rIndex = r.Next(spawns2.Count);
+                        rIndex = r.Next(targets.Count);
 
-                        Point currentSpawn = spawns2[rIndex];
-                        spawns2.Remove(currentSpawn);
+                        Point currentSpawn = targets[rIndex];
+                        targets.Remove(currentSpawn);
 
-                        if (new Astar(array, new int[] { randomSpawn.X, randomSpawn.Y }, new int[] { currentSpawn.X, currentSpawn.Y }, "").result != null)
+                        List<Vector2> result = new Astar(array, new int[] { randomSpawn.X, randomSpawn.Y }, new int[] { currentSpawn.X, currentSpawn.Y }, "").result;
+
+                        if (result != null && result.Count > 0)
                         {
                             breakItDown = true;
 

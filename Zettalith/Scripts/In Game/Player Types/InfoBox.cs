@@ -106,14 +106,11 @@ namespace Zettalith
 
         public void Update(float deltaTime)
         {
-            if (selectedPiece != null)
-            {
-                Point anchor = new Point(Settings.GetHalfResolution.X, (int)(Settings.GetResolution.Y * 0.82f));
+            Point anchor = new Point(Settings.GetHalfResolution.X, (int)(Settings.GetResolution.Y * 0.88f));
 
-                collection.Origin = selectedPiece == null ?
-                    anchor - new Point(halfTotal.X, total.Y)
-                    : (RendererController.Camera.WorldToScreenPosition(selectedPiece.SupposedPosition - new Vector2(-0.5f, 1)) - new Vector2(total.X + Settings.GetResolution.Y * DISTANCE, halfSize.Y)).RoundToPoint();
-            }
+            collection.Origin = selectedPiece == null ?
+                anchor - new Point(halfTotal.X, total.Y)
+                : (RendererController.Camera.WorldToScreenPosition(selectedPiece.SupposedPosition - new Vector2(-0.5f, 1)) - new Vector2(total.X + Settings.GetResolution.Y * DISTANCE, halfSize.Y)).RoundToPoint();
         }
 
         public void Set(TilePiece piece)

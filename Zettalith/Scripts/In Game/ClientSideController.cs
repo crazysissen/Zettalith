@@ -199,10 +199,10 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
-            if (Input.LeftMouse)
-            {
-                Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
-            }
+            //if (Input.LeftMouse)
+            //{
+            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
+            //}
 
             if (Ztuff.pickingPiece && Input.RightMouse)
             {
@@ -573,6 +573,17 @@ namespace Zettalith
             {
                 BoardMove(leftMouseDown, leftMouse, highlightedPiece);
             }
+
+            Color subHigh = new Color(defaultHighlightColor, 0.55f), subEnemyHigh = new Color(defaultEnemyHighlightColor, 0.55f);
+
+            List<TileObject> pieces = InGameController.Grid.GetList();
+            foreach (TileObject piece in pieces)
+            {
+                if (piece is TilePiece tilePiece)
+                {
+                    queuedSubHighlights.Add((tilePiece.Position, tilePiece.Player == InGameController.PlayerIndex ? subHigh : subEnemyHigh));
+                }
+            }
         }
 
         void BoardMove(bool leftMouseDown, bool leftMouse, TilePiece highlightedPiece)
@@ -844,6 +855,7 @@ namespace Zettalith
 
         #region Tile Highlighting
 
+        static List<(Point, Color)> queuedSubHighlights = new List<(Point, Color)>();
         static List<(Point, Color)> queuedHighlights = new List<(Point, Color)>();
 
         public static void AddHighlight(params Point[] points)
@@ -863,8 +875,9 @@ namespace Zettalith
         {
             int xL = highlights.GetLength(0), yL = highlights.GetLength(1);
 
+            Color[,] subHighlightColors = new Color[xL, yL];
             Color[,] highlightColors = new Color[xL, yL];
-            Color d = default(Color);
+            Color d = default;
 
             foreach ((Point p, Color c) item in queuedHighlights)
             {
@@ -874,22 +887,38 @@ namespace Zettalith
                 }
             }
 
+            foreach ((Point p, Color c) item in queuedSubHighlights)
+            {
+                if (InGameController.Grid.InBounds(item.p.X, item.p.Y))
+                {
+                    subHighlightColors[item.p.X, item.p.Y] = item.c;
+                }
+            }
+
             for (int x = 0; x < xL; x++)
             {
                 for (int y = 0; y < yL; y++)
                 {
-                    if (highlightColors[x, y] == d)
+                    if (highlightColors[x, y] != d)
                     {
-                        highlights[x, y].Color = Color.Transparent;
+                        highlights[x, y].Color = highlightColors[x, y];
 
                         continue;
                     }
 
-                    highlights[x, y].Color = highlightColors[x, y];
+                    if (subHighlightColors[x, y] != d)
+                    {
+                        highlights[x, y].Color = subHighlightColors[x, y];
+
+                        continue;
+                    }
+
+                    highlights[x, y].Color = Color.Transparent;
                 }
             }
 
             queuedHighlights.Clear();
+            queuedSubHighlights.Clear();
         }
 
         #endregion
