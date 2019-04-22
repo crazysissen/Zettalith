@@ -17,7 +17,7 @@ namespace Zettalith
             EffectArray = new Action<int>[] 
             {
                 //GenericEffect
-                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage
+                BuffHp, BuffAttack, BuffArmor, BuffAbilityDamage, NerfHp, NerfAttack, NerfArmor, NerfAbilityDamage, BuffCost
             };
         }
 
@@ -88,7 +88,7 @@ namespace Zettalith
 
         public static void BuffCost(int index)
         {
-
+            Ztuff.BuffCostFactor = 0.7f;
         }
 
         public static void AbilityCost(int index)
