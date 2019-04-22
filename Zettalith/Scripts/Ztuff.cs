@@ -14,7 +14,8 @@ namespace Zettalith
             essenceFactor = 1f,
             SizeResFactor;
         public static int
-            //placeHeightIncrease,
+            healthIncrease,
+            placeHeightIncrease,
             incomingEffect;
         public static bool pickingPiece = false;
         static GUI.Collection theGUI;

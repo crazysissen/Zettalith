@@ -107,7 +107,10 @@ namespace Zettalith
 
         public static void KingMove(int index)
         {
-            //InGameController.Local.King.Piece.Bottom.MoveRange = 2;
+            if (index + 2 == InGameController.PlayerIndex)
+            {
+                InGameController.Local.King.Piece.Bottom.MoveRange = 2;
+            }
         }
 
         public static void EssenceIncome(int index)
