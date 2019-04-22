@@ -11,7 +11,7 @@ namespace Zettalith
     static class Ztuff
     {
         public static float 
-            abilityCostFactor,
+            abilityCostFactor = 0.7f,
             SizeResFactor;
         public static int incomingEffect;
         public static bool pickingPiece = false;

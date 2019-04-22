@@ -88,7 +88,7 @@ namespace Zettalith
 
         public static void BuffCost(int index)
         {
-
+            Ztuff.BuffCostFactor = 0.7f;
         }
 
         public static void AbilityCost(int index)
@@ -96,9 +96,12 @@ namespace Zettalith
             // Planen
             for (int i = 0; i < InGameController.Grid.Objects.Length; ++i)
             {
-                if ((InGameController.Grid.Objects[i] as TilePiece).Player == InGameController.PlayerIndex)
+                if (InGameController.Grid.Objects[i] != null)
                 {
-                    (InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost = new Mana((int)((InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost.Red * Ztuff.abilityCostFactor), (int)((InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost.Green * Ztuff.abilityCostFactor), (int)((InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost.Blue * Ztuff.abilityCostFactor));
+                    if ((InGameController.Grid.Objects[i] as TilePiece).Player == InGameController.PlayerIndex)
+                    {
+                        (InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost = new Mana((int)((InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost.Red * Ztuff.abilityCostFactor), (int)((InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost.Green * Ztuff.abilityCostFactor), (int)((InGameController.Grid.Objects[i] as TilePiece).Piece.Top.AbilityCost.Blue * Ztuff.abilityCostFactor));
+                    }
                 }
             }
             // Decket
@@ -107,10 +110,10 @@ namespace Zettalith
                 InGameController.Local.Deck.Pieces[i].Top.AbilityCost = new Mana((int)(InGameController.Local.Deck.Pieces[i].Top.AbilityCost.Red * Ztuff.abilityCostFactor), (int)(InGameController.Local.Deck.Pieces[i].Top.AbilityCost.Green * Ztuff.abilityCostFactor), (int)(InGameController.Local.Deck.Pieces[i].Top.AbilityCost.Blue * Ztuff.abilityCostFactor));
             }
             // Handen
-            for (int i = 0; i < InGameController.Local.Hand.Count; ++i)
-            {
-                InGameController.Local.Hand[i].Top.AbilityCost = new Mana((int)(InGameController.Local.Hand[i].Top.AbilityCost.Red * Ztuff.abilityCostFactor), (int)(InGameController.Local.Hand[i].Top.AbilityCost.Green * Ztuff.abilityCostFactor), (int)(InGameController.Local.Hand[i].Top.AbilityCost.Blue * Ztuff.abilityCostFactor));
-            }
+            //for (int i = 0; i < InGameController.Local.Hand.Count; ++i)
+            //{
+            //    InGameController.Local.Hand[i].Top.AbilityCost = new Mana((int)(InGameController.Local.Hand[i].Top.AbilityCost.Red * Ztuff.abilityCostFactor), (int)(InGameController.Local.Hand[i].Top.AbilityCost.Green * Ztuff.abilityCostFactor), (int)(InGameController.Local.Hand[i].Top.AbilityCost.Blue * Ztuff.abilityCostFactor));
+            //}
         }
 
         public static void HealthIncrease(int index)
@@ -123,12 +126,12 @@ namespace Zettalith
                 InGameController.Local.Deck.Pieces[i].Bottom.Health = (int)(InGameController.Local.Deck.Pieces[i].Bottom.Health * 1.5f);
             }
             // Handen
-            for (int i = 0; i < InGameController.Local.Hand.Count; ++i)
-            {
-                InGameController.Local.Hand[i].Top.Health = (int)(InGameController.Local.Hand[i].Top.Health * 1.5f);
-                InGameController.Local.Hand[i].Middle.Health = (int)(InGameController.Local.Hand[i].Middle.Health * 1.5f);
-                InGameController.Local.Hand[i].Bottom.Health = (int)(InGameController.Local.Hand[i].Bottom.Health * 1.5f);
-            }
+            //for (int i = 0; i < InGameController.Local.Hand.Count; ++i)
+            //{
+            //    InGameController.Local.Hand[i].Top.Health = (int)(InGameController.Local.Hand[i].Top.Health * 1.5f);
+            //    InGameController.Local.Hand[i].Middle.Health = (int)(InGameController.Local.Hand[i].Middle.Health * 1.5f);
+            //    InGameController.Local.Hand[i].Bottom.Health = (int)(InGameController.Local.Hand[i].Bottom.Health * 1.5f);
+            //}
         }
 
         public static void MovementDecrease(int index)
@@ -139,10 +142,10 @@ namespace Zettalith
                 InGameController.Local.Deck.Pieces[i].Bottom.MovementTime = InGameController.Local.Deck.Pieces[i].Bottom.MovementTime * (1 / 1.3f);
             }
             // Handen
-            for (int i = 0; i < InGameController.Local.Hand.Count; ++i)
-            {
-                InGameController.Local.Hand[i].Bottom.MovementTime = InGameController.Local.Hand[i].Bottom.MovementTime = (1 / 1.3f);
-            }
+            //for (int i = 0; i < InGameController.Local.Hand.Count; ++i)
+            //{
+            //    InGameController.Local.Hand[i].Bottom.MovementTime = InGameController.Local.Hand[i].Bottom.MovementTime = (1 / 1.3f);
+            //}
         }
 
         public static void EssenceIncome(int index)
