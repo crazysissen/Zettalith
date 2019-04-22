@@ -30,6 +30,8 @@ namespace Zettalith
 
         public void Destroy()
         {
+            ClientSideController.Particles.Destroy(this, 1);
+
             Renderer.Destroy();
             Renderer = null;
             InGameController.Grid.Remove(this);

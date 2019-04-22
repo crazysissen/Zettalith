@@ -54,6 +54,8 @@ namespace Zettalith
 
         public static Map NoiseMap(Random r, int width, int height)
         {
+            int borderRange = 2;
+
             float scale = 0.1f, threshhold = -0.45f;
 
             Noise noise = new Noise(r.Next());
@@ -76,10 +78,10 @@ namespace Zettalith
                     {
                         float currentThreshhold = threshhold;
 
-                        //if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
-                        //{
-                        //    threshhold -= (threshhold - 1) * 0.5f;
-                        //}
+                        if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
+                        {
+                            threshhold += 0.3f;
+                        }
 
                         if (noise.Generate(x * scale, y * scale) > threshhold)
                         {
@@ -92,7 +94,20 @@ namespace Zettalith
                     }
                 }
 
-                spawns = CreateSpawns(grid, ref r);
+                // Create spawns 
+
+                List<Point> spawns1, spawns2;
+
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < borderRange; y++)
+                    {
+                        if (grid[x, y] != null)
+                        {
+
+                        }
+                    }
+                }
 
                 if (spawns == null)
                 {
