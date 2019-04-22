@@ -85,6 +85,36 @@ namespace Zettalith
                 piece.Top.Modifier = new Addition(new Stats(healthChange + 1), true);
             }
         }
+
+        public static void BuffCost(int index)
+        {
+
+        }
+
+        public static void AbilityCost(int index)
+        {
+
+        }
+
+        public static void HealthIncrease(int index)
+        {
+
+        }
+
+        public static void MovementDecrease(int index)
+        {
+
+        }
+
+        public static void EssenceIncome1(int index)
+        {
+
+        }
+
+        public static void EssenceIncome2(int index)
+        {
+
+        }
     }
 
     [Serializable]
