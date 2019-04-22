@@ -72,6 +72,8 @@ namespace Zettalith.Pieces
 
             Modifier mod = new Direct(toCopy.Piece.ModifiedStats, true);
             (InGameController.Grid.GetObject(pos.X, pos.Y) as TilePiece).Piece.ModThis(mod);
+
+            //TODO: POOF EFFECT ON SELF
         }
     }
 }

@@ -55,6 +55,8 @@ namespace Zettalith.Pieces
         {
             TileObject piece = InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
             (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
+
+            //TODO: POOF EFFECT ON TARGET
         }
     }
 }

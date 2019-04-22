@@ -15,7 +15,6 @@ namespace Zettalith
         public static string Path => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Zettalith\UserData\";
         public const string fileName = "UserData.zth";
 
-        // TODO: Save userdata/Call this somewhere
         // Saves the current UserData to AppData/Roaming/Zettalith/UserData (PersonalData.UserData)
         public static void Save()
         {

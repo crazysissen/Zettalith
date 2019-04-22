@@ -77,7 +77,7 @@ namespace Zettalith
 
         public void BResign()
         {
-            //TODO Resign
+
         }
     }
 }
