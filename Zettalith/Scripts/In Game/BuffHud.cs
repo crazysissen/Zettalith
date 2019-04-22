@@ -56,16 +56,38 @@ namespace Zettalith
                 Renderer.Text blueCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BlueCost.ToString(), 3, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.5f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Black);
                 Renderer.Text essenceCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].EssenceCost.ToString(), 3, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.7f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Black);
 
+                if (allBuffs[i].RedCost == 0)
+                {
+                    redCost.Position = new Vector2(-100000, -100000);
+                    greenCost.Position = new Vector2(greenCost.Position.X - allBuffs[i].AccessButton.Transform.Width * 0.2f, greenCost.Position.Y);
+                    blueCost.Position = new Vector2(blueCost.Position.X - allBuffs[i].AccessButton.Transform.Width * 0.2f, blueCost.Position.Y);
+                    essenceCost.Position = new Vector2(essenceCost.Position.X - allBuffs[i].AccessButton.Transform.Width * 0.2f, essenceCost.Position.Y);
+                }
+                if (allBuffs[i].GreenCost == 0)
+                {
+                    greenCost.Position = new Vector2(-100000, -100000);
+                    blueCost.Position = new Vector2(blueCost.Position.X - allBuffs[i].AccessButton.Transform.Width * 0.2f, blueCost.Position.Y);
+                    essenceCost.Position = new Vector2(essenceCost.Position.X - allBuffs[i].AccessButton.Transform.Width * 0.2f, essenceCost.Position.Y);
+                }
+                if (allBuffs[i].BlueCost == 0)
+                {
+                    blueCost.Position = new Vector2(-100000, -100000);
+                    essenceCost.Position = new Vector2(essenceCost.Position.X - allBuffs[i].AccessButton.Transform.Width * 0.2f, essenceCost.Position.Y);
+                }
+                if (allBuffs[i].EssenceCost == 0)
+                {
+                    essenceCost.Position = new Vector2(-100000, -100000);
+                }
+
                 costs.Add(redCost);
                 costs.Add(greenCost);
                 costs.Add(blueCost);
                 costs.Add(essenceCost);
 
-                Renderer.Text R = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "R", 3, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.17f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Red);
-                Renderer.Text G = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "G", 3, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.37f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Green);
-                Renderer.Text B = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "B", 3, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.57f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Blue);
-                Renderer.Text e = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "e", 3, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.77f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.LightBlue);
-
+                Renderer.Text R = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "R", 3, 0, new Vector2(redCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Red);
+                Renderer.Text G = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "G", 3, 0, new Vector2(greenCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Green);
+                Renderer.Text B = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "B", 3, 0, new Vector2(blueCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Blue);
+                Renderer.Text e = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, "e", 3, 0, new Vector2(essenceCost.Position.X + allBuffs[i].AccessButton.Transform.Width * 0.07f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.LightBlue);
 
                 collection.Add(allBuffs[i].AccessButton, name, description, redCost, greenCost, blueCost, essenceCost, R, G, B, e);
             }
