@@ -97,10 +97,13 @@ namespace Zettalith
 
         public static void AbilityCost(int index)
         {
-            Ztuff.abilityCostDecrease = new Mana(1, 1, 1);
+            if (index + 2 == InGameController.PlayerIndex)
+            {
+                Ztuff.abilityCostDecrease = new Mana(1, 1, 1);
+            }
         }
 
-        public static void HealthIncrease(int index)
+        public static void MoveCost(int index)
         {
             //Ztuff.healthIncrease[InGameController.PlayerIndex] = 5;
         }

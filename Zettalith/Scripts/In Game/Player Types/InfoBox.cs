@@ -119,7 +119,7 @@ namespace Zettalith
 
             SubPiece[] subPieces = { piece.Top, piece.Middle, piece.Bottom };
 
-            abilityCost.String = new StringBuilder(piece.Top.AbilityCost.ToString());
+            abilityCost.String = new StringBuilder((piece.Top.AbilityCost - (tilePiece.Player == InGameController.PlayerIndex ? Ztuff.abilityCostDecrease : new Mana())).ToString());
             movementCost.String = new StringBuilder(piece.Bottom.MoveCost.ToString());
 
             for (int i = 0; i < 3; i++)

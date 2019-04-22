@@ -376,7 +376,7 @@ namespace Zettalith
 
             piece.Piece.Top.ActivateAbility(data);
 
-            players[piece.Player].Mana -= piece.Piece.ModifiedStats.AbilityCost;
+            players[piece.Player].Mana -= (piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease);
         }
 
         public void ActivateMovement(int pieceIndex, int x, int y)
@@ -389,7 +389,7 @@ namespace Zettalith
 
                 Local.ClientController.PlacePieceAnimation(piece);
 
-                players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+                players[piece.Player].Mana -= (piece.Piece.ModifiedStats.MoveCost - Ztuff.moveCostDecrease);
 
                 piece.Piece.HasMoved = true;
                 return;
