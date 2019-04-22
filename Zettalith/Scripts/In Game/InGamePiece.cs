@@ -72,6 +72,11 @@ namespace Zettalith
 
                 foreach (Modifier modifier in modifiers)
                 {
+                    if (modified.Health > modified.MaxHealth)
+                    {
+                        modified.Health = modified.MaxHealth;
+                    }
+
                     if (modifier is Addition)
                     {
                         Modifier mod = new Addition(modifier.StatChanges, true);
