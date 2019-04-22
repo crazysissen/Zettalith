@@ -381,10 +381,25 @@ namespace Zettalith
 
             piece.Piece.Top.ActivateAbility(data);
 
-            if (!((piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease) < new Mana()))
+            Mana manaCost = piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease;
+            int red = manaCost.Red, green = manaCost.Green, blue = manaCost.Blue;
+
+            if (manaCost.Red < 0)
             {
-                players[piece.Player].Mana -= (piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease);
+                red = 0;
             }
+            if (manaCost.Green < 0)
+            {
+                green = 0;
+            }
+            if (manaCost.Blue < 0)
+            {
+                blue = 0;
+            }
+
+            manaCost = new Mana(red, green, blue);
+
+            players[piece.Player].Mana -= manaCost;
         }
 
         public void ActivateMovement(int pieceIndex, int x, int y)

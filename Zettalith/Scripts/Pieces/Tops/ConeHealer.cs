@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public ConeHealer()
         {
-            Name = "Cone Healer";
+            Name = "Sage";
             Health = 3;
             AttackDamage = 0;
             AbilityRange = 4;

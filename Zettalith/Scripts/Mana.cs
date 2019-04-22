@@ -30,7 +30,7 @@ namespace Zettalith
 
         public static bool operator >(Mana a, Mana b) => a.Red > b.Red && a.Blue > b.Blue && a.Green > b.Green;
 
-        public static bool operator <(Mana a, Mana b) => a.Red < b.Red && a.Blue < b.Blue && a.Green < b.Green;
+        public static bool operator <(Mana a, Mana b) => a.Red < b.Red || a.Blue < b.Blue || a.Green < b.Green;
 
         public static bool operator >=(Mana a, Mana b) => a.Red >= b.Red && a.Blue >= b.Blue && a.Green >= b.Green;
 

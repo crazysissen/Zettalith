@@ -204,6 +204,12 @@ namespace Zettalith
             //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
             //}
 
+            if (Ztuff.pickingPiece && Input.RightMouse)
+            {
+                Ztuff.RestoreFromBuff();
+                Ztuff.pickingPiece = false;
+            }
+
             AnimatePieces(deltaTime);
             Pieces(deltaTime, gameState == InGameState.Battle);
 
@@ -526,12 +532,12 @@ namespace Zettalith
                     {
                         MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
                         Ztuff.RestoreFromBuff();
-                        Ztuff.pickingPiece = false;
                     }
                     else if (interactionPiece.Player == InGameController.PlayerIndex && battleTurn)
                     {
                         player.RequestAction(interactionPiece);
                     }
+                    Ztuff.pickingPiece = false;
                 }
 
                 ghost?.Destroy();

@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Diagonal2()
         {
-            Name = "Diagonal 2";
+            Name = "Cleric";
             Health = 4;
             AttackDamage = 0;
             ManaCost = new Mana(0, 4, 0);

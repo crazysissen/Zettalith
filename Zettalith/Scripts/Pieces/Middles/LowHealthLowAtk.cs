@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public LowHealthLowAtk()
         {
-            Name = "Low Health, Low Atk";
+            Name = "Peasant";
             Health = 4;
             AttackDamage = 1;
             ManaCost = new Mana(2, 0, 0);

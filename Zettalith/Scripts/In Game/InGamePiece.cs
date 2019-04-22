@@ -72,6 +72,15 @@ namespace Zettalith
 
                 foreach (Modifier modifier in modifiers)
                 {
+                    if (modified.Health > modified.MaxHealth)
+                    {
+                        modified.Health = modified.MaxHealth;
+                    }
+                    if (modified.AttackDamage < 0)
+                    {
+                        modified.AttackDamage = 0;
+                    }
+
                     if (modifier is Addition)
                     {
                         Modifier mod = new Addition(modifier.StatChanges, true);
@@ -88,7 +97,14 @@ namespace Zettalith
                             }
                             else
                             {
-                                modified.Armor += mod.StatChanges.Health;
+                                if (mod.StatChanges.Health < 0)
+                                {
+                                    modified.Armor += mod.StatChanges.Health;
+                                }
+                                else
+                                {
+                                    modified.Armor += mod.StatChanges.Armor;
+                                }
                             }
 
                             if (modified.Armor < 0)
@@ -156,6 +172,10 @@ namespace Zettalith
                 if (modified.Health > modified.MaxHealth)
                 {
                     modified.Health = modified.MaxHealth;
+                }
+                if (modified.AttackDamage < 0)
+                {
+                    modified.AttackDamage = 0;
                 }
 
                 return modified;

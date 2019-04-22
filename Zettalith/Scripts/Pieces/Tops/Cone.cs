@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Cone()
         {
-            Name = "Fire Conjurer";
+            Name = "Conjurer";
             Health = 2;
             AttackDamage = 0;
             AbilityRange = 3;

@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public StrongBlaster()
         {
-            Name = "Strong Blaster";
+            Name = "Vaporizer";
             Health = 4;
             AttackDamage = 0;
             AbilityRange = 3;

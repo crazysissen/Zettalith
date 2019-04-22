@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Pyro()
         {
-            Name = "Pyro";
+            Name = "Pyromaniac";
             Health = 2;
             AttackDamage = 0;
             AbilityRange = 0;

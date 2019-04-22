@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Zettalith.Pieces
 {
@@ -13,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public HighHealthHighAtk()
         {
-            Name = "High Health, High Atk";
+            Name = "Gladiator";
             Health = 10;
             AttackDamage = 5;
             ManaCost = new Mana(0, 0, 6);

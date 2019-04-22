@@ -12,14 +12,14 @@ namespace Zettalith.Pieces
     {
         public OneTile()
         {
-            Name = "One Tile";
+            Name = "Pawn";
             Health = 2;
             AttackDamage = 0;
             ManaCost = new Mana(2, 0, 0);
             MoveCost = new Mana(2, 0, 0);
             MoveRange = 1;
             MovementTime = 0.5f;
-            Texture = Load.Get<Texture2D>("1TileBottom");
+            Texture = Load.Get<Texture2D>("SixtenBottom1");
 
             Description = "Moves in any direction";
         }
