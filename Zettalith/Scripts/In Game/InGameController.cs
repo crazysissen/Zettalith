@@ -30,8 +30,8 @@ namespace Zettalith
         const int
             STARTHAND = 3;
 
-        const float
-            ESSENCEDELAY = 1f; // TODO: Fix pls, temporary af
+        public static float
+            EssenceDelay => 1f * Ztuff.essenceFactor; // TODO: Fix pls, temporary af
 
         public static InGameController Main { get; private set; }
 
@@ -503,9 +503,9 @@ namespace Zettalith
         {
             essenceTimer += deltaTime;
 
-            if (essenceTimer > ESSENCEDELAY)
+            if (essenceTimer > EssenceDelay)
             {
-                essenceTimer -= ESSENCEDELAY;
+                essenceTimer -= EssenceDelay;
                 LocalEssence += 1;
             }
         }

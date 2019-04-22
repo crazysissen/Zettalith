@@ -55,11 +55,11 @@ namespace Zettalith
         public Stats BaseStats => new Stats()
         {
             AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
-            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
-            Health = Top.Health + Middle.Health + Bottom.Health,
+            MaxHealth = Top.Health + Middle.Health + Bottom.Health/* + Ztuff.healthIncrease[(InGameController.Grid[Index] as TilePiece).Player]*/,
+            Health = Top.Health + Middle.Health + Bottom.Health/* + Ztuff.healthIncrease[(InGameController.Grid[Index] as TilePiece).Player]*/,
             Armor = Top.Armor + Middle.Armor + Bottom.Armor,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            AbilityCost = Top.AbilityCost,
+            AbilityCost = Top.AbilityCost/* - Ztuff.abilityCostDecrease*/,
             MoveCost = Bottom.MoveCost
         };
 
@@ -78,7 +78,18 @@ namespace Zettalith
 
                         if (modified.Armor > 0)
                         {
-                            modified.Armor += mod.StatChanges.Health;
+                            if (mod.StatChanges.Armor < 0)
+                            {
+                                modified.Armor += mod.StatChanges.Armor;
+                                if (modified.Armor < 0)
+                                {
+                                    modified.Armor = 0;
+                                }
+                            }
+                            else
+                            {
+                                modified.Armor += mod.StatChanges.Health;
+                            }
 
                             if (modified.Armor < 0)
                             {
@@ -86,7 +97,7 @@ namespace Zettalith
                                 modified += mod.StatChanges;
                                 modified.Armor = 0;
                             }
-                            else
+                            else 
                             {
                                 modified += new Stats(mod.StatChanges.AttackDamage, 0, 0, mod.StatChanges.Mana, mod.StatChanges.AbilityCost, mod.StatChanges.MoveCost);
                             }

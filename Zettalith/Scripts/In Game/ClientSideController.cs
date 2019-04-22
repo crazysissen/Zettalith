@@ -11,8 +11,10 @@ namespace Zettalith
 {
     class ClientSideController
     {
+        public static int
+            placeHeight = 2/* + Ztuff.placeHeightIncrease*/;
+
         const int 
-            placeHeight = 2,
             DIAMETER = 7;
 
         public const float

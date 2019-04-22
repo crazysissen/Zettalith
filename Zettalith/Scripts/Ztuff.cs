@@ -10,14 +10,19 @@ namespace Zettalith
 {
     static class Ztuff
     {
-        public static float 
-            abilityCostFactor,
+        public static float
+            essenceFactor = 1f,
             SizeResFactor;
-        public static int incomingEffect;
+        public static int
+            //placeHeightIncrease,
+            incomingEffect;
         public static bool pickingPiece = false;
         static GUI.Collection theGUI;
         public static float BuffCostFactor = 1;
         public static bool changeBuffCost = false;
+        public static Mana abilityCostDecrease = new Mana();
+
+        //public static int[] healthIncrease = new int[2] { 0, 0 };
 
         static Ztuff()
         {

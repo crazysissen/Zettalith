@@ -56,12 +56,12 @@ namespace Zettalith
             allPerks = new Perk[]
             {
                 new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false, Achievable = true},
-                new Perk("Buff cost decrease", "The cost of all buffs \nis decreased by 30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, -1, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by " + 100 * (1 - Ztuff.abilityCostFactor) + "% \nfor Zettaliths in \nyour hand and deck", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, -1, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Health increased", "The health of all \nZettaliths in your \nhand and deck is \nincreased by 50%", 0.3f, 0.7f, 1, Load.Get<Texture2D>("Health Perk"), 10, -1, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Movement increased", "The movement speed \nof all Zettaliths in \nyour hand and deck is \nincreased by 30%", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 11, -1, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Essence income 1", "Essence income is \nincreased by 30%", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, -1, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Essence income 2", "Essence income is \nincreased by another \n30%", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, -1, new Mana(), 0, csc, descriptionCollection)
+                new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana type", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Health increased", "The health of all \nyour Zettaliths is \nincreased by 5", 0.3f, 0.7f, 1, Load.Get<Texture2D>("Health Perk"), 10, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("King Movement", "The move range \nof your king \nis increased by 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 11, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Essence income 1", "Essence income \nis fastened", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Essence income 2", "Essence income \nis further \nfastened", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, -1, new Mana(), 0, csc, descriptionCollection)
             };
 
             // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.
