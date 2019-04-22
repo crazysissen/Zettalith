@@ -54,7 +54,7 @@ namespace Zettalith
 
         public static Map NoiseMap(Random r, int width, int height)
         {
-            float scale = 0.2f, threshhold = -0.5f;
+            float scale = 0.15f, threshhold = -0.45f;
 
             Noise noise = new Noise(r.Next());
 
