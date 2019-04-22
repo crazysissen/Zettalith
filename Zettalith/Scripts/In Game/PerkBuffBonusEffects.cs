@@ -99,7 +99,7 @@ namespace Zettalith
 
         public static void HealthIncrease(int index)
         {
-            Ztuff.healthIncrease = 5;
+            Ztuff.healthIncrease[InGameController.PlayerIndex] = 5;
         }
 
         public static void KingMove(int index)
