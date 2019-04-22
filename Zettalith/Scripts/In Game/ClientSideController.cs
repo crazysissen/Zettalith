@@ -322,8 +322,6 @@ namespace Zettalith
         {
             logisticsGUI = new GUI.Collection();
             battleGUI.Active = false;
-
-            // TODO Add logistics UI
         }
 
         public void CloseSetup()

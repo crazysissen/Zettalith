@@ -27,11 +27,12 @@ namespace Zettalith
 
     class InGameController
     {
+        // TODO: SET TO 3
         const int
-            STARTHAND = 3;
+            STARTHAND = 20;
 
         public static float
-            EssenceDelay => 1f * Ztuff.essenceFactor; // TODO: Fix pls, temporary af
+            EssenceDelay => 1f * Ztuff.essenceFactor;
 
         public static InGameController Main { get; private set; }
 
@@ -96,7 +97,6 @@ namespace Zettalith
         public event Func<bool, TileObject, Point> MiscPlacement;
 
         /// <summary>
-        /// TODO: Implementera upgrade event
         /// </summary>
         public event Func<bool, object> Upgrade;
 
@@ -177,9 +177,12 @@ namespace Zettalith
                 //Local.PlacePiece(decks[0].Draw(), 2, 2);
             }
 
-            Local.ClientController.DrawPieceFromDeck();
-            Local.ClientController.DrawPieceFromDeck();
-
+            for (int i = 0; i < STARTHAND - 1; ++i)
+            {
+                Local.ClientController.DrawPieceFromDeck();
+                Local.ClientController.DrawPieceFromDeck();
+            }
+            
             if (StartPlayer != PlayerIndex)
             {
                 Local.ClientController.DrawPieceFromDeck();
@@ -238,8 +241,6 @@ namespace Zettalith
                 {
                     if (piece.Piece.IsKing)
                     {
-                        // TODO: WIN THE FUCKING GAME ARIGHT
-
                         EndGame((piece.Player + 1) % 2);
                     }
 
@@ -366,7 +367,6 @@ namespace Zettalith
                 return;
             }
 
-            //TODO: Unit already attacked pop-up?
             Test.Log("Unit cannot attack");
         }
 
@@ -413,7 +413,6 @@ namespace Zettalith
                 return;
             }
 
-            //TODO: Unit already moved pop-up?
             Test.Log("Unit cannot move");
         }
 

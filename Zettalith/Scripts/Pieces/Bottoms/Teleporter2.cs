@@ -31,6 +31,8 @@ namespace Zettalith.Pieces
 
         public override void ActivateMove(TilePiece piece, Point target)
         {
+            Vector2 supposed = new Vector2(target.X, target.Y * ClientSideController.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
+            ClientSideController.Particles.Beam(piece.SupposedPosition, supposed, Color.LightPink, new Color(Color.Purple, 0.0f));
             InGameController.Grid.ChangePosition(piece, target.X, target.Y);
         }
     }
