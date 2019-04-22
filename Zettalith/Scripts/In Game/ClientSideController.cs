@@ -55,6 +55,8 @@ namespace Zettalith
 
         public Vector2[,] backgroundPositions;
 
+        bool battleTurn;
+
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI, managementGUI;
 
@@ -346,6 +348,8 @@ namespace Zettalith
 
         public void OpenBattle()
         {
+            battleTurn = true;
+
             battleGUI.Active = true;
             logisticsGUI.Active = false;
 
@@ -358,6 +362,8 @@ namespace Zettalith
 
         public void OpenLogistics()
         {
+            battleTurn = false;
+
             battleGUI.Active = false;
             logisticsGUI.Active = false;
             managementGUI.Active = true;
@@ -522,7 +528,7 @@ namespace Zettalith
                         Ztuff.RestoreFromBuff();
                         Ztuff.pickingPiece = false;
                     }
-                    else if (interactionPiece.Player == InGameController.PlayerIndex)
+                    else if (interactionPiece.Player == InGameController.PlayerIndex && battleTurn)
                     {
                         player.RequestAction(interactionPiece);
                     }
