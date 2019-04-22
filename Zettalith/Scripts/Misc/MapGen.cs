@@ -17,7 +17,7 @@ namespace Zettalith
             SquareMap, NoiseMap, NoiseMirrorMap
         }
 
-        static Func<Random, int, int, Map>[] functions = { NoHolesMap, RectangleMap };
+        static Func<Random, int, int, Map>[] functions = { NoHolesMap, NoiseMap/*, NoiseMapMirrored*/ };
 
         public static Map Generate(Random r, int width, int height, Type type)
         {
@@ -51,6 +51,70 @@ namespace Zettalith
 
             return functions[(int)type].Invoke(r, width, height);
         }
+
+        public static Map NoiseMap(Random r, int width, int height)
+        {
+            float scale = 0.2f, threshhold = -0.5f;
+
+            Noise noise = new Noise(r.Next());
+
+            Grid grid = new Grid(width, height);
+            Point[] spawns = new Point[2];
+
+            bool looping = true;
+            while (looping)
+            {
+                grid = new Grid(width, height);
+
+                int[][] array = new int[width][];
+
+                for (int x = 0; x < width; x++)
+                {
+                    array[x] = new int[height];
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        float currentThreshhold = threshhold;
+
+                        //if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
+                        //{
+                        //    threshhold -= (threshhold - 1) * 0.5f;
+                        //}
+
+                        if (noise.Generate(x * scale, y * scale) > threshhold)
+                        {
+                            grid[x, y] = new Tile();
+                            array[x][y] = 0;
+                            continue;
+                        }
+
+                        array[x][y] = 1;
+                    }
+                }
+
+                spawns = CreateSpawns(grid, ref r);
+
+                if (spawns == null)
+                {
+                    continue;
+                }
+
+                List<Vector2> result = new Astar(array, new int[] { spawns[0].X, spawns[0].Y }, new int[] { spawns[1].X, spawns[1].Y }, "").result;
+
+                if (result != null)
+                {
+                    looping = false;
+                }
+            }
+
+            return new Map() { grid = grid, spawnPositions = spawns };
+        }
+
+        //public static Map NoiseMapMirrored(Random r, int width, int height)
+        //{
+
+        //}
+
 
         public static Map NoHolesMap(Random r, int width, int height)
         {
@@ -150,8 +214,15 @@ namespace Zettalith
                 }
             }
 
-            Point spawnPoint = possibleSpawnPoints[r.Next(possibleSpawnPoints.Count)];
-            return new Point[] { spawnPoint, new Point(spawnPoint.X, grid.yLength - 1 - spawnPoint.Y) };
+            try
+            {
+                Point spawnPoint = possibleSpawnPoints[r.Next(possibleSpawnPoints.Count)];
+                return new Point[] { spawnPoint, new Point(spawnPoint.X, grid.yLength - 1 - spawnPoint.Y) };
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 
