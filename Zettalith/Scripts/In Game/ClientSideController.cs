@@ -76,7 +76,7 @@ namespace Zettalith
         InGameController controller;
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
-        InfoBox infoBox;
+        public InfoBox infoBox;
         PieceStats pieceStats;
         Point mouseDownPosition, rightMouseDownPosition;
 

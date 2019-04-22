@@ -161,7 +161,7 @@ namespace Zettalith
 
         public TileObject GetObject(int x, int y)
         {
-            if (!InBounds(x, y))
+            if (!InBounds(x, y) || TileArray[x, y] == null)
             {
                 return null;
             }
