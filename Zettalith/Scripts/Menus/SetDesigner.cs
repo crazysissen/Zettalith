@@ -20,7 +20,7 @@ namespace Zettalith
 
         Renderer.SpriteScreen topSubPiece, middleSubPiece, bottomSubPiece, highlight;
 
-        Renderer.Text topName, topHealth, topAttack, topAbilityRange, topCost, topAbilityCost, topDesc, middleName, middleHealth, middleAttack, middleCost, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomMovementTime, bottomCost, bottomMovementCost, bottomDesc;
+        Renderer.Text topName, topHealth, topAttack, topAbilityRange, topCost, topAbilityCost, topDesc, middleName, middleHealth, middleAttack, middleCost, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomCost, bottomMovementCost, bottomDesc;
 
         GUI.TextField nameField;
 
@@ -215,17 +215,16 @@ namespace Zettalith
             bottomHealth = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 1)));
             bottomAttack = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 2)));
             bottomMovementRange = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Movement Range: " + unlockedBottomList[currentlyShowingBottom].MoveRange.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 3)));
-            bottomMovementTime = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Movement Time: " + unlockedBottomList[currentlyShowingBottom].MovementTime.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 4)));
-            bottomCost = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Cost: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 5)));
-            bottomMovementCost = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Movement Cost: " + unlockedBottomList[currentlyShowingBottom].MoveCost.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 6)));
-            bottomDesc = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 7)));
+            bottomCost = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Cost: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 4)));
+            bottomMovementCost = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Movement Cost: " + unlockedBottomList[currentlyShowingBottom].MoveCost.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 5)));
+            bottomDesc = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 6)));
             #endregion
 
             #endregion
 
             topFullDesc.Add(topName, topHealth, topAttack, topAbilityRange, topCost, topAbilityCost, topDesc);
             middleFullDesc.Add(middleName, middleHealth, middleAttack, middleCost, middleDesc);
-            bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomMovementTime, bottomCost, bottomMovementCost, bottomDesc);
+            bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomCost, bottomMovementCost, bottomDesc);
             collectionInspector.Add(bCreate, bBack);
             setDesigner.Add(bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy, nameField);
             for (int i = 0; i < miniliths.Length; ++i)
@@ -512,7 +511,6 @@ namespace Zettalith
             bottomHealth.String = new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString());
             bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
             bottomMovementRange.String = new StringBuilder("Movement Range: " + unlockedBottomList[currentlyShowingBottom].MoveRange.ToString());
-            bottomMovementTime.String = new StringBuilder("Movement Time: " + unlockedBottomList[currentlyShowingBottom].MovementTime.ToString());
             bottomCost.String = new StringBuilder("Cost: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString());
             bottomMovementCost.String = new StringBuilder("Movement Cost: " + unlockedBottomList[currentlyShowingBottom].MoveCost.ToString());
             bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
