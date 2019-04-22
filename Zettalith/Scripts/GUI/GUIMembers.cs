@@ -448,8 +448,6 @@ namespace Zettalith
                             textures.Add(new TAS(_targetTexture, 1 - scaledValue));
                             color = Color.White;
                             break;
-
-                            // TODO: Implement animated button
                     }
                 }
 

@@ -12,7 +12,7 @@ namespace Zettalith
     class ClientSideController
     {
         const int
-            placeHeight = 2;
+            placeHeight = 6;
 
         const int 
             DIAMETER = 7;
@@ -76,7 +76,7 @@ namespace Zettalith
         InGameController controller;
         InGamePiece dragOutPiece;
         CameraMovement cameraMovement;
-        InfoBox infoBox;
+        public InfoBox infoBox;
         PieceStats pieceStats;
         Point mouseDownPosition, rightMouseDownPosition;
 
@@ -199,10 +199,10 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
-            //if (Input.LeftMouse)
-            //{
-            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
-            //}
+            if (Input.LeftMouse)
+            {
+                Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
+            }
 
             if (Ztuff.pickingPiece && Input.RightMouse)
             {
@@ -322,8 +322,6 @@ namespace Zettalith
         {
             logisticsGUI = new GUI.Collection();
             battleGUI.Active = false;
-
-            // TODO Add logistics UI
         }
 
         public void CloseSetup()
@@ -562,8 +560,8 @@ namespace Zettalith
             {
                 if (highlightedPiece != null)
                 {
-                    infoBox.Set(highlightedPiece);
                     infoBox.Open();
+                    infoBox.Set(highlightedPiece);
                 }
                 else
                 {

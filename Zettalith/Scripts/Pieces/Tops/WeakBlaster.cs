@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public WeakBlaster()
         {
-            Name = "Weak Blaster";
+            Name = "Sapper";
             Health = 2;
             AttackDamage = 0;
             AbilityRange = 5;
@@ -37,7 +37,7 @@ namespace Zettalith.Pieces
                 {
                     if (mousePos == sPoints[i])
                     {
-                        object[] temp = { sPoints[i], Modifier };
+                        object[] temp = { sPoints[i], Modifier, piece.GridIndex };
                         cancel = false;
                         return temp;
                     }
@@ -55,6 +55,8 @@ namespace Zettalith.Pieces
         {
             TileObject piece = InGameController.Grid.GetObject(((SPoint)data[0]).X, ((SPoint)data[0]).Y);
             (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
+
+            ClientSideController.Particles.Beam(piece.SupposedPosition - new Vector2(0, 1), InGameController.Grid[(int)data[2]].SupposedPosition - new Vector2(0, 1), Color.White, new Color(Color.CadetBlue, 0.0f), 50);
         }
     }
 }

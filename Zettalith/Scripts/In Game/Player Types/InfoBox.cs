@@ -108,28 +108,45 @@ namespace Zettalith
         {
             if (selectedPiece != null)
             {
-                collection.Origin = (RendererController.Camera.WorldToScreenPosition(selectedPiece.SupposedPosition - new Vector2(-0.5f, 1)) - new Vector2(total.X + Settings.GetResolution.Y * DISTANCE, halfSize.Y)).RoundToPoint();
+                Point anchor = new Point(Settings.GetHalfResolution.X, (int)(Settings.GetResolution.Y * 0.82f));
+
+                collection.Origin = selectedPiece == null ?
+                    anchor - new Point(halfTotal.X, total.Y)
+                    : (RendererController.Camera.WorldToScreenPosition(selectedPiece.SupposedPosition - new Vector2(-0.5f, 1)) - new Vector2(total.X + Settings.GetResolution.Y * DISTANCE, halfSize.Y)).RoundToPoint();
             }
         }
 
-        public void Set(TilePiece tilePiece)
+        public void Set(TilePiece piece)
         {
-            selectedPiece = tilePiece;
-            InGamePiece piece = tilePiece.Piece;
+            selectedPiece = piece;
 
+            Set(piece.Piece, piece.Player == InGameController.PlayerIndex);
+        }
+
+        public void Set(InGamePiece piece, bool ownPiece)
+        {
             SubPiece[] subPieces = { piece.Top, piece.Middle, piece.Bottom };
 
-            Mana tempCost = piece.Top.AbilityCost - (tilePiece.Player == InGameController.PlayerIndex ? Ztuff.abilityCostDecrease : new Mana());
+            Mana tempCost = piece.Top.AbilityCost - (ownPiece ? Ztuff.abilityCostDecrease : new Mana());
 
-            if (!(tempCost < new Mana()))
+            int red = tempCost.Red, green = tempCost.Green, blue = tempCost.Blue;
+
+            if (tempCost.Red < 0)
             {
-                abilityCost.String = new StringBuilder(tempCost.ToString());
+                red = 0;
             }
-            else
+            if (tempCost.Green < 0)
             {
-                tempCost = new Mana();
-                abilityCost.String = new StringBuilder(tempCost.ToString());
+                green = 0;
             }
+            if (tempCost.Blue < 0)
+            {
+                blue = 0;
+            }
+
+            tempCost = new Mana(red, green, blue);
+
+            abilityCost.String = new StringBuilder(tempCost.ToString());
 
             movementCost.String = new StringBuilder(piece.Bottom.MoveCost.ToString());
 
@@ -151,6 +168,8 @@ namespace Zettalith
 
         public void Open()
         {
+            selectedPiece = null;
+
             IsOpen = false;
 
             collection.Active = true;
@@ -158,6 +177,8 @@ namespace Zettalith
 
         public void Close()
         {
+            selectedPiece = null;
+
             IsOpen = true;
 
             collection.Active = false;

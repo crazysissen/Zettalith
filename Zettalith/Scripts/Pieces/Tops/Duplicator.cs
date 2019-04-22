@@ -64,8 +64,7 @@ namespace Zettalith.Pieces
             InGameController.Main.PlacePiece(piece.Index, pos.X, pos.Y, duplicator.Player);
             (InGameController.Grid.GetObject(pos.X, pos.Y) as TilePiece).Piece.ModThis(stats);
 
-            //TilePiece temp = new TilePiece(new InGamePiece(piece.Piece.Piece), piece.Player);
-            //InGameController.Main.PlacePiece((int)data[1], pos.X, pos.Y, piece.Player);
+            ClientSideController.Particles.Beam(duplicator.SupposedPosition - new Vector2(0, 1), InGameController.Grid.GetObject(pos.X, pos.Y).SupposedPosition - new Vector2(0, 1), Color.White, new Color(Color.CadetBlue, 0.0f));
         }
     }
 }

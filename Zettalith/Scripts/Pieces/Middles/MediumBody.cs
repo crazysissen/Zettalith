@@ -13,7 +13,7 @@ namespace Zettalith.Pieces
     {
         public MediumBody()
         {
-            Name = "Medium Body";
+            Name = "Infantry";
             Health = 6;
             AttackDamage = 3;
             ManaCost = new Mana(2, 2, 0);

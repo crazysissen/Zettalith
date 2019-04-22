@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Straight()
         {
-            Name = "Straight";
+            Name = "Rook";
             Health = 4;
             AttackDamage = 1;
             ManaCost = new Mana(2, 0, 0);

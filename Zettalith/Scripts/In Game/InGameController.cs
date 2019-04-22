@@ -27,11 +27,12 @@ namespace Zettalith
 
     class InGameController
     {
+        // TODO: SET TO 3
         const int
-            STARTHAND = 3;
+            STARTHAND = 20;
 
         public static float
-            EssenceDelay => 1f * Ztuff.essenceFactor; // TODO: Fix pls, temporary af
+            EssenceDelay => 1f * Ztuff.essenceFactor;
 
         public static InGameController Main { get; private set; }
 
@@ -96,7 +97,6 @@ namespace Zettalith
         public event Func<bool, TileObject, Point> MiscPlacement;
 
         /// <summary>
-        /// TODO: Implementera upgrade event
         /// </summary>
         public event Func<bool, object> Upgrade;
 
@@ -146,6 +146,11 @@ namespace Zettalith
             decks = loadedConfig.decks;
             sets = loadedConfig.sets;
 
+            Random r = new Random();
+
+            decks[0].Shuffle(r.Next());
+            decks[1].Shuffle(r.Next());
+
             players = new Player[]
             {
                 isHost ? CreateLocalPlayer() : CreateRemotePlayer(),
@@ -177,9 +182,12 @@ namespace Zettalith
                 //Local.PlacePiece(decks[0].Draw(), 2, 2);
             }
 
-            Local.ClientController.DrawPieceFromDeck();
-            Local.ClientController.DrawPieceFromDeck();
-
+            for (int i = 0; i < STARTHAND - 1; ++i)
+            {
+                Local.ClientController.DrawPieceFromDeck();
+                Local.ClientController.DrawPieceFromDeck();
+            }
+            
             if (StartPlayer != PlayerIndex)
             {
                 Local.ClientController.DrawPieceFromDeck();
@@ -238,8 +246,6 @@ namespace Zettalith
                 {
                     if (piece.Piece.IsKing)
                     {
-                        // TODO: WIN THE FUCKING GAME ARIGHT
-
                         EndGame((piece.Player + 1) % 2);
                     }
 
@@ -366,7 +372,6 @@ namespace Zettalith
                 return;
             }
 
-            //TODO: Unit already attacked pop-up?
             Test.Log("Unit cannot attack");
         }
 
@@ -376,10 +381,25 @@ namespace Zettalith
 
             piece.Piece.Top.ActivateAbility(data);
 
-            if (!((piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease) < new Mana()))
+            Mana manaCost = piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease;
+            int red = manaCost.Red, green = manaCost.Green, blue = manaCost.Blue;
+
+            if (manaCost.Red < 0)
             {
-                players[piece.Player].Mana -= (piece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease);
+                red = 0;
             }
+            if (manaCost.Green < 0)
+            {
+                green = 0;
+            }
+            if (manaCost.Blue < 0)
+            {
+                blue = 0;
+            }
+
+            manaCost = new Mana(red, green, blue);
+
+            players[piece.Player].Mana -= manaCost;
         }
 
         public void ActivateMovement(int pieceIndex, int x, int y)
@@ -398,7 +418,6 @@ namespace Zettalith
                 return;
             }
 
-            //TODO: Unit already moved pop-up?
             Test.Log("Unit cannot move");
         }
 

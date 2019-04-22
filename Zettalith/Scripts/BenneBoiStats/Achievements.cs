@@ -12,7 +12,6 @@ namespace Zettalith
 
         public static Dictionary<string, Achievement> DefaultLocked => new Dictionary<string, Achievement>
         {
-            // TODO: Add all new achievements here
             // Bool if false or true achievement, Double if decimal value achievment (ex float, double, decimal), Long if integer achievement (ex int, uint, long)
             { "Test", new Achievement(VariableType.Long, "Achieve five epic points", 5) },
             //{ "Achievement name", new Achievement(VariableType.Double, "Achievement description", ValueToBeReached) },
@@ -20,7 +19,6 @@ namespace Zettalith
 
         public static Dictionary<string, Achievement> DefaultUnlocked => new Dictionary<string, Achievement>();
 
-        // TODO: Call this somewhere
         public static void Check()
         {
             foreach (KeyValuePair<string, Achievement> achievement in PersonalData.UserData.Locked)

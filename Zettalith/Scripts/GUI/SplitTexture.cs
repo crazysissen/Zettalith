@@ -48,7 +48,7 @@ namespace Zettalith
             //{
             //    for (int y = 0; y < texture.Height; y++)
             //    {
-            //        // TODO: Fix split texture initialization
+
             //    }
             //}
 

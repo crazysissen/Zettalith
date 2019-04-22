@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Teleporter2()
         {
-            Name = "Teleporter 3000";
+            Name = "Warper";
             Health = 5;
             AttackDamage = 0;
             ManaCost = new Mana(5, 0, 7);
@@ -31,6 +31,8 @@ namespace Zettalith.Pieces
 
         public override void ActivateMove(TilePiece piece, Point target)
         {
+            Vector2 supposed = new Vector2(target.X, target.Y * ClientSideController.HEIGHTDISTANCE) * (InGameController.IsHost ? 1 : -1);
+            ClientSideController.Particles.Beam(piece.SupposedPosition, supposed, Color.LightPink, new Color(Color.Purple, 0.0f));
             InGameController.Grid.ChangePosition(piece, target.X, target.Y);
         }
     }

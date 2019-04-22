@@ -37,7 +37,7 @@ namespace Zettalith.Pieces
                 {
                     if (mousePos == sPoints[i])
                     {
-                        object[] temp = { sPoints[i], Modifier };
+                        object[] temp = { sPoints[i], Modifier, piece.GridIndex };
                         cancel = false;
                         return temp;
                     }
@@ -56,6 +56,8 @@ namespace Zettalith.Pieces
             SPoint temp = (SPoint)data[0];
             TileObject piece = InGameController.Grid.GetObject(temp.X, temp.Y);
             (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
+
+            ClientSideController.Particles.Beam(piece.SupposedPosition - new Vector2(0, 1), InGameController.Grid[(int)data[2]].SupposedPosition - new Vector2(0, 1), Color.LightBlue, new Color(Color.Green, 0.0f), 150);
         }
     }
 }

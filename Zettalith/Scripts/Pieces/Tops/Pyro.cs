@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Pyro()
         {
-            Name = "Pyro";
+            Name = "Pyromaniac";
             Health = 2;
             AttackDamage = 0;
             AbilityRange = 0;
@@ -37,7 +37,7 @@ namespace Zettalith.Pieces
                 {
                     if (mousePos == sPoints[i])
                     {
-                        object[] temp = { sPoints, Modifier };
+                        object[] temp = { sPoints, Modifier, piece.GridIndex };
                         cancel = false;
                         return temp;
                     }
@@ -63,6 +63,8 @@ namespace Zettalith.Pieces
                     continue;
 
                 (piece as TilePiece).Piece.ModThis(data[1] as Modifier);
+
+                ClientSideController.Particles.Beam(InGameController.Grid[(int)data[2]].SupposedPosition - new Vector2(0, 1), piece.SupposedPosition - new Vector2(0, 1), new Color(255, 68, 68), new Color(255, 171, 0)); 
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public WeakShield()
         {
-            Name = "Weak Shield";
+            Name = "Paladin";
             Health = 2;
             Armor = 4;
             AttackDamage = 1;

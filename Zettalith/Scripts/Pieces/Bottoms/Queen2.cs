@@ -12,7 +12,7 @@ namespace Zettalith.Pieces
     {
         public Queen2()
         {
-            Name = "Queen 2";
+            Name = "Dragon";
             Health = 8;
             AttackDamage = 0;
             ManaCost = new Mana(0, 0, 6);
