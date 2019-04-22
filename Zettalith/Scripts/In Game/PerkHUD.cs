@@ -56,7 +56,7 @@ namespace Zettalith
             allPerks = new Perk[]
             {
                 new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false, Achievable = true},
-                new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, -1, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
                 new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana type", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, -1, new Mana(), 0, csc, descriptionCollection),
                 new Perk("Health increased", "The health of all \nyour Zettaliths is \nincreased by 5", 0.3f, 0.7f, 1, Load.Get<Texture2D>("Health Perk"), 10, -1, new Mana(), 0, csc, descriptionCollection),
                 new Perk("King Movement", "The move range \nof your king \nis increased by 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 11, -1, new Mana(), 0, csc, descriptionCollection),
