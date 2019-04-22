@@ -22,14 +22,15 @@ namespace Zettalith
 
         private bool host, connected, ready, connecting;
         private float timeOut;
+        private int setIndex;
 
         private System.Net.IPEndPoint endPoint;
 
         private GUI.Collection collection;
-        private GUI.Button bStart, bBack;
+        private GUI.Button bStart, bBack, arrow1, arrow2;
         private GUI.TextField tIpField;
         private Renderer.SpriteScreen localBackground, globalBackground;
-        private Renderer.Text title, localIP, globalIP, statusHeader, status, ipFieldTitle;
+        private Renderer.Text title, localIP, globalIP, statusHeader, status, ipFieldTitle, SetText;
 
         private Set testSet;
 
@@ -68,6 +69,16 @@ namespace Zettalith
             status = new Renderer.Text(Layer.GUI, Font.Bold, "", 4, 0, new Vector2(Font.Default.MeasureString("Status: ").X, 200), Color.White);
             statusHeader = new Renderer.Text(Layer.GUI, Font.Default, "Status: ", 4, 0, new Vector2(0, 200));
 
+            setIndex = 0;
+            SetText = new Renderer.Text(Layer.GUI, Font.Bold, PersonalData.UserData.SavedSets[0].Name, 3, 0, new Vector2(Settings.GetResolution.X * 0.4f, Settings.GetResolution.Y * 0.3f), Color.White);
+            Texture2D arrow2D = Load.Get<Texture2D>("Arrow");
+            Texture2D arrowHover2D = Load.Get<Texture2D>("ArrowHover");
+            Texture2D arrowPressed2D = Load.Get<Texture2D>("ArrowPressed");
+            arrow1 = new GUI.Button(Layer.GUI, new Rectangle((int)(Settings.GetResolution.X * 0.3f), (int)(Settings.GetResolution.Y * 0.3f), (int)(Ztuff.SizeResFactor * arrow2D.Width * 2), (int)(Ztuff.SizeResFactor * arrow2D.Height * 2)), arrow2D, arrowHover2D, arrowPressed2D, GUI.Button.Transition.Switch, 0f);
+            arrow1.OnClick += Arrow1;
+            arrow2 = new GUI.Button(Layer.GUI, new Rectangle((int)(Settings.GetResolution.X * 0.5f), (int)(Settings.GetResolution.Y * 0.3f), (int)(Ztuff.SizeResFactor * arrow2D.Width * 2), (int)(Ztuff.SizeResFactor * arrow2D.Height * 2)), arrow2D, arrowHover2D, arrowPressed2D, GUI.Button.Transition.Switch, 0f) { SpriteEffects = SpriteEffects.FlipHorizontally };
+            arrow2.OnClick += Arrow2;
+
             localIP = new Renderer.Text(Layer.GUI, Font.Default, "", 4, 0, new Vector2(0, 240));
             globalIP = new Renderer.Text(Layer.GUI, Font.Default, "", 4, 0, new Vector2(0, 280));
 
@@ -84,7 +95,7 @@ namespace Zettalith
             UpdateGUI();
 
             RendererController.GUI.Add(collection);
-            collection.Add(title, localIP, globalIP, statusHeader, status, bStart, bBack);
+            collection.Add(title, localIP, globalIP, statusHeader, status, bStart, bBack, SetText, arrow1, arrow2);
 
             if (XNAController.LocalGameHost)
             {
@@ -150,6 +161,9 @@ namespace Zettalith
 
         private void UpdateGUI()
         {
+            SetText.String = new StringBuilder(PersonalData.UserData.SavedSets[setIndex].Name);
+            SetText.Position = new Vector2(Settings.GetResolution.X * 0.4f - SetText.Font.MeasureString(SetText.String).X * SetText.Scale.X * 0.4f, Settings.GetResolution.Y * 0.3f - SetText.Font.MeasureString(SetText.String).Y * SetText.Scale.Y * 0.2f);
+
             status.String = new StringBuilder(connected ? "Connected" : "Disconnected");
             status.Color = connected ? Color.GreenYellow : Color.OrangeRed;
 
@@ -278,7 +292,7 @@ namespace Zettalith
 
             PlayerSetupData playerData = new PlayerSetupData()
             {
-                set = /*PersonalData.UserData.SavedSets.Last()*/testSet
+                set = PersonalData.UserData.SavedSets[setIndex]
             };
 
             NetworkManager.Send(RECIEVEDATAHEADER, playerData);
@@ -286,6 +300,24 @@ namespace Zettalith
             LoadGame.playerData = playerData;
 
             MainController.Main.ToGame(config, host);
+        }
+
+        void Arrow1()
+        {
+            setIndex--;
+            if (setIndex < 0)
+            {
+                setIndex = PersonalData.UserData.SavedSets.Count - 1;
+            }
+        }
+
+        void Arrow2()
+        {
+            setIndex++;
+            if (setIndex >= PersonalData.UserData.SavedSets.Count)
+            {
+                setIndex = 0;
+            }
         }
     }
 }
