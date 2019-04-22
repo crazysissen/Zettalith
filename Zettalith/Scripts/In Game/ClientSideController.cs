@@ -877,7 +877,7 @@ namespace Zettalith
 
             Color[,] subHighlightColors = new Color[xL, yL];
             Color[,] highlightColors = new Color[xL, yL];
-            Color d = default;
+            Color d = default(Color);
 
             foreach ((Point p, Color c) item in queuedHighlights)
             {
