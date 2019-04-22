@@ -15,7 +15,7 @@ namespace Zettalith
             typeof(KingHead), typeof(KingMiddle), typeof(KingFeet),
 
             typeof(Blaster), typeof(StrongBlaster), typeof(WeakBlaster),typeof(Bomb), typeof(Pyro),
-            typeof(MediumBody), typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthLowAtk), typeof(HighHealthHighAtk),
+            typeof(HighHealthLowAtk), typeof(MediumBody), typeof(LowHealthLowAtk), typeof(LowHealthHighAtk), typeof(HighHealthHighAtk),
             typeof(Straight), typeof(Diagonal), typeof(Teleporter), typeof(Queen), typeof(Diagonal2),
             typeof(Straight2), typeof(Teleporter2), typeof(Queen2), typeof(Healer), typeof(Mortar),
             typeof(Swap), typeof(Cone), typeof(LobHealer), typeof(ConeHealer), typeof(OneTile),
@@ -48,7 +48,7 @@ namespace Zettalith
 
         // Declares the desired default pieces for the default deck
         public static Type DefaultTop = typeof(Blaster);
-        public static Type DefaultMiddle = typeof(MediumBody);
+        public static Type DefaultMiddle = typeof(HighHealthLowAtk);
         public static Type DefaultBottom = typeof(Straight);
 
         public static Type KingTop = typeof(KingHead);

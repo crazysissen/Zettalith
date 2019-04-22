@@ -19,7 +19,7 @@ namespace Zettalith.Pieces
             MoveCost = new Mana(2, 0, 0);
             MoveRange = 1;
             MovementTime = 0.5f;
-            Texture = Load.Get<Texture2D>("1TileBottom");
+            Texture = Load.Get<Texture2D>("SixtenBottom1");
 
             Description = "Moves in any direction";
         }
