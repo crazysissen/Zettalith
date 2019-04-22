@@ -43,12 +43,12 @@ namespace Zettalith
 
             Buff[] bonuses = new Buff[]
             {
-                new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
-                new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
-                new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
-                new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
-                new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection),
-                new Buff("Bonus name", "Sample text", 1, 1, 2, 3, 4, Collection)
+                new Buff("Buff Health", "+1 Health", 0, 0, 0, 0, 20, Collection),
+                new Buff("Buff Attack Damage", "+1 Attack Damage", 1, 0, 0, 0, 30, Collection),
+                new Buff("Buff Armor", "+1 Armor", 2, 0, 0, 0, 15, Collection),
+                new Buff("Nerf Health", "-1 Health", 4, 0, 0, 0, 15, Collection),
+                new Buff("Nerf Attack Damage", "-1 Attack Damage", 5, 0, 0, 0, 20, Collection),
+                new Buff("Nerf Armor", "-1 Armor", 6, 0, 0, 0, 10, Collection),
             };
 
             BattleHUD = new BattleHUD(battleCollection, igc, player, csc);
