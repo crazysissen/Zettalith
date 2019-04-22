@@ -59,9 +59,9 @@ namespace Zettalith
                 new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
                 new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana type", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
                 new Perk("Health increased", "The health of all \nyour Zettaliths is \nincreased by 5", 0.3f, 0.7f, 1, Load.Get<Texture2D>("Health Perk"), 10, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("King Movement", "The move range \nof your king \nis increased by 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 11, -InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Essence income 1", "Essence income \nis increased", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Essence income 2", "Essence income \nis increased more", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection)
+                new Perk("King Movement", "The move range \nof your king \nis increased by 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 11, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Essence income 1", "Essence income \nis fastened", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
+                new Perk("Essence income 2", "Essence income \nis further \nfastened", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 12, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection)
             };
 
             // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.
