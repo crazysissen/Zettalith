@@ -112,7 +112,10 @@ namespace Zettalith
 
         public static void EssenceIncome(int index)
         {
-            Ztuff.essenceFactor *= 0.7f;
+            if (index + 2 == InGameController.PlayerIndex)
+            {
+                Ztuff.essenceFactor *= 0.7f;
+            }
         }
     }
 
