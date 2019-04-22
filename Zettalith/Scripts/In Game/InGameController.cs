@@ -29,7 +29,7 @@ namespace Zettalith
     {
         // TODO: SET TO 3
         const int
-            STARTHAND = 20;
+            STARTHAND = 3;
 
         public static float
             EssenceDelay => 1f * Ztuff.essenceFactor;
