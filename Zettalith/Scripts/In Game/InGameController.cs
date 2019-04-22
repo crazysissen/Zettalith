@@ -169,6 +169,8 @@ namespace Zettalith
             players[0].SetKing(king0);
             players[1].SetKing(king1);
 
+            RendererController.Camera.Position = new Vector2(Grid.xLength * 0.5f, Grid.yLength * 0.5f * ClientSideController.HEIGHTDISTANCE) * (isHost ? 1 : -1);
+
             loading = false;
             gameState = InGameState.Setup;
 
