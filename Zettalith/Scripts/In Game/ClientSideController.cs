@@ -199,10 +199,10 @@ namespace Zettalith
 
         public void Update(float deltaTime, InGameState gameState)
         {
-            //if (Input.LeftMouse)
-            //{
-            //    Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
-            //}
+            if (Input.LeftMouse)
+            {
+                Particles.Beam(new Vector2(0, 0), RendererController.Camera.ScreenToWorldPosition(Input.MousePosition.ToVector2()), Color.Yellow, new Color(Color.Red, 0f), 30);
+            }
 
             if (Ztuff.pickingPiece && Input.RightMouse)
             {
@@ -562,8 +562,8 @@ namespace Zettalith
             {
                 if (highlightedPiece != null)
                 {
-                    infoBox.Set(highlightedPiece);
                     infoBox.Open();
+                    infoBox.Set(highlightedPiece);
                 }
                 else
                 {

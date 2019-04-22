@@ -23,7 +23,7 @@ namespace Zettalith
         {
             if (width % 2 == 0 && height % 2 == 0)
             {
-                return functions[(int)type].Invoke(r, width, height);
+                return AddBuffer(functions[(int)type].Invoke(r, width, height));
             }
 
             if (width % 2 != 0)
@@ -52,20 +52,41 @@ namespace Zettalith
             return functions[(int)type].Invoke(r, width, height);
         }
 
+        public static Map AddBuffer(Map map)
+        {
+            int buffer = 4;
+
+            Grid old = map.grid, newGrid = new Grid(old.xLength + buffer * 2, old.yLength + buffer * 2);
+
+            for (int x = 0; x < old.xLength; x++)
+            {
+                for (int y = 0; y < old.yLength; y++)
+                {
+                    newGrid[x + buffer, y + buffer] = old[x, y];
+                }
+            }
+
+            Point[] newSpawns = { map.spawnPositions[0] + new Point(buffer, buffer), map.spawnPositions[1] + new Point(buffer, buffer) };
+
+            return new Map() { grid = newGrid, spawnPositions = newSpawns };
+        }
+
         public static Map NoiseMap(Random r, int width, int height)
         {
             int borderRange = 2;
 
             float scale = 0.1f, threshhold = -0.45f;
 
-            Noise noise = new Noise(r.Next());
+            Noise noise;
 
             Grid grid = new Grid(width, height);
-            Point[] spawns = new Point[2];
+            Point[] spawns = null;
 
             bool looping = true;
             while (looping)
             {
+                noise = new Noise(r.Next());
+
                 grid = new Grid(width, height);
 
                 int[][] array = new int[width][];
@@ -80,10 +101,10 @@ namespace Zettalith
 
                         if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
                         {
-                            threshhold += 0.3f;
+                            currentThreshhold += 0.6f;
                         }
 
-                        if (noise.Generate(x * scale, y * scale) > threshhold)
+                        if (noise.Generate(x * scale, y * scale) > currentThreshhold)
                         {
                             grid[x, y] = new Tile();
                             array[x][y] = 0;
@@ -96,7 +117,7 @@ namespace Zettalith
 
                 // Create spawns 
 
-                List<Point> spawns1, spawns2;
+                List<Point> spawns1 = new List<Point>(), spawns2 = new List<Point>();
 
                 for (int x = 0; x < width; x++)
                 {
@@ -104,7 +125,46 @@ namespace Zettalith
                     {
                         if (grid[x, y] != null)
                         {
+                            spawns1.Add(new Point(x, y));
+                        }
 
+                        if (grid[x, height - 1 - y] != null)
+                        {
+                            spawns2.Add(new Point(x, height - 1 - y));
+                        }
+                    }
+                }
+
+                if (spawns1.Count == 0 || spawns2.Count == 0)
+                {
+                    continue;
+                }
+
+                int count1 = spawns1.Count, count2 = spawns2.Count;
+                bool breakItDown = false;
+
+                for (int i = 0; i < count1 && !breakItDown; i++)
+                {
+                    int rIndex = r.Next(spawns1.Count);
+                    Point randomSpawn = spawns1[rIndex];
+                    spawns1.Remove(randomSpawn);
+
+                    for (int j = 0; j < count2 && !breakItDown; j++)
+                    {
+                        rIndex = r.Next(spawns2.Count);
+
+                        Point currentSpawn = spawns2[rIndex];
+                        spawns2.Remove(currentSpawn);
+
+                        if (new Astar(array, new int[] { randomSpawn.X, randomSpawn.Y }, new int[] { currentSpawn.X, currentSpawn.Y }, "").result != null)
+                        {
+                            breakItDown = true;
+
+                            spawns = new Point[2]
+                            {
+                                randomSpawn,
+                                currentSpawn
+                            };
                         }
                     }
                 }
@@ -114,12 +174,7 @@ namespace Zettalith
                     continue;
                 }
 
-                List<Vector2> result = new Astar(array, new int[] { spawns[0].X, spawns[0].Y }, new int[] { spawns[1].X, spawns[1].Y }, "").result;
-
-                if (result != null)
-                {
-                    looping = false;
-                }
+                looping = false;
             }
 
             return new Map() { grid = grid, spawnPositions = spawns };
