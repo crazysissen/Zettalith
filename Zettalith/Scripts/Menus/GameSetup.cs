@@ -26,7 +26,7 @@ namespace Zettalith
         private Renderer.SpriteScreen background;
         private Renderer.Text sizeTitle;
         private GUI.Button[] bSizes;
-        private GUI.Button bFlat, bNoise, bNoiseMirrored;
+        private GUI.Button bFlat, bNoise;
 
         public void Initialize(MainController controller, InGameController inGameController)
         {
@@ -90,13 +90,9 @@ namespace Zettalith
             bNoise.AddText("Start Noise Map", 3.8f * textSize, true, Color.Black, Font.Bold);
             bNoise.OnClick += ConfirmNoise;
 
-            bNoiseMirrored = new GUI.Button(new Layer(MainLayer.GUI, 11), new Rectangle(0, windowHeight - windowMargain * 2 - 3 * windowHeight / 7, contentWidth, windowHeight / 8), confirmTexture, Color.LightYellow);
-            bNoiseMirrored.AddText("Start Noise Mirrored", 3 * textSize, true, Color.Black, Font.Bold);
-            bNoiseMirrored.OnClick += ConfirmMirror;
-
             Collection.Add(content, background);
             content.Add(bSizes);
-            content.Add(sizeTitle, bFlat, bNoise, bNoiseMirrored);
+            content.Add(sizeTitle, bFlat, bNoise);
         }
 
         public void Update(float deltaTime)

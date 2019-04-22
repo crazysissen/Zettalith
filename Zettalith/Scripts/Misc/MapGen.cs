@@ -17,7 +17,7 @@ namespace Zettalith
             SquareMap, NoiseMap, NoiseMirrorMap
         }
 
-        static Func<Random, int, int, Map>[] functions = { NoHolesMap, NoiseMap/*, NoiseMapMirrored*/ };
+        static Func<Random, int, int, Map>[] functions = { NoHolesMap, NoiseMap };
 
         public static Map Generate(Random r, int width, int height, Type type)
         {
@@ -183,12 +183,6 @@ namespace Zettalith
 
             return new Map() { grid = grid, spawnPositions = spawns };
         }
-
-        //public static Map NoiseMapMirrored(Random r, int width, int height)
-        //{
-
-        //}
-
 
         public static Map NoHolesMap(Random r, int width, int height)
         {
