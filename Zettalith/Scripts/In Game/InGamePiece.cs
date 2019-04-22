@@ -19,7 +19,7 @@ namespace Zettalith
         public int Index { get; set; }
         public Texture2D Texture { get; set; }
 
-        Stats baseStats;
+        //Stats baseStats;
 
         public Top Top { get; private set; } /* => tops[piece.TopIndex]*/
         public Middle Middle { get; private set; } /* => middles[piece.MiddleIndex]*/
@@ -48,18 +48,18 @@ namespace Zettalith
 
             Texture = ClientSideController.GetTexture(piece.TopIndex, piece.MiddleIndex, piece.BottomIndex);
 
-            baseStats = BaseStats;
+            //baseStats = BaseStats;
         }
 
         // Returns just the units base stats
         public Stats BaseStats => new Stats()
         {
             AttackDamage = Top.AttackDamage + Middle.AttackDamage + Bottom.AttackDamage,
-            MaxHealth = Top.Health + Middle.Health + Bottom.Health,
-            Health = Top.Health + Middle.Health + Bottom.Health,
+            MaxHealth = Top.Health + Middle.Health + Bottom.Health + Ztuff.healthIncrease,
+            Health = Top.Health + Middle.Health + Bottom.Health + Ztuff.healthIncrease,
             Armor = Top.Armor + Middle.Armor + Bottom.Armor,
             Mana = Top.ManaCost + Middle.ManaCost + Bottom.ManaCost,
-            AbilityCost = Top.AbilityCost,
+            AbilityCost = Top.AbilityCost - Ztuff.abilityCostDecrease,
             MoveCost = Bottom.MoveCost
         };
 
@@ -68,7 +68,7 @@ namespace Zettalith
         {
             get
             {
-                Stats modified = baseStats;
+                Stats modified = BaseStats;
 
                 foreach (Modifier modifier in modifiers)
                 {
