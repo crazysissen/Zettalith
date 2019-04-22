@@ -146,6 +146,11 @@ namespace Zettalith
             decks = loadedConfig.decks;
             sets = loadedConfig.sets;
 
+            Random r = new Random();
+
+            decks[0].Shuffle(r.Next());
+            decks[1].Shuffle(r.Next());
+
             players = new Player[]
             {
                 isHost ? CreateLocalPlayer() : CreateRemotePlayer(),

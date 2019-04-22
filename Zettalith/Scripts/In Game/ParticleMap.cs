@@ -32,6 +32,8 @@ namespace Zettalith
             }
         }
 
+        private Point offset;
+
         private void SetGrid(int x, int y, Color color)
         {
             try
@@ -150,7 +152,7 @@ namespace Zettalith
 
         // Premades
 
-        public void Beam(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor, float density = 100)
+        public void Beam(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor, float density = 100.0f, float speed = 1.0f)
         {
             Random r = new Random();
 
@@ -160,9 +162,36 @@ namespace Zettalith
 
             for (int i = 0; i < steps; i++)
             {
-                ParticleStraight newParticle = new ParticleStraight(1, startPosition + step * i, 0.5f * new Vector2((float)r.NextDouble() * 2 - 1, (float)r.NextDouble() * 2 - 1));
+                ParticleStraight newParticle = new ParticleStraight(1, startPosition + step * i, speed * 0.5f * new Vector2((float)r.NextDouble() * 2 - 1, (float)r.NextDouble() * 2 - 1));
                 particles.Add(newParticle);
                 newParticle.Start(1, startColor, endColor);
+            }
+        }
+
+        public void Destroy(TileObject piece, float force)
+        {
+            Texture2D texture = piece.Renderer.Texture;
+            Color[] data = new Color[texture.Height * texture.Width];
+
+            texture.GetData(data);
+
+            Vector2 origin = new Vector2(piece.Renderer.Position.X - (13f / 30), piece.Renderer.Position.Y - piece.Renderer.Texture.Height / 30f + (9f / 30));
+
+            Random r = new Random();
+
+            for (int x = 0; x < texture.Width; x++)
+            {
+                for (int y = 0; y < texture.Height; y++)
+                {
+                    Color color = data[x + y * texture.Width];
+
+                    if (color.A != 0)
+                    {
+                        ParticleStraight newParticle = new ParticleStraight(1, origin + new Vector2(x, y) / 32f, 0.5f * new Vector2((float)r.NextDouble() * 2 - 1, (float)r.NextDouble() * 2 - 1) - new Vector2(0.3f, 0.2f));
+                        particles.Add(newParticle);
+                        newParticle.Start(1, color, new Color(color, 0.0f));
+                    }
+                }
             }
         }
 
