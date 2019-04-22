@@ -88,7 +88,10 @@ namespace Zettalith
                             }
                             else
                             {
-                                modified.Armor += mod.StatChanges.Health;
+                                if (mod.StatChanges.Health < 0)
+                                {
+                                    modified.Armor += mod.StatChanges.Health;
+                                }
                             }
 
                             if (modified.Armor < 0)
