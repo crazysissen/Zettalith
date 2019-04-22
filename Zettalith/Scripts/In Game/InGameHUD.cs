@@ -57,7 +57,7 @@ namespace Zettalith
             PerkHUD = new PerkHUD(perkCollection, igc, player, csc);
             BuffHUD = new BuffHUD(buffCollection, igc, player, buffs, csc);
             BonusHUD = new BuffHUD(bonusCollection, igc, player, bonuses, csc);
-            ManagementHUD = new ManagementHUD(managementCollection, igc, player, bonuses, csc);
+            ManagementHUD = new ManagementHUD(managementCollection, igc, player, csc);
         }
 
         public void Update(float deltaTime)

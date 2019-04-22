@@ -56,11 +56,11 @@ namespace Zettalith
             allPerks = new Perk[]
             {
                 new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false, Achievable = true},
-                new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana type", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("King Movement", "The move range \nof your king \nis increased \nby 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 10, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Essence income 1", "Essence income \nis increased", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 11, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection),
-                new Perk("Essence income 2", "Essence income \nis increased more", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 11, InGameController.PlayerIndex - 2, new Mana(), 0, csc, descriptionCollection)
+                new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, InGameController.PlayerIndex - 2, new Mana(10, 7, 16), 0, csc, descriptionCollection),
+                new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana type", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, InGameController.PlayerIndex - 2, new Mana(15, 7, 9), 0, csc, descriptionCollection),
+                new Perk("King Movement", "The move range \nof your king \nis increased \nby 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 10, InGameController.PlayerIndex - 2, new Mana(2, 4, 2), 0, csc, descriptionCollection),
+                new Perk("Essence income 1", "Essence income \nis increased", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 11, InGameController.PlayerIndex - 2, new Mana(8, 8 ,10), 0, csc, descriptionCollection),
+                new Perk("Essence income 2", "Essence income \nis increased \nmore", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 11, InGameController.PlayerIndex - 2, new Mana(11, 11, 15), 0, csc, descriptionCollection)
             };
 
             // Lägg till vilka perks din perk kan gå till och vilka perks som kan gå till den perk.

@@ -41,6 +41,7 @@ namespace Zettalith
         private MainMenu mainMenu;
         private SetDesigner setDesigner;
         private SettingsMenu settingsMenu;
+        private Tutorial tutorialMenu;
         private Lobby lobby;
 
         public MainController()
@@ -192,6 +193,15 @@ namespace Zettalith
 
             settingsMenu = new SettingsMenu();
             settingsMenu.Initialize(this, goBackTO, settingsLayer);
+        }
+
+        public void ToTutorial(Action goBackTO, Layer tutorialLayer)
+        {
+            SaveLoad.Load();
+            mainMenu.CloseMenu();
+
+            tutorialMenu = new Tutorial();
+            tutorialMenu.Initialize(this, goBackTO, tutorialLayer);
         }
 
         public void ToLobby(StartupConfig? config = null)

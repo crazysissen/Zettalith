@@ -224,7 +224,7 @@ namespace Zettalith
             {
                 for (int j = 0; j < InGameController.Grid.yLength; ++j)
                 {
-                    if (!InGameController.Grid.Vacant(i, j))
+                    if (!InGameController.Grid.Vacant(i, j) && InGameController.Grid.TileArray[i, j] != null)
                     {
                         points.Add(new Point(i, j));
                     }

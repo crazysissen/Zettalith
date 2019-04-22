@@ -17,7 +17,7 @@ namespace Zettalith
 
         ClientSideController theCSC;
 
-        public ManagementHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, Buff[] someBuffs, ClientSideController csc) : base(igc, p, csc)
+        public ManagementHUD(GUI.Collection collection, InGameController igc, PlayerLocal p, ClientSideController csc) : base(igc, p, csc)
         {
             this.collection = collection;
             theCSC = csc;
@@ -29,13 +29,13 @@ namespace Zettalith
             managementText = new Renderer.Text(new Layer(MainLayer.GUI, 5), Font.Styled, "Management", 6, 0, new Vector2());
             managementText.Position = new Vector2(Settings.GetResolution.X * 0.5f - managementText.Font.MeasureString(managementText.String).X * managementText.Scale.X * 0.5f, Settings.GetResolution.Y * 0.2f);
 
-            bRed = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.35f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 10)), mana2D, Color.Red) { ScaleEffect = true };
+            bRed = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.35f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 8)), mana2D, Color.Red) { ScaleEffect = true };
             bRed.OnClick += BRed;
 
-            bGreen = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 10)), mana2D, Color.Green) { ScaleEffect = true };
+            bGreen = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.45f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 8)), mana2D, Color.Green) { ScaleEffect = true };
             bGreen.OnClick += BGreen;
 
-            bBlue = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D .Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 10)), mana2D, Color.Blue) { ScaleEffect = true };
+            bBlue = new GUI.Button(new Layer(MainLayer.GUI, 5), new Rectangle((int)(Settings.GetResolution.X * 0.55f), (int)(Settings.GetResolution.Y * 0.5f), (int)(Ztuff.SizeResFactor * mana2D .Bounds.Width * 8), (int)(Ztuff.SizeResFactor * mana2D.Bounds.Height * 8)), mana2D, Color.Blue) { ScaleEffect = true };
             bBlue.OnClick += BBlue;
 
             collection.Add(grey, managementText, bRed, bBlue, bGreen);

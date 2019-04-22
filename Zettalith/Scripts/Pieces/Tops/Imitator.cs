@@ -73,7 +73,7 @@ namespace Zettalith.Pieces
             Modifier mod = new Direct(toCopy.Piece.ModifiedStats, true);
             (InGameController.Grid.GetObject(pos.X, pos.Y) as TilePiece).Piece.ModThis(mod);
 
-            //TODO: POOF EFFECT ON SELF
+            ClientSideController.Particles.Beam(toCopy.SupposedPosition - new Vector2(0, 1), InGameController.Grid[(int)data[1]].SupposedPosition - new Vector2(0, 1), Color.White, new Color(Color.CadetBlue, 0.0f), 200);
         }
     }
 }

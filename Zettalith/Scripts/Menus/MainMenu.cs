@@ -18,7 +18,7 @@ namespace Zettalith
         GUI.Collection collection, main;
         //Renderer.Text title;
         Renderer.AnimatorScreen background;
-        GUI.Button bHost, bJoin, bArmies, bSettings, bQuit;
+        GUI.Button bHost, bJoin, bArmies, bSettings, bTutorial, bQuit;
 
         SoundEffect song;
 
@@ -38,7 +38,7 @@ namespace Zettalith
             collection = new GUI.Collection();
             main = new GUI.Collection()
             {
-                Origin = new Point((int)(Settings.GetHalfResolution.X - tempButtonWidth * 0.5 ), (int)(Settings.GetResolution.Y * 0.36))
+                Origin = new Point((int)(Settings.GetHalfResolution.X - tempButtonWidth * 0.5 ), (int)(Settings.GetResolution.Y * 0.34))
             };
 
             Texture2D menuTexture = Load.Get<Texture2D>("Menu3");
@@ -71,11 +71,15 @@ namespace Zettalith
             bSettings.AddText("Settings", textSize, true, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
+            bTutorial = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
+            bTutorial.AddText("Tutorial", textSize, true, textColor, Font.Default);
+            bTutorial.OnClick += BTutorial;
+
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 5 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bQuit.AddText("Quit", textSize, true, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 
-            main.Add(/*title, */bHost, bJoin, bSettings, bArmies, bQuit);
+            main.Add(/*title, */bHost, bJoin, bSettings, bArmies, bQuit, bTutorial);
         }
 
         public void Update()
@@ -144,6 +148,13 @@ namespace Zettalith
             Action GoBackToMain = controller.ToMenu;
 
             controller.ToSettings(GoBackToMain, new Layer(MainLayer.GUI, 1));
+        }
+
+        private void BTutorial()
+        {
+            Action GoBackToMain = controller.ToMenu;
+
+            controller.ToTutorial(GoBackToMain, new Layer(MainLayer.GUI, 1));
         }
 
         private void BQuit()
