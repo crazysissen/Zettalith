@@ -22,7 +22,7 @@ namespace Zettalith
 
         Renderer.SpriteScreen background;
         Renderer.SpriteScreen[] subPieces;
-        Renderer.Text abilityCost, movementCost;
+        Renderer.Text abilityCost, movementCost, pieceCost;
         Renderer.Text[] titles, descriptions, hps, dmgs, hps2, dmgs2;
         Renderer.SpriteScreenFloating[] hpCs, dmgCs;
 
@@ -41,8 +41,10 @@ namespace Zettalith
             collection = new GUI.Collection() { Origin = Settings.GetHalfResolution - halfSize };
             rootCollection.Add(collection);
 
-            background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, -10), Load.Get<Texture2D>("InfoOverlay"), new Rectangle(halfSize - halfTotal, total), new Color(255, 255, 255, 180));
+            background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, -10), Load.Get<Texture2D>("InfoOverlay"), new Rectangle(halfSize - halfTotal - new Point(0, total.Y / 16), total), new Color(255, 255, 255, 180));
 
+            pieceCost = new Renderer.Text(new Layer(MainLayer.GUI, -9), Font.Styled, "Cost:", 1.5f * Font.Multiplier, 0, new Vector2(halfSize.X, - total.Y / 20), Font.Styled.MeasureString("Cost:") * 0.5f);
+            
             titles = new Renderer.Text[3];
             descriptions = new Renderer.Text[3];
             hps = new Renderer.Text[3];
@@ -99,7 +101,7 @@ namespace Zettalith
 
             SetTextOrigins();
 
-            collection.Add(background);
+            collection.Add(background, pieceCost);
 
             Close();
         }
@@ -146,6 +148,9 @@ namespace Zettalith
             abilityCost.String = new StringBuilder(tempCost.ToString());
 
             movementCost.String = new StringBuilder(piece.Bottom.MoveCost.ToString());
+
+            pieceCost.String = new StringBuilder(piece.Piece.TopIndex == Subpieces.SubPieces.IndexOf(Subpieces.KingTop) ? "King" : "Cost: " + piece.GetCost.ToString());
+            pieceCost.Origin = pieceCost.Font.MeasureString(pieceCost.String) * 0.5f;
 
             for (int i = 0; i < 3; i++)
             {
