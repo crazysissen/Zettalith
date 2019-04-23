@@ -66,7 +66,7 @@ namespace Zettalith
             SetupCommandLineArgs();
             SetupLocalMachineGame();
             WriteCommandLineArgs();
-            SetupRichPresence();
+
 
             MainController = new MainController();
 
@@ -111,6 +111,8 @@ namespace Zettalith
                 parent: parent);
 
             IsMouseVisible = true;
+
+            SetupRichPresence();
         }
 
         protected override void LoadContent()
@@ -152,14 +154,16 @@ namespace Zettalith
 
         protected override void OnExiting(object sender, EventArgs args)
         {
-            Discord.Discord.Dispose();
+            if (!LocalGameClient)
+                Discord.Discord.Dispose();
 
             MainController.OnExit();
         }
 
         public static void Quit()
         {
-            Discord.Discord.Dispose();
+            if (!LocalGameClient)
+                Discord.Discord.Dispose();
 
             _singleton.Exit();
         }
@@ -171,7 +175,7 @@ namespace Zettalith
         private void SetupRichPresence()
         {
             Discord = new DiscordManager();
-            Discord.Init();
+            Discord.Init(LocalGameClient);
         }
 
         private void SetupLocalMachineGame()

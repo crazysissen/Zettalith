@@ -12,8 +12,15 @@ namespace Zettalith
     {
         public DiscordRpcClient Discord { get; private set; }
 
-        public void Init()
+        bool isClient;
+
+        public void Init(bool isClient)
         {
+            this.isClient = isClient;
+
+            if (isClient)
+                return;
+
             Discord = new DiscordRpcClient("570224520460369926");
 
             Discord.Logger = new ConsoleLogger() { Level = LogLevel.Info, Colored = true };
@@ -35,50 +42,59 @@ namespace Zettalith
 
         public void SetMenu(string subMenu, Party party = null)
         {
-            Discord.SetPresence(new RichPresence()
+            if (!isClient)
             {
-                Details = "In Menu",
-                State = subMenu,
-                
-                Assets = new Assets()
+                Discord.SetPresence(new RichPresence()
                 {
-                    LargeImageKey = "biglogo",
-                    SmallImageKey = "wait",
-                    SmallImageText = "Menu"
-                }
-            });
+                    Details = "In Menu",
+                    State = subMenu,
+
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "biglogo",
+                        SmallImageKey = "wait",
+                        SmallImageText = "Menu"
+                    }
+                });
+            }
         }
 
         public void SetCollection()
         {
-            Discord.SetPresence(new RichPresence()
+            if (!isClient)
             {
-                Details = "In Collection",
-                State = "Assembling Pieces",
-
-                Assets = new Assets()
+                Discord.SetPresence(new RichPresence()
                 {
-                    LargeImageKey = "biglogo",
-                    SmallImageKey = "collection",
-                    SmallImageText = "Collection"
-                }
-            });
+                    Details = "In Collection",
+                    State = "Assembling Pieces",
+
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "biglogo",
+                        SmallImageKey = "collection",
+                        SmallImageText = "Collection"
+                    }
+                });
+            }
         }
 
         public void SetBattle(string standing)
         {
-            Discord.SetPresence(new RichPresence()
+            if (!isClient)
             {
-                Details = "In Battle!",
-                State = standing,
-
-                Assets = new Assets()
+                Discord.SetPresence(new RichPresence()
                 {
-                    LargeImageKey = "biglogo",
-                    SmallImageKey = "battle",
-                    SmallImageText = "Battle"
-                }
-            });
+                    Details = "In Battle!",
+                    State = standing,
+
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "biglogo",
+                        SmallImageKey = "battle",
+                        SmallImageText = "Battle"
+                    }
+                });
+            }
         }
     }
 }
