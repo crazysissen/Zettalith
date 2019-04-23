@@ -317,6 +317,7 @@ namespace Zettalith
             clone = new Process();
 
             string args = string.Join(" ",
+                XNAController.A_LOCALHOST,
                 XNAController.A_LOCALTEST,
                 XNAController.A_PARENT + ":" + Process.GetCurrentProcess().Id,
                 XNAController.DebugConsole ? XNAController.A_DEBUG : "");

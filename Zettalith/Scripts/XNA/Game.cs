@@ -19,14 +19,15 @@ namespace Zettalith
             PARENTQUERY = "SELECT * FROM Win32_Process WHERE ProcessId=",
 
             // CMD Args
-            A_LOCALTEST = "-local",
+            A_LOCALHOST = "-localHost",
+            A_LOCALTEST = "-localGameClient",
             A_DEBUG = "-debug",
             A_PARENT = "-parent",
             A_SERVERHANDLE = "-serverhandle";
 
         // Boot config
         // TODO: CHANGE TO FALSE BEFORE TURN-IN
-        public static readonly bool localGame = false;
+        public static bool localGame = false;
 
         public static bool DebugConsole { get; private set; } = true;
 
@@ -64,9 +65,9 @@ namespace Zettalith
         protected override void Initialize()
         {
             SetupCommandLineArgs();
-            SetupLocalMachineGame();
             WriteCommandLineArgs();
 
+            SetupLocalMachineGame();
 
             MainController = new MainController();
 
@@ -235,6 +236,10 @@ namespace Zettalith
             {
                 switch (arg)
                 {
+                    case A_LOCALHOST:
+                        localGame = true;
+                        break;
+
                     case A_LOCALTEST:
                         LocalGameClient = true;
                         break;

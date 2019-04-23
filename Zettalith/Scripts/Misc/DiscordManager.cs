@@ -23,7 +23,7 @@ namespace Zettalith
 
             Discord = new DiscordRpcClient("570224520460369926");
 
-            Discord.Logger = new ConsoleLogger() { Level = LogLevel.Info, Colored = true };
+            Discord.Logger = new ConsoleLogger() { Level = LogLevel.Warning, Colored = true };
 
             Discord.OnReady += (sender, e) =>
             {
