@@ -420,6 +420,8 @@ namespace Zettalith
 
             string endString = "Game End: " + (winner ? "You Won!" : "You Lose!");
 
+            XNAController.Discord.SetBattle(winner ? "Game Won" : "Game Lost");
+
             splash.String = new StringBuilder(endString);
             splash.Origin = splash.Font.MeasureString(endString) * 0.5f;
             splash.Position = new Vector2(Settings.GetHalfResolution.X, Settings.GetResolution.Y / 4);

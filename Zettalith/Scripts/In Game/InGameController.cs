@@ -202,6 +202,7 @@ namespace Zettalith
 
             discordTimer = new Timer(1500);
             discordTimer.Elapsed += UpdateDiscord;
+            discordTimer.Start();
         }
 
         public void NewTurnStart()
@@ -442,6 +443,8 @@ namespace Zettalith
         public void EndGame(int winnerIndex)
         {
             gameState = InGameState.End;
+
+            discordTimer.Stop();
 
             Local.ClientController.OpenEnd(winnerIndex == PlayerIndex);
         }
