@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Zettalith.Pieces;
 using Lidgren.Network;
+using System.Timers;
 
 namespace Zettalith
 {
@@ -64,6 +65,8 @@ namespace Zettalith
         LoadGame loadGame;
 
         InGameState gameState;
+
+        Timer discordTimer;
 
         Player[] players;
         Deck[] decks;
@@ -194,11 +197,24 @@ namespace Zettalith
             {
                 Local.ClientController.DrawPieceFromDeck();
             }
+
+            UpdateDiscord(null, null);
+
+            discordTimer = new Timer(1500);
+            discordTimer.Elapsed += UpdateDiscord;
         }
 
         public void NewTurnStart()
         {
 
+        }
+
+        void UpdateDiscord(object sender, ElapsedEventArgs e)
+        {
+            int myHealth = Local.King.Piece.ModifiedStats.Health, theirHealth = Remote.King.Piece.ModifiedStats.Health;
+            string standing = myHealth + "-" + theirHealth;
+
+            XNAController.Discord.SetBattle(myHealth > theirHealth ? "Leading " + standing : (myHealth < theirHealth ? "Losing " + standing : "Tied " + standing));
         }
 
         public void Update(float deltaTime, MainController mainController, XNAController xnaController)

@@ -37,6 +37,8 @@ namespace Zettalith
         public static bool LocalGameHost { get; private set; } = false;
         public static Dictionary<string, string> CommandLineArgs { get; private set; }
 
+        public static DiscordManager Discord { get; private set; }
+
         private static XNAController _singleton;
 
         private string[] _commandLineArgs;
@@ -64,6 +66,7 @@ namespace Zettalith
             SetupCommandLineArgs();
             SetupLocalMachineGame();
             WriteCommandLineArgs();
+            SetupRichPresence();
 
             MainController = new MainController();
 
@@ -149,17 +152,27 @@ namespace Zettalith
 
         protected override void OnExiting(object sender, EventArgs args)
         {
+            Discord.Discord.Dispose();
+
             MainController.OnExit();
         }
 
         public static void Quit()
         {
+            Discord.Discord.Dispose();
+
             _singleton.Exit();
         }
 
         public static string GetWindowTitle() => _singleton.Window.Title;
 
         public static void SetWindowTitle(string title) => _singleton.Window.Title = title;
+
+        private void SetupRichPresence()
+        {
+            Discord = new DiscordManager();
+            Discord.Init();
+        }
 
         private void SetupLocalMachineGame()
         {

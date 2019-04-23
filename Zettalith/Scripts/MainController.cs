@@ -184,6 +184,8 @@ namespace Zettalith
 
             setDesigner = new SetDesigner();
             setDesigner.Initialize(this);
+
+            XNAController.Discord.SetCollection();
         }
 
         public void ToSettings(Action goBackTO, Layer settingsLayer)
@@ -193,6 +195,8 @@ namespace Zettalith
 
             settingsMenu = new SettingsMenu();
             settingsMenu.Initialize(this, goBackTO, settingsLayer);
+
+            XNAController.Discord.SetMenu("Setting Preferences");
         }
 
         public void ToTutorial(Action goBackTO, Layer tutorialLayer)
@@ -212,6 +216,8 @@ namespace Zettalith
 
             lobby = new Lobby();
             lobby.Initialize("Player", config);
+
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game");
         }
 
         public void ToMenu()
@@ -226,6 +232,8 @@ namespace Zettalith
             }
 
             mainMenu.OpenMenu();
+
+            XNAController.Discord.SetMenu("Main Menu");
         }
 
         public void ToGame(StartupConfig config, bool host)
@@ -235,7 +243,9 @@ namespace Zettalith
             stateManager.SetGameState(GameState.InGame, 0);
 
             inGameController = new InGameController(host, this, xnaController);
-            inGameController.Setup(config);            
+            inGameController.Setup(config);
+
+            XNAController.Discord.SetBattle("Starting");
         }
 
         //void StartDebugConsole()

@@ -105,6 +105,7 @@
     <Compile Include="Scripts\Menus\Tutorial.cs" />
     <Compile Include="Scripts\Misc\AStarRip.cs" />
     <Compile Include="Scripts\Misc\ConvertibleGrid.cs" />
+    <Compile Include="Scripts\Misc\DiscordManager.cs" />
     <Compile Include="Scripts\Misc\Noise.cs" />
     <Compile Include="Scripts\Misc\Sound.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />
@@ -225,9 +226,15 @@
     <Compile Include="Scripts\Ztuff.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="DiscordRPC, Version=1.0.95.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DiscordRichPresence.1.0.95\lib\net35\DiscordRPC.dll</HintPath>
+    </Reference>
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Deployment" />
@@ -292,6 +299,7 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
