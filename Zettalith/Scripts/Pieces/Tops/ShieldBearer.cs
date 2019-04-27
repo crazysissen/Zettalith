@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class ShieldBearer : Top
     {
+        public override string Description { get => "Gives a Zettalith " + Modifier.StatChanges.Armor + " armor"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public ShieldBearer()
         {
             Name = "Shield Bearer";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(0, 4, 0);
             Modifier = new Addition(new Stats(3, true), true);
             Texture = Load.Get<Texture2D>("ShieldBearer");
-
-            Description = "Gives a Zettalith " + Modifier.StatChanges.Armor + " armor";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

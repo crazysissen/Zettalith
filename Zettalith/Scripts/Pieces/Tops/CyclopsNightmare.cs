@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class CyclopsNightmare : Top
     {
+        public override string Description { get => "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a 3 units wide beam."; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public CyclopsNightmare()
         {
             Name = "Cycloptic Nightmare";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(1, 1, 1);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("Cleo_Cyclops_head");
-
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to all Zettaliths in a 3 units wide beam.";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

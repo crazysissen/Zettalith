@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class LobHealer : Top
     {
+        public override string Description { get => "Restores " + Modifier.StatChanges.Health + " health to Zettaliths in a circle"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public LobHealer()
         {
             Name = "Alchemist";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(0, 0, 4);
             Modifier = new Addition(new Stats(3), true);
             Texture = Load.Get<Texture2D>("HealerTop3");
-
-            Description = "Restores " + Modifier.StatChanges.Health + " health to Zettaliths in a circle";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

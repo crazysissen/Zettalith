@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class Blaster : Top
     {
+        public override string Description { get => "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public Blaster()
         {
             Name = "Blaster";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(3, 0, 0);
             Modifier = new Addition(new Stats(-5), true);
             Texture = Load.Get<Texture2D>("Top");
-
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

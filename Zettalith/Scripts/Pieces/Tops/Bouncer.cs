@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class Bouncer : Top
     {
+        public override string Description { get => "Pushes away another Zettalith, dealing " + Modifier.StatChanges.Health * -1 + " damage"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public Bouncer()
         {
             Name = "Bouncer";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(0, 5, 0);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("Bouncer");
-
-            Description = "Pushes away another Zettalith, dealing " + Modifier.StatChanges.Health * -1 + " damage";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)
