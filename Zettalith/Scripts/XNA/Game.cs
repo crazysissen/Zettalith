@@ -27,7 +27,7 @@ namespace Zettalith
 
         // Boot config
         // TODO: CHANGE TO FALSE BEFORE TURN-IN
-        public static bool localGame = false;
+        public static bool localGame = true;
 
         public static bool DebugConsole { get; private set; } = true;
 
