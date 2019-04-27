@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class Cone : Top
     {
+        public override string Description { get => "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a cone"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public Cone()
         {
             Name = "Conjurer";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(0, 3, 0);
             Modifier = new Addition(new Stats(-4), true);
             Texture = Load.Get<Texture2D>("FireConjurerTop");
-
-            Description = "Deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage to Zettaliths in a cone";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

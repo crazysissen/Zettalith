@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class Bomb : Top
     {
+        public override string Description { get => "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage in a circle"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public Bomb()
         {
             Name = "Bomb";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(0, 4, 0);
             Modifier = new Addition(new Stats(-7), true);
             Texture = Load.Get<Texture2D>("AltBomb");
-
-            Description = "Explodes and deals " + (Modifier as Addition).StatChanges.Health * -1 + " damage in a circle";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

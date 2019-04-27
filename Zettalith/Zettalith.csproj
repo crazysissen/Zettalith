@@ -106,6 +106,7 @@
     <Compile Include="Scripts\Misc\AStarRip.cs" />
     <Compile Include="Scripts\Misc\ConvertibleGrid.cs" />
     <Compile Include="Scripts\Misc\DiscordManager.cs" />
+    <Compile Include="Scripts\Misc\Encryption.cs" />
     <Compile Include="Scripts\Misc\Noise.cs" />
     <Compile Include="Scripts\Misc\Sound.cs" />
     <Compile Include="Scripts\Modifier\Direct.cs" />
