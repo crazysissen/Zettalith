@@ -510,6 +510,11 @@ namespace Zettalith
                         {
                             player.ExecuteMovement(interactionPiece, MousePoint.ToRender());
                         }
+                        else
+                        {
+                            Mana requiredMana = interactionPiece.Piece.Bottom.MoveCost - InGameController.LocalMana;
+                            // TODO: Not eneough mana to move pop-up
+                        }
                     }
                 }
 
@@ -746,6 +751,11 @@ namespace Zettalith
                             player.PlacePiece(dragOutPiece, MousePoint.ToRender().X, MousePoint.ToRender().Y);
 
                             InGameController.LocalMana -= dragOutPiece.GetCost;
+                        }
+                        else
+                        {
+                            Mana requiredMana = dragOutPiece.GetCost - InGameController.LocalMana;
+                            // TODO: Not enough mana to place pop-up
                         }
                             
                         dragOutPiece = null;
