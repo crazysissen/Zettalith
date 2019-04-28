@@ -87,6 +87,8 @@ namespace Zettalith
                     }
                     else
                     {
+                        Mana requiredMana = ActionPiece.Piece.ModifiedStats.AbilityCost - Ztuff.abilityCostDecrease - InGameController.LocalMana;
+                        // TODO: Not enough mana for ability pop-up
                         ActionPiece = null;
                         return;
                     }

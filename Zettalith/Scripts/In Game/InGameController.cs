@@ -391,6 +391,7 @@ namespace Zettalith
                 return;
             }
 
+            // TODO: Cannot attack yet pop-up
             Test.Log("Unit cannot attack");
         }
 
@@ -437,6 +438,7 @@ namespace Zettalith
                 return;
             }
 
+            // TODO: Cannot move yet pop-up
             Test.Log("Unit cannot move");
         }
 
