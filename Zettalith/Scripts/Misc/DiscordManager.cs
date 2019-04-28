@@ -83,7 +83,7 @@ namespace Zettalith
             OnJoinEvent?.Invoke(AESThenHMAC.SimpleDecryptWithPassword(args.Secret, password));
         }
 
-        public void SetMenu(string subMenu, string globalIP = null)
+        public void SetMenu(string subMenu, int? inParty = null, string globalIP = null)
         {
             if (!isClient)
             {
@@ -100,9 +100,14 @@ namespace Zettalith
                     }
                 };
 
+                if (inParty != null)
+                {
+                    party.Size = inParty.Value;
+                    presence.Party = party;
+                }
+
                 if (globalIP != null)
                 {
-                    presence.Party = party;
                     presence.Secrets = new Secrets()
                     {
                         JoinSecret = AESThenHMAC.SimpleEncryptWithPassword(globalIP, password)
@@ -113,7 +118,7 @@ namespace Zettalith
             }
         }
 
-        public void SetCollection(string globalIP = null)
+        public void SetCollection()
         {
             if (!isClient)
             {
@@ -129,15 +134,6 @@ namespace Zettalith
                         SmallImageText = "Collection"
                     }
                 };
-
-                if (globalIP != null)
-                {
-                    presence.Party = party;
-                    presence.Secrets = new Secrets()
-                    {
-                        JoinSecret = AESThenHMAC.SimpleEncryptWithPassword(globalIP, password)
-                    };
-                }
 
                 Discord.SetPresence(presence);
             }

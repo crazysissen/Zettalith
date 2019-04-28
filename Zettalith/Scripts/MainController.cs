@@ -252,7 +252,7 @@ namespace Zettalith
             lobby = new Lobby();
             lobby.Initialize("Player", config);
 
-            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", config == null ? null : NetworkManager.PublicIP);
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 1, config == null ? null : NetworkManager.PublicIP);
         }
 
         public void ToMenu()
