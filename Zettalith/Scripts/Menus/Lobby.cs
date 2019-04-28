@@ -171,8 +171,6 @@ namespace Zettalith
             globalIP.String = new StringBuilder("Local IP: " + NetworkManager.LocalIP);
 
             bStart.SetPseudoDefaultColors(ready && connected ? Color.GreenYellow : Color.OrangeRed);
-
-            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", connected ? 2 : 1);
         }
 
         public static void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
