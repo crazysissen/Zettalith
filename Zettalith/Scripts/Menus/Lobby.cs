@@ -133,11 +133,15 @@ namespace Zettalith
 
             NetworkManager.Listen(STARTHEADER, Ready);
             NetworkManager.Listen(RECIEVEDATAHEADER, LoadGame.RecieveData);
+
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 1, config == null ? null : NetworkManager.PublicIP);
         }
 
         public void Update(float deltaTime)
         {
             UpdateGUI();
+
+            XNAController.Discord.party.Size = connected ? 2 : 1;
 
             if (connecting)
             {
@@ -198,6 +202,8 @@ namespace Zettalith
 
         void Connected()
         {
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 2, config == null ? null : NetworkManager.PublicIP);
+
             connected = true;
 
             if (!host && !XNAController.localGame)
@@ -212,6 +218,8 @@ namespace Zettalith
 
         void Disconnected()
         {
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 1, config == null ? null : NetworkManager.PublicIP);
+
             ready = false;
             connected = false;
             connecting = false;

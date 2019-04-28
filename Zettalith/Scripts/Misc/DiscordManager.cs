@@ -14,12 +14,12 @@ namespace Zettalith
     {
         public DiscordRpcClient Discord { get; private set; }
         public event Action<string> OnJoinEvent;
+        public Party party;
 
         string password = "F35F3B18C9694CAC1F0A3F91F62CDE3D5F54B5656215D66568DF1B4FF9BF41B8";
 
         bool isClient;
         string id;
-        Party party;
 
         Aes encryption;
 
