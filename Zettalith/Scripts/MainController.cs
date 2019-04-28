@@ -123,7 +123,7 @@ namespace Zettalith
 
             NetworkManager.Update();
 
-            XNAController.Discord.Update();
+            //XNAController.Discord.Update();
 
             switch (CurrentState)
             {
@@ -252,7 +252,7 @@ namespace Zettalith
             lobby = new Lobby();
             lobby.Initialize("Player", config);
 
-            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", config == null ? null : NetworkManager.LocalIP);
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", config == null ? null : NetworkManager.PublicIP);
         }
 
         public void ToMenu()
