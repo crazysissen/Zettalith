@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DiscordRPC;
 using DiscordRPC.Logging;
+using DiscordRPC.Message;
 using System.Security.Cryptography;
 
 namespace Zettalith
@@ -59,6 +60,15 @@ namespace Zettalith
             Discord.OnJoinRequested += OnJoinRequested;
 
             SetMenu("Main Menu");
+        }
+
+        public void Update()
+        {
+            IMessage[] messages = Discord.Invoke();
+
+            foreach (IMessage message in messages)
+            {
+            }
         }
 
         private void OnJoinRequested(object sender, DiscordRPC.Message.JoinRequestMessage args)
