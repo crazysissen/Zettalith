@@ -67,11 +67,15 @@ namespace Zettalith
             bArmies.AddText("Collection", textSize, true, textColor, Font.Default);
             bArmies.OnClick += BArmies;
 
-            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
+            bTutorial = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 3 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
+            bTutorial.AddText("Tutorial", textSize, true, textColor, Font.Default);
+            bTutorial.OnClick += BTutorial;
+
+            bSettings = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bSettings.AddText("Settings", textSize, true, textColor, Font.Default);
             bSettings.OnClick += BSettings;
 
-            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 4 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
+            bQuit = new GUI.Button(new Layer(MainLayer.GUI, 0), new Rectangle(0, 5 * (buttonHeight + buttonSpace), tempButtonWidth, buttonHeight), buttonTexture, buttonColor) { ScaleEffect = true };
             bQuit.AddText("Quit", textSize, true, textColor, Font.Default);
             bQuit.OnClick += BQuit;
 

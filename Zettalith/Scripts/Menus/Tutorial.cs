@@ -19,6 +19,8 @@ namespace Zettalith
 
         Texture2D buttonTexture;
 
+        Renderer.SpriteScreen textPicture;
+
         Renderer.Text tutorialText;
 
         string theText;
@@ -45,71 +47,60 @@ namespace Zettalith
 
             buttonTexture = Load.Get<Texture2D>("Button1");
 
-            bBack = new GUI.Button(tutorialLayer, new Rectangle((int)(Settings.GetResolution.X * 0.1), (int)(Settings.GetResolution.Y * 0.9f), (int)(Ztuff.SizeResFactor * buttonTexture.Width * 2), (int)(Ztuff.SizeResFactor * buttonTexture.Height * 2)), buttonTexture) { ScaleEffect = true };
-            bBack.AddText("Back", 3 * Font.Multiplier, true, Color.White, Font.Small);
+            bBack = new GUI.Button(tutorialLayer, new Rectangle((int)(Settings.GetResolution.X * 0.86), (int)(Settings.GetResolution.Y * 0.89f), (int)(Ztuff.SizeResFactor * buttonTexture.Width * 2.5f), (int)(Ztuff.SizeResFactor * buttonTexture.Height * 2.5f)), buttonTexture) { ScaleEffect = true };
+            bBack.AddText("Back", 3, true, Color.White, Font.Default);
             bBack.OnClick += BGoBack;
 
-            theText = "För att spela ZETTALITH™ är följande bra att veta: Det finns ingen singleplayer, två personer behöver möta varandra i en duell!\n" +
+            theText = "To play ZETTALITH, the following is good to know: There is no multiplayer, two people must face in a duel!\n\n" +
 
-            "Spel kan slås upp mellan datorer på samma eller olika nätverk!\n" +
-            "Lokal och global IP-adress visas i lobbyn(host - eller join menyerna), \n" +
-            "där man använder respektive adress för att starta spelet mellan olika datorer,\n" +
-            "lokal IP för samma nätverk, global annars.\n" +
-            "(OBS! Om global IP inte visas i lobbyn pga serverfel eller underhåll funkar det ofta bäst att helt enkelt googla “What’s my IP ?”!)\n" +
+            "Games can be created between two computers on the same or different networks.\n" +
+            "The local och global ip-addresses are shown in the lobby (host and join menues), \n" +
+            "which is where the appropriate address is used to create a game between computers, local IP for the same network, global otherwise.\n" +
+            "(NOTE! If the global IP, for any reason, is not shown you can simply type -What's my IP- into a search engine!)\n\n" +
 
-            "I ZETTALITH skapar man inte bara sina personliga samlingar med pjäser, utan även pjäserna i sig!\n" +
-            "Genom att klicka in på “Collection” i huvudmenyn och välja/ skapa en pjässamling kommer man få möjlighet att skapa de individuella pjäserna(ett huvud, en mitt, och en fot).\n" +
-            "Ordningen är sedan omkastad efter att spelet börjat. \n" +
-            "Huvudet håller pjäsens specialförmåga, mitten håller ofta större delen av en pjäs hälsa, skada eller eventuella sköld, och foten håller pjäsens rörelseförmåga.\n" +
-            "Pjäsens totala kostnad(Mana) summeras ihop från delarnas individuella kostnader.\n" +
-
-
-            "Efter att man tagit sig in i ett spel kan man använda följande funktioner:\n" +
-
-            "Inspektera pjäs: \n" +
-            "Högerklicka på en pjäs när som helst för att inspektera den.\n" +
-            "Du kan ta reda på dess placeringskostnad, förmågokostnad och förflyttningskostnad.\n" +
-            "Hälsa, sköld och skada visas med ikoner ovanför pjäsen. \n" +
-
-            "Spela pjäs: \n" +
-            "Håll inne vänsterklick på en pjäs i handen och förflytta den till en tillgänglig ruta för att spela ut den.\n" +
-            "För detta betalar du pjäsens totala kostnad." +
-
-            "Flytta pjäs: \n" +
-            "Håll inne vänsterklick på en pjäs på planen och dra den till en tillgänglig ruta för att förflytta den.\n" +
-            "Kan inte flyttas direkt efter den spelats ut, eller flera gånger under samma runda.\n" +
-            "För detta betalar du pjäsens förflyttningskostnad.\n" +
-
-            "Attackera med pjäs: \n" +
-            "            Håll inne vänsterklick på en pjäs på planen och släpp på en närliggande fientlig pjäs för att attackera den.\n" +
-            "Kan inte attackera direkt efter den spelats ut eller mer än en gång under samma runda. Detta kostar ingen Mana. \n" +
-
-            "Använda pjäsens speciella förmåga: \n" +
-            "Tryck på en pjäs på planen och välj sedan målet för attacken för att använda pjäsens förmåga.\n" +
-            "För detta betalar du pjäsens förmågokostnad.\n" +
-
-            "Förflytta kameran:\n" +
-            "Håll inne mushjulet och flytta musen för att förflytta kameran och rulla hjulet för att zooma in eller ut.  \n" +
-            "Alternativt kan WASD användas.\n" +
+            "In ZETTALITH one does not simply create their own personal collections of pieces but also the pieces themselves!\n" +
+            "All your sets may be accessed in the -Collection-. While there you may modify the set's pieces which entails changing their heads, bodies, and feet. \n" +
+            "The order of the pieces is then shuffled when the game starts. \n" +
+            "The head has a special ability, the body has most of the health and attack damage and perhaps armor, and the foot has the movement ability. \n" +
+            "The piece's total mana cost is equal to the sum of the three parts' mana costs.\n\n" +
 
 
-            "Spelare alternerar mellan olika turer: Battle och Logistics, \n" +
-            "där de spelar vars en och sedan byter efter varje runda är över.\n" +
-            "I sin Battle Turn kan man placera pjäser och använda dem, man kan röra de omkring, använda dess speciella förmågor, samt attackera.\n" +
-            "Det är i huvudsak här man vinner spelet då målet är att eliminera motståndarens kung som är placerad på planen. \n" +
-            "Det är spelaren i Battle Turn som har privilegiet att byta turn.\n" +
+            "Once you have begun a game you may use one of the following functions:\n\n" +
 
-            "I ens Logistics Turn ligger fokus på att förvränga siffrorna runt spelplanen. \n" +
-            "Man kan stärka och försvaga pjäser, samt samla på passiva bonusar. Kom ihåg att man blir abrupt avbruten när den andra spelaren avslutar sin runda!\n" +
+            "Inspect piece: Right click a piece to inspect it. The piece's placement cost, ability cost, and movement cost will be displayed. Health, armor, and attack damage is displayed through icons above the pieces.\n\n" +
+
+            "Play piece: Hold down left click on a piece in your hand and drag it to an available spot to play it. For this you pay the piece's total mana cost.\n\n" +
+
+            "Move piece: Hold down left click on one of your pieces on the board and drag it to an available spot to move it. \n" +
+            "A piece may not be moved on the same round as it is played, or multiple times during the same round. For this you pay the piece's movement cost.\n\n" +
+
+            "Attacking with a piece: Hold down left click on one of your pieces on the board and drag it to an enemy piece it is standing next to attack the enemy piece. \n" +
+            "A piece may not attack on the same round as it is played. This costs no mana. \n\n" +
+
+            "Using a piece's special ability: Left click your piece and then left click a target to use your piece's ability. For this you pay the piece's ability cost.\n\n" +
+
+            "Moving the camera: Hold down mouse3 and move the mouse to move the camera and scroll to zoom in or out. Alternatively WASD can be used to move the camera.\n\n" +
 
 
-            "Spelet använder fyra olika valutor: röd, grön och blå Mana, samt Essence.\n" +
-            "Ens totala mana fylls upp vid början på varje Battle Turn, och Essence ökar i realtid för varje sekund i Logistics Turn, slösa inte tid när du spelar så ökar motståndarens Essence mindre!\n" +
-            "Taket maximal mana ökas efter eget val vid början på varje Logistics Turn där det kommer upp tre färgade symboler som motsvarar den färg man vill öka. \n";
+            "The players alternate between two different kind of turns: Battle and Logistics. While one player plays the battle turn the other player plays the logistics turn.\n\n" +
 
-            tutorialText = new Renderer.Text(tutorialLayer, Font.Default, theText, 3, 0, new Vector2(Settings.GetResolution.X * 0.1f, Settings.GetResolution.Y * 0.1f));
+            "During the battle turn you may play pieces, move pieces, attack with pieces, and use the pieces' special abilities. \n" +
+            "It is mainly during this round you can win the game as the goal is to eliminate the opponent's king, which is a piece on the board. The battle turn player decides when the current turn ends.\n\n" +
 
-            collection.Add(bBack, tutorialText);
+            "During the Logistics turn the goal is to manipulate the numbers. You may strengthen and weaken pieces, and collect passive bonuses. \n" +
+            "Remember that you will be abruptly interrupted when the other player ends their turn!\n\n" +
+
+
+            "The game uses four different kinds of currencies: red, green, and blue Mana, as well as Essence. \n" +
+            "Your mana is restored at the start of every Battle turn, and Essence is earned in real time for every second spent in the Logistics turn. Don't waste time in the Battle turn!\n" +
+            "Your max mana is increased by one at the start of every Logistics turn. You choose which kind of mana increases.";
+
+            tutorialText = new Renderer.Text(tutorialLayer, Font.Default, theText, 1.5f * Settings.GetResolution.Y / 720, 0, new Vector2(Settings.GetResolution.X * 0.01f, Settings.GetResolution.Y * 0.015f));
+
+            /*Texture2D textTexture = Load.Get<Texture2D>("TutorialText");
+            textPicture = new Renderer.SpriteScreen(tutorialLayer, textTexture, new Rectangle((int)(Settings.GetResolution.X * 0.01f), (int)(Settings.GetResolution.Y * 0.018), (int)(1.4f * Ztuff.SizeResFactor * textTexture.Bounds.Width), (int)(1.4f * Ztuff.SizeResFactor * textTexture.Bounds.Height)));*/
+
+            collection.Add(bBack, textPicture, tutorialText);
         }
 
         public void Update()

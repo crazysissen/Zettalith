@@ -26,7 +26,7 @@ namespace Zettalith
 
             background = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 5), Load.Get<Texture2D>("Shop Background"), new Rectangle( 0, 0, Settings.GetResolution.X, Settings.GetResolution.Y));
             statsBackground = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 8), Load.Get<Texture2D>("Description"), new Rectangle());
-            statsName = new Renderer.Text(new Layer(MainLayer.GUI, 9), Font.Default, "", 2, 0, new Vector2());
+            statsName = new Renderer.Text(new Layer(MainLayer.GUI, 9), Font.Default, "", 1.5f, 0, new Vector2());
             statsDescription = new Renderer.Text(new Layer(MainLayer.GUI, 9), Font.Default, "", 2, 0, new Vector2());
             descriptionCollection = new GUI.Collection();
             descriptionCollection.Add(statsBackground, statsName, statsDescription);
@@ -57,8 +57,8 @@ namespace Zettalith
             {
                 new Perk("aPerk", "Sample text", 0.5f, 0.5f, 1, Load.Get<Texture2D>("Perk Tree Button"), 0, 0, new Mana(0, 0, 0), 0, csc, descriptionCollection) {Achieved = true , On = false, Achievable = true},
                 new Perk("Buff cost decrease", "The cost of all \nbuffs is \ndecreased by \n30%", 0.3f, 0.3f, 1, Load.Get<Texture2D>("Buff Shop Button"), 8, InGameController.PlayerIndex - 2, new Mana(10, 7, 16), 0, csc, descriptionCollection),
-                new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana type", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, InGameController.PlayerIndex - 2, new Mana(15, 7, 9), 0, csc, descriptionCollection),
-                new Perk("King Movement", "The move range \nof your king \nis increased \nby 1", 0.7f, 0.7f, 1, Load.Get<Texture2D>("Move Perk"), 10, InGameController.PlayerIndex - 2, new Mana(2, 4, 2), 0, csc, descriptionCollection),
+                new Perk("Ability cost decrease", "The cost of all \nabilities is \ndecreased by 1 \nof each mana \ntype", 0.7f, 0.3f, 1, Load.Get<Texture2D>("Ability Perk"), 9, InGameController.PlayerIndex - 2, new Mana(15, 7, 9), 0, csc, descriptionCollection),
+                new Perk("King Movement", "The move range \nof your king \nis increased \nby 1", 0.7f, 0.55f, 1, Load.Get<Texture2D>("Move Perk"), 10, InGameController.PlayerIndex - 2, new Mana(2, 4, 2), 0, csc, descriptionCollection),
                 new Perk("Essence income 1", "Essence income \nis increased", 0.5f, 0.35f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 11, InGameController.PlayerIndex - 2, new Mana(8, 8 ,10), 0, csc, descriptionCollection),
                 new Perk("Essence income 2", "Essence income \nis increased \nmore", 0.5f, 0.2f, 1, Load.Get<Texture2D>("Bonus Shop Button"), 11, InGameController.PlayerIndex - 2, new Mana(11, 11, 15), 0, csc, descriptionCollection)
             };
@@ -213,13 +213,13 @@ namespace Zettalith
                 (theDEC.Members[10] as Renderer.Text).Color = Color.LightBlue;
 
                 (theDEC.Members[3] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.2f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
-                (theDEC.Members[4] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.3f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
+                (theDEC.Members[4] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.35f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
                 (theDEC.Members[5] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.6f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
-                (theDEC.Members[6] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.7f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
+                (theDEC.Members[6] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.75f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.2f);
                 (theDEC.Members[7] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.2f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
-                (theDEC.Members[8] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.3f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+                (theDEC.Members[8] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.35f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
                 (theDEC.Members[9] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.6f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
-                (theDEC.Members[10] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.7f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
+                (theDEC.Members[10] as Renderer.Text).Position = new Vector2((theDEC.Members[0] as Renderer.SpriteScreen).Transform.X + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Width * 0.75f, (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Y + (theDEC.Members[0] as Renderer.SpriteScreen).Transform.Height * 0.3f);
             }
         }
 
