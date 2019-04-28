@@ -105,6 +105,8 @@ namespace Zettalith
                 }
             }
 
+            SetupRichPresence();
+
             MainController.Initialize(
                 game: this,
                 type: startType,
@@ -112,8 +114,6 @@ namespace Zettalith
                 parent: parent);
 
             IsMouseVisible = true;
-
-            SetupRichPresence();
         }
 
         protected override void LoadContent()
