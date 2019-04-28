@@ -55,6 +55,8 @@ namespace Zettalith
             };
 
             Discord.Initialize();
+            Discord.Subscribe(EventType.Join);
+            Discord.Subscribe(EventType.JoinRequest);
 
             Discord.OnJoin += OnJoin;
             Discord.OnJoinRequested += OnJoinRequested;
