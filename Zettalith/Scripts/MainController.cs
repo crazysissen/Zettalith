@@ -123,6 +123,8 @@ namespace Zettalith
 
             NetworkManager.Update();
 
+            XNAController.Discord.Update();
+
             switch (CurrentState)
             {
                 case GameState.Splash:
