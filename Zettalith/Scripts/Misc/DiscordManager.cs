@@ -75,7 +75,7 @@ namespace Zettalith
 
         private void OnJoinRequested(object sender, DiscordRPC.Message.JoinRequestMessage args)
         {
-            
+            Discord.Respond(args, true);
         }
 
         private void OnJoin(object sender, DiscordRPC.Message.JoinMessage args)
