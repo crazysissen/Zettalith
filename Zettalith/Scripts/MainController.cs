@@ -180,9 +180,18 @@ namespace Zettalith
 
             if (stateManager.GameState == GameState.Lobby)
             {
-                lobby.Destroy();
-                NetworkManager.DestroyPeer();
-                lobby.collection.Active = false;
+                if (lobby.config == null)
+                {
+                    lobby.StartSearch(ip);
+                    return;
+                }
+                else
+                {
+                    lobby.Destroy();
+                    NetworkManager.DestroyPeer();
+                    lobby.collection.Active = false;
+                    ToMenu();
+                }
             }
 
             ToLobby(null);

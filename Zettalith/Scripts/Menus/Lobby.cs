@@ -34,7 +34,7 @@ namespace Zettalith
 
         private Set testSet;
 
-        private StartupConfig? config;
+        public StartupConfig? config;
 
         public void Initialize(string playerName, StartupConfig? config = null)
         {
@@ -274,7 +274,7 @@ namespace Zettalith
             }
         }
 
-        void BBack()
+        public void BBack()
         {
             Destroy();
 
