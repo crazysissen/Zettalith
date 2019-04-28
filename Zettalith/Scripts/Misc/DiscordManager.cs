@@ -12,6 +12,7 @@ namespace Zettalith
     class DiscordManager
     {
         public DiscordRpcClient Discord { get; private set; }
+        public event Action<string> OnJoinEvent;
 
         string password = "F35F3B18C9694CAC1F0A3F91F62CDE3D5F54B5656215D66568DF1B4FF9BF41B8";
 
@@ -54,7 +55,20 @@ namespace Zettalith
 
             Discord.Initialize();
 
+            Discord.OnJoin += OnJoin;
+            Discord.OnJoinRequested += OnJoinRequested;
+
             SetMenu("Main Menu");
+        }
+
+        private void OnJoinRequested(object sender, DiscordRPC.Message.JoinRequestMessage args)
+        {
+            
+        }
+
+        private void OnJoin(object sender, DiscordRPC.Message.JoinMessage args)
+        {
+            OnJoinEvent?.Invoke(AESThenHMAC.SimpleDecryptWithPassword(args.Secret, password));
         }
 
         public void SetMenu(string subMenu, string globalIP = null)

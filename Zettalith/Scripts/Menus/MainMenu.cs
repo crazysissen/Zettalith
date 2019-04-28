@@ -13,7 +13,7 @@ namespace Zettalith
     {
         MainController controller;
 
-        GameSetup setup;
+        public GameSetup setup;
 
         GUI.Collection collection, main;
         //Renderer.Text title;

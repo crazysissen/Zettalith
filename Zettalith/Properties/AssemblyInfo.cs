@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Zettalith")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("The epitome of strategy gaming")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Borealic Games")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

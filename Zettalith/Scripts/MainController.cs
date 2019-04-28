@@ -99,6 +99,8 @@ namespace Zettalith
 
             CreateMainMenu();
 
+            XNAController.Discord.OnJoinEvent += OnDiscordJoin;
+
             //SAVE LOAD TESTING, TOM LISTA AV PERSONALDATA SPARAS OCH LADDAS
 
             //SaveLoad.Save(PersonalData.UserData);
@@ -163,6 +165,28 @@ namespace Zettalith
             RendererController.Render(graphics, spriteBatch, gameTime, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
+        public void OnDiscordJoin(string ip)
+        {
+            if (mainMenu.setup != null)
+            {
+                mainMenu.setup.Collection.Active = false;
+            }
+            
+            setDesigner?.Close();
+            settingsMenu?.Close();
+            tutorialMenu?.BGoBack();
+
+            if (stateManager.GameState == GameState.Lobby)
+            {
+                lobby.Destroy();
+                NetworkManager.DestroyPeer();
+                lobby.collection.Active = false;
+            }
+
+            ToLobby(null);
+            lobby.StartSearch(ip);
+        }
+
         public void OnExit()
         {
             //if (debugConsole != null && !debugConsole.HasExited)
@@ -217,7 +241,7 @@ namespace Zettalith
             lobby = new Lobby();
             lobby.Initialize("Player", config);
 
-            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", NetworkManager.LocalIP);
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", config == null ? null : NetworkManager.LocalIP);
         }
 
         public void ToMenu()

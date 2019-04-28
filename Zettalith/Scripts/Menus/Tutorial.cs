@@ -108,7 +108,7 @@ namespace Zettalith
 
         }
 
-        private void BGoBack()
+        public void BGoBack()
         {
             focusTutorial.Remove();
             collection.Active = false;

@@ -240,6 +240,17 @@ namespace Zettalith
 
         }
 
+        public void Close()
+        {
+            if (setDesigner.Active == true)
+            {
+                BDone();
+                return;
+            }
+
+            BBackToMain();
+        }
+
         private void BDone()
         {
             Piece[] tempSet = new Piece[newSet.Length];
