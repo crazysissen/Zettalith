@@ -90,7 +90,7 @@ namespace Zettalith
         {
             if (index + 2 == InGameController.PlayerIndex)
             {
-                Ztuff.BuffCostFactor = 0.7f;
+                Ztuff.buffCostFactor = 0.7f;
                 Ztuff.changeBuffCost = true;
             }
         }
