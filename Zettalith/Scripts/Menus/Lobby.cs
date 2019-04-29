@@ -20,13 +20,13 @@ namespace Zettalith
         private static Lobby singleton;
         private static Callback callback;
 
-        private bool host, connected, ready, connecting;
+        private bool host, connected, ready, connecting, usingDiscord;
         private float timeOut;
         private int setIndex;
 
         private System.Net.IPEndPoint endPoint;
 
-        private GUI.Collection collection;
+        public GUI.Collection collection;
         private GUI.Button bStart, bBack, arrow1, arrow2;
         private GUI.TextField tIpField;
         private Renderer.SpriteScreen localBackground, globalBackground;
@@ -34,7 +34,7 @@ namespace Zettalith
 
         private Set testSet;
 
-        private StartupConfig? config;
+        public StartupConfig? config;
 
         public void Initialize(string playerName, StartupConfig? config = null)
         {
@@ -133,11 +133,15 @@ namespace Zettalith
 
             NetworkManager.Listen(STARTHEADER, Ready);
             NetworkManager.Listen(RECIEVEDATAHEADER, LoadGame.RecieveData);
+
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 1, config == null ? null : NetworkManager.PublicIP);
         }
 
         public void Update(float deltaTime)
         {
             UpdateGUI();
+
+            XNAController.Discord.party.Size = connected ? 2 : 1;
 
             if (connecting)
             {
@@ -175,7 +179,7 @@ namespace Zettalith
 
         public static void PeerFound(System.Net.IPEndPoint ipEndPoint, bool host, string message)
         {
-            Test.Log((!host ? "Server found: " + message + ". " : "Peer found. ") + "IP: " + ipEndPoint + ". Local peer is host: " + host);
+            Test.Log((!host ? "Server found: " + message + ". " : "Peer found. ") + "IP: " + ipEndPoint + ". Local peer is host: " + host /*+ (host ? )*/);
 
             if (XNAController.LocalGameClient)
             {
@@ -198,10 +202,14 @@ namespace Zettalith
 
         void Connected()
         {
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 2, config == null ? null : NetworkManager.PublicIP);
+
             connected = true;
 
             if (!host && !XNAController.localGame)
             {
+                Test.Log("Connected to peer!");
+
                 ipFieldTitle.String = new StringBuilder("Connected!");
                 bStart.ChangeText("Ready");
                 connecting = false;
@@ -210,6 +218,8 @@ namespace Zettalith
 
         void Disconnected()
         {
+            XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 1, config == null ? null : NetworkManager.PublicIP);
+
             ready = false;
             connected = false;
             connecting = false;
@@ -246,14 +256,21 @@ namespace Zettalith
                     return;
                 }
 
-                connecting = true;
-                timeOut = 0;
-
-                ipFieldTitle.String = new StringBuilder("Connecting...");
-
-                NetworkManager.StartPeerSearch(tIpField.Content);
-                NetworkManager.OnError += OnError;
+                StartSearch(null);
             }
+        }
+
+        public void StartSearch(string discordIP)
+        {
+            usingDiscord = discordIP == null;
+
+            connecting = true;
+            timeOut = 0;
+
+            ipFieldTitle.String = new StringBuilder(usingDiscord ? "Connecting through Discord..." : "Connecting...");
+
+            NetworkManager.StartPeerSearch(discordIP ?? tIpField.Content);
+            NetworkManager.OnError += OnError;
         }
 
         void OnError()
@@ -265,7 +282,7 @@ namespace Zettalith
             }
         }
 
-        void BBack()
+        public void BBack()
         {
             Destroy();
 

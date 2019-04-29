@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class Mortar : Top
     {
+        public override string Description { get => "Deals " + Modifier.StatChanges.Health * -1 + " damage in a circle. Cannot fire in 4 tiles"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public Mortar()
         {
             Name = "Mortar Tower";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(2, 0, 3);
             Modifier = new Addition(new Stats(-3), true);
             Texture = Load.Get<Texture2D>("AOELOBtop");
-
-            Description = "Deals " + Modifier.StatChanges.Health * -1 + " damage in a circle. Cannot fire in 4 tiles";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

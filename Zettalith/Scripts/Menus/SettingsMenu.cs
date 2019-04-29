@@ -235,6 +235,11 @@ namespace Zettalith
         {
             SaveLoad.Save();
 
+            Close();
+        }
+
+        public void Close()
+        {
             focusSettings.Remove();
 
             collection.Active = false;

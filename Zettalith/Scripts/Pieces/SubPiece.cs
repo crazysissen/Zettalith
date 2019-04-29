@@ -21,7 +21,7 @@ namespace Zettalith
         public Mana ManaCost { get; set; } = new Mana(0, 0, 0);
         public Mana MoveCost { get; set; } = new Mana(0, 0, 0);
         public Ability Ability { get; set; }
-        public string Description { get; set; }
+        public virtual string Description { get; protected set; }
         public Texture2D Texture { get; set; } = Load.Get<Texture2D>("TestSubpiece");
 
         // Creates an index for this subpiece to be saved as

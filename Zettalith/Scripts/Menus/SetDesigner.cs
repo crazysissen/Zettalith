@@ -20,7 +20,7 @@ namespace Zettalith
 
         Renderer.SpriteScreen topSubPiece, middleSubPiece, bottomSubPiece, highlight;
 
-        Renderer.Text topName, topHealth, topAttack, topAbilityRange, topCost, topAbilityCost, topDesc, middleName, middleHealth, middleAttack, middleCost, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomCost, bottomMovementCost, bottomDesc;
+        Renderer.Text topName, topHealth, topAttack, topAbilityRange, topCost, topAbilityCost, topDesc, middleName, middleHealth, middleAttack, middleArmor, middleCost, middleDesc, bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomCost, bottomMovementCost, bottomDesc;
 
         GUI.TextField nameField;
 
@@ -51,9 +51,9 @@ namespace Zettalith
 
             collections = new GUI.Collection();
             collectionInspector = new GUI.Collection();
-            topFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.38f)) };
-            middleFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.108f)) };
-            bottomFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.084f)) };
+            topFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.405f)) };
+            middleFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * -0.13f)) };
+            bottomFullDesc = new GUI.Collection() { Origin = new Point(0, (int)(Settings.GetResolution.Y * 0.115f)) };
             setDesigner = new GUI.Collection() { Active = false };
 
             miniLith2D = Load.Get<Texture2D>("Minilith");
@@ -208,8 +208,9 @@ namespace Zettalith
             middleName = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)));
             middleHealth = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 1)));
             middleAttack = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 2)));
-            middleCost = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Cost: " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 3)));
-            middleDesc = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 4)));
+            middleArmor = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Armor: " + unlockedMiddleList[currentlyShowingMiddle].Armor.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 3)));
+            middleCost = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Cost: " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 4)));
+            middleDesc = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 5)));
 
             bottomName = new Renderer.Text(designerLayer, Font.Default, new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(Settings.GetResolution.Y * 0.51f)));
             bottomHealth = new Renderer.Text(designerLayer, Font.Default, new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString()), 3, 0, new Vector2((int)(Settings.GetResolution.X * 0.51f), (int)(topName.Position.Y + descriptionSpace * 1)));
@@ -223,7 +224,7 @@ namespace Zettalith
             #endregion
 
             topFullDesc.Add(topName, topHealth, topAttack, topAbilityRange, topCost, topAbilityCost, topDesc);
-            middleFullDesc.Add(middleName, middleHealth, middleAttack, middleCost, middleDesc);
+            middleFullDesc.Add(middleName, middleHealth, middleAttack, middleArmor, middleCost, middleDesc);
             bottomFullDesc.Add(bottomName, bottomHealth, bottomAttack, bottomMovementRange, bottomCost, bottomMovementCost, bottomDesc);
             collectionInspector.Add(bCreate, bBack);
             setDesigner.Add(bCancelSet, bArrowHead1, bArrowHead2, bArrowMiddle1, bArrowMiddle2, bArrowBottom1, bArrowBottom2, topSubPiece, middleSubPiece, bottomSubPiece, topFullDesc, middleFullDesc, bottomFullDesc, bNext, bDone, highlight, bCopy, nameField);
@@ -237,6 +238,17 @@ namespace Zettalith
         public void Update(float deltaTime)
         {
 
+        }
+
+        public void Close()
+        {
+            if (setDesigner.Active == true)
+            {
+                BDone();
+                return;
+            }
+
+            BBackToMain();
         }
 
         private void BDone()
@@ -497,6 +509,7 @@ namespace Zettalith
             middleName.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Name);
             middleHealth.String = new StringBuilder("Health: " + unlockedMiddleList[currentlyShowingMiddle].Health.ToString());
             middleAttack.String = new StringBuilder("Attack: " + unlockedMiddleList[currentlyShowingMiddle].AttackDamage.ToString());
+            middleArmor.String = new StringBuilder("Armor: " + unlockedMiddleList[currentlyShowingMiddle].Armor.ToString());
             middleCost.String = new StringBuilder("Cost: " + unlockedMiddleList[currentlyShowingMiddle].ManaCost.ToString());
             middleDesc.String = new StringBuilder(unlockedMiddleList[currentlyShowingMiddle].Description);
             newSet[selectedPiece].MiddleIndex = (byte)(currentlyShowingMiddle);

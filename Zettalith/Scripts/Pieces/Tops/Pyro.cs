@@ -10,6 +10,8 @@ namespace Zettalith.Pieces
 {
     class Pyro : Top
     {
+        public override string Description { get => "Deals " + Modifier.StatChanges.Health * -1 + " damage to all Zettaliths"; protected set => throw new Exception("Cannot set overwritten Description property."); }
+
         public Pyro()
         {
             Name = "Pyromaniac";
@@ -20,8 +22,6 @@ namespace Zettalith.Pieces
             AbilityCost = new Mana(2, 0, 0);
             Modifier = new Addition(new Stats(-1), true);
             Texture = Load.Get<Texture2D>("PyroTop");
-
-            Description = "Deals 1 damage to all Zettaliths";
         }
 
         public override object[] UpdateAbility(TilePiece piece, Point mousePos, bool mouseDown, out bool cancel)

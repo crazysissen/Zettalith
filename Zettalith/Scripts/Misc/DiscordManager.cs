@@ -5,23 +5,47 @@ using System.Text;
 using System.Threading.Tasks;
 using DiscordRPC;
 using DiscordRPC.Logging;
+using DiscordRPC.Message;
+using System.Security.Cryptography;
 
 namespace Zettalith
 {
     class DiscordManager
     {
         public DiscordRpcClient Discord { get; private set; }
+        public event Action<string> OnJoinEvent;
+        public Party party;
+
+        string password = "F35F3B18C9694CAC1F0A3F91F62CDE3D5F54B5656215D66568DF1B4FF9BF41B8";
 
         bool isClient;
+        string id;
+
+        Aes encryption;
 
         public void Init(bool isClient)
         {
             this.isClient = isClient;
 
+            encryption = Aes.Create();
+
+            Random r = new Random();
+            byte[] bytes = new byte[64];
+            r.NextBytes(bytes);
+
+            id = new string(System.Text.Encoding.UTF8.GetChars(bytes));
+
+            party = new Party()
+            {
+                ID = id,
+                Max = 2
+            };
+
             if (isClient)
                 return;
 
             Discord = new DiscordRpcClient("570224520460369926");
+            Discord.RegisterUriScheme();
 
             Discord.Logger = new ConsoleLogger() { Level = LogLevel.Warning, Colored = true };
 
@@ -30,21 +54,40 @@ namespace Zettalith
                 Console.WriteLine("Received Ready from user {0}", e.User.Username);
             };
 
-            Discord.OnPresenceUpdate += (sender, e) =>
-            {
-                Console.WriteLine("Received Update! {0}", e.Presence);
-            };
-
             Discord.Initialize();
+            Discord.Subscribe(EventType.Join);
+            Discord.Subscribe(EventType.JoinRequest);
+
+            Discord.OnJoin += OnJoin;
+            Discord.OnJoinRequested += OnJoinRequested;
 
             SetMenu("Main Menu");
         }
 
-        public void SetMenu(string subMenu, Party party = null)
+        public void Update()
+        {
+            IMessage[] messages = Discord.Invoke();
+
+            foreach (IMessage message in messages)
+            {
+            }
+        }
+
+        private void OnJoinRequested(object sender, DiscordRPC.Message.JoinRequestMessage args)
+        {
+            Discord.Respond(args, true);
+        }
+
+        private void OnJoin(object sender, DiscordRPC.Message.JoinMessage args)
+        {
+            OnJoinEvent?.Invoke(AESThenHMAC.SimpleDecryptWithPassword(args.Secret, password));
+        }
+
+        public void SetMenu(string subMenu, int? inParty = null, string globalIP = null)
         {
             if (!isClient)
             {
-                Discord.SetPresence(new RichPresence()
+                RichPresence presence = new RichPresence()
                 {
                     Details = "In Menu",
                     State = subMenu,
@@ -55,7 +98,23 @@ namespace Zettalith
                         SmallImageKey = "wait",
                         SmallImageText = "Menu"
                     }
-                });
+                };
+
+                if (inParty != null)
+                {
+                    party.Size = inParty.Value;
+                    presence.Party = party;
+                }
+
+                if (globalIP != null)
+                {
+                    presence.Secrets = new Secrets()
+                    {
+                        JoinSecret = AESThenHMAC.SimpleEncryptWithPassword(globalIP, password)
+                    };
+                }
+
+                Discord.SetPresence(presence);
             }
         }
 
@@ -63,9 +122,9 @@ namespace Zettalith
         {
             if (!isClient)
             {
-                Discord.SetPresence(new RichPresence()
+                RichPresence presence = new RichPresence()
                 {
-                    Details = "In Collection",
+                    Details = "In Menu",
                     State = "Assembling Pieces",
 
                     Assets = new Assets()
@@ -74,7 +133,9 @@ namespace Zettalith
                         SmallImageKey = "collection",
                         SmallImageText = "Collection"
                     }
-                });
+                };
+
+                Discord.SetPresence(presence);
             }
         }
 
