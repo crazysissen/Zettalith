@@ -48,13 +48,13 @@ namespace Zettalith
                 }
                 allBuffs[i].AccessButton.Transform = new Rectangle((int)(Settings.GetResolution.X * 0.1 + Settings.GetResolution.X * 0.2 * iThisRow), (int)(Settings.GetResolution.Y * 0.1 + Settings.GetResolution.Y * 0.2 * row), allBuffs[i].AccessButton.Transform.Width, allBuffs[i].AccessButton.Transform.Height);
 
-                Renderer.Text name = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BuffName, 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.1f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.1f), Color.Black);
-                Renderer.Text description = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BuffDescription, 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.1f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.4f), Color.Black);
+                Renderer.Text name = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BuffName, 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.1f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.1f), Color.White);
+                Renderer.Text description = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BuffDescription, 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.1f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.4f), Color.White);
 
-                Renderer.Text redCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].RedCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.1f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Black);
-                Renderer.Text greenCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].GreenCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.3f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Black);
-                Renderer.Text blueCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BlueCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.5f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Black);
-                Renderer.Text essenceCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].EssenceCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.7f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.Black);
+                Renderer.Text redCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].RedCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.1f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.White);
+                Renderer.Text greenCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].GreenCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.3f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.White);
+                Renderer.Text blueCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].BlueCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.5f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.White);
+                Renderer.Text essenceCost = new Renderer.Text(new Layer(MainLayer.GUI, 8), Font.Default, allBuffs[i].EssenceCost.ToString(), 2, 0, new Vector2(allBuffs[i].AccessButton.Transform.X + allBuffs[i].AccessButton.Transform.Width * 0.7f, allBuffs[i].AccessButton.Transform.Y + allBuffs[i].AccessButton.Transform.Height * 0.25f), Color.White);
 
                 if (allBuffs[i].RedCost == 0)
                 {
@@ -102,7 +102,7 @@ namespace Zettalith
             {
                 for (int i = 0; i < costs.Count; ++i)
                 {
-                    string tempString = ((int)(int.Parse(costs[i].String.ToString()) * Ztuff.BuffCostFactor + 0.5f)).ToString();
+                    string tempString = ((int)(int.Parse(costs[i].String.ToString()) * Ztuff.buffCostFactor + 0.5f)).ToString();
                     costs[i].String = new StringBuilder(tempString);
                 }
                 Ztuff.changeBuffCost = false;
@@ -139,14 +139,13 @@ namespace Zettalith
 
         void UseBuff()
         {
-            if ((int)(RedCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalMana.Red && (int)(GreenCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalMana.Green && (int)(BlueCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalMana.Blue && (int)(EssenceCost * Ztuff.BuffCostFactor + 0.5f) <= InGameController.LocalEssence)
+            if ((int)(RedCost * Ztuff.buffCostFactor + 0.5f) <= InGameController.LocalMana.Red && (int)(GreenCost * Ztuff.buffCostFactor + 0.5f) <= InGameController.LocalMana.Green && (int)(BlueCost * Ztuff.buffCostFactor + 0.5f) <= InGameController.LocalMana.Blue && (int)(EssenceCost * Ztuff.buffCostFactor + 0.5f) <= InGameController.LocalEssence)
             {
-                InGameController.LocalMana -= new Mana((int)(RedCost * Ztuff.BuffCostFactor + 0.5f), (int)(GreenCost * Ztuff.BuffCostFactor + 0.5f), (int)(BlueCost * Ztuff.BuffCostFactor + 0.5f));
-                InGameController.LocalEssence -= (int)(EssenceCost * Ztuff.BuffCostFactor + 0.5f);
-
                 theCOL.Active = false;
                 Ztuff.RecieveGUI(theCOL);
                 Ztuff.incomingEffect = Effect;
+                Ztuff.buffCost = new Mana(RedCost, GreenCost, BlueCost);
+                Ztuff.essenceCost = EssenceCost;
                 Ztuff.pickingPiece = true;
             }
         }

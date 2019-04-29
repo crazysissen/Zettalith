@@ -535,6 +535,9 @@ namespace Zettalith
                 {
                     if (Ztuff.pickingPiece == true)
                     {
+                        InGameController.LocalMana -= new Mana((int)(Ztuff.buffCost.Red * Ztuff.buffCostFactor + 0.5f), (int)(Ztuff.buffCost.Green * Ztuff.buffCostFactor + 0.5f), (int)(Ztuff.buffCost.Blue * Ztuff.buffCostFactor + 0.5f));
+                        InGameController.LocalEssence -= (int)(Ztuff.essenceCost * Ztuff.buffCostFactor + 0.5f);
+
                         MyEffectCache.AListOfSints.Add(new Sints(Ztuff.incomingEffect, interactionPiece.GridIndex));
                         Ztuff.RestoreFromBuff();
                     }
