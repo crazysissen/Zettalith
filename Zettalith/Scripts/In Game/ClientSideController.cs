@@ -802,7 +802,6 @@ namespace Zettalith
                         }
                         else
                         {
-                            Mana requiredMana = dragOutPiece.GetCost - InGameController.LocalMana;
                             // TODO: Not enough mana to place pop-up
                             Alert("Not enough mana");
                         }

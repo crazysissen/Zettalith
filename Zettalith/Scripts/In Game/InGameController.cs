@@ -383,17 +383,9 @@ namespace Zettalith
             TilePiece attacker = (TilePiece)Grid[attacking];
             TilePiece reciever = (TilePiece)Grid[recieving];
 
-            if (!attacker.Piece.HasAttacked)
-            {
-                Modifier mod = new Addition(new Stats(-attacker.Piece.ModifiedStats.AttackDamage), true);
-                reciever.Piece.ModThis(mod);
-                attacker.Piece.HasAttacked = true;
-                return;
-            }
-
-            // TODO: Cannot attack yet pop-up
-            Local.ClientController.Alert("Cannot attack yet");
-            Test.Log("Unit cannot attack");
+            Modifier mod = new Addition(new Stats(-attacker.Piece.ModifiedStats.AttackDamage), true);
+            reciever.Piece.ModThis(mod);
+            attacker.Piece.HasAttacked = true;
         }
 
         public void ActivateAbility(int pieceIndex, object[] data)
@@ -427,21 +419,13 @@ namespace Zettalith
         {
             TilePiece piece = Grid[pieceIndex] as TilePiece;
 
-            if (!piece.Piece.HasMoved)
-            {
-                piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
+            piece.Piece.Bottom.ActivateMove(piece, new Point(x, y));
 
-                Local.ClientController.PlacePieceAnimation(piece);
+            Local.ClientController.PlacePieceAnimation(piece);
 
-                players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
+            players[piece.Player].Mana -= piece.Piece.ModifiedStats.MoveCost;
 
-                piece.Piece.HasMoved = true;
-                return;
-            }
-
-            // TODO: Cannot move yet pop-up
-            Local.ClientController.Alert("Cannot move yet");
-            Test.Log("Unit cannot move");
+            piece.Piece.HasMoved = true;
         }
 
         public void EndGame(int winnerIndex)
