@@ -73,8 +73,8 @@ namespace Zettalith
 
         public static Map NoiseMap(Random r, int width, int height)
         {
-            //try
-            //{
+            try
+            {
                 int borderRange = 2;
 
                 float scale = 0.1f, threshhold = -0.45f;
@@ -162,7 +162,7 @@ namespace Zettalith
 
                             List<Vector2> result = new Astar(array, new int[] { randomSpawn.X, randomSpawn.Y }, new int[] { currentSpawn.X, currentSpawn.Y }, "").result;
 
-                            if (result != null && result.Count > 0)
+                            if (result != null && result.Count > 0 && result.Count < height * 3)
                             {
                                 breakItDown = true;
 
@@ -184,7 +184,11 @@ namespace Zettalith
                 }
 
                 return new Map() { grid = grid, spawnPositions = spawns };
-            //}
+            }
+            catch
+            {
+                return NoiseMap(r, width, height);
+            }
         }
 
         public static Map NoHolesMap(Random r, int width, int height)
