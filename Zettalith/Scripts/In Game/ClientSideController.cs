@@ -34,7 +34,8 @@ namespace Zettalith
             pieceHighlightColor = new Color(172, 255, 242, 255),
             pieceCoveredColor = new Color(172, 255, 242, 80),
             pieceGhostColor = new Color(255, 255, 255, 120),
-            dimColor = new Color(0, 0, 0, 160);
+            dimColor = new Color(0, 0, 0, 160),
+            alertColor = new Color(255, 10, 10, 200);
 
         public static Vector2 TopLeftCorner { get; private set; }
         public static Vector2 BottomRightCorner { get; private set; }
@@ -60,7 +61,7 @@ namespace Zettalith
         InGameHUD hud;
         GUI.Collection collection, battleGUI, logisticsGUI, endGUI, perkGUI, buffGUI, bonusGUI, managementGUI;
 
-        Renderer.Text splash;
+        Renderer.Text splash, alert;
         Renderer.Sprite ghost;
         Renderer.SpriteScreen dim, bottomPanel, topPanel, essencePanel;
 
@@ -71,7 +72,7 @@ namespace Zettalith
         Vector2 previousGamePosition;
         Point previousScreenPosition = new Point();
         TilePiece interactionPiece, highlightedPiece;
-        TimerTable splashTable;
+        TimerTable splashTable, alertTable;
         PlayerLocal player;
         InGameController controller;
         InGamePiece dragOutPiece;
@@ -86,6 +87,10 @@ namespace Zettalith
         {
             this.player = player;
             this.controller = controller;
+
+            alert = new Renderer.Text(new Layer(MainLayer.GUI, 100), Font.Bold, "", 5 * Font.Multiplier, 0, (Settings.GetHalfResolution - new Point(0, Settings.GetResolution.Y / 6)).ToVector2());
+            alertTable = new TimerTable(new float[0]);
+            alertTable.End();
 
             dim = new Renderer.SpriteScreen(new Layer(MainLayer.GUI, 50), Load.Get<Texture2D>("Square"), new Rectangle(Point.Zero, Settings.GetResolution), dimColor);
 
@@ -226,6 +231,26 @@ namespace Zettalith
 
             SplashUpdate(deltaTime, gameState);
 
+            if (!alertTable.Complete)
+            {
+                int step = alertTable.Update(deltaTime);
+
+                float currentProgress = alertTable.CurrentStepProgress;
+
+                if (step == 0)
+                {
+                    alert.Color = alertColor;
+                }
+                else
+                {
+                    alert.Color = new Color(alertColor.R, alertColor.G, alertColor.B, (int)(alertColor.A - alertColor.A * currentProgress));
+                }
+            }
+            else
+            {
+                alert.Color = Color.Transparent;
+            }
+
             if (MoveableCamera)
             {
                 cameraMovement.Update(RendererController.Camera, Input.MousePosition, highlightedPiece == null && RendererFocus.OnArea(new Rectangle(MousePoint, Point.Zero), Layer.Default), deltaTime);
@@ -269,6 +294,14 @@ namespace Zettalith
             }
 
             Particles.Update(TopLeftCorner + offset, BottomRightCorner + offset, true, deltaTime);
+        }
+
+        public void Alert(string text)
+        {
+            alert.String = new StringBuilder(text);
+            alert.Origin = alert.Font.MeasureString(text) * 0.5f;
+
+            alertTable = new TimerTable(new float[] { 0.5f, 0.3f });
         }
 
         public void ComputeSendLogistics()
@@ -514,6 +547,7 @@ namespace Zettalith
                         {
                             Mana requiredMana = interactionPiece.Piece.Bottom.MoveCost - InGameController.LocalMana;
                             // TODO: Not eneough mana to move pop-up
+                            Alert("Not enough mana");
                         }
                     }
                 }
