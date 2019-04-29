@@ -392,6 +392,7 @@ namespace Zettalith
             }
 
             // TODO: Cannot attack yet pop-up
+            Local.ClientController.Alert("Cannot attack yet");
             Test.Log("Unit cannot attack");
         }
 
@@ -439,6 +440,7 @@ namespace Zettalith
             }
 
             // TODO: Cannot move yet pop-up
+            Local.ClientController.Alert("Cannot move yet");
             Test.Log("Unit cannot move");
         }
 

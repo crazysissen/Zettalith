@@ -148,6 +148,17 @@ namespace Zettalith
                 Ztuff.essenceCost = EssenceCost;
                 Ztuff.pickingPiece = true;
             }
+            else
+            {
+                if (EssenceCost > 0)
+                {
+                    InGameController.Local.ClientController.Alert("Not enough essence");
+                }
+                else
+                {
+                    InGameController.Local.ClientController.Alert("Not enough mana");
+                }
+            }
         }
     }
 }
