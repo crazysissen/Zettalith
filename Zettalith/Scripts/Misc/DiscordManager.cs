@@ -83,7 +83,7 @@ namespace Zettalith
             OnJoinEvent?.Invoke(AESThenHMAC.SimpleDecryptWithPassword(args.Secret, password));
         }
 
-        public void SetMenu(string subMenu, int? inParty = null, string globalIP = null)
+        public void SetMenu(string subMenu, int? inParty = null, string ip = null)
         {
             if (!isClient)
             {
@@ -106,11 +106,11 @@ namespace Zettalith
                     presence.Party = party;
                 }
 
-                if (globalIP != null)
+                if (ip != null)
                 {
                     presence.Secrets = new Secrets()
                     {
-                        JoinSecret = AESThenHMAC.SimpleEncryptWithPassword(globalIP, password)
+                        JoinSecret = AESThenHMAC.SimpleEncryptWithPassword(ip, password)
                     };
                 }
 
