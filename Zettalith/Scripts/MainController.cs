@@ -178,6 +178,10 @@ namespace Zettalith
             settingsMenu?.Close();
             tutorialMenu?.BGoBack();
 
+            string[] ips = ip.Split(':');
+
+            string actualIP = ips[0] == NetworkManager.PublicIP ? ips[1] : ips[0];
+
             if (stateManager.GameState == GameState.Lobby)
             {
                 if (lobby.config == null)
