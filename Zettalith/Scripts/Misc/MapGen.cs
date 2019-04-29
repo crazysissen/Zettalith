@@ -73,115 +73,118 @@ namespace Zettalith
 
         public static Map NoiseMap(Random r, int width, int height)
         {
-            int borderRange = 2;
+            //try
+            //{
+                int borderRange = 2;
 
-            float scale = 0.1f, threshhold = -0.45f;
+                float scale = 0.1f, threshhold = -0.45f;
 
-            Noise noise;
+                Noise noise;
 
-            Grid grid = new Grid(width, height);
-            Point[] spawns = null;
+                Grid grid = new Grid(width, height);
+                Point[] spawns = null;
 
-            bool looping = true;
-            while (looping)
-            {
-                noise = new Noise(r.Next());
-
-                grid = new Grid(width, height);
-
-                int[][] array = new int[width][];
-
-                for (int x = 0; x < width; x++)
+                bool looping = true;
+                while (looping)
                 {
-                    array[x] = new int[height];
+                    noise = new Noise(r.Next());
 
-                    for (int y = 0; y < height; y++)
+                    grid = new Grid(width, height);
+
+                    int[][] array = new int[width][];
+
+                    for (int x = 0; x < width; x++)
                     {
-                        float currentThreshhold = threshhold;
+                        array[x] = new int[height];
 
-                        if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
+                        for (int y = 0; y < height; y++)
                         {
-                            currentThreshhold += 0.6f;
-                        }
+                            float currentThreshhold = threshhold;
 
-                        if (noise.Generate(x * scale, y * scale) > currentThreshhold)
-                        {
-                            grid[x, y] = new Tile();
-                            array[x][y] = 0;
-                            continue;
-                        }
-
-                        array[x][y] = 1;
-                    }
-                }
-
-                // Create spawns 
-
-                List<Point> spawns1 = new List<Point>(), spawns2 = new List<Point>();
-
-                for (int x = 0; x < width; x++)
-                {
-                    for (int y = 0; y < borderRange; y++)
-                    {
-                        if (grid[x, y] != null)
-                        {
-                            spawns1.Add(new Point(x, y));
-                        }
-
-                        if (grid[x, height - 1 - y] != null)
-                        {
-                            spawns2.Add(new Point(x, height - 1 - y));
-                        }
-                    }
-                }
-
-                if (spawns1.Count == 0 || spawns2.Count == 0)
-                {
-                    continue;
-                }
-
-                int count1 = spawns1.Count, count2 = spawns2.Count;
-                bool breakItDown = false;
-
-                for (int i = 0; i < count1 - 1 && !breakItDown; i++)
-                {
-                    int rIndex = r.Next(spawns1.Count);
-                    Point randomSpawn = spawns1[rIndex];
-                    spawns1.Remove(randomSpawn);
-
-                    List<Point> targets = new List<Point>(spawns2);
-
-                    for (int j = 0; j < count2 - 1 && !breakItDown; j++)
-                    {
-                        rIndex = r.Next(targets.Count);
-
-                        Point currentSpawn = targets[rIndex];
-                        targets.Remove(currentSpawn);
-
-                        List<Vector2> result = new Astar(array, new int[] { randomSpawn.X, randomSpawn.Y }, new int[] { currentSpawn.X, currentSpawn.Y }, "").result;
-
-                        if (result != null && result.Count > 0)
-                        {
-                            breakItDown = true;
-
-                            spawns = new Point[2]
+                            if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
                             {
+                                currentThreshhold += 0.6f;
+                            }
+
+                            if (noise.Generate(x * scale, y * scale) > currentThreshhold)
+                            {
+                                grid[x, y] = new Tile();
+                                array[x][y] = 0;
+                                continue;
+                            }
+
+                            array[x][y] = 1;
+                        }
+                    }
+
+                    // Create spawns 
+
+                    List<Point> spawns1 = new List<Point>(), spawns2 = new List<Point>();
+
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < borderRange; y++)
+                        {
+                            if (grid[x, y] != null)
+                            {
+                                spawns1.Add(new Point(x, y));
+                            }
+
+                            if (grid[x, height - 1 - y] != null)
+                            {
+                                spawns2.Add(new Point(x, height - 1 - y));
+                            }
+                        }
+                    }
+
+                    if (spawns1.Count == 0 || spawns2.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    int count1 = spawns1.Count, count2 = spawns2.Count;
+                    bool breakItDown = false;
+
+                    for (int i = 0; i < count1 - 1 && !breakItDown; i++)
+                    {
+                        int rIndex = r.Next(spawns1.Count);
+                        Point randomSpawn = spawns1[rIndex];
+                        spawns1.Remove(randomSpawn);
+
+                        List<Point> targets = new List<Point>(spawns2);
+
+                        for (int j = 0; j < count2 - 1 && !breakItDown; j++)
+                        {
+                            rIndex = r.Next(targets.Count);
+
+                            Point currentSpawn = targets[rIndex];
+                            targets.Remove(currentSpawn);
+
+                            List<Vector2> result = new Astar(array, new int[] { randomSpawn.X, randomSpawn.Y }, new int[] { currentSpawn.X, currentSpawn.Y }, "").result;
+
+                            if (result != null && result.Count > 0)
+                            {
+                                breakItDown = true;
+
+                                spawns = new Point[2]
+                                {
                                 randomSpawn,
                                 currentSpawn
-                            };
+                                };
+                            }
                         }
                     }
+
+                    if (spawns == null)
+                    {
+                        continue;
+                    }
+
+                    looping = false;
                 }
 
-                if (spawns == null)
-                {
-                    continue;
-                }
-
-                looping = false;
-            }
-
-            return new Map() { grid = grid, spawnPositions = spawns };
+                return new Map() { grid = grid, spawnPositions = spawns };
+            //}
         }
 
         public static Map NoHolesMap(Random r, int width, int height)
