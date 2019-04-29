@@ -164,7 +164,7 @@ namespace Zettalith
         public static void Quit()
         {
             if (!LocalGameClient)
-                Discord.Discord.Dispose();
+                Discord.Discord.Deinitialize();
 
             _singleton.Exit();
         }

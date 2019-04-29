@@ -118,7 +118,7 @@ namespace Zettalith
 
             if (XNAController.localGame && clone.HasExited)
             {
-                game.Exit();
+                XNAController.Quit();
             }
 
             NetworkManager.Update();
