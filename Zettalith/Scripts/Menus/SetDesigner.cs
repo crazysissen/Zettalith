@@ -510,7 +510,10 @@ namespace Zettalith
             bottomName.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Name);
             bottomHealth.String = new StringBuilder("Health: " + unlockedBottomList[currentlyShowingBottom].Health.ToString());
             bottomAttack.String = new StringBuilder("Attack: " + unlockedBottomList[currentlyShowingBottom].AttackDamage.ToString());
-            bottomMovementRange.String = new StringBuilder("Movement Range: " + unlockedBottomList[currentlyShowingBottom].MoveRange.ToString());
+
+            string moveRange = unlockedBottomList[currentlyShowingBottom].MoveRange == 0 ? "Not specified" : unlockedBottomList[currentlyShowingBottom].MoveRange.ToString();
+            bottomMovementRange.String = new StringBuilder("Movement Range: " + moveRange);
+
             bottomCost.String = new StringBuilder("Cost: " + unlockedBottomList[currentlyShowingBottom].ManaCost.ToString());
             bottomMovementCost.String = new StringBuilder("Movement Cost: " + unlockedBottomList[currentlyShowingBottom].MoveCost.ToString());
             bottomDesc.String = new StringBuilder(unlockedBottomList[currentlyShowingBottom].Description);
