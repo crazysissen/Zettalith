@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Zettalith
 {
@@ -13,8 +14,15 @@ namespace Zettalith
         [STAThread]
         static void Main()
         {
-            using (var game = new XNAController())
-                game.Run();
+            try
+            {
+                using (var game = new XNAController())
+                    game.Run();
+            }
+            catch
+            {
+                LoadGame.KillThread();
+            }
         }
     }
 }

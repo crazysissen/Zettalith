@@ -18,10 +18,10 @@ namespace Zettalith
         public static PlayerSetupData recievedData, playerData;
         public static void RecieveData(byte[] data) => recievedData = data.ToObject<PlayerSetupData>();
 
+        static Thread loadThread;
+
         InGameController controller;
         StartupConfig config;
-
-        Thread loadThread;
 
         Renderer.AnimatorScreen loading;
         Texture2D animation;
@@ -90,6 +90,11 @@ namespace Zettalith
             };
 
             complete = true;
+        }
+
+        public static void KillThread()
+        {
+            loadThread.Abort();
         }
 
         // Output type
