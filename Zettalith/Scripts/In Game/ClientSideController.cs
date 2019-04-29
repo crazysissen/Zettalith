@@ -537,9 +537,12 @@ namespace Zettalith
 
                 if (moveable && movementHighlight != null)
                 {
+                    bool popUp = false;
+
                     if (interactionPiece.Piece.HasMoved)
                     {
                         Alert("Cannot move yet");
+                        popUp = true;
                     }
 
                     if (movementHighlight.Contains(MousePoint.ToRender()))
@@ -561,7 +564,7 @@ namespace Zettalith
                             }
                         }
                     }
-                    else
+                    else if (!popUp)
                     {
                         Alert("Cannot move here");
                     }
