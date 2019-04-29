@@ -186,7 +186,7 @@ namespace Zettalith
             {
                 if (lobby.config == null)
                 {
-                    lobby.StartSearch(ip);
+                    lobby.StartSearch(actualIP);
                     return;
                 }
                 else
@@ -199,7 +199,7 @@ namespace Zettalith
             }
 
             ToLobby(null);
-            lobby.StartSearch(ip);
+            lobby.StartSearch(actualIP);
         }
 
         public void OnExit()
