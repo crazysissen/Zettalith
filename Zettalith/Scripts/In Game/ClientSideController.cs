@@ -35,7 +35,7 @@ namespace Zettalith
             pieceCoveredColor = new Color(172, 255, 242, 80),
             pieceGhostColor = new Color(255, 255, 255, 120),
             dimColor = new Color(0, 0, 0, 160),
-            alertColor = new Color(255, 10, 10, 200);
+            alertColor = new Color(255, 110, 110, 255);
 
         public static Vector2 TopLeftCorner { get; private set; }
         public static Vector2 BottomRightCorner { get; private set; }
@@ -537,6 +537,11 @@ namespace Zettalith
 
                 if (moveable && movementHighlight != null)
                 {
+                    if (interactionPiece.Piece.HasMoved)
+                    {
+                        Alert("Cannot move yet");
+                    }
+
                     if (movementHighlight.Contains(MousePoint.ToRender()))
                     {
                         if (InGameController.LocalMana >= interactionPiece.Piece.Bottom.MoveCost)
@@ -545,9 +550,15 @@ namespace Zettalith
                         }
                         else
                         {
-                            Mana requiredMana = interactionPiece.Piece.Bottom.MoveCost - InGameController.LocalMana;
                             // TODO: Not eneough mana to move pop-up
-                            Alert("Not enough mana");
+                            if (interactionPiece.Piece.HasMoved)
+                            {
+                                Alert("Cannot move yet");
+                            }
+                            else
+                            {
+                                Alert("Not enough mana");
+                            }
                         }
                     }
                 }
@@ -793,12 +804,14 @@ namespace Zettalith
                         {
                             Mana requiredMana = dragOutPiece.GetCost - InGameController.LocalMana;
                             // TODO: Not enough mana to place pop-up
+                            Alert("Not enough mana");
                         }
                             
                         dragOutPiece = null;
                     }
                     else
                     {
+                        Alert("Cannot place here");
                         dragOutPiece = null;
                     }
                 }
