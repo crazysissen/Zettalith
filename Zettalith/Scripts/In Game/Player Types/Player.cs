@@ -105,7 +105,16 @@ namespace Zettalith
 
         public void ExecuteMovement(TilePiece piece, Point point)
         {
-            inGameController.Execute(GameAction.Movement, true, piece.GridIndex, point.X, point.Y);
+            if (!piece.Piece.HasMoved)
+            {
+                inGameController.Execute(GameAction.Movement, true, piece.GridIndex, point.X, point.Y);
+            }
+            else 
+            {
+                // TODO: Cannot move yet pop-up
+                (this as PlayerLocal).ClientController.Alert("Cannot move yet");
+                Test.Log("Unit cannot move");
+            }
         }
 
         public void ExecuteAction(TilePiece piece, object[] data)
@@ -115,7 +124,16 @@ namespace Zettalith
 
         public void ExecuteMelee(TilePiece attacker, TilePiece reciever)
         {
-            inGameController.Execute(GameAction.Attack, true, attacker.GridIndex, reciever.GridIndex);
+            if (!attacker.Piece.HasAttacked)
+            {
+                inGameController.Execute(GameAction.Attack, true, attacker.GridIndex, reciever.GridIndex);
+            }
+            else
+            {
+                // TODO: Cannot attack yet pop-up
+                (this as PlayerLocal).ClientController.Alert("Cannot attack yet");
+                Test.Log("Unit cannot attack");
+            }
         }
 
         public InGamePiece TryRemoveFromHand(InGamePiece piece)
