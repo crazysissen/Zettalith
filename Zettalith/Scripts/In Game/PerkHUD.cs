@@ -184,7 +184,7 @@ namespace Zettalith
                     theCSC.MyEffectCache.AListOfSints.Add(new Sints(Effect, Target));
                     Achieved = true;
                 }
-                else if (InGameController.LocalMana < Cost || InGameController.LocalEssence < EssenceCost)
+                else if (InGameController.LocalMana < Cost && InGameController.LocalEssence < EssenceCost)
                 {
                     InGameController.Local.ClientController.Alert("Not enough mana and essence");
                 }
