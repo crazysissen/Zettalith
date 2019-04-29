@@ -177,22 +177,22 @@ namespace Zettalith
         {
             if (Achieved == false && On == true && Achievable == true)
             {
-                if (Cost <= InGameController.LocalMana && EssenceCost <= InGameController.LocalEssence)
+                if (InGameController.LocalMana >= Cost && InGameController.LocalEssence >= EssenceCost)
                 {
                     InGameController.LocalMana -= Cost;
                     InGameController.LocalEssence -= EssenceCost;
                     theCSC.MyEffectCache.AListOfSints.Add(new Sints(Effect, Target));
                     Achieved = true;
                 }
-                else if (Cost > InGameController.LocalMana || EssenceCost > InGameController.LocalEssence)
+                else if (InGameController.LocalMana < Cost || InGameController.LocalEssence < EssenceCost)
                 {
                     InGameController.Local.ClientController.Alert("Not enough mana and essence");
                 }
-                else if (Cost > InGameController.LocalMana)
+                else if (InGameController.LocalMana < Cost)
                 {
                     InGameController.Local.ClientController.Alert("Not enough mana");
                 }
-                else if (EssenceCost > InGameController.LocalEssence)
+                else if (InGameController.LocalEssence < EssenceCost)
                 {
                     InGameController.Local.ClientController.Alert("Not enough essence");
                 }
