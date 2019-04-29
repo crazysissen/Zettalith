@@ -186,7 +186,7 @@ namespace Zettalith
                 }
                 else if (InGameController.LocalMana < Cost && InGameController.LocalEssence < EssenceCost)
                 {
-                    InGameController.Local.ClientController.Alert("Not enough mana and essence");
+                    InGameController.Local.ClientController.Alert("Not enough mana or essence");
                 }
                 else if (InGameController.LocalMana < Cost)
                 {
