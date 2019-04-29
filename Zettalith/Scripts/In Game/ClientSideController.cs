@@ -561,6 +561,10 @@ namespace Zettalith
                             }
                         }
                     }
+                    else
+                    {
+                        Alert("Cannot move here");
+                    }
                 }
 
                 if (moveable && meleeHighlight != null)
