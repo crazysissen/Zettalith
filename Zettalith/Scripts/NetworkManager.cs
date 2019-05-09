@@ -191,6 +191,10 @@ namespace Zettalith
                 Test.Log("Peer Search Started");
                 localPeer.DiscoverKnownPeer(ip, XNAController.localGame ? ALTERNATIVEPORT : PORT);
             }
+            catch
+            {
+                Test.Log("Peer Search could not be initiated.");
+            }
         }
 
         public static void StopPeerSearch()
