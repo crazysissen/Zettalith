@@ -14,12 +14,12 @@ namespace Zettalith
         [STAThread]
         static void Main()
         {
-            //try
+            try
             {
                 using (var game = new XNAController())
                     game.Run();
             }
-            //catch
+            catch
             {
                 LoadGame.KillThread();
             }
