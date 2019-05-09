@@ -138,6 +138,8 @@ namespace Zettalith
         {
             this.loadedConfig = loadedConfig;
 
+            Mouse.SetCursor(MouseCursor.Arrow);
+
             loadingScreen = animator;
 
             PlayerIndex = isHost ? 0 : 1;
