@@ -141,6 +141,7 @@ namespace Zettalith
             Mouse.SetCursor(MouseCursor.Arrow);
 
             loadingScreen = animator;
+            loadingScreen.Destroy();
 
             PlayerIndex = isHost ? 0 : 1;
             OpponentIndex = (PlayerIndex + 1) % 2;
