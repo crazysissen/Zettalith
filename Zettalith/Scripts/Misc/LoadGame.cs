@@ -94,7 +94,7 @@ namespace Zettalith
 
         public static void KillThread()
         {
-            loadThread.Abort();
+            loadThread?.Abort();
         }
 
         // Output type

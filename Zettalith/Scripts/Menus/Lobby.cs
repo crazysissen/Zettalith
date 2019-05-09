@@ -202,6 +202,11 @@ namespace Zettalith
 
         void Connected()
         {
+            if (!collection.Active)
+            {
+                return;
+            }
+
             XNAController.Discord.SetMenu(config == null ? "Joining a Game" : "Hosting a Game", 2, config == null ? null : (NetworkManager.PublicIP + ":" + NetworkManager.LocalIP));
 
             connected = true;
@@ -262,7 +267,7 @@ namespace Zettalith
 
         public void StartSearch(string discordIP)
         {
-            usingDiscord = discordIP == null;
+            usingDiscord = discordIP != null;
 
             connecting = true;
             timeOut = 0;
