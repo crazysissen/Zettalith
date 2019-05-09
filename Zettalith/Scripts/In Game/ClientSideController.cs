@@ -576,6 +576,7 @@ namespace Zettalith
                     {
                         try
                         {
+                            Alert("");
                             Point targetPoint = MousePoint.ToRender();
                             player.ExecuteMelee(interactionPiece, InGameController.Grid.GetObject(targetPoint.X, targetPoint.Y) as TilePiece);
                         }
